@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
         "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 <h:head>
     <title>Tauschring Hamburg</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -16,7 +17,13 @@
         <div class="container">
             <h:graphicImage name="img/logo.gif" alt="logo"/>Tauschring
             Hamburg
-            <div class="userStuff"></div>
+            <div class="userStuff">
+                <h:form>
+                    ID<p:inputText id="name" value="#{userSession.id}"/>
+                    Passwort<p:inputText type="password" value="#{userSession.password}"/>
+                    <p:commandButton value="login" action="#{userSession.login}"/>
+                </h:form>
+            </div>
         </div>
     </div>
     <ui:insert name="content"/>

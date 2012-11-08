@@ -13,18 +13,26 @@ import de.bripkens.gravatar.Rating;
 @ManagedBean
 @SessionScoped
 public class UserSession {
-	private String userName;
+	private String id, password;
 
 	public String getGravatarUrl() {
 		return new Gravatar().setSize(80).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
 				.setStandardDefaultImage(DefaultImage.MONSTER).getUrl("niles@elbtrial.com");
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getId() {
+		return id;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void login(){
+		System.out.println(id);
 	}
 }

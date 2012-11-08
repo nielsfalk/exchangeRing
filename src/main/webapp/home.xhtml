@@ -12,11 +12,11 @@
             <h:panelGrid columns="4" cellpadding="5">
                 <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
 
-                <p:inputText id="name" value="#{userSession.userName}" />
+                <p:inputText id="name" value="#{userSession.id}" />
 
                 <p:commandButton value="Submit" update="display"/>
 
-                <h:outputText value="#{userSession.userName}" id="display" />
+                <h:outputText value="#{userSession.id}" id="display" />
             </h:panelGrid>
 
         </h:form>

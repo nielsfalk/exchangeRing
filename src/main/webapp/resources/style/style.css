@@ -1,6 +1,13 @@
 .header {
     background: linear-gradient(#fafefb, #e0e1e2);
-    border-bottom: 1px solid #CACACA
+    border-bottom: 1px solid #CACACA;
+    margin: 0;
+    padding: 0
+}
+
+body{
+    margin: 0;
+    padding: 0
 }
 
 .container {

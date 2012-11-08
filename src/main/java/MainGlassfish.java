@@ -17,6 +17,7 @@ import org.glassfish.embeddable.archive.ScatteredArchive;
 /**
  * copied from https://github.com/jsimone/embeddedGlassfishSample
  */
+@SuppressWarnings("ALL")
 public class MainGlassfish {
 
 

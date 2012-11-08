@@ -15,10 +15,6 @@ import de.bripkens.gravatar.Rating;
 public class UserSession {
 	private String userName;
 
-	public String getStuff() {
-		return "stuff";
-	}
-
 	public String getGravatarUrl() {
 		return new Gravatar().setSize(80).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
 				.setStandardDefaultImage(DefaultImage.MONSTER).getUrl("niles@elbtrial.com");

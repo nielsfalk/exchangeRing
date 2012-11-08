@@ -1,8 +1,17 @@
 .header {
+    background: #fafefb;
+    background: -webkit-linear-gradient(#fafefb, #e0e1e2);
+    background: -moz-linear-gradient(#fafefb, #e0e1e2);
     background: linear-gradient(#fafefb, #e0e1e2);
     border-bottom: 1px solid #CACACA;
     margin: 0;
     padding: 0
+    vertical-align: middle;
+
+}
+
+.ui-widget {
+    font-size:0.5em
 }
 
 body{
@@ -12,8 +21,10 @@ body{
 
 .container {
     margin: 0 auto;
+    vertical-align: middle;
     width: 920px
 }
 .userStuff{
-    float: right
+    float: right;
+    vertical-align: middle;
 }

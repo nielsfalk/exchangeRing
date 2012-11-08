@@ -1,0 +1,12 @@
+.header {
+    background: linear-gradient(#fafefb, #e0e1e2);
+    border-bottom: 1px solid #CACACA
+}
+
+.container {
+    margin: 0 auto;
+    width: 920px
+}
+.userStuff{
+    float: right
+}

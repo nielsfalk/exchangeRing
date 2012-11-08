@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>de.hh.changeRing</groupId>
-    <artifactId>exchangeRing</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <properties>
-        <server.deploy.dir>UTF-8</server.deploy.dir>
-    </properties>
-    
-    <dependencies>
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-web-api</artifactId>
-            <scope>provided</scope>
-            <version>6.0</version>
-        </dependency>
-        <!-- Glassfish -->
-        <dependency>
-            <groupId>org.glassfish.extras</groupId>
-            <artifactId>glassfish-embedded-web</artifactId>
-            <version>3.1.1</version>
-        </dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>de.hh.changeRing</groupId>
+	<artifactId>exchangeRing</artifactId>
+	<version>1.0-SNAPSHOT</version>
+	<properties>
+		<server.deploy.dir>UTF-8</server.deploy.dir>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-web-api</artifactId>
+			<scope>provided</scope>
+			<version>6.0</version>
+		</dependency>
+		<!-- Glassfish -->
+		<dependency>
+			<groupId>org.glassfish.extras</groupId>
+			<artifactId>glassfish-embedded-web</artifactId>
+			<version>3.1.1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.primefaces</groupId>
@@ -37,54 +38,67 @@
 			<artifactId>gravatar4java</artifactId>
 			<version>1.1</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<version>1.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
-    
-    <build>
-        <finalName>changeRing</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <!-- The maven app assembler plugin will generate a script that sets up the classpath and runs your project -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>appassembler-maven-plugin</artifactId>
-                <version>1.1.1</version>
-                <configuration>
-                    <assembleDirectory>target</assembleDirectory> 
-                    <generateRepository>false</generateRepository>
-                    <programs>
-                        <program>
-                            <mainClass>MainGlassfish</mainClass>
-                            <name>webapp</name>
-                        </program>
-                        <program>
-                            <mainClass>Main</mainClass>
-                            <name>dbTest</name>
-                        </program>
-                    </programs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>assemble</goal>
-                        </goals>
-                    </execution>				
-                </executions>
-            </plugin>			
-        </plugins>
-    </build>
+
+	<build>
+		<finalName>changeRing</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<!-- The maven app assembler plugin will generate a script that sets up the classpath and runs your project -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.1.1</version>
+				<configuration>
+					<assembleDirectory>target</assembleDirectory>
+					<generateRepository>false</generateRepository>
+					<programs>
+						<program>
+							<mainClass>MainGlassfish</mainClass>
+							<name>webapp</name>
+						</program>
+						<program>
+							<mainClass>Main</mainClass>
+							<name>dbTest</name>
+						</program>
+					</programs>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>assemble</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 	<repositories>
-        <repository>
-            <id>java.net</id>
-            <url>http://download.java.net/maven/glassfish</url>
-        </repository>
+		<repository>
+			<id>java.net</id>
+			<url>http://download.java.net/maven/glassfish</url>
+		</repository>
 		<repository>
 			<id>prime-repo</id>
 			<name>PrimeFaces Maven Repository</name>
@@ -92,11 +106,11 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>maven2.java.net</id>
-            <url>http://download.java.net/maven/glassfish</url>
-        </pluginRepository>
-    </pluginRepositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>maven2.java.net</id>
+			<url>http://download.java.net/maven/glassfish</url>
+		</pluginRepository>
+	</pluginRepositories>
 </project>
 

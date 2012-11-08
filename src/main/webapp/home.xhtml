@@ -2,24 +2,27 @@
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <div class="container">
-        <img src="#{userSession.gravatarUrl}" alt="avatar"/>
-        <h:form>
+            <img src="#{userSession.gravatarUrl}" alt="avatar"/>
+            <h:form>
 
-            <h:panelGrid columns="4" cellpadding="5">
-                <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
+                <h:panelGrid columns="4" cellpadding="5">
+                    <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
 
-                <p:inputText id="name" value="#{userSession.id}" />
+                    <p:inputText id="name" value="#{userSession.id}"/>
 
-                <p:commandButton value="Submit" update="display"/>
+                    <p:commandButton value="Submit" update="display"/>
 
-                <h:outputText value="#{userSession.id}" id="display" />
-            </h:panelGrid>
+                    <h:outputText value="#{userSession.id}" id="display"/>
+                </h:panelGrid>
 
-        </h:form>
+                <ui:repeat var="user" value="#{userSession.users}">
+                    <img src="#{user.gravatarUrl}" alt="avatar"/>
+                    #{user.nickName}<br/>
+                </ui:repeat>
+            </h:form>
         </div>
     </ui:define>
 </ui:composition>

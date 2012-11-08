@@ -110,6 +110,6 @@ public class User {
 
     public String getGravatarUrl() {
         return new Gravatar().setSize(80).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
-                .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(email);
+                .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
     }
 }

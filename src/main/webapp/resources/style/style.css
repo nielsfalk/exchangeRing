@@ -6,12 +6,21 @@
     border-bottom: 1px solid #CACACA;
     margin: 0;
     padding: 0
-    vertical-align: middle;
 
 }
 
 .ui-widget {
-    font-size:0.5em
+    font-size:0.7em
+}
+.activeMenuItem {
+    border: 1px solid #8bd83b;
+    background: #4eb305 url("#{resource['primefaces-le-frog:images/ui-bg_highlight-soft_50_4eb305_1x100.png']}") 50% 50% repeat-x;
+    font-weight: normal;
+    color: #ffffff;
+}
+
+.green{
+    color: #97BE0D
 }
 
 body{
@@ -24,7 +33,22 @@ body{
     vertical-align: middle;
     width: 920px
 }
+
+.frame{
+    margin-top: 20px;
+}
 .userStuff{
     float: right;
-    vertical-align: middle;
+}
+
+#loginForm{
+    padding-top: 4px;
+}
+
+#headLine{
+    font-size: 26px;
+    vertical-align: super;
+}
+body{
+    font-family: tahoma, arial, sans-serif;
 }

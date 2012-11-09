@@ -1,0 +1,24 @@
+<ui:composition template="decorator.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+        <div class="container">
+            <p:menu id="public">
+
+                <p:menuitem styleClass="#{userSession.activeMenu('dashboard')}" value="Dashboard"
+                            outcome="dashboard.xhtml" icon="ui-icon-home"/>
+
+                <p:menuitem styleClass="#{userSession.activeMenu('who')}" value="Wer sind wir" outcome="who.xhtml"
+                            icon="ui-icon-star"/>
+
+                <p:menuitem styleClass="#{userSession.activeMenu('impressum')}" value="Kontakt &amp; Impressum"
+                            outcome="impressum.xhtml"
+                            icon="ui-icon-star"/>
+            </p:menu>
+            <ui:insert name="contentWithMenu"/>
+        </div>
+    </ui:define>
+</ui:composition>

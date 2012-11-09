@@ -15,10 +15,11 @@
 <h:body>
     <div class="header">
         <div class="container">
-            <h:graphicImage name="img/logo.gif" alt="logo"/>Tauschring
-            Hamburg
+            <h:graphicImage name="img/logo.gif" alt="logo"/><span id="headLine">Tauschring
+                <span class="green">Hamburg</span></span>
+
             <div class="userStuff">
-                <h:form>
+                <h:form id="loginForm">
                     ID<p:inputText id="name" value="#{userSession.id}"/>
                     Passwort<p:inputText type="password" value="#{userSession.password}"/>
                     <p:commandButton value="login" action="#{userSession.login}"/>
@@ -26,6 +27,8 @@
             </div>
         </div>
     </div>
+    <div class="container, frame">
     <ui:insert name="content"/>
+    </div>
 </h:body>
 </html>

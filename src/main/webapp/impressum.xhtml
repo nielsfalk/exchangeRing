@@ -1,0 +1,33 @@
+<ui:composition template="menuDecorator.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="contentWithMenu">
+        <div class="container">
+            <img src="#{userSession.gravatarUrl}" alt="avatar"/>
+
+
+
+
+
+            #{userSession.activeMenu('dashboard')}
+            #{facesContext.viewRoot.viewId.substring(1)}
+            #{facesContext.viewRoot.viewId.startsWith('/dashboard')?'acticMenuItem':''}
+
+            <h:form>
+                <h:panelGrid columns="4" cellpadding="5">
+                    <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
+
+                    <p:inputText id="name" value="#{userSession.id}"/>
+
+                    <p:commandButton value="Submit" update="display"/>
+
+                    <h:outputText value="#{userSession.id}" id="display"/>
+                </h:panelGrid>
+
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>

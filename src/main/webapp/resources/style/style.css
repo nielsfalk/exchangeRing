@@ -6,12 +6,15 @@
     border-bottom: 1px solid #CACACA;
     margin: 0;
     padding: 0
-    vertical-align: middle;
 
 }
 
 .ui-widget {
-    font-size:0.5em
+    font-size:0.7em
+}
+
+.green{
+    color: #97BE0D
 }
 
 body{
@@ -26,5 +29,16 @@ body{
 }
 .userStuff{
     float: right;
-    vertical-align: middle;
+}
+
+#loginForm{
+    padding-top: 4px;
+}
+
+#headLine{
+    font-size: 26px;
+    vertical-align: super;
+}
+body{
+    font-family: tahoma, arial, sans-serif;
 }

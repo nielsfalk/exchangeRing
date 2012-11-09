@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import de.bripkens.gravatar.DefaultImage;
 import de.bripkens.gravatar.Gravatar;
 import de.bripkens.gravatar.Rating;
+import de.hh.changeRing.domain.User;
 
 /**
  * User: nielsfalk Date: 08.11.12 10:18
@@ -15,6 +16,7 @@ import de.bripkens.gravatar.Rating;
 @SessionScoped
 public class UserSession {
 	private String id, password;
+	private User user;
 
 	public String getGravatarUrl() {
 		return new Gravatar().setSize(80).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
@@ -35,11 +37,30 @@ public class UserSession {
 
 	public void login() {
 		System.out.println(id);
+		User user = InitTestData.findUser(id);
+		if (user!=null && user.getPassword().equals(password)){
+			this.user=user;
+		}
 	}
 
 	public String activeMenu(String viewIdPrefix) {
-		return FacesContext.getCurrentInstance().getViewRoot().getViewId().substring(1).startsWith(viewIdPrefix) ?
-				"activeMenuItem"
-				: "";
+		return FacesContext.getCurrentInstance().getViewRoot().getViewId().substring(1).startsWith(viewIdPrefix)
+				? "activeMenuItem" : "";
+	}
+
+	public boolean isLoggedIn() {
+		return user != null;
+	}
+
+	public boolean isNotLoggedIn() {
+		return !isLoggedIn();
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public User getUser() {
+		return user;
 	}
 }

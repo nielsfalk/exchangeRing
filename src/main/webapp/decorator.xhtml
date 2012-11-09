@@ -19,16 +19,20 @@
                 <span class="green">Hamburg</span></span>
 
             <div class="userStuff">
-                <h:form id="loginForm">
+                <h:form id="loginForm" rendered="#{userSession.notLoggedIn}">
                     ID<p:inputText id="name" value="#{userSession.id}"/>
                     Passwort<p:inputText type="password" value="#{userSession.password}"/>
-                    <p:commandButton value="login" action="#{userSession.login}"/>
+                    <p:commandButton value="login" actionListener="#{userSession.login}"
+                                     ajax="false"/>
                 </h:form>
+                <ui:fragment rendered="#{userSession.loggedIn}">
+                    <img src="#{userSession.user.gravatarHeaderUrl}" alt="gravatar"/>
+                </ui:fragment>
             </div>
         </div>
     </div>
     <div class="container, frame">
-    <ui:insert name="content"/>
+        <ui:insert name="content"/>
     </div>
 </h:body>
 </html>

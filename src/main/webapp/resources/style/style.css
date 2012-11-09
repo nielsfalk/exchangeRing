@@ -41,8 +41,15 @@ body{
     float: right;
 }
 
-#loginForm{
+.loginForm{
     padding-top: 4px;
+}
+
+.loggedInHeader{
+    background-repeat:no-repeat;
+    padding-left: 40px;
+    padding-top: 4px;
+    height: 36px
 }
 
 #headLine{

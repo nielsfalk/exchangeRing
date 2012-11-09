@@ -19,15 +19,25 @@
                 <span class="green">Hamburg</span></span>
 
             <div class="userStuff">
-                <h:form id="loginForm" rendered="#{userSession.notLoggedIn}">
+                <h:form styleClass="loginForm" rendered="#{userSession.notLoggedIn}">
                     ID<p:inputText id="name" value="#{userSession.id}"/>
                     Passwort<p:inputText type="password" value="#{userSession.password}"/>
                     <p:commandButton value="login" actionListener="#{userSession.login}"
                                      ajax="false"/>
                 </h:form>
-                <ui:fragment rendered="#{userSession.loggedIn}">
-                    <img src="#{userSession.user.gravatarHeaderUrl}" alt="gravatar"/>
-                </ui:fragment>
+
+
+                    <h:form rendered="#{userSession.loggedIn}" styleClass="loggedInHeader"
+                            style="background-image: url('#{userSession.user.gravatarHeaderUrl}')">
+
+                    <p:splitButton value="Kontostand: #{userSession.user.balance}" outcome="impressum.xhtml">
+                        <p:menuitem value="Update"  outcome="impressum.xhtml" icon="ui-icon-arrowrefresh-1-w"/>
+                        <p:menuitem value="Delete" outcome="impressum.xhtml" icon="ui-icon-close"/>
+                        <p:separator />
+                        <p:menuitem value="logout" actionListener="#{userSession.logout}" icon="ui-icon-extlink"
+                                    ajax="false"/>
+                    </p:splitButton>
+                    </h:form>
             </div>
         </div>
     </div>

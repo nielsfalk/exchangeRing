@@ -43,6 +43,10 @@ public class UserSession {
 		}
 	}
 
+	public void logout() {
+		user = null;
+	}
+
 	public String activeMenu(String viewIdPrefix) {
 		return FacesContext.getCurrentInstance().getViewRoot().getViewId().substring(1).startsWith(viewIdPrefix)
 				? "activeMenuItem" : "";

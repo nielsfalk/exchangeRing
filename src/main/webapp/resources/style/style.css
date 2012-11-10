@@ -9,8 +9,13 @@
 
 }
 
+.headerLogo{
+    height:33px;
+    margin-top:3px
+}
+
 .ui-widget {
-    font-size:0.7em
+    font-size:0.8em
 }
 .activeMenuItem {
     border: 1px solid #8bd83b;
@@ -47,7 +52,7 @@ body{
 
 .loggedInHeader{
     background-repeat:no-repeat;
-    padding-left: 40px;
+    padding-left: 42px;
     padding-top: 4px;
     height: 36px
 }
@@ -58,4 +63,20 @@ body{
 }
 body{
     font-family: tahoma, arial, sans-serif;
+}
+#mainMenu{
+    width:180px;
+    float: left;
+}
+
+#contentWithMenu{
+    float: right;
+    width: 711px;
+}
+
+.innerSet{
+    background-color: white;
+    color: black;
+    padding: 5px;
+    margin-bottom: 5px;
 }

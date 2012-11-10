@@ -113,8 +113,8 @@ public class User {
                 .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
     }
 
-	public String getGravatarHeaderUrl() {
-		return new Gravatar().setSize(35).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
-				.setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
-	}
+    public String getGravatarHeaderUrl() {
+        return new Gravatar().setSize(49).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
+                .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
+    }
 }

@@ -15,29 +15,33 @@
 <h:body>
     <div class="header">
         <div class="container">
-            <h:graphicImage name="img/logo.gif" alt="logo"/><span id="headLine">Tauschring
+            <h:graphicImage name="img/logoGreen.png" alt="logo" styleClass="headerLogo"/><span id="headLine">Tauschring
                 <span class="green">Hamburg</span></span>
 
             <div class="userStuff">
                 <h:form styleClass="loginForm" rendered="#{userSession.notLoggedIn}">
-                    ID<p:inputText id="name" value="#{userSession.id}"/>
-                    Passwort<p:inputText type="password" value="#{userSession.password}"/>
-                    <p:commandButton value="login" actionListener="#{userSession.login}"
-                                     ajax="false"/>
+                    ID
+                    <p:inputText id="name" value="#{userSession.id}" size="5"/>
+                    Passwort
+                    <p:inputText type="password" value="#{userSession.password}" size="6"/>
+                    <p:splitButton value="login" actionListener="#{userSession.login}"
+                                   ajax="false">
+                        <p:menuitem value="passwort vergessen" outcome="impressum.xhtml"/>
+                    </p:splitButton>
                 </h:form>
 
 
-                    <h:form rendered="#{userSession.loggedIn}" styleClass="loggedInHeader"
-                            style="background-image: url('#{userSession.user.gravatarHeaderUrl}')">
+                <h:form rendered="#{userSession.loggedIn}" styleClass="loggedInHeader"
+                        style="background-image: url('#{userSession.user.gravatarHeaderUrl}')">
 
                     <p:splitButton value="Kontostand: #{userSession.user.balance}" outcome="impressum.xhtml">
-                        <p:menuitem value="Update"  outcome="impressum.xhtml" icon="ui-icon-arrowrefresh-1-w"/>
-                        <p:menuitem value="Delete" outcome="impressum.xhtml" icon="ui-icon-close"/>
-                        <p:separator />
+                        <p:menuitem value="Mein Konto" outcome="impressum.xhtml" icon="ui-icon-arrowrefresh-1-w"/>
+                        <p:menuitem value="Meine Angebote" outcome="impressum.xhtml" icon="ui-icon-close"/>
+                        <p:separator/>
                         <p:menuitem value="logout" actionListener="#{userSession.logout}" icon="ui-icon-extlink"
                                     ajax="false"/>
                     </p:splitButton>
-                    </h:form>
+                </h:form>
             </div>
         </div>
     </div>

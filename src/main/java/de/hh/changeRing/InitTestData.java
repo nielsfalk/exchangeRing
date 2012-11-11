@@ -1,5 +1,6 @@
 package de.hh.changeRing;
 
+import com.google.common.collect.Ordering;
 import de.hh.changeRing.domain.Transaction;
 import de.hh.changeRing.domain.User;
 
@@ -39,7 +40,12 @@ public class InitTestData {
 
     public static List<Transaction> getTransactions() {
         if (transactions == null) {
-            transactions = data.transactions;
+            transactions = new Ordering<Transaction>() {
+                @Override
+                public int compare(Transaction transaction, Transaction transaction1) {
+                    return transaction.getDate().compareTo(transaction1.getDate());
+                }
+            }.sortedCopy(data.transactions);
             for (Transaction transaction : transactions) {
                 process(transaction);
             }

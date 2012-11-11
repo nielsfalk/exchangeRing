@@ -36,21 +36,18 @@
         <password>123</password>
     </user>
     <transaction>
-        <id>1</id>
         <fromId>577</fromId>
         <toId>13</toId>
         <amount>1</amount>
         <date>2012-11-08</date>
     </transaction>
     <transaction>
-        <id>2</id>
         <fromId>577</fromId>
         <toId>13</toId>
         <amount>2</amount>
         <date>2012-11-09</date>
     </transaction>
     <transaction>
-        <id>3</id>
         <fromId>14</fromId>
         <toId>13</toId>
         <amount>4</amount>

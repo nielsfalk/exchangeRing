@@ -10,7 +10,7 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class Transaction {
     @XmlElement
-    private long id;
+    private Long id;
     @XmlElement
     private Date date;
     @XmlElement
@@ -21,6 +21,8 @@ public class Transaction {
     private User to;
     @XmlElement
     private long amount;
+
+    private static long idCounter = 0;
 
     public User getFrom() {
         return from;
@@ -38,6 +40,12 @@ public class Transaction {
         return amount;
     }
 
+    public long getId() {
+        if (id == null) {
+            id = idCounter++;
+        }
+        return id;
+    }
 
     public static Transaction create(User from, User to, long amount) {
         Transaction transaction = new Transaction();
@@ -57,4 +65,5 @@ public class Transaction {
         from.execute(this);
         to.execute(this);
     }
+
 }

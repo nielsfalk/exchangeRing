@@ -1,0 +1,20 @@
+<ui:composition template="../decorator.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+        >
+    <ui:define name="content">
+        <p>Überweisung:</p>
+
+        <p>Meine Transaktionen:</p>
+        <ui:repeat var="depotItem" value="#{userSession.user.depotItems}">
+            <p>
+                #{depotItem.transaction.date}
+                <img src="#{depotItem.other.gravatarUrl}" alt="avatar #{depotItem.other.email}"/>
+                #{depotItem.other.displayName}
+                f#{depotItem.transaction.amount}
+                #{depotItem.newBalance}
+                #{depotItem.oldBalance}
+            </p>
+        </ui:repeat>
+    </ui:define>
+</ui:composition>

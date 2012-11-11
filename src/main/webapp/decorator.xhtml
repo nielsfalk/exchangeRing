@@ -34,9 +34,10 @@
                 <h:form rendered="#{userSession.loggedIn}" styleClass="loggedInHeader"
                         style="background-image: url('#{userSession.user.gravatarHeaderUrl}')">
 
-                    <p:splitButton value="Kontostand: #{userSession.user.balance}" outcome="impressum.xhtml">
-                        <p:menuitem value="Mein Konto" outcome="impressum.xhtml" icon="ui-icon-arrowrefresh-1-w"/>
-                        <p:menuitem value="Meine Angebote" outcome="impressum.xhtml" icon="ui-icon-close"/>
+                    <p:splitButton value="Kontostand: #{userSession.user.balance}" outcome="internal/account.xhtml"
+                                   ajax="false">
+                        <p:menuitem value="Mein Konto" url="internal/account.xhtml" icon="ui-icon-arrowrefresh-1-w"/>
+                        <p:menuitem value="Meine Angebote" url="impressum.xhtml" icon="ui-icon-close"/>
                         <p:separator/>
                         <p:menuitem value="logout" actionListener="#{userSession.logout}" icon="ui-icon-extlink"
                                     ajax="false"/>

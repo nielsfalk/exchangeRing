@@ -45,7 +45,7 @@ public class User {
     @XmlElement
     private List<String> e;
 
-    private List<Transaction> transactions = new ArrayList<Transaction>();
+    private List<DepotItem> depotItems = new ArrayList<DepotItem>();
 
     private long balance;
 
@@ -90,22 +90,61 @@ public class User {
     }
 
     public void execute(Transaction transaction) {
-        if (transaction.getFrom() != this && transaction.getTo() != this) {
-            throw new RuntimeException("not a transaction of" + this);
-        }
-        if (transaction.getFrom() == this) {
-            balance -= transaction.getAmount();
-        }
-        if (transaction.getTo() == this) {
-            balance += transaction.getAmount();
-        }
-        transactions.add(transaction);
-
-
+        DepotItem depotItem = DepotItem.create(transaction, this);
+        depotItems.add(depotItem);
+        balance = depotItem.newBalance;
     }
 
-    public List<Transaction> getTransactions() {
-        return transactions;
+    public static class DepotItem {
+        private long id;
+        private final Transaction transaction;
+        private final User user;
+        private final long newBalance;
+        private User other;
+        private long oldBalance;
+
+        public DepotItem(Transaction transaction, User user, long newBalance, User other) {
+            this.transaction = transaction;
+            this.user = user;
+            this.newBalance = newBalance;
+            this.other = other;
+            this.oldBalance = user.getBalance();
+        }
+
+
+        public static DepotItem create(Transaction transaction, User user) {
+            if (transaction.getFrom() == transaction.getTo()) {
+                throw new RuntimeException("invalid transaction from == to" + transaction);
+            }
+            if (transaction.getFrom() == user) {
+                return new DepotItem(transaction, user, user.balance - transaction.getAmount(), transaction.getTo());
+
+            }
+            if (transaction.getTo() == user) {
+                return new DepotItem(transaction, user, user.balance + transaction.getAmount(), transaction.getFrom());
+            }
+            throw new RuntimeException("not for this user");
+        }
+
+        public long getOldBalance() {
+            return oldBalance;
+        }
+
+        public long getNewBalance() {
+            return newBalance;
+        }
+
+        public Transaction getTransaction() {
+            return transaction;
+        }
+
+        public User getOther() {
+            return other;
+        }
+    }
+
+    public List<DepotItem> getDepotItems() {
+        return depotItems;
     }
 
     public String getGravatarUrl() {
@@ -117,4 +156,27 @@ public class User {
         return new Gravatar().setSize(49).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
                 .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
     }
+
+    public String getDisplayName() {
+        return isEmpty(nickName) ? getName() : nickName;
+    }
+
+    private boolean isEmpty(String string) {
+        return string == null || string.equals("");
+    }
+
+    public String getName() {
+
+        String result = "";
+        if (firstNameVisible && !isEmpty(firstName)) {
+            result += firstName;
+        }
+        if (lastNameVisible && !isEmpty(lastName)) {
+            result += isEmpty(result) ? lastName : (" - " + lastName);
+
+        }
+        return result;
+    }
+
+
 }

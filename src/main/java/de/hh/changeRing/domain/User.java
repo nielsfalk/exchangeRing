@@ -1,6 +1,7 @@
 package de.hh.changeRing.domain;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Ordering;
 import de.bripkens.gravatar.DefaultImage;
 import de.bripkens.gravatar.Gravatar;
 import de.bripkens.gravatar.Rating;
@@ -144,7 +145,13 @@ public class User {
     }
 
     public List<DepotItem> getDepotItems() {
-        return depotItems;
+        return new Ordering<DepotItem>() {
+
+            @Override
+            public int compare(DepotItem depotItem, DepotItem depotItem1) {
+                return depotItem1.getTransaction().getDate().compareTo(depotItem.getTransaction().getDate());
+            }
+        }.sortedCopy(depotItems);
     }
 
     public String getGravatarUrl() {

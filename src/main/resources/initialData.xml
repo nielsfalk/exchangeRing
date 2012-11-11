@@ -39,19 +39,19 @@
         <fromId>577</fromId>
         <toId>13</toId>
         <amount>1</amount>
-        <date>2012-11-08</date>
+        <date>2012-11-07</date>
     </transaction>
     <transaction>
         <fromId>577</fromId>
         <toId>13</toId>
         <amount>2</amount>
-        <date>2012-11-09</date>
+        <date>2012-11-08</date>
     </transaction>
     <transaction>
         <fromId>14</fromId>
         <toId>13</toId>
         <amount>4</amount>
-        <date>2012-11-08</date>
+        <date>2012-11-09</date>
     </transaction>
 
 </exchangeRingInitial>

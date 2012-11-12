@@ -1,20 +1,57 @@
 <ui:composition template="../decorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-        >
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
     <ui:define name="content">
-        <p>Überweisung:</p>
 
-        <p>Meine Transaktionen:</p>
-        <ui:repeat var="depotItem" value="#{userSession.user.depotItems}">
-            <p>
-                #{depotItem.transaction.date}
-                <img src="#{depotItem.other.gravatarUrl}" alt="avatar #{depotItem.other.email}"/>
-                #{depotItem.other.displayName}
-                f#{depotItem.transaction.amount}
-                #{depotItem.newBalance}
-                #{depotItem.oldBalance}
-            </p>
-        </ui:repeat>
+        <div class="container">
+            <p>Überweisung:</p>
+
+            <p:dataTable id="dataTable" var="depotItem" value="#{userSession.user.depotItems}">
+                <f:facet name="header">
+                    Meine Transaktionen
+                </f:facet>
+
+
+                <p:column id="date" sortBy="#{depotItem.transaction.date}">
+                    <f:facet name="header">
+                        <h:outputText value="Datum"/>
+                    </f:facet>
+                    <h:outputText value="#{depotItem.formattedDate}"/>
+                </p:column>
+                <p:column id="avatar">
+                    <f:facet name="header">
+                        <h:outputText value=""/>
+                    </f:facet>
+                    <img src="#{depotItem.other.gravatarUrl}" alt="avatar #{depotItem.other.displayName}"/>
+                </p:column>
+                <p:column id="other" sortBy="#{depotItem.other.displayName}">
+                    <f:facet name="header">
+                        <h:outputText value="mit"/>
+                    </f:facet>
+                    <h:outputText value="#{depotItem.other.displayName}"/>
+                </p:column>
+                <p:column id="type" sortBy="#{depotItem.type.toString()}">
+                    <f:facet name="header">
+                        <h:outputText value="art"/>
+                    </f:facet>
+                    <h:outputText value="#{depotItem.type.toString()}"/>
+                </p:column>
+                <p:column id="amount" sortBy="#{depotItem.transaction.amount}">
+                    <f:facet name="header">
+                        <h:outputText value="Betrag"/>
+                    </f:facet>
+                    <h:outputText value="#{depotItem.transaction.amount}"/>
+                </p:column>
+                <p:column id="depotAmount" sortBy="#{depotItem.newBalance}">
+                    <f:facet name="header">
+                        <h:outputText value="Kontostand"/>
+                    </f:facet>
+                    <h:outputText value="#{depotItem.newBalance}"/>
+                </p:column>
+            </p:dataTable>
+        </div>
     </ui:define>
 </ui:composition>

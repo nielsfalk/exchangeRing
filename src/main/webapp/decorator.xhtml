@@ -26,7 +26,7 @@
                     <p:inputText type="password" value="#{userSession.password}" size="6"/>
                     <p:splitButton value="login" actionListener="#{userSession.login}"
                                    ajax="false">
-                        <p:menuitem value="passwort vergessen" outcome="impressum.xhtml"/>
+                        <p:menuitem value="passwort vergessen" URL="/impressum.xhtml"/>
                     </p:splitButton>
                 </h:form>
 
@@ -34,10 +34,9 @@
                 <h:form rendered="#{userSession.loggedIn}" styleClass="loggedInHeader"
                         style="background-image: url('#{userSession.user.gravatarHeaderUrl}')">
 
-                    <p:splitButton value="Kontostand: #{userSession.user.balance}" outcome="internal/account.xhtml"
-                                   ajax="false">
-                        <p:menuitem value="Mein Konto" url="internal/account.xhtml" icon="ui-icon-arrowrefresh-1-w"/>
-                        <p:menuitem value="Meine Angebote" url="impressum.xhtml" icon="ui-icon-close"/>
+                    <p:splitButton value="Kontostand: #{userSession.user.balance}" url="/internal/account.xhtml">
+                        <p:menuitem value="Mein Konto" url="/internal/account.xhtml" icon="ui-icon-arrowrefresh-1-w"/>
+                        <p:menuitem value="Meine Angebote" url="/impressum.xhtml" icon="ui-icon-close"/>
                         <p:separator/>
                         <p:menuitem value="logout" actionListener="#{userSession.logout}" icon="ui-icon-extlink"
                                     ajax="false"/>

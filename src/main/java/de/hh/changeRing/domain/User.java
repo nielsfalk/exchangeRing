@@ -9,8 +9,12 @@ import de.bripkens.gravatar.Rating;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import static de.hh.changeRing.domain.User.DepotItemType.in;
+import static de.hh.changeRing.domain.User.DepotItemType.out;
 
 /**
  * User: nielsfalk
@@ -94,6 +98,22 @@ public class User {
         DepotItem depotItem = DepotItem.create(transaction, this);
         depotItems.add(depotItem);
         balance = depotItem.newBalance;
+        sortDepot();
+    }
+
+    public static enum DepotItemType {
+        out("Überweisung"),
+        in("Gutschrift");
+        private String string;
+
+        DepotItemType(String string) {
+            this.string = string;
+        }
+
+        @Override
+        public String toString() {
+            return string;
+        }
     }
 
     public static class DepotItem {
@@ -102,33 +122,42 @@ public class User {
         private final User user;
         private final long newBalance;
         private User other;
+        private DepotItemType type;
         private long oldBalance;
 
-        public DepotItem(Transaction transaction, User user, long newBalance, User other) {
+        public DepotItem(Transaction transaction, User user, long newBalance, User other, DepotItemType type) {
             this.transaction = transaction;
             this.user = user;
             this.newBalance = newBalance;
             this.other = other;
+            this.type = type;
             this.oldBalance = user.getBalance();
         }
 
+        public String getFormattedDate() {
+            return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(transaction.getDate());
+        }
 
         public static DepotItem create(Transaction transaction, User user) {
             if (transaction.getFrom() == transaction.getTo()) {
                 throw new RuntimeException("invalid transaction from == to" + transaction);
             }
             if (transaction.getFrom() == user) {
-                return new DepotItem(transaction, user, user.balance - transaction.getAmount(), transaction.getTo());
+                return new DepotItem(transaction, user, user.balance - transaction.getAmount(), transaction.getTo(), out);
 
             }
             if (transaction.getTo() == user) {
-                return new DepotItem(transaction, user, user.balance + transaction.getAmount(), transaction.getFrom());
+                return new DepotItem(transaction, user, user.balance + transaction.getAmount(), transaction.getFrom(), in);
             }
             throw new RuntimeException("not for this user");
         }
 
         public long getOldBalance() {
             return oldBalance;
+        }
+
+        public DepotItemType getType() {
+            return type;
         }
 
         public long getNewBalance() {
@@ -145,7 +174,11 @@ public class User {
     }
 
     public List<DepotItem> getDepotItems() {
-        return new Ordering<DepotItem>() {
+        return depotItems;
+    }
+
+    private void sortDepot() {
+        depotItems = new Ordering<DepotItem>() {
 
             @Override
             public int compare(DepotItem depotItem, DepotItem depotItem1) {
@@ -155,7 +188,7 @@ public class User {
     }
 
     public String getGravatarUrl() {
-        return new Gravatar().setSize(80).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
+        return new Gravatar().setSize(30).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
                 .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
     }
 

@@ -9,6 +9,10 @@
 
 }
 
+.header div a{
+    text-decoration:none;
+}
+
 .headerLogo{
     height:33px;
     margin-top:3px
@@ -60,6 +64,7 @@ body{
 #headLine{
     font-size: 26px;
     vertical-align: super;
+    color: black;
 }
 body{
     font-family: tahoma, arial, sans-serif;

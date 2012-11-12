@@ -49,6 +49,7 @@ public class TransactionCreator {
 		Transaction.create(session.getUser(), receiver, amount, subject).wire();
 		receiver = null;
 		amount = null;
+		subject = null;
 	}
 
 	public void setSession(UserSession session) {

@@ -179,7 +179,10 @@ public class User {
 
 		public String getSubject() {
 			String subject = transaction.getSubject();
-			if (subject==null || subject.length()<=35) {
+			if (subject == null){
+				return "";
+			}
+			if (subject.length()<=35) {
 				return subject;
 			}
 			ArrayList<String> splitted = new ArrayList<String>();

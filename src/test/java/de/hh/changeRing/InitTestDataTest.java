@@ -80,7 +80,7 @@ public class InitTestDataTest extends SupertTest {
         long nilesInitialBalance = niles.getBalance();
         User blau = InitTestData.findUser(13);
         long blauInitialBalance = blau.getBalance();
-        InitTestData.process(Transaction.create(niles, blau, 5l));
+        InitTestData.process(Transaction.create(niles, blau, 5l, null));
         assertThat(niles.getBalance() - nilesInitialBalance, is(-5l));
         assertThat(blau.getBalance() - blauInitialBalance, is(5l));
     }

@@ -1,3 +1,5 @@
+package de.hh.changeRing;
+
 import de.hh.changeRing.InitTestData;
 import org.glassfish.embeddable.*;
 import org.glassfish.embeddable.archive.ScatteredArchive;

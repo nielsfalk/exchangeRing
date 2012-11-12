@@ -23,8 +23,9 @@ public class Transaction {
     private long amount;
 
     private static long idCounter = 0;
+	private String subject;
 
-    public User getFrom() {
+	public User getFrom() {
         return from;
     }
 
@@ -47,11 +48,13 @@ public class Transaction {
         return id;
     }
 
-    public static Transaction create(User from, User to, long amount) {
+    public static Transaction create(User from, User to, long amount, String subject) {
         Transaction transaction = new Transaction();
         transaction.from = from;
         transaction.to = to;
         transaction.amount = amount;
+		transaction.subject = subject;
+		transaction.date = new Date();
         return transaction;
     }
 
@@ -66,4 +69,7 @@ public class Transaction {
         to.execute(this);
     }
 
+	public String getSubject() {
+		return subject;
+	}
 }

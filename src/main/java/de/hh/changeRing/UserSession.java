@@ -8,6 +8,8 @@ import de.hh.changeRing.domain.User;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,8 +20,9 @@ import java.util.List;
 public class UserSession {
     private String id, password;
     private User user;
+	private ArrayList<User> otherUsers;
 
-    public String getGravatarUrl() {
+	public String getGravatarUrl() {
         return new Gravatar().setSize(80).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
                 .setStandardDefaultImage(DefaultImage.MONSTER).getUrl("niles@elbtrial.com");
     }
@@ -41,8 +44,19 @@ public class UserSession {
         User user = InitTestData.findUser(id);
         if (user != null && user.getPassword().equals(password)) {
             this.user = user;
+			otherUsers = null;
         }
     }
+
+
+	public List<User> getOtherUsers() {
+		if (otherUsers == null) {
+			otherUsers = new ArrayList<User>();
+			otherUsers.addAll(InitTestData.getUsers());
+			otherUsers.remove(user);
+		}
+		return otherUsers;
+	}
 
     public List<User> getAllUsers() {
         return InitTestData.getUsers();
@@ -50,6 +64,7 @@ public class UserSession {
 
     public void logout() {
         user = null;
+		otherUsers = null;
     }
 
     public String activeMenu(String viewIdPrefix) {
@@ -72,4 +87,6 @@ public class UserSession {
     public User getUser() {
         return user;
     }
+
+
 }

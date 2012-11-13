@@ -40,18 +40,21 @@
         <toId>13</toId>
         <amount>1</amount>
         <date>2012-11-07</date>
+        <subject>das nächste mal könntest du dich besser vorbereiten</subject>
     </transaction>
     <transaction>
         <fromId>577</fromId>
         <toId>13</toId>
         <amount>2</amount>
         <date>2012-11-08</date>
+        <subject>Danke ich hab richtig was gelernt.</subject>
     </transaction>
     <transaction>
         <fromId>14</fromId>
         <toId>13</toId>
         <amount>4</amount>
         <date>2012-11-09</date>
+        <subject>vielen Dank für deine Hilfe!</subject>
     </transaction>
 
     <transaction>
@@ -59,6 +62,7 @@
         <toId>14</toId>
         <amount>4000</amount>
         <date>2012-11-10</date>
+        <subject>Großes Geschenk!</subject>
     </transaction>
 
 </exchangeRingInitial>

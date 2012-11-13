@@ -23,9 +23,11 @@ public class Transaction {
     private long amount;
 
     private static long idCounter = 0;
-	private String subject;
 
-	public User getFrom() {
+    @XmlElement
+    private String subject;
+
+    public User getFrom() {
         return from;
     }
 
@@ -53,8 +55,8 @@ public class Transaction {
         transaction.from = from;
         transaction.to = to;
         transaction.amount = amount;
-		transaction.subject = subject;
-		transaction.date = new Date();
+        transaction.subject = subject;
+        transaction.date = new Date();
         return transaction;
     }
 
@@ -69,7 +71,7 @@ public class Transaction {
         to.execute(this);
     }
 
-	public String getSubject() {
-		return subject;
-	}
+    public String getSubject() {
+        return subject;
+    }
 }

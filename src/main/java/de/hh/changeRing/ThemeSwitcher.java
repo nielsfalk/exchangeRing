@@ -29,13 +29,20 @@ import javax.faces.bean.ManagedBean;
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
  */
-@ManagedBean(name = "themeSwitcherBean")
+@ManagedBean
 @SessionScoped
-public class ThemeSwitcherBean {
+public class ThemeSwitcher {
+
+	@ManagedBean
+	@SessionScoped
+	public static class ThemeSwitcherBean {
+
+	}
+
 
 	private Map<String, String> themes;
 
-	private String theme = "le-frog";
+	private String theme = "south-street";
 
 	public Map<String, String> getThemes() {
 		return themes;

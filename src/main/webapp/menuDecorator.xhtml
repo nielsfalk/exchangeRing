@@ -25,40 +25,43 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+        >
     <ui:define name="content">
         <div class="container">
-            <div><p:menu id="mainMenu">
+            <div>
+                <p:menu id="mainMenu">
 
-                <p:menuitem styleClass="#{userSession.activeMenu('dashboard')}" value="Dashboard"
-                            outcome="dashboard.xhtml" icon="ui-icon-home"/>
+                    <p:menuitem styleClass="#{userSession.activeMenu('dashboard')}" value="Dashboard"
+                                outcome="dashboard.xhtml" icon="ui-icon-home"/>
 
-                <p:menuitem styleClass="#{userSession.activeMenu('ring')}" value="Tauschring" outcome="ring.xhtml"
-                            icon="ui-icon-star"/>
+                    <p:menuitem styleClass="#{userSession.activeMenu('ring')}" value="Tauschring" outcome="ring.xhtml"
+                                icon="ui-icon-star"/>
 
-                <p:menuitem styleClass="#{userSession.activeMenu('who')}" value="Wer sind wir" outcome="who.xhtml"
-                            icon="ui-icon-star"/>
+                    <p:menuitem styleClass="#{userSession.activeMenu('who')}" value="Wer sind wir" outcome="who.xhtml"
+                                icon="ui-icon-star"/>
 
-                <p:menuitem styleClass="#{userSession.activeMenu('news')}" value="Tauschringzeitung"
-                            outcome="news.xhtml"
-                            icon="ui-icon-star"/>
+                    <p:menuitem styleClass="#{userSession.activeMenu('news')}" value="Tauschringzeitung"
+                                outcome="news.xhtml"
+                                icon="ui-icon-star"/>
 
-                <p:menuitem styleClass="#{userSession.activeMenu('links')}" value="Links" outcome="links.xhtml"
-                            icon="ui-icon-star"/>
+                    <p:menuitem styleClass="#{userSession.activeMenu('links')}" value="Links" outcome="links.xhtml"
+                                icon="ui-icon-star"/>
 
-                <p:menuitem styleClass="#{userSession.activeMenu('impressum')}" value="Kontakt &amp; Impressum"
-                            outcome="impressum.xhtml"
-                            icon="ui-icon-star"/>
+                    <p:menuitem styleClass="#{userSession.activeMenu('impressum')}" value="Kontakt &amp; Impressum"
+                                outcome="impressum.xhtml"
+                                icon="ui-icon-star"/>
 
 
-                Links
+                    Links
 
-            </p:menu>
+                </p:menu>
             </div>
             <div>
                 <p:themeSwitcher style="width:165px" id="defaultSwitcher" value="#{themeSwitcherBean.theme}">
                     <f:selectItem itemLabel="Choose Theme" itemValue=""/>
                     <f:selectItems value="#{themeSwitcherBean.themes}"/>
+                    <p:ajax listener="#{themeSwitcherBean.save}"/>
                 </p:themeSwitcher>
             </div>
             <div id="contentWithMenu">

@@ -41,11 +41,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
-	
+
     <display-name>
         Java EE exchangeRing
     </display-name>
-
 
 
     <context-param>
@@ -63,13 +62,13 @@
         <param-value>-1</param-value>
     </context-param>
 
-	<context-param>
-		<param-name>primefaces.THEME</param-name>
-		<param-value>#{themeSwitcherBean.theme}</param-value>
-	</context-param>
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>start</param-value>
+    </context-param>
 
 
-	<context-param>
+    <context-param>
         <description>
             Set this flag to true if you want the JavaServer Faces
             Reference Implementation to validate the XML in your

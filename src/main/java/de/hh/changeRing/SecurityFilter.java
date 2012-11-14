@@ -34,7 +34,7 @@ public class SecurityFilter implements PhaseListener {
     public void afterPhase(PhaseEvent phaseEvent) {
         Context context = new Context(phaseEvent);
         context.secureInternalArea();
-        context.onlyHttps();
+        //context.onlyHttps();
     }
 
     @Override

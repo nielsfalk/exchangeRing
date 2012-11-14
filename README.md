@@ -26,9 +26,6 @@ In addition, each military use, and the use for interest profit will be
 excluded.
 Environmental damage caused by the use must be kept as small as possible.
 
---------------------------------------------------------------------------
-
-
 
 Features implemented
 --------------------

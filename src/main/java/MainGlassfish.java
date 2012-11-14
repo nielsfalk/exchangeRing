@@ -84,7 +84,5 @@ public class MainGlassfish {
         archive.addClassPath(new File("target", "classes"));
 
         deployer.deploy(archive.toURI());
-
     }
-
 }

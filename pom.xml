@@ -28,12 +28,45 @@
             <artifactId>primefaces</artifactId>
             <version>3.4.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.primefaces.themes</groupId>
-            <artifactId>le-frog</artifactId>
-            <version>1.0.8</version>
-        </dependency>
-        <dependency>
+
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>afterdark                   </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>afternoon                   </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>afterwork                   </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>black-tie                   </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>blitzer                     </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>bluesky                     </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>casablanca                  </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>cruze                       </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>cupertino                   </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>dark-hive                   </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>dot-luv                     </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>eggplant                    </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>excite-bike                 </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>flick                       </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>glass-x                     </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>home                        </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>hot-sneaks                  </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>humanity                    </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>le-frog                     </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>midnight                    </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>mint-choc                   </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>overcast                    </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>pepper-grinder              </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>redmond                     </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>rocket                      </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>sam                         </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>smoothness                  </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>south-street                </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>start                       </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>sunny                       </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>swanky-purse                </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>trontastic                  </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>ui-darkness                 </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>ui-lightness                </artifactId><version>1.0.8</version></dependency>
+		<dependency><groupId>org.primefaces.themes</groupId><artifactId>vader                       </artifactId><version>1.0.8</version></dependency>
+
+
+		<dependency>
             <groupId>de.bripkens</groupId>
             <artifactId>gravatar4java</artifactId>
             <version>1.1</version>

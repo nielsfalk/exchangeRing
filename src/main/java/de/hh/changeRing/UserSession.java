@@ -69,7 +69,7 @@ public class UserSession {
 
     public String activeMenu(String viewIdPrefix) {
         return FacesContext.getCurrentInstance().getViewRoot().getViewId().substring(1).startsWith(viewIdPrefix)
-                ? "activeMenuItem" : "";
+                ? "ui-state-active" : "";
     }
 
     public boolean isLoggedIn() {
@@ -87,6 +87,4 @@ public class UserSession {
     public User getUser() {
         return user;
     }
-
-
 }

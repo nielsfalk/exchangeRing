@@ -1,10 +1,11 @@
 <ui:composition template="decorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
     <ui:define name="content">
         <div class="container">
-            <p:menu id="mainMenu">
+            <div><p:menu id="mainMenu">
 
                 <p:menuitem styleClass="#{userSession.activeMenu('dashboard')}" value="Dashboard"
                             outcome="dashboard.xhtml" icon="ui-icon-home"/>
@@ -30,6 +31,13 @@
                 Links
 
             </p:menu>
+            </div>
+            <div>
+                <p:themeSwitcher style="width:165px" id="defaultSwitcher" value="#{themeSwitcherBean.theme}">
+                    <f:selectItem itemLabel="Choose Theme" itemValue=""/>
+                    <f:selectItems value="#{themeSwitcherBean.themes}"/>
+                </p:themeSwitcher>
+            </div>
             <div id="contentWithMenu">
                 <ui:insert name="contentWithMenu"/>
             </div>

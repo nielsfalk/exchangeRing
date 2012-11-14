@@ -65,7 +65,7 @@
 
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
-		<param-value>le-frog</param-value>
+		<param-value>#{themeSwitcherBean.theme}</param-value>
 	</context-param>
 
 
@@ -93,8 +93,4 @@
     <welcome-file-list>
         <welcome-file>dashboard.xhtml</welcome-file>
     </welcome-file-list>
-
-    
-    
-   
 </web-app>

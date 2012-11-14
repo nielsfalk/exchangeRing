@@ -7,87 +7,88 @@
     <ui:define name="content">
 
         <div class="container">
-            <h:form>
-                <p:panel header="Überweisung">
-                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                    <h:outputText value="Empfänger:" />
-                    <p:selectOneMenu value="#{transactionCreator.receiver}" converter="userConverter"
-                                     panelStyle="width:150px"
-                                     effect="fade" var="p" style="width:160px" filter="true"
-                                     filterMatchMode="startsWith">
-                        <f:selectItem itemLabel="Select One" itemValue=""/>
-                        <f:selectItems value="#{userSession.otherUsers}" var="potentialReceiver"
-                                       itemLabel="#{potentialReceiver.id}"
-                                       itemValue="#{potentialReceiver}"/>
+            <p:panel header="Überweisung" id="transactionPanel">
+                <h:form>
+                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                        <h:outputText value="Empfänger:"/>
+                        <p:selectOneMenu value="#{transactionCreator.receiver}" converter="userConverter"
+                                         panelStyle="width:150px"
+                                         effect="fade" var="p" style="width:160px" filter="true"
+                                         filterMatchMode="startsWith">
+                            <f:selectItem itemLabel="Select One" itemValue=""/>
+                            <f:selectItems value="#{userSession.otherUsers}" var="potentialReceiver"
+                                           itemLabel="#{potentialReceiver.id}"
+                                           itemValue="#{potentialReceiver}"/>
 
-                        <p:column>
-                            <img src="#{p.gravatarUrl}" alt="avatar #{p.displayName}"/>
-                        </p:column>
+                            <p:column>
+                                <img src="#{p.gravatarUrl}" alt="avatar #{p.displayName}"/>
+                            </p:column>
 
-                        <p:column>
-                            #{p.id} - #{p.displayName}
-                        </p:column>
-                    </p:selectOneMenu>
+                            <p:column>
+                                #{p.id} - #{p.displayName}
+                            </p:column>
+                        </p:selectOneMenu>
 
-                    <h:outputText value="Betrag:" />
-                    <p:inputText id="amount" value="#{transactionCreator.amount}" size="5"/>
-                    <h:outputText value="Betreff:" />
+                        <h:outputText value="Betrag:"/>
+                        <p:inputText id="amount" value="#{transactionCreator.amount}" size="5"/>
+                        <h:outputText value="Betreff:"/>
 
-                    <p:inputTextarea id="subject" rows="4" cols="35" counter="counter" maxlength="140"
-                                     counterTemplate="{0} zeichen übrig." autoResize="false" value="#{transactionCreator.subject}"/>
-                    <p:commandButton value="Absenden" ajax="false" actionListener="#{transactionCreator.submit}"/>
-                    <h:outputText id="counter" />
-                </h:panelGrid>
-                </p:panel>
-            </h:form>
+                        <p:inputTextarea id="subject" rows="4" cols="35" counter="counter" maxlength="140"
+                                         counterTemplate="{0} zeichen übrig." autoResize="false"
+                                         value="#{transactionCreator.subject}"/>
+                        <p:commandButton value="Absenden" ajax="false" actionListener="#{transactionCreator.submit}"/>
+                        <h:outputText id="counter"/>
+                    </h:panelGrid>
+                </h:form>
+            </p:panel>
             <p/>
 
             <p:panel header="Meine Transaktionen">
-            <p:dataTable id="transactionTable" var="depotItem" value="#{userSession.user.depotItems}"
-                         styleClass="ui-corner-all">
-                <p:column id="date" sortBy="#{depotItem.transaction.date}">
-                    <f:facet name="header">
-                        <h:outputText value="Datum"/>
-                    </f:facet>
-                    <h:outputText value="#{depotItem.formattedDate}"/>
-                </p:column>
-                <p:column id="avatar">
-                    <f:facet name="header">
-                        <h:outputText value=""/>
-                    </f:facet>
-                    <img src="#{depotItem.other.gravatarUrl}" alt="avatar #{depotItem.other.displayName}"/>
-                </p:column>
-                <p:column id="other" sortBy="#{depotItem.other.displayName}">
-                    <f:facet name="header">
-                        <h:outputText value="mit"/>
-                    </f:facet>
-                    <h:outputText value="#{depotItem.other.displayName}"/>
-                </p:column>
-                <p:column id="type" sortBy="#{depotItem.type.toString()}">
-                    <f:facet name="header">
-                        <h:outputText value="art"/>
-                    </f:facet>
-                    <h:outputText value="#{depotItem.type.toString()}"/>
-                </p:column>
-                <p:column id="subject" sortBy="#{depotItem.subject}">
-                    <f:facet name="header">
-                        <h:outputText value="betreff"/>
-                    </f:facet>
-                    <h:outputText value="#{depotItem.subject}"/>
-                </p:column>
-                <p:column id="amount" sortBy="#{depotItem.amount}">
-                    <f:facet name="header">
-                        <h:outputText value="Betrag"/>
-                    </f:facet>
-                    <h:outputText value="#{depotItem.amount}"/>
-                </p:column>
-                <p:column id="depotAmount" sortBy="#{depotItem.newBalance}">
-                    <f:facet name="header">
-                        <h:outputText value="Kontostand"/>
-                    </f:facet>
-                    <h:outputText value="#{depotItem.newBalance}"/>
-                </p:column>
-            </p:dataTable>
+                <p:dataTable id="transactionTable" var="depotItem" value="#{userSession.user.depotItems}"
+                             styleClass="ui-corner-all">
+                    <p:column id="date" sortBy="#{depotItem.transaction.date}">
+                        <f:facet name="header">
+                            <h:outputText value="Datum"/>
+                        </f:facet>
+                        <h:outputText value="#{depotItem.formattedDate}"/>
+                    </p:column>
+                    <p:column id="avatar">
+                        <f:facet name="header">
+                            <h:outputText value=""/>
+                        </f:facet>
+                        <img src="#{depotItem.other.gravatarUrl}" alt="avatar #{depotItem.other.displayName}"/>
+                    </p:column>
+                    <p:column id="other" sortBy="#{depotItem.other.displayName}">
+                        <f:facet name="header">
+                            <h:outputText value="mit"/>
+                        </f:facet>
+                        <h:outputText value="#{depotItem.other.displayName}"/>
+                    </p:column>
+                    <p:column id="type" sortBy="#{depotItem.type.toString()}">
+                        <f:facet name="header">
+                            <h:outputText value="art"/>
+                        </f:facet>
+                        <h:outputText value="#{depotItem.type.toString()}"/>
+                    </p:column>
+                    <p:column id="subject" sortBy="#{depotItem.subject}">
+                        <f:facet name="header">
+                            <h:outputText value="betreff"/>
+                        </f:facet>
+                        <h:outputText value="#{depotItem.subject}"/>
+                    </p:column>
+                    <p:column id="amount" sortBy="#{depotItem.amount}">
+                        <f:facet name="header">
+                            <h:outputText value="Betrag"/>
+                        </f:facet>
+                        <h:outputText value="#{depotItem.amount}"/>
+                    </p:column>
+                    <p:column id="depotAmount" sortBy="#{depotItem.newBalance}">
+                        <f:facet name="header">
+                            <h:outputText value="Kontostand"/>
+                        </f:facet>
+                        <h:outputText value="#{depotItem.newBalance}"/>
+                    </p:column>
+                </p:dataTable>
             </p:panel>
         </div>
     </ui:define>

@@ -15,8 +15,11 @@
 <h:body>
     <div class="header">
         <div class="container">
-            <h:graphicImage name="img/logoGreen.png" alt="logo" styleClass="headerLogo"/><span id="headLine">Tauschring
+
+            <a href="/dashboard.xhtml">
+                <h:graphicImage name="/img/logoGreen.png" alt="logo" styleClass="headerLogo"/><span id="headLine">Tauschring
                 <span class="green">Hamburg</span></span>
+            </a>
 
             <div class="userStuff">
                 <h:form styleClass="loginForm" rendered="#{userSession.notLoggedIn}">

@@ -9,6 +9,19 @@
 
 }
 
+.header div a{
+    text-decoration:none;
+}
+
+.header div a:hover{
+
+    text-decoration: underline;
+    background: #fafefb;
+    background: -webkit-linear-gradient(#e0e1e2,#fafefb);
+    background: -moz-linear-gradient(#e0e1e2, #fafefb);
+    background: linear-gradient(#e0e1e2, #fafefb);
+}
+
 .headerLogo{
     height:33px;
     margin-top:3px
@@ -60,6 +73,7 @@ body{
 #headLine{
     font-size: 26px;
     vertical-align: super;
+    color: black;
 }
 body{
     font-family: tahoma, arial, sans-serif;
@@ -80,4 +94,8 @@ body{
     padding: 5px;
     margin-bottom: 5px;
 }
+#transactionPanel{
+    width: 440px;
+}
+
 

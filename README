@@ -1,5 +1,5 @@
 POC for the exchangeRing in Hamburg
-used https://github.com/jsimone/embeddedGlassfishSample
+Deployed under https://floating-sierra-7513.herokuapp.com
 
 
-This file was modified by IntelliJ IDEA 11.1.4 for binding GitHub repository
+used https://github.com/jsimone/embeddedGlassfishSample for embedded Glassfish with heroku

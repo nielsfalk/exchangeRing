@@ -1,6 +1,7 @@
 package de.hh.changeRing;
 
 import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -29,22 +30,23 @@ import java.util.logging.Logger;
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
  */
-public class ServletHelper {
-    private static final Logger LOGGER = Logger.getLogger(ServletHelper.class.getName());
+public class Context {
+    private static final Logger LOGGER = Logger.getLogger(Context.class.getName());
 
     static final String WELCOME_PAGE = "/dashboard.xhtml";
     public static final String INTERNAL_PREFIXE = "/internal";
-    private ExternalContext externalContext;
     private String url;
     private String requestURI;
     private HttpServletRequest request;
+    private FacesContext context;
+    private ExternalContext externalContext;
 
-    public ServletHelper(ExternalContext externalContext) {
-        this.externalContext = externalContext;
+    public Context(FacesContext context) {
+        this.context = context;
     }
 
-    public ServletHelper(PhaseEvent phaseEvent) {
-        this(phaseEvent.getFacesContext().getExternalContext());
+    public Context(PhaseEvent phaseEvent) {
+        this(phaseEvent.getFacesContext());
     }
 
     void secureInternalArea() {
@@ -78,7 +80,8 @@ public class ServletHelper {
 
     private void redirect(String urlOrUri) {
         try {
-            externalContext.redirect(urlOrUri);
+            getExternalContext().redirect(urlOrUri);
+            context.responseComplete();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -92,7 +95,7 @@ public class ServletHelper {
     public <T> T getSessionBean(Class<T> type) {
         String typeSimpleName = type.getSimpleName();
         String beanName = Character.toLowerCase(typeSimpleName.charAt(0)) + typeSimpleName.substring(1);
-        return (T) externalContext.getSessionMap().get(beanName);
+        return (T) getExternalContext().getSessionMap().get(beanName);
     }
 
     private boolean internalRequest() {
@@ -115,8 +118,15 @@ public class ServletHelper {
 
     private HttpServletRequest getRequest() {
         if (request == null) {
-            request = (HttpServletRequest) externalContext.getRequest();
+            request = (HttpServletRequest) getExternalContext().getRequest();
         }
         return request;
+    }
+
+    public ExternalContext getExternalContext() {
+        if (externalContext == null) {
+            externalContext = context.getExternalContext();
+        }
+        return externalContext;
     }
 }

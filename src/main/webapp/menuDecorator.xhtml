@@ -31,27 +31,27 @@ Environmental damage caused by the use must be kept as small as possible.
             <div><p:menu id="mainMenu">
 
                 <p:menuitem styleClass="#{userSession.activeMenu('dashboard')}" value="Dashboard"
-                            outcome="dashboard.xhtml" icon="ui-icon-home"/>
+                            outcome="/dashboard.xhtml" icon="ui-icon-home"/>
 
-                <p:menuitem styleClass="#{userSession.activeMenu('ring')}" value="Tauschring" outcome="ring.xhtml"
+                <p:menuitem styleClass="#{userSession.activeMenu('ring')}" value="Tauschring" outcome="/ring.xhtml"
                             icon="ui-icon-star"/>
 
-                <p:menuitem styleClass="#{userSession.activeMenu('who')}" value="Wer sind wir" outcome="who.xhtml"
+                <p:menuitem styleClass="#{userSession.activeMenu('who')}" value="Wer sind wir" outcome="/who.xhtml"
                             icon="ui-icon-star"/>
 
                 <p:menuitem styleClass="#{userSession.activeMenu('news')}" value="Tauschringzeitung"
-                            outcome="news.xhtml"
+                            outcome="/news.xhtml"
                             icon="ui-icon-star"/>
 
-                <p:menuitem styleClass="#{userSession.activeMenu('links')}" value="Links" outcome="links.xhtml"
+                <p:menuitem styleClass="#{userSession.activeMenu('links')}" value="Links" outcome="/links.xhtml"
                             icon="ui-icon-star"/>
 
                 <p:menuitem styleClass="#{userSession.activeMenu('impressum')}" value="Kontakt &amp; Impressum"
-                            outcome="impressum.xhtml"
+                            outcome="/impressum.xhtml"
                             icon="ui-icon-star"/>
-
-
-                Links
+                <p:menuitem styleClass="#{userSession.activeMenu('internal/members')}" value="Mitglieder"
+                            outcome="/internal/members.xhtml"
+                            icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
 
             </p:menu>
             </div>

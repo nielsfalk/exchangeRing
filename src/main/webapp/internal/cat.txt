@@ -1,0 +1,83 @@
+Service für Daheim
+
+    Haus und Wohnung (41)
+    Umzug (21)
+    Garten (20)
+    Urlaubsvertretungen (12)
+    Handwerk (29)
+    Putzen (9)
+    Waschen & Bügeln (5)
+
+Technik
+
+    Büro (19)
+    Layout (4)
+    Computer (26)
+    Internet (19)
+    DSL & Telefon (2)
+    Foto / Hifi / TV (19)
+
+Kreative Ecken
+
+    Kunsthandwerk (18)
+    Kleidung & Schneidern (24)
+    Design (13)
+    Werbung (14)
+    Sonstiges (17)
+
+Essen und Trinken
+
+    Kochen (22)
+    Backen (24)
+    Marmelade, Süßes, Nachspeisen (7)
+    Partyservice (7)
+
+Körper & Seele
+
+    esoterisch / spirituell (33)
+    Astrologie (5)
+    Therapien (30)
+    Massagen (22)
+    Gesundheit (52)
+    Schönheit & Kosmetik (16)
+
+Fit Forever
+
+    Spiel & Sport (16)
+    Tanzen (1)
+
+Kultur & Bildung
+
+    Musik (12)
+    Sprachen (29)
+    Kultur (9)
+
+Die lieben Kleinen
+
+    Babysitting (13)
+    Förderung & Nachhilfe (11)
+
+Tierisches
+
+    Hunde (7)
+    Katzen (13)
+    Andere (3)
+
+Mobiles
+
+    Fahrrad (10)
+    Auto (14)
+
+Soziales & Lebendiges
+
+    Rat & Hilfe (65)
+    Unternehmungen (11)
+    Mottenfreie Zone (4)
+
+Materielles
+
+    Flohmarkt (39)
+    Verleih (29)
+    für lau (1)
+
+Sonstiges

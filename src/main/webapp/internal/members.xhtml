@@ -1,0 +1,72 @@
+<!--
+================GNU General Public License================================
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+================in addition===============================================
+
+In addition, each military use, and the use for interest profit will be
+excluded.
+Environmental damage caused by the use must be kept as small as possible.
+
+-->
+<ui:composition template="../noMenuDecorator.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="contentWithoutMenu">
+        <p:panel header="Mitglieder">
+            <p:scrollPanel style="height: 800px;">
+                <p:dataTable id="memberTable" var="member" value="#{userSession.members}"
+                             styleClass="ui-corner-all">
+                    <p:column id="memberId" sortBy="#{member.id}">
+                        <f:facet name="header">
+                            <h:outputText value="ID"/>
+                        </f:facet>
+                        <img src="#{member.gravatarUrl}" alt="avatar #{member.displayName}"/>
+                        <h:outputText value="#{member.id}"/>
+                    </p:column>
+                    <p:column id="other" sortBy="#{member.displayName}">
+                        <f:facet name="header">
+                            <h:outputText value="mit"/>
+                        </f:facet>
+                        <h:outputText value="#{member.displayName}"/>
+                    </p:column>
+                    <p:column id="motten" sortBy="#{member.balance}">
+                        <f:facet name="header">
+                            <h:outputText value="Motten"/>
+                        </f:facet>
+                        <h:outputText value="#{member.balance}"/>
+                    </p:column>
+                    <p:column id="email" sortBy="#{member.visibleEmail}">
+                        <f:facet name="header">
+                            <h:outputText value="Email"/>
+                        </f:facet>
+                        <h:outputText value="#{member.visibleEmail}"/>
+                    </p:column>
+                    <p:column id="dummy" sortBy="#{member.visibleEmail}">
+                        <f:facet name="header">
+                            <h:outputText
+                                    value="Hier kommt ein sehr langer Text, damit ich horizontales scrolling sehen kann, mal schauen was kommt. Ich bin gespannt"/>
+                        </f:facet>
+                        <h:outputText
+                                value="Hier kommt ein sehr langer Text, damit ich horizontales scrolling sehen kann, mal schauen was kommt. Ich bin gespannt - ok es wurde ein Zeilenumbruch"/>
+                    </p:column>
+                </p:dataTable>
+            </p:scrollPanel>
+        </p:panel>
+    </ui:define>
+</ui:composition>

@@ -65,6 +65,12 @@ public class User {
     @XmlElement
     private String email;
 
+	@XmlElement
+	private boolean emailVisible = true;
+
+	@XmlElement
+	private boolean addressVisible = true;
+
     @XmlElement
     private List<String> e;
 
@@ -107,6 +113,10 @@ public class User {
         return email;
     }
 
+	public String getVisibleEmail() {
+		return emailVisible?getEmail():"";
+	}
+
     public long getBalance() {
         return balance;
     }
@@ -118,7 +128,15 @@ public class User {
         sortDepot();
     }
 
-    public static enum DepotItemType {
+	public static User dummy(int i) {
+		User user = new User();
+		user.id =i;
+		user.email = "email" + i + "@sonstwas.de";
+		user.password = "blllllllllllllllllllllllllll";
+		return user;
+	}
+
+	public static enum DepotItemType {
         out("ausgegeben"), in("eingenommen");
         private String string;
 

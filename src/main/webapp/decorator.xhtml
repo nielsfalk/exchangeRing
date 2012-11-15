@@ -35,6 +35,14 @@ Environmental damage caused by the use must be kept as small as possible.
     <meta http-equiv="pragma" content="no-cache"/>
     <meta http-equiv="expires" content="0"/>
     <h:outputStylesheet name="style/style.css"/>
+    <script>
+        if (window.location.protocol != "https:") {
+        if (window.location.href.indexOf("http://localhost") == -1){
+        window.location.protocol = "https:";
+        window.location.reload();
+        }
+        }
+    </script>
 </h:head>
 <h:body>
     <div class="header">

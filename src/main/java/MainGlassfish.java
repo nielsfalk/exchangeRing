@@ -16,12 +16,12 @@ public class MainGlassfish {
     public static void main(String[] args) throws Exception {
         InitTestData.init();
         InitTestData.getTransactions();
-		List<User> users = InitTestData.getUsers();
-		for (int i=1000;i<2000;i++) {
-			users.add(User.dummy(i));
+        List<User> users = InitTestData.getUsers();
+        for (int i = 1000; i < 2000; i++) {
+            users.add(User.dummy(i));
 
-		}
-		String webappDirLocation = "src/main/webapp/";
+        }
+        String webappDirLocation = "src/main/webapp/";
 
         // The port that we should run on can be set into an environment
         // variable
@@ -47,7 +47,8 @@ public class MainGlassfish {
 
         CommandRunner runner = glassfish.getCommandRunner();
 
-        //String dbUrl = System.getenv("DATABASE_URL");
+        String dbUrl = System.getenv("DATABASE_URL");
+        System.out.println("Database url:!!!!!!!!!!" + dbUrl);
         //
         //System.out.println("-------db url: " + dbUrl);
         //Matcher matcher = Pattern.compile("postgres://(.*):(.*)@(.*)/(.*)").matcher(dbUrl);

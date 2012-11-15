@@ -1,9 +1,11 @@
 package de.hh.changeRing;
 
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseEvent;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -40,6 +42,8 @@ public class Context {
     private HttpServletRequest request;
     private FacesContext context;
     private ExternalContext externalContext;
+    private UIViewRoot viewRoot;
+    private HttpSession session;
 
     public Context(FacesContext context) {
         this.context = context;
@@ -47,6 +51,10 @@ public class Context {
 
     public Context(PhaseEvent phaseEvent) {
         this(phaseEvent.getFacesContext());
+    }
+
+    public Context() {
+        this(FacesContext.getCurrentInstance());
     }
 
     void secureInternalArea() {
@@ -132,5 +140,26 @@ public class Context {
 
     public void logUrl() {
         LOGGER.info(getUrl());
+    }
+
+
+    private UIViewRoot getViewRoot() {
+        if (viewRoot == null) {
+            viewRoot = context.getViewRoot();
+        }
+        return viewRoot;
+    }
+
+    public void leaveInternalAreaView() {
+        if (getViewRoot().getViewId().startsWith(INTERNAL_PREFIXE)) {
+            getViewRoot().setViewId(Context.WELCOME_PAGE);
+        }
+    }
+
+    private HttpSession getSession() {
+        if (session == null) {
+            session = (HttpSession) getExternalContext().getSession(false);
+        }
+        return session;
     }
 }

@@ -129,4 +129,8 @@ public class Context {
         }
         return externalContext;
     }
+
+    public void logUrl() {
+        LOGGER.info(getUrl());
+    }
 }

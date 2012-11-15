@@ -92,4 +92,7 @@ public class ThemeSwitcher {
 		themes.put("vader", "vader");
 	}
 
+	public void save(){
+	}
+
 }

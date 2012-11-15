@@ -59,6 +59,7 @@ Environmental damage caused by the use must be kept as small as possible.
                 <p:themeSwitcher style="width:165px" id="defaultSwitcher" value="#{themeSwitcher.theme}">
                     <f:selectItem itemLabel="Choose Theme" itemValue=""/>
                     <f:selectItems value="#{themeSwitcher.themes}"/>
+                    <p:ajax listener="#{themeSwitcher.save}"/>
                 </p:themeSwitcher>
             </div>
             <div id="contentWithMenu">

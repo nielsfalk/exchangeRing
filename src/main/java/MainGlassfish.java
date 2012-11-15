@@ -1,10 +1,8 @@
 import de.hh.changeRing.InitTestData;
-import de.hh.changeRing.domain.User;
 import org.glassfish.embeddable.*;
 import org.glassfish.embeddable.archive.ScatteredArchive;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * copied from https://github.com/jsimone/embeddedGlassfishSample
@@ -16,11 +14,7 @@ public class MainGlassfish {
     public static void main(String[] args) throws Exception {
         InitTestData.init();
         InitTestData.getTransactions();
-        List<User> users = InitTestData.getUsers();
-        for (int i = 1000; i < 2000; i++) {
-            users.add(User.dummy(i));
 
-        }
         String webappDirLocation = "src/main/webapp/";
 
         // The port that we should run on can be set into an environment

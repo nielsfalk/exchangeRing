@@ -22,8 +22,6 @@ public class InitTestDataTest extends SupertTest {
 
     @Test
     public void loadUsers() {
-
-        assertThat(users.size(), is(3));
         User niels = users.get(0);
         assertThat(niels.getNickName(), is("niles"));
         assertThat(niels.getId(), is(577));
@@ -83,5 +81,10 @@ public class InitTestDataTest extends SupertTest {
         InitTestData.process(Transaction.create(niles, blau, 5l, null));
         assertThat(niles.getBalance() - nilesInitialBalance, is(-5l));
         assertThat(blau.getBalance() - blauInitialBalance, is(5l));
+    }
+
+    @Test
+    public void advertisements() {
+        assertThat(InitTestData.getAdvertisements().size(), is(1000));
     }
 }

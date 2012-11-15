@@ -29,6 +29,7 @@ public class Advertisement {
         offer, request
     }
 
+    private User owner;
     private AdvertisementType type;
     private Date validUntil;
     private String title;
@@ -36,4 +37,59 @@ public class Advertisement {
     private String location;
     private String Name;
 
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public AdvertisementType getType() {
+        return type;
+    }
+
+    public void setType(AdvertisementType type) {
+        this.type = type;
+    }
+
+    public Date getValidUntil() {
+        return validUntil;
+    }
+
+    public void setValidUntil(Date validUntil) {
+        this.validUntil = validUntil;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
 }

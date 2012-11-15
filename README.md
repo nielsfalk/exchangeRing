@@ -38,11 +38,16 @@ Features implemented
 - Heroku deployment with embedded Glassfisch [thanks to jsimone](https://github.com/jsimone/embeddedGlassfishSample)
 
 
-Feature agenda
+Agenda
 --------------
 - encrypted passwords (maybe some other encryption stuff)
 - JPA with database or mongoDB
+- statefull theme switcher
 - Full functionality of the old solution
+- transient logout page
+- ensure https
+- Maybe replace old software
+
 - Subscribable calendar
 - RSS feeds
 - Contact export and sync

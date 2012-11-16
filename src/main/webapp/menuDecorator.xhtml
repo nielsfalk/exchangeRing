@@ -52,6 +52,9 @@ Environmental damage caused by the use must be kept as small as possible.
                 <p:menuitem styleClass="#{userSession.activeMenu('internal/members')}" value="Mitglieder"
                             outcome="/internal/members.xhtml"
                             icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
+                <p:menuitem styleClass="#{userSession.activeMenu('internal/offers')}" value="Angebote"
+                            outcome="/internal/offers.xhtml"
+                            icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
 
             </p:menu>
             </div>

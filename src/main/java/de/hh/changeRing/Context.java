@@ -1,8 +1,12 @@
 package de.hh.changeRing;
 
+import javax.el.ELContext;
+import javax.el.ExpressionFactory;
+import javax.faces.application.Application;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.MethodExpressionActionListener;
 import javax.faces.event.PhaseEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -32,11 +36,11 @@ import java.util.logging.Logger;
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
  */
-public class Context {
+class Context {
     private static final Logger LOGGER = Logger.getLogger(Context.class.getName());
 
     static final String WELCOME_PAGE = "/dashboard.xhtml";
-    public static final String INTERNAL_PREFIXE = "/internal";
+    private static final String INTERNAL_PREFIXE = "/internal";
     private String url;
     private String requestURI;
     private HttpServletRequest request;
@@ -44,8 +48,11 @@ public class Context {
     private ExternalContext externalContext;
     private UIViewRoot viewRoot;
     private HttpSession session;
+    private ELContext elContext;
+    private ExpressionFactory expressionFactory;
+    private Application app;
 
-    public Context(FacesContext context) {
+    private Context(FacesContext context) {
         this.context = context;
     }
 
@@ -53,7 +60,7 @@ public class Context {
         this(phaseEvent.getFacesContext());
     }
 
-    public Context() {
+    Context() {
         this(FacesContext.getCurrentInstance());
     }
 
@@ -97,10 +104,10 @@ public class Context {
 
     private boolean notLoggedIn() {
         UserSession userSession = getSessionBean(UserSession.class);
-        return userSession == null || !userSession.isLoggedIn();
+        return userSession == null || userSession.isNotLoggedIn();
     }
 
-    public <T> T getSessionBean(Class<T> type) {
+    <T> T getSessionBean(Class<T> type) {
         String typeSimpleName = type.getSimpleName();
         String beanName = Character.toLowerCase(typeSimpleName.charAt(0)) + typeSimpleName.substring(1);
         return (T) getExternalContext().getSessionMap().get(beanName);
@@ -131,7 +138,7 @@ public class Context {
         return request;
     }
 
-    public ExternalContext getExternalContext() {
+    ExternalContext getExternalContext() {
         if (externalContext == null) {
             externalContext = context.getExternalContext();
         }
@@ -140,6 +147,37 @@ public class Context {
 
     public void logUrl() {
         LOGGER.info(getUrl());
+    }
+
+    public MethodExpressionActionListener createActionListener(String valueExpression,
+                                                               Class<?>... expectedParamTypes) {
+        return new MethodExpressionActionListener(
+                getExpressionFactory().createMethodExpression(
+                        getElContext(),
+                        valueExpression,
+                        Void.class,
+                        expectedParamTypes));
+    }
+
+    private ExpressionFactory getExpressionFactory() {
+        if (expressionFactory == null) {
+            expressionFactory = getApplication().getExpressionFactory();
+        }
+        return expressionFactory;
+    }
+
+    private Application getApplication() {
+        if (app == null) {
+            app = context.getApplication();
+        }
+        return app;
+    }
+
+    private ELContext getElContext() {
+        if (elContext == null) {
+            elContext = context.getELContext();
+        }
+        return elContext;
     }
 
 

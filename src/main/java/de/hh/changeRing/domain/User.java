@@ -18,22 +18,22 @@ import static de.hh.changeRing.domain.User.DepotItemType.out;
 
 /**
  * ----------------GNU General Public License--------------------------------
- *
+ * <p/>
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p/>
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p/>
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * <p/>
  * ----------------in addition-----------------------------------------------
- *
+ * <p/>
  * In addition, each military use, and the use for interest profit will be
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
@@ -65,11 +65,11 @@ public class User {
     @XmlElement
     private String email;
 
-	@XmlElement
-	private boolean emailVisible = true;
+    @XmlElement
+    private boolean emailVisible = true;
 
-	@XmlElement
-	private boolean addressVisible = true;
+    @XmlElement
+    private boolean addressVisible = true;
 
     @XmlElement
     private List<String> e;
@@ -113,9 +113,9 @@ public class User {
         return email;
     }
 
-	public String getVisibleEmail() {
-		return emailVisible?getEmail():"";
-	}
+    public String getVisibleEmail() {
+        return emailVisible ? getEmail() : "";
+    }
 
     public long getBalance() {
         return balance;
@@ -128,15 +128,15 @@ public class User {
         sortDepot();
     }
 
-	public static User dummy(int i) {
-		User user = new User();
-		user.id =i;
-		user.email = "email" + i + "@sonstwas.de";
-		user.password = "blllllllllllllllllllllllllll";
-		return user;
-	}
+    public static User dummy(int i) {
+        User user = new User();
+        user.id = i;
+        user.email = "email" + i + "@sonstwas.de";
+        user.password = "blllllllllllllllllllllllllll";
+        return user;
+    }
 
-	public static enum DepotItemType {
+    public static enum DepotItemType {
         out("ausgegeben"), in("eingenommen");
         private String string;
 
@@ -265,7 +265,7 @@ public class User {
         return string == null || string.equals("");
     }
 
-    public String getName() {
+    String getName() {
 
         String result = "";
         if (firstNameVisible && !isEmpty(firstName)) {
@@ -278,4 +278,22 @@ public class User {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "nickName='" + nickName + '\'' +
+                ", id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", firstNameVisible=" + firstNameVisible +
+                ", lastName='" + lastName + '\'' +
+                ", lastNameVisible=" + lastNameVisible +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", emailVisible=" + emailVisible +
+                ", addressVisible=" + addressVisible +
+                ", e=" + e +
+                ", depotItems=" + depotItems +
+                ", balance=" + balance +
+                '}';
+    }
 }

@@ -1,4 +1,3 @@
-import de.hh.changeRing.InitTestData;
 import org.glassfish.embeddable.*;
 import org.glassfish.embeddable.archive.ScatteredArchive;
 
@@ -12,8 +11,7 @@ public class MainGlassfish {
 
 
     public static void main(String[] args) throws Exception {
-        InitTestData.init();
-        InitTestData.getTransactions();
+
 
         String webappDirLocation = "src/main/webapp/";
 

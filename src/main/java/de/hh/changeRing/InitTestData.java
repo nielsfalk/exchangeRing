@@ -2,7 +2,7 @@ package de.hh.changeRing;
 
 import com.google.common.collect.Ordering;
 import de.hh.changeRing.domain.Advertisement;
-import de.hh.changeRing.domain.Categorie;
+import de.hh.changeRing.domain.Category;
 import de.hh.changeRing.domain.Transaction;
 import de.hh.changeRing.domain.User;
 
@@ -42,7 +42,12 @@ public class InitTestData {
     private static InitialData data;
     private static List<Transaction> transactions;
     private static List<Advertisement> advertisements = new ArrayList<Advertisement>();
-    private static HashMap<Categorie, LinkedList<Advertisement>> sortedAds;
+    private static HashMap<Category, LinkedList<Advertisement>> sortedAds;
+
+    static {
+        InitTestData.init();
+        InitTestData.getTransactions();
+    }
 
     public static void init() {
         try {
@@ -72,35 +77,35 @@ public class InitTestData {
             advertisement.setLocation("egal");
             advertisement.setTitle("anzeige von " + user.getId());
             advertisement.setValidUntil(new Date(System.currentTimeMillis() + new Random().nextInt(1000 * 24 * 60 * 60 * 1000)));
-            advertisement.setLinkLocation(true);
-            advertisement.setCategorie(Categorie.values()[new Random().nextInt(Categorie.values().length - 1)]);
+            advertisement.setCategory(Category.values()[new Random().nextInt(Category.values().length - 1)]);
+            advertisement.setLinkLocation(user.getId() % 3 == 1);
             advertisements.add(advertisement);
         }
     }
 
-    public static Map<Categorie, LinkedList<Advertisement>> getSortedAds() {
+    public static Map<Category, LinkedList<Advertisement>> getSortedAds() {
         if (sortedAds == null) {
-            sortedAds = new HashMap<Categorie, LinkedList<Advertisement>>();
-            for (Categorie categorie : Categorie.values()) {
-                sortedAds.put(categorie, new LinkedList<Advertisement>());
+            sortedAds = new HashMap<Category, LinkedList<Advertisement>>();
+            for (Category category : Category.values()) {
+                sortedAds.put(category, new LinkedList<Advertisement>());
             }
             for (Advertisement advertisement : advertisements) {
                 boolean notExpired = advertisement.getValidUntil().getTime() > System.currentTimeMillis();
                 if (notExpired) {
-                    sortedAds.get(advertisement.getCategorie()).add(advertisement);
+                    sortedAds.get(advertisement.getCategory()).add(advertisement);
                 }
             }
             //sort
-            for (Categorie categorie : Categorie.values()) {
+            for (Category category : Category.values()) {
                 List<Advertisement> sorted = new Ordering<Advertisement>() {
                     @Override
                     public int compare(Advertisement advertisement, Advertisement advertisement1) {
                         return advertisement.getCreationDate().compareTo(advertisement1.getCreationDate());
                     }
-                }.sortedCopy(sortedAds.get(categorie));
+                }.sortedCopy(sortedAds.get(category));
                 LinkedList<Advertisement> linkedList = new LinkedList<Advertisement>();
                 linkedList.addAll(sorted);
-                sortedAds.put(categorie, linkedList);
+                sortedAds.put(category, linkedList);
             }
         }
         return sortedAds;
@@ -169,6 +174,15 @@ public class InitTestData {
         return advertisements;
     }
 
+    public static Advertisement findAd(Long id) {
+        for (Advertisement advertisement : advertisements) {
+            if (advertisement.getId() == id) {
+                return advertisement;
+            }
+        }
+        return null;
+    }
+
     @XmlRootElement(name = "exchangeRingInitial")
     @XmlAccessorType(XmlAccessType.PROPERTY)
     public static class InitialData {
@@ -180,11 +194,11 @@ public class InitTestData {
 
     }
 
-    public static String loremYpsum() {
+    private static String loremYpsum() {
         return loremYpsum(new Random().nextInt(4));
     }
 
-    public static String loremYpsum(int type) {
+    private static String loremYpsum(int type) {
         switch (type) {
             case 1:
                 return "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam";

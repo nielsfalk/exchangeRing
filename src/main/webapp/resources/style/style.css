@@ -32,27 +32,27 @@ Environmental damage caused by the use must be kept as small as possible.
 
 }
 
-.header div a{
-    text-decoration:none;
+.header div a {
+    text-decoration: none;
 }
 
-.header div a:hover{
-
+.header div a:hover {
     text-decoration: underline;
     background: #fafefb;
-    background: -webkit-linear-gradient(#e0e1e2,#fafefb);
+    background: -webkit-linear-gradient(#e0e1e2, #fafefb);
     background: -moz-linear-gradient(#e0e1e2, #fafefb);
     background: linear-gradient(#e0e1e2, #fafefb);
 }
 
-.headerLogo{
-    height:33px;
-    margin-top:3px
+.headerLogo {
+    height: 33px;
+    margin-top: 3px
 }
 
 .ui-widget {
-    font-size:0.8em
+    font-size: 0.8em
 }
+
 .activeMenuItem {
     border: 1px solid #8bd83b;
     background: #4eb305 url("#{resource['primefaces-le-frog:images/ui-bg_highlight-soft_50_4eb305_1x100.png']}") 50% 50% repeat-x;
@@ -60,11 +60,11 @@ Environmental damage caused by the use must be kept as small as possible.
     color: #ffffff;
 }
 
-.green{
+.green {
     color: #97BE0D
 }
 
-body{
+body {
     margin: 0;
     padding: 0
 }
@@ -75,49 +75,53 @@ body{
     width: 920px
 }
 
-.frame{
+.frame {
     margin-top: 20px;
 }
-.userStuff{
+
+.userStuff {
     float: right;
 }
 
-.loginForm{
+.loginForm {
     padding-top: 4px;
 }
 
-.loggedInHeader{
-    background-repeat:no-repeat;
+.loggedInHeader {
+    background-repeat: no-repeat;
     padding-left: 42px;
     padding-top: 4px;
     height: 36px
 }
 
-#headLine{
+#headLine {
     font-size: 26px;
     vertical-align: super;
     color: black;
 }
-body{
+
+body {
     font-family: tahoma, arial, sans-serif;
 }
-#mainMenu{
-    width:180px;
+
+#mainMenu {
+    width: 180px;
     float: left;
 }
 
-#contentWithMenu{
+#contentWithMenu {
     float: right;
     width: 711px;
 }
 
-.innerSet{
+.innerSet {
     background-color: white;
     color: black;
     padding: 5px;
     margin-bottom: 5px;
 }
-#transactionPanel{
+
+#transactionPanel {
     width: 440px;
 }
 

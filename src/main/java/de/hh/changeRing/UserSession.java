@@ -3,6 +3,7 @@ package de.hh.changeRing;
 import de.bripkens.gravatar.DefaultImage;
 import de.bripkens.gravatar.Gravatar;
 import de.bripkens.gravatar.Rating;
+import de.hh.changeRing.domain.Advertisement;
 import de.hh.changeRing.domain.User;
 
 import javax.faces.bean.ManagedBean;
@@ -39,6 +40,7 @@ public class UserSession {
     private String id, password;
     private User user;
     private ArrayList<User> otherUsers;
+    private Advertisement selectedAdvertisement;
 
     public String getGravatarUrl() {
         return new Gravatar().setSize(80).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
@@ -91,12 +93,8 @@ public class UserSession {
                 ? "ui-state-active" : "";
     }
 
-    public boolean isLoggedIn() {
-        return user != null;
-    }
-
     public boolean isNotLoggedIn() {
-        return !isLoggedIn();
+        return user == null;
     }
 
     public void setPassword(String password) {
@@ -107,7 +105,25 @@ public class UserSession {
         return user;
     }
 
-	public List<User> getMembers() {
-		return InitTestData.getUsers();
-	}
+    public List<User> getMembers() {
+        return InitTestData.getUsers();
+    }
+
+    public boolean getLoggedIn() {
+        return user != null;
+    }
+
+    public void setSelectedAdvertisement(Advertisement selectedAdvertisement) {
+        this.selectedAdvertisement = selectedAdvertisement;
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    public void selectOffer(Long id) {
+        System.out.println("yeah!!!!!!!!!!!!!!!!!!!!!" + id);
+        selectedAdvertisement = InitTestData.findAd(id);
+    }
+
+    public Advertisement getSelectedAdvertisement() {
+        return selectedAdvertisement;
+    }
 }

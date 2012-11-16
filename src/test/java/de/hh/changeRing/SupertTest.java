@@ -7,14 +7,14 @@ import org.junit.BeforeClass;
 import java.util.List;
 
 public class SupertTest {
-    static InitTestData initTestData;
+    private static InitTestData initTestData;
     static List<Transaction> transactions;
     static List<User> users;
 
     @BeforeClass
     public static void parse() {
-        initTestData = new InitTestData();
-        InitTestData.init();
+        //initTestData = new InitTestData();
+        //InitTestData.init();
         users = InitTestData.getUsers();
         transactions = InitTestData.getTransactions();
     }

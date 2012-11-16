@@ -25,18 +25,11 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="contentWithoutMenu">
-        <p:slideMenu style="width:180px">
-
-            <p:submenu label="Navigations" icon="ui-icon-extlink">
-                <p:submenu label="Prime Links">
-                    <p:menuitem value="Prime" url="http://www.prime.com.tr" />
-                    <p:menuitem value="PrimeFaces" url="http://www.primefaces.org" />
-                </p:submenu>
-                <p:menuitem value="Mobile" outcome="/mobile/index" />
-            </p:submenu>
-        </p:slideMenu>
+        <h:form>
+            <p:slideMenu style="width:180px;height: 500;" model="#{adNavigation.addNavigation}"/>
+            selected: #{userSession.selectedAdvertisement.content}
+        </h:form>
     </ui:define>
 </ui:composition>

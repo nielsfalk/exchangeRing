@@ -26,9 +26,11 @@ import java.util.Date;
  */
 public class Advertisement {
 
+    private static long idCounter = 0;
+    private Long id = idCounter++;
     private User owner;
     private AdvertisementType type;
-    private Categorie categorie;
+    private Category category;
     private Date validUntil;
 
     private String title;
@@ -42,16 +44,20 @@ public class Advertisement {
         return creationDate;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public static enum AdvertisementType {
-        offer, request;
+        offer, request
     }
 
-    public Categorie getCategorie() {
-        return categorie;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategorie(Categorie categorie) {
-        this.categorie = categorie;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public User getOwner() {

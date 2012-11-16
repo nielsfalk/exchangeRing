@@ -125,4 +125,12 @@ body {
     width: 440px;
 }
 
+.ui-slidemenu-wrapper {
+    height: 384px;
+}
+
+.ui-slidemenu-content {
+    height: 351px;
+}
+
 

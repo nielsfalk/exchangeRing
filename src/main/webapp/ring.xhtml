@@ -45,6 +45,21 @@ Environmental damage caused by the use must be kept as small as possible.
                 <h:outputText value="#{userSession.id}" id="display"/>
             </h:panelGrid>
 
+            <p:slideMenu style="width:180px">
+                <p:submenu label="Navigations" icon="ui-icon-extlink">
+                    <p:submenu label="Prime Links">
+                        <p:menuitem value="Prime" url="http://www.prime.com.tr"/>
+                        <p:menuitem value="PrimeFaces" actionListener="#{userSession.selectOffer(4)}"
+                                    update="toUpdate"/>
+                    </p:submenu>
+                </p:submenu>
+            </p:slideMenu>
+            <ui:fragment id="toUpdate">
+                #{userSession.selectedAdvertisement}
+                id:#{userSession.selectedAdvertisement.id}
+                #{userSession.selectedAdvertisement.title}
+
+            </ui:fragment>
         </h:form>
     </ui:define>
 </ui:composition>

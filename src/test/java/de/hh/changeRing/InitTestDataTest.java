@@ -85,6 +85,6 @@ public class InitTestDataTest extends SupertTest {
 
     @Test
     public void advertisements() {
-        assertThat(InitTestData.getAdvertisements().size(), is(1000));
+        assertThat(InitTestData.getAdvertisements().size() > 100, is(true));
     }
 }

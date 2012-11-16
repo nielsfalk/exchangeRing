@@ -25,17 +25,34 @@ import java.util.Date;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 public class Advertisement {
-    public static enum AdvertisementType {
-        offer, request
-    }
 
     private User owner;
     private AdvertisementType type;
+    private Categorie categorie;
     private Date validUntil;
+
     private String title;
     private String content;
     private String location;
-    private String Name;
+    private String name;
+    private boolean linkLocation;
+    private Date creationDate = new Date();
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public static enum AdvertisementType {
+        offer, request;
+    }
+
+    public Categorie getCategorie() {
+        return categorie;
+    }
+
+    public void setCategorie(Categorie categorie) {
+        this.categorie = categorie;
+    }
 
     public User getOwner() {
         return owner;
@@ -43,6 +60,9 @@ public class Advertisement {
 
     public void setOwner(User owner) {
         this.owner = owner;
+        if (name == null) {
+            name = owner.getDisplayName();
+        }
     }
 
     public AdvertisementType getType() {
@@ -86,10 +106,15 @@ public class Advertisement {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
+
+    public void setLinkLocation(boolean linkLocation) {
+        this.linkLocation = linkLocation;
+    }
+
 }

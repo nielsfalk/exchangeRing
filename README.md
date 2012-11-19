@@ -47,7 +47,6 @@ Agenda
 - transient logout page
 - ensure https
 - Maybe replace old software
-
 - Subscribable calendar
 - RSS feeds
 - Contact export and sync

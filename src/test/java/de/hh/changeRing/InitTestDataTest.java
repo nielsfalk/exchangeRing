@@ -24,7 +24,7 @@ public class InitTestDataTest extends SupertTest {
     public void loadUsers() {
         User niels = users.get(0);
         assertThat(niels.getNickName(), is("niles"));
-        assertThat(niels.getId(), is(577));
+        assertThat(niels.getId(), is(577L));
         assertThat(niels.getFirstName(), is("Niels"));
         assertThat(niels.isFirstNameVisible(), is(true));
         assertThat(niels.getLastName(), is("Falk"));
@@ -43,8 +43,8 @@ public class InitTestDataTest extends SupertTest {
     @Test
     public void transaction() throws ParseException {
         Transaction transaction = transactions.get(0);
-        assertThat(transaction.getFrom(), is(InitTestData.findUser(577)));
-        assertThat(transaction.getTo(), is(InitTestData.findUser(13)));
+        assertThat(transaction.getFrom(), is(InitTestData.findUser(577l)));
+        assertThat(transaction.getTo(), is(InitTestData.findUser(13l)));
         assertThat(transaction.getAmount(), is(1l));
         assertThat(transaction.getDate(), is(FORMAT.parse("2012.11.07")));
     }
@@ -53,9 +53,9 @@ public class InitTestDataTest extends SupertTest {
     @Test
     @Ignore
     public void accounts() {
-        User niles = InitTestData.findUser(577);
-        User blau = InitTestData.findUser(13);
-        User oswald = InitTestData.findUser(14);
+        User niles = InitTestData.findUser(577l);
+        User blau = InitTestData.findUser(13l);
+        User oswald = InitTestData.findUser(14l);
         assertThat(niles.getBalance(), is(-3l));
         assertThat(niles.getDepotItems().size(), is(2));
         User.DepotItem depotItem = niles.getDepotItems().get(0);
@@ -74,9 +74,9 @@ public class InitTestDataTest extends SupertTest {
 
     @Test
     public void transactions() {
-        User niles = InitTestData.findUser(577);
+        User niles = InitTestData.findUser(577l);
         long nilesInitialBalance = niles.getBalance();
-        User blau = InitTestData.findUser(13);
+        User blau = InitTestData.findUser(13l);
         long blauInitialBalance = blau.getBalance();
         InitTestData.process(Transaction.create(niles, blau, 5l, null));
         assertThat(niles.getBalance() - nilesInitialBalance, is(-5l));

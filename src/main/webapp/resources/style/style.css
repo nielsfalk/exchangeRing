@@ -53,13 +53,6 @@ Environmental damage caused by the use must be kept as small as possible.
     font-size: 0.8em
 }
 
-.activeMenuItem {
-    border: 1px solid #8bd83b;
-    background: #4eb305 url("#{resource['primefaces-le-frog:images/ui-bg_highlight-soft_50_4eb305_1x100.png']}") 50% 50% repeat-x;
-    font-weight: normal;
-    color: #ffffff;
-}
-
 .green {
     color: #97BE0D
 }
@@ -105,6 +98,10 @@ body {
 }
 
 #mainMenu {
+    width: 180px;
+    float: left;
+}
+#mainMenuContainer{
     width: 180px;
     float: left;
 }

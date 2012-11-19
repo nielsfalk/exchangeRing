@@ -21,27 +21,18 @@ excluded.
 Environmental damage caused by the use must be kept as small as possible.
 
 -->
-<ui:composition template="decorator.xhtml"
+<ui:composition template="../../menuDecorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:p="http://primefaces.org/ui">
-    <ui:define name="content">
-        <div class="container,frame">
-        <h:form>
-
-            <h:panelGrid columns="4" cellpadding="5">
-                <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
-
-                <p:inputText id="name" value="#{userSession.id}" />
-
-                <p:commandButton value="Submit" update="display"/>
-
-                <h:outputText value="#{userSession.id}" id="display" />
-            </h:panelGrid>
-
-        </h:form>
-        </div>
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="contentWithMenu">
+        <f:metadata>
+            <f:viewParam name="userId" value="#{user.selectedUserId}" />
+        </f:metadata>
+        user:
+        #{user.selectedUser.id} #{user.selectedUser.gravatarUrl30}
+        <img src="#{user.selectedUser.gravatarUrl250}" alt="avatar"/>
     </ui:define>
 </ui:composition>

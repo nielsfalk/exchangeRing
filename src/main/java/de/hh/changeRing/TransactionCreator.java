@@ -1,6 +1,6 @@
 package de.hh.changeRing;
 
-import java.util.List;
+import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -38,6 +38,7 @@ import de.hh.changeRing.domain.User;
 @ManagedBean
 @SessionScoped
 public class TransactionCreator {
+	public static final Logger LOGGER = Logger.getLogger(TransactionCreator.class.getName());
 
 	private User receiver;
 
@@ -49,7 +50,6 @@ public class TransactionCreator {
 	@ManagedProperty(value = "#{userSession}")
 	private UserSession session;
 
-	private List<User> users;
 
 	public User getReceiver() {
 		return receiver;
@@ -68,6 +68,7 @@ public class TransactionCreator {
 	}
 
 	public void submit() {
+		LOGGER.info(session.getUser().getId()+" created transaction");
 		Transaction.create(session.getUser(), receiver, amount, subject).wire();
 		receiver = null;
 		amount = null;

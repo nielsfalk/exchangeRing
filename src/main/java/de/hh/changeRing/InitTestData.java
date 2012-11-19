@@ -58,7 +58,7 @@ public class InitTestData {
             data = (InitialData) unmarshaller.unmarshal(is);
 
             List<User> users = InitTestData.getUsers();
-            for (int i = 1000; i < 2000; i++) {
+            for (Long i = 1000L; i < 2000; i++) {
                 users.add(User.dummy(i));
 
             }
@@ -72,12 +72,13 @@ public class InitTestData {
         for (User user : getUsers()) {
             Advertisement advertisement = new Advertisement();
             advertisement.setOwner(user);
-            advertisement.setType(Advertisement.AdvertisementType.values()[user.getId() % 2]);
+            advertisement.setType(Advertisement.AdvertisementType.values()[((int) (user.getId() % 2))]);
             advertisement.setContent(loremYpsum());
             advertisement.setLocation("egal");
             advertisement.setTitle("anzeige von " + user.getId());
-            advertisement.setValidUntil(new Date(System.currentTimeMillis() + new Random().nextInt(1000 * 24 * 60 * 60 * 1000)));
-            advertisement.setCategory(Category.values()[new Random().nextInt(Category.values().length - 1)]);
+            advertisement.setValidUntil(new Date(System.currentTimeMillis()
+					+ new Random().nextInt(1000 * 24 * 60)));
+            advertisement.setCategory(Category.values()[new Random().nextInt(Category.values().length)]);
             advertisement.setLinkLocation(user.getId() % 3 == 1);
             advertisements.add(advertisement);
         }
@@ -134,9 +135,9 @@ public class InitTestData {
         transaction.wire();
     }
 
-    public static User findUser(int id) {
+    public static User findUser(Long id) {
         for (User user : getUsers()) {
-            if (user.getId() == id) {
+            if (user.getId().equals(id)) {
                 return user;
             }
         }
@@ -176,7 +177,7 @@ public class InitTestData {
 
     public static Advertisement findAd(Long id) {
         for (Advertisement advertisement : advertisements) {
-            if (advertisement.getId() == id) {
+            if (advertisement.getId().equals(id)) {
                 return advertisement;
             }
         }

@@ -39,12 +39,12 @@ Environmental damage caused by the use must be kept as small as possible.
                                          effect="fade" var="p" style="width:160px" filter="true"
                                          filterMatchMode="startsWith">
                             <f:selectItem itemLabel="Select One" itemValue=""/>
-                            <f:selectItems value="#{userSession.otherUsers}" var="potentialReceiver"
+                            <f:selectItems value="#{user.otherUsers}" var="potentialReceiver"
                                            itemLabel="#{potentialReceiver.id}"
                                            itemValue="#{potentialReceiver}"/>
 
                             <p:column>
-                                <img src="#{p.gravatarUrl}" alt="avatar #{p.displayName}"/>
+                                <img src="#{p.gravatarUrl30}" alt="avatar #{p.displayName}"/>
                             </p:column>
 
                             <p:column>
@@ -79,7 +79,7 @@ Environmental damage caused by the use must be kept as small as possible.
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
-                        <img src="#{depotItem.other.gravatarUrl}" alt="avatar #{depotItem.other.displayName}"/>
+                        <img src="#{depotItem.other.gravatarUrl30}" alt="avatar #{depotItem.other.displayName}"/>
                     </p:column>
                     <p:column id="other" sortBy="#{depotItem.other.displayName}">
                         <f:facet name="header">

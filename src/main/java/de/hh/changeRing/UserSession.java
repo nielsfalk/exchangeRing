@@ -1,16 +1,12 @@
 package de.hh.changeRing;
 
-import de.bripkens.gravatar.DefaultImage;
-import de.bripkens.gravatar.Gravatar;
-import de.bripkens.gravatar.Rating;
 import de.hh.changeRing.domain.Advertisement;
 import de.hh.changeRing.domain.User;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -37,54 +33,24 @@ import java.util.List;
 @ManagedBean
 @SessionScoped
 public class UserSession {
-    private String id, password;
+	private static final Logger LOGGER = Logger.getLogger(UserSession.class.getName());
+
+	private String id, password;
     private User user;
-    private ArrayList<User> otherUsers;
     private Advertisement selectedAdvertisement;
 
-    public String getGravatarUrl() {
-        return new Gravatar().setSize(80).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
-                .setStandardDefaultImage(DefaultImage.MONSTER).getUrl("niles@elbtrial.com");
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
     public void login() {
-        System.out.println(id);
         User user = InitTestData.findUser(id);
         if (user != null && user.getPassword().equals(password)) {
             this.user = user;
-            otherUsers = null;
         }
+		LOGGER.info(isLoggedIn() ? id + " logged in" : "tried to login " + id);
     }
 
-
-    public List<User> getOtherUsers() {
-        if (otherUsers == null) {
-            otherUsers = new ArrayList<User>();
-            otherUsers.addAll(InitTestData.getUsers());
-            otherUsers.remove(user);
-        }
-        return otherUsers;
-    }
-
-    public List<User> getAllUsers() {
-        return InitTestData.getUsers();
-    }
 
     public void logout() {
+		LOGGER.info(isLoggedIn() ? "logged out " + user.getId() : "try to logout empty user");
         user = null;
-        otherUsers = null;
         // TODO new Context().leaveInternalAreaView();
     }
 
@@ -92,6 +58,11 @@ public class UserSession {
         return FacesContext.getCurrentInstance().getViewRoot().getViewId().substring(1).startsWith(viewIdPrefix)
                 ? "ui-state-active" : "";
     }
+
+	@SuppressWarnings("UnusedDeclaration")
+	public void selectOffer(Long id) {
+		selectedAdvertisement = InitTestData.findAd(id);
+	}
 
     public boolean isNotLoggedIn() {
         return user == null;
@@ -105,11 +76,9 @@ public class UserSession {
         return user;
     }
 
-    public List<User> getMembers() {
-        return InitTestData.getUsers();
-    }
 
-    public boolean getLoggedIn() {
+
+    public boolean isLoggedIn() {
         return user != null;
     }
 
@@ -117,13 +86,20 @@ public class UserSession {
         this.selectedAdvertisement = selectedAdvertisement;
     }
 
-    @SuppressWarnings("UnusedDeclaration")
-    public void selectOffer(Long id) {
-        System.out.println("yeah!!!!!!!!!!!!!!!!!!!!!" + id);
-        selectedAdvertisement = InitTestData.findAd(id);
-    }
-
     public Advertisement getSelectedAdvertisement() {
         return selectedAdvertisement;
     }
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
 }

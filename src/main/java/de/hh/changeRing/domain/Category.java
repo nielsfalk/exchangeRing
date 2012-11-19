@@ -63,7 +63,9 @@ public enum Category {
     therapy(bodySoul, "Therapien"),
     massage(bodySoul, "Massagen"),
     health(bodySoul, "Gesundheit"),
-    beauty(bodySoul, "Schönheit & Kosmetik");
+    beauty(bodySoul, "Schönheit & Kosmetik"),
+
+	misc("Sonstiges");
 
     private String name;
     private Category parent;

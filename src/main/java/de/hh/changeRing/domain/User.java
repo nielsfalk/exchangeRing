@@ -45,7 +45,7 @@ public class User {
     private String nickName;
 
     @XmlElement
-    private int id;
+    private Long id;
 
     @XmlElement
     private String firstName;
@@ -90,7 +90,7 @@ public class User {
         return firstNameVisible;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -128,7 +128,7 @@ public class User {
         sortDepot();
     }
 
-    public static User dummy(int i) {
+    public static User dummy(Long i) {
         User user = new User();
         user.id = i;
         user.email = "email" + i + "@sonstwas.de";
@@ -247,15 +247,20 @@ public class User {
         }.sortedCopy(depotItems);
     }
 
-    public String getGravatarUrl() {
+    public String getGravatarUrl30() {
         return new Gravatar().setSize(30).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
                 .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
     }
 
-    public String getGravatarHeaderUrl() {
+    public String getGravatarHeaderUrl49() {
         return new Gravatar().setSize(49).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
                 .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
     }
+
+	public String getGravatarUrl250() {
+		return new Gravatar().setSize(250).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
+				.setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
+	}
 
     public String getDisplayName() {
         return isEmpty(nickName) ? getName() : nickName;

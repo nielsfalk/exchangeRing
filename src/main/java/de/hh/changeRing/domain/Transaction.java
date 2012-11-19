@@ -36,10 +36,10 @@ public class Transaction {
     @XmlElement
     private Date date;
     @XmlElement
-    private int fromId;
+    private Long fromId;
     private User from;
     @XmlElement
-    private int toId;
+    private Long toId;
     private User to;
     @XmlElement
     private long amount;

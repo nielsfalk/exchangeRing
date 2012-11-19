@@ -30,14 +30,16 @@ Environmental damage caused by the use must be kept as small as possible.
     <ui:define name="contentWithoutMenu">
         <p:panel header="Mitglieder">
             <p:scrollPanel style="height: 800px;">
-                <p:dataTable id="memberTable" var="member" value="#{userSession.members}"
+                <p:dataTable id="memberTable" var="member" value="#{user.members}"
                              styleClass="ui-corner-all">
                     <p:column id="memberId" sortBy="#{member.id}">
                         <f:facet name="header">
                             <h:outputText value="ID"/>
                         </f:facet>
-                        <img src="#{member.gravatarUrl}" alt="avatar #{member.displayName}"/>
+                        <a href="/internal/members/user.xhtml?userId=#{member.id}">
+                        <img src="#{member.gravatarUrl30}" alt="avatar #{member.displayName}"/>
                         <h:outputText value="#{member.id}"/>
+                        </a>
                     </p:column>
                     <p:column id="other" sortBy="#{member.displayName}">
                         <f:facet name="header">

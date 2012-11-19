@@ -43,9 +43,11 @@ Environmental damage caused by the use must be kept as small as possible.
                     </p:column>
                     <p:column id="other" sortBy="#{member.displayName}">
                         <f:facet name="header">
-                            <h:outputText value="mit"/>
+                            <h:outputText value="Name"/>
                         </f:facet>
-                        <h:outputText value="#{member.displayName}"/>
+                        <a href="/internal/members/user.xhtml?userId=#{member.id}">
+                            <h:outputText value="#{member.displayName}"/>
+                        </a>
                     </p:column>
                     <p:column id="motten" sortBy="#{member.balance}">
                         <f:facet name="header">
@@ -57,7 +59,9 @@ Environmental damage caused by the use must be kept as small as possible.
                         <f:facet name="header">
                             <h:outputText value="Email"/>
                         </f:facet>
-                        <h:outputText value="#{member.visibleEmail}"/>
+                        <a href="mailto:#{member.visibleEmail}">
+                            <h:outputText value="#{member.visibleEmail}"/>
+                        </a>
                     </p:column>
                     <p:column id="dummy" sortBy="#{member.visibleEmail}">
                         <f:facet name="header">

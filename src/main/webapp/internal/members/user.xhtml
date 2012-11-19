@@ -29,10 +29,88 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:f="http://java.sun.com/jsf/core">
     <ui:define name="contentWithMenu">
         <f:metadata>
-            <f:viewParam name="userId" value="#{user.selectedUserId}" />
+            <f:viewParam name="userId" value="#{user.selectedUserId}"/>
         </f:metadata>
-        user:
-        #{user.selectedUser.id} #{user.selectedUser.gravatarUrl30}
-        <img src="#{user.selectedUser.gravatarUrl250}" alt="avatar"/>
+        <p:panel header="#{user.selectedUser.displayName}">
+            <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+                <h:outputText value="Avatar:"/>
+                <h:panelGroup>
+                    <img src="#{user.selectedUser.gravatarUrl250}" alt="avatar"/>
+                </h:panelGroup>
+
+                <h:outputText value="ID:"/>
+                <h:outputText value="#{user.selectedUser.id}"/>
+
+                <h:outputText value="Nickname:"/>
+                <h:outputText value="#{user.selectedUser.nickName}"/>
+
+                <h:outputText value="Vorname:"/>
+                <h:outputText value="#{user.selectedUser.visibleFirstName}"/>
+
+                <h:outputText value="Nachname:"/>
+                <h:outputText value="#{user.selectedUser.visibleLastName}"/>
+
+                <h:outputText value="Email:"/>
+                <h:panelGroup>
+                    <a href="mailto:#{user.selectedUser.visibleEmail}">
+                        <h:outputText value="#{user.selectedUser.visibleEmail}"/>
+                    </a>
+                </h:panelGroup>
+
+                <h:outputText value="Kontostand:"/>
+                <h:outputText value="#{user.selectedUser.balance}"/>
+
+                <h:outputText value="limit:"/>
+                <h:outputText value="#{user.selectedUser.limit}"/>
+
+                <h:outputText value="Ausstehende Gebühr:"/>
+                <h:outputText value="#{user.selectedUser.missingFee} €"/>
+
+                <h:outputText value="Gebühr:"/>
+                <h:outputText value="#{user.selectedUser.fee} €"/>
+
+                <h:outputText value="Adresse:"/>
+                <h:outputText value="#{user.selectedUser.visibleAddress}"/>
+
+                <h:outputText value="Stadttail:"/>
+                <h:outputText value="#{user.selectedUser.district}"/>
+
+                <h:outputText value="Mobil:"/>
+                <h:outputText value="#{user.selectedUser.phoneMobile}"/>
+
+                <h:outputText value="Telefon:"/>
+                <h:outputText value="#{user.selectedUser.phone}"/>
+
+                <h:outputText value="Homepage:"/>
+                <h:panelGroup>
+                    <a href="#{user.selectedUser.url}">
+                        <h:outputText value="#{user.selectedUser.url}"/>
+                    </a>
+                    <h:outputText value="#{user.selectedUser.urlDescription}"/>
+                </h:panelGroup>
+
+                <h:outputText value="Telefon:"/>
+                <h:outputText value="#{user.selectedUser.phone}"/>
+
+                <h:outputText value="Geburtstag:"/>
+                <h:outputText value="#{user.selectedUser.formattedBirthDay}"/>
+
+                <h:outputText value="Profil:"/>
+                <h:outputText value="#{user.selectedUser.wordsOfWisdom}"/>
+
+                <h:outputText value="Erreichbarkeit:"/>
+                <h:outputText value="#{user.selectedUser.accessibility}"/>
+
+                <h:outputText value="Status:"/>
+                <h:outputText value="#{user.selectedUser.status}"/>
+
+                <h:outputText value="Aktivierungsdatum:"/>
+                <h:outputText value="#{user.selectedUser.formattedActivated}"/>
+
+                <h:outputText value="Deaktivierungsdatum:"/>
+                <h:outputText value="#{user.selectedUser.formattedDeActivated}"/>
+            </h:panelGrid>
+        </p:panel>
+
     </ui:define>
 </ui:composition>

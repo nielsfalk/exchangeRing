@@ -9,12 +9,16 @@ import de.bripkens.gravatar.Rating;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static de.hh.changeRing.domain.User.DepotItemType.in;
 import static de.hh.changeRing.domain.User.DepotItemType.out;
+import static de.hh.changeRing.domain.User.Status.active;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -41,7 +45,8 @@ import static de.hh.changeRing.domain.User.DepotItemType.out;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class User {
-    @XmlElement
+	public static final String GERMAN_DATE = "dd.MM.yyyy";
+	@XmlElement
     private String nickName;
 
     @XmlElement
@@ -65,14 +70,53 @@ public class User {
     @XmlElement
     private String email;
 
-    @XmlElement
     private boolean emailVisible = true;
 
-    @XmlElement
     private boolean addressVisible = true;
 
     @XmlElement
     private List<String> e;
+
+	private String street;
+
+	private String houseNumber;
+
+	private int plz;
+
+	private int city;
+
+	private String district;
+
+	private String phone;
+
+	private String phoneMobile;
+
+	private String url;
+
+	private String urlDescription;
+
+
+	private long limit =0;
+
+	private BigDecimal missingFee;
+
+	private Date birthDay;
+
+	private BigDecimal fee = new BigDecimal("6.00");
+
+	private String wordsOfWisdom;
+
+	private String accessibility;
+
+	private Status status = active;
+
+	private Date activated;
+
+	private Date deActivated;
+
+
+
+
 
     private List<DepotItem> depotItems = new ArrayList<DepotItem>();
 
@@ -116,6 +160,18 @@ public class User {
     public String getVisibleEmail() {
         return emailVisible ? getEmail() : "";
     }
+
+	public String getVisibleFirstName(){
+		return firstNameVisible ? getFirstName() : "";
+	}
+
+	public String getVisibleLastName() {
+		return lastNameVisible ? getLastName() : "";
+	}
+
+	public String getVisibleAddress() {
+		return addressVisible ? String.format("%s %s\n%s %s", street, houseNumber, plz, city) : "";
+	}
 
     public long getBalance() {
         return balance;
@@ -283,6 +339,18 @@ public class User {
         return result;
     }
 
+	public static enum Status{
+		active("aktiv"),
+		inActive("inactive"),
+		disabled("gesperrt");
+
+		private String translation;
+
+		Status(String translation) {
+			this.translation = translation;
+		}
+	}
+
     @Override
     public String toString() {
         return "User{" +
@@ -301,4 +369,176 @@ public class User {
                 ", balance=" + balance +
                 '}';
     }
+
+	@XmlElement
+	public boolean isEmailVisible() {
+		return emailVisible;
+	}
+
+	public void setEmailVisible(boolean emailVisible) {
+		this.emailVisible = emailVisible;
+	}
+
+	@XmlElement
+	public boolean isAddressVisible() {
+		return addressVisible;
+	}
+
+	public void setAddressVisible(boolean addressVisible) {
+		this.addressVisible = addressVisible;
+	}
+
+	@XmlElement
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	@XmlElement
+	public String getHouseNumber() {
+		return houseNumber;
+	}
+
+	public void setHouseNumber(String houseNumber) {
+		this.houseNumber = houseNumber;
+	}
+
+	@XmlElement
+	public int getPlz() {
+		return plz;
+	}
+
+	public void setPlz(int plz) {
+		this.plz = plz;
+	}
+
+	@XmlElement
+	public int getCity() {
+		return city;
+	}
+
+	public void setCity(int city) {
+		this.city = city;
+	}
+
+	@XmlElement
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	@XmlElement
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	@XmlElement
+	public String getPhoneMobile() {
+		return phoneMobile;
+	}
+
+	public void setPhoneMobile(String phoneMobile) {
+		this.phoneMobile = phoneMobile;
+	}
+
+	@XmlElement
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	@XmlElement
+	public String getUrlDescription() {
+		return urlDescription;
+	}
+
+	public void setUrlDescription(String urlDescription) {
+		this.urlDescription = urlDescription;
+	}
+
+	@XmlElement
+	public Date getBirthDay() {
+		return birthDay;
+	}
+
+	public String getFormattedBirthDay() {
+		return formatGermanDate(birthDay);
+	}
+
+	public void setBirthDay(Date birthDay) {
+		this.birthDay = birthDay;
+	}
+
+	@XmlElement
+	public String getWordsOfWisdom() {
+		return wordsOfWisdom;
+	}
+
+	public void setWordsOfWisdom(String wordsOfWisdom) {
+		this.wordsOfWisdom = wordsOfWisdom;
+	}
+
+	@XmlElement
+	public String getAccessibility() {
+		return accessibility;
+	}
+
+	public void setAccessibility(String accessibility) {
+		this.accessibility = accessibility;
+	}
+
+	@XmlElement
+	public BigDecimal getMissingFee() {
+		return missingFee;
+	}
+
+	@XmlElement
+	public BigDecimal getFee() {
+		return fee;
+	}
+
+	@XmlElement
+	public Status getStatus() {
+		return status;
+	}
+
+	@XmlElement
+	public Date getActivated() {
+		return activated;
+	}
+
+	@XmlElement
+	public Date getDeActivated() {
+		return deActivated;
+	}
+
+	public String getFormattedActivated() {
+		return formatGermanDate(activated);
+	}
+
+	private String formatGermanDate(Date date) {
+		return date== null?"":new SimpleDateFormat(GERMAN_DATE).format(date);
+	}
+
+	public String getFormattedDeActivated() {
+		return formatGermanDate(deActivated);
+	}
+
+	@XmlElement
+	public long getLimit() {
+		return limit;
+	}
 }

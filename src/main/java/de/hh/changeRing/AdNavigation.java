@@ -86,7 +86,7 @@ public class AdNavigation {
                     "#{userSession.selectOffer(" + advertisement.getId() + ")}",
                     ActionEvent.class, Long.class));
             item.setValue(advertisement.getTitle());
-            item.setUpdate("");
+            item.setUpdate("toUpdate");
             sub.getChildren().add(item);
         }
     }

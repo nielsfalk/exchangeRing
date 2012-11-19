@@ -101,7 +101,8 @@ body {
     width: 180px;
     float: left;
 }
-#mainMenuContainer{
+
+.menuContainer {
     width: 180px;
     float: left;
 }

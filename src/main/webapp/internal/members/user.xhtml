@@ -86,7 +86,10 @@ Environmental damage caused by the use must be kept as small as possible.
                     <a href="#{user.selectedUser.url}">
                         <h:outputText value="#{user.selectedUser.url}"/>
                     </a>
-                    <h:outputText value="#{user.selectedUser.urlDescription}"/>
+
+                    <p>
+                        <h:outputText value="#{user.selectedUser.urlDescription}"/>
+                    </p>
                 </h:panelGroup>
 
                 <h:outputText value="Telefon:"/>
@@ -102,7 +105,7 @@ Environmental damage caused by the use must be kept as small as possible.
                 <h:outputText value="#{user.selectedUser.accessibility}"/>
 
                 <h:outputText value="Status:"/>
-                <h:outputText value="#{user.selectedUser.status}"/>
+                <h:outputText value="#{user.selectedUser.status.translation}"/>
 
                 <h:outputText value="Aktivierungsdatum:"/>
                 <h:outputText value="#{user.selectedUser.formattedActivated}"/>

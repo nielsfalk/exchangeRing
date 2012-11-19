@@ -9,7 +9,6 @@ import de.bripkens.gravatar.Rating;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,8 +44,8 @@ import static de.hh.changeRing.domain.User.Status.active;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class User {
-	public static final String GERMAN_DATE = "dd.MM.yyyy";
-	@XmlElement
+    public static final String GERMAN_DATE = "dd.MM.yyyy";
+    @XmlElement
     private String nickName;
 
     @XmlElement
@@ -77,46 +76,41 @@ public class User {
     @XmlElement
     private List<String> e;
 
-	private String street;
+    private String street = "";
 
-	private String houseNumber;
+    private String houseNumber = "";
 
-	private int plz;
+    private int plz;
 
-	private int city;
+    private String city = "";
 
-	private String district;
+    private String district;
 
-	private String phone;
+    private String phone;
 
-	private String phoneMobile;
+    private String phoneMobile;
 
-	private String url;
+    private String url;
 
-	private String urlDescription;
+    private String urlDescription;
 
+    private long limit = 0;
 
-	private long limit =0;
+    private BigDecimal missingFee = new BigDecimal("0.00");
 
-	private BigDecimal missingFee;
+    private Date birthDay;
 
-	private Date birthDay;
+    private BigDecimal fee = new BigDecimal("6.00");
 
-	private BigDecimal fee = new BigDecimal("6.00");
+    private String wordsOfWisdom;
 
-	private String wordsOfWisdom;
+    private String accessibility;
 
-	private String accessibility;
+    private Status status = active;
 
-	private Status status = active;
+    private Date activated;
 
-	private Date activated;
-
-	private Date deActivated;
-
-
-
-
+    private Date deActivated;
 
     private List<DepotItem> depotItems = new ArrayList<DepotItem>();
 
@@ -161,17 +155,17 @@ public class User {
         return emailVisible ? getEmail() : "";
     }
 
-	public String getVisibleFirstName(){
-		return firstNameVisible ? getFirstName() : "";
-	}
+    public String getVisibleFirstName() {
+        return firstNameVisible ? getFirstName() : "";
+    }
 
-	public String getVisibleLastName() {
-		return lastNameVisible ? getLastName() : "";
-	}
+    public String getVisibleLastName() {
+        return lastNameVisible ? getLastName() : "";
+    }
 
-	public String getVisibleAddress() {
-		return addressVisible ? String.format("%s %s\n%s %s", street, houseNumber, plz, city) : "";
-	}
+    public String getVisibleAddress() {
+        return addressVisible ? String.format("%s %s\n%s %s", street, houseNumber, plz, city) : "";
+    }
 
     public long getBalance() {
         return balance;
@@ -313,10 +307,10 @@ public class User {
                 .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
     }
 
-	public String getGravatarUrl250() {
-		return new Gravatar().setSize(250).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
-				.setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
-	}
+    public String getGravatarUrl250() {
+        return new Gravatar().setSize(250).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
+                .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
+    }
 
     public String getDisplayName() {
         return isEmpty(nickName) ? getName() : nickName;
@@ -339,17 +333,21 @@ public class User {
         return result;
     }
 
-	public static enum Status{
-		active("aktiv"),
-		inActive("inactive"),
-		disabled("gesperrt");
+    public static enum Status {
+        active("aktiv"),
+        inActive("inactive"),
+        disabled("gesperrt");
 
-		private String translation;
+        private String translation;
 
-		Status(String translation) {
-			this.translation = translation;
-		}
-	}
+        Status(String translation) {
+            this.translation = translation;
+        }
+
+        public String getTranslation() {
+            return translation;
+        }
+    }
 
     @Override
     public String toString() {
@@ -370,175 +368,191 @@ public class User {
                 '}';
     }
 
-	@XmlElement
-	public boolean isEmailVisible() {
-		return emailVisible;
-	}
+    @XmlElement
+    public boolean isEmailVisible() {
+        return emailVisible;
+    }
 
-	public void setEmailVisible(boolean emailVisible) {
-		this.emailVisible = emailVisible;
-	}
+    public void setEmailVisible(boolean emailVisible) {
+        this.emailVisible = emailVisible;
+    }
 
-	@XmlElement
-	public boolean isAddressVisible() {
-		return addressVisible;
-	}
+    @XmlElement
+    public boolean isAddressVisible() {
+        return addressVisible;
+    }
 
-	public void setAddressVisible(boolean addressVisible) {
-		this.addressVisible = addressVisible;
-	}
+    public void setAddressVisible(boolean addressVisible) {
+        this.addressVisible = addressVisible;
+    }
 
-	@XmlElement
-	public String getStreet() {
-		return street;
-	}
+    @XmlElement
+    public String getStreet() {
+        return street;
+    }
 
-	public void setStreet(String street) {
-		this.street = street;
-	}
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
-	@XmlElement
-	public String getHouseNumber() {
-		return houseNumber;
-	}
+    @XmlElement
+    public String getHouseNumber() {
+        return houseNumber;
+    }
 
-	public void setHouseNumber(String houseNumber) {
-		this.houseNumber = houseNumber;
-	}
+    public void setHouseNumber(String houseNumber) {
+        this.houseNumber = houseNumber;
+    }
 
-	@XmlElement
-	public int getPlz() {
-		return plz;
-	}
+    @XmlElement
+    public int getPlz() {
+        return plz;
+    }
 
-	public void setPlz(int plz) {
-		this.plz = plz;
-	}
+    public void setPlz(int plz) {
+        this.plz = plz;
+    }
 
-	@XmlElement
-	public int getCity() {
-		return city;
-	}
+    @XmlElement
+    public String getCity() {
+        return city;
+    }
 
-	public void setCity(int city) {
-		this.city = city;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	@XmlElement
-	public String getDistrict() {
-		return district;
-	}
+    @XmlElement
+    public String getDistrict() {
+        return district;
+    }
 
-	public void setDistrict(String district) {
-		this.district = district;
-	}
+    public void setDistrict(String district) {
+        this.district = district;
+    }
 
-	@XmlElement
-	public String getPhone() {
-		return phone;
-	}
+    @XmlElement
+    public String getPhone() {
+        return phone;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	@XmlElement
-	public String getPhoneMobile() {
-		return phoneMobile;
-	}
+    @XmlElement
+    public String getPhoneMobile() {
+        return phoneMobile;
+    }
 
-	public void setPhoneMobile(String phoneMobile) {
-		this.phoneMobile = phoneMobile;
-	}
+    public void setPhoneMobile(String phoneMobile) {
+        this.phoneMobile = phoneMobile;
+    }
 
-	@XmlElement
-	public String getUrl() {
-		return url;
-	}
+    @XmlElement
+    public String getUrl() {
+        return url;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	@XmlElement
-	public String getUrlDescription() {
-		return urlDescription;
-	}
+    @XmlElement
+    public String getUrlDescription() {
+        return urlDescription;
+    }
 
-	public void setUrlDescription(String urlDescription) {
-		this.urlDescription = urlDescription;
-	}
+    public void setUrlDescription(String urlDescription) {
+        this.urlDescription = urlDescription;
+    }
 
-	@XmlElement
-	public Date getBirthDay() {
-		return birthDay;
-	}
+    @XmlElement
+    public Date getBirthDay() {
+        return birthDay;
+    }
 
-	public String getFormattedBirthDay() {
-		return formatGermanDate(birthDay);
-	}
+    public String getFormattedBirthDay() {
+        return formatGermanDate(birthDay);
+    }
 
-	public void setBirthDay(Date birthDay) {
-		this.birthDay = birthDay;
-	}
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
+    }
 
-	@XmlElement
-	public String getWordsOfWisdom() {
-		return wordsOfWisdom;
-	}
+    @XmlElement
+    public String getWordsOfWisdom() {
+        return wordsOfWisdom;
+    }
 
-	public void setWordsOfWisdom(String wordsOfWisdom) {
-		this.wordsOfWisdom = wordsOfWisdom;
-	}
+    public void setWordsOfWisdom(String wordsOfWisdom) {
+        this.wordsOfWisdom = wordsOfWisdom;
+    }
 
-	@XmlElement
-	public String getAccessibility() {
-		return accessibility;
-	}
+    @XmlElement
+    public String getAccessibility() {
+        return accessibility;
+    }
 
-	public void setAccessibility(String accessibility) {
-		this.accessibility = accessibility;
-	}
+    public void setAccessibility(String accessibility) {
+        this.accessibility = accessibility;
+    }
 
-	@XmlElement
-	public BigDecimal getMissingFee() {
-		return missingFee;
-	}
+    @XmlElement
+    public BigDecimal getMissingFee() {
+        return missingFee;
+    }
 
-	@XmlElement
-	public BigDecimal getFee() {
-		return fee;
-	}
+    @XmlElement
+    public BigDecimal getFee() {
+        return fee;
+    }
 
-	@XmlElement
-	public Status getStatus() {
-		return status;
-	}
+    @XmlElement
+    public Status getStatus() {
+        return status;
+    }
 
-	@XmlElement
-	public Date getActivated() {
-		return activated;
-	}
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
-	@XmlElement
-	public Date getDeActivated() {
-		return deActivated;
-	}
+    public void setActivated(Date activated) {
+        this.activated = activated;
+    }
 
-	public String getFormattedActivated() {
-		return formatGermanDate(activated);
-	}
+    public void setDeActivated(Date deActivated) {
+        this.deActivated = deActivated;
+    }
 
-	private String formatGermanDate(Date date) {
-		return date== null?"":new SimpleDateFormat(GERMAN_DATE).format(date);
-	}
+    public void setLimit(long limit) {
+        this.limit = limit;
+    }
 
-	public String getFormattedDeActivated() {
-		return formatGermanDate(deActivated);
-	}
+    @XmlElement
+    public Date getActivated() {
+        return activated;
+    }
 
-	@XmlElement
-	public long getLimit() {
-		return limit;
-	}
+    @XmlElement
+    public Date getDeActivated() {
+        return deActivated;
+    }
+
+    public String getFormattedActivated() {
+        return formatGermanDate(activated);
+    }
+
+    private String formatGermanDate(Date date) {
+        return date == null ? "" : new SimpleDateFormat(GERMAN_DATE).format(date);
+    }
+
+    public String getFormattedDeActivated() {
+        return formatGermanDate(deActivated);
+    }
+
+    @XmlElement
+    public long getLimit() {
+        return limit;
+    }
 }

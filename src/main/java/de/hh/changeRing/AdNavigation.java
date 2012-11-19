@@ -1,21 +1,19 @@
 package de.hh.changeRing;
 
-import static de.hh.changeRing.domain.Advertisement.AdvertisementType.offer;
-import static de.hh.changeRing.domain.Advertisement.AdvertisementType.request;
-
-import java.util.List;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.event.ActionEvent;
-
+import de.hh.changeRing.domain.Advertisement;
+import de.hh.changeRing.domain.Category;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.component.separator.Separator;
 import org.primefaces.component.submenu.Submenu;
 import org.primefaces.model.DefaultMenuModel;
 
-import de.hh.changeRing.domain.Advertisement;
-import de.hh.changeRing.domain.Category;
+import javax.enterprise.context.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+import javax.faces.event.ActionEvent;
+import java.util.List;
+
+import static de.hh.changeRing.domain.Advertisement.AdvertisementType.offer;
+import static de.hh.changeRing.domain.Advertisement.AdvertisementType.request;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -39,65 +37,65 @@ import de.hh.changeRing.domain.Category;
 @ApplicationScoped
 public class AdNavigation {
 
-	private DefaultMenuModel offerNavigation;
-	private DefaultMenuModel requestNavigation;
+    private DefaultMenuModel offerNavigation;
+    private DefaultMenuModel requestNavigation;
 
-	public DefaultMenuModel getOfferNavigation() {
-		if (offerNavigation == null) {
-			offerNavigation = createAdNavigation(offer);
-		}
-		return offerNavigation;
-	}
+    public DefaultMenuModel getOfferNavigation() {
+        if (offerNavigation == null) {
+            offerNavigation = createAdNavigation(offer);
+        }
+        return offerNavigation;
+    }
 
-	public DefaultMenuModel getRequestNavigation() {
-		if (requestNavigation == null) {
-			requestNavigation = createAdNavigation(request);
-		}
-		return requestNavigation;
-	}
+    public DefaultMenuModel getRequestNavigation() {
+        if (requestNavigation == null) {
+            requestNavigation = createAdNavigation(request);
+        }
+        return requestNavigation;
+    }
 
-	private DefaultMenuModel createAdNavigation(Advertisement.AdvertisementType type) {
-		DefaultMenuModel navigation = new DefaultMenuModel();
-		MenuItem back = new MenuItem();
-		back.setOutcome(Context.WELCOME_PAGE);
-		back.setValue("Zurück");
-		back.setIcon("ui-icon-home");
+    private DefaultMenuModel createAdNavigation(Advertisement.AdvertisementType type) {
+        DefaultMenuModel navigation = new DefaultMenuModel();
+        MenuItem back = new MenuItem();
+        back.setOutcome(Context.WELCOME_PAGE);
+        back.setValue("Zurück");
+        back.setIcon("ui-icon-home");
 
-		navigation.addMenuItem(back);
-		navigation.addSeparator(new Separator());
+        navigation.addMenuItem(back);
+        navigation.addSeparator(new Separator());
 
-		recusiveCreateCategory(Category.rootItems(), null, navigation, type);
-		return navigation;
-	}
+        recursiveCreateCategory(Category.rootItems(), null, navigation, type);
+        return navigation;
+    }
 
-	private void recusiveCreateCategory(List<Category> categories, Submenu parent, DefaultMenuModel rootNavigation, Advertisement.AdvertisementType offer) {
-		for (Category category : categories) {
-			Submenu sub = new Submenu();
-			sub.setLabel(category.getName());
-			if (parent == null) {
-				rootNavigation.addSubmenu(sub);
-			} else {
-				parent.getChildren().add(sub);
-			}
+    private void recursiveCreateCategory(List<Category> categories, Submenu parent, DefaultMenuModel rootNavigation, Advertisement.AdvertisementType offer) {
+        for (Category category : categories) {
+            Submenu sub = new Submenu();
+            sub.setLabel(category.getName());
+            if (parent == null) {
+                rootNavigation.addSubmenu(sub);
+            } else {
+                parent.getChildren().add(sub);
+            }
 
-			if (category.getChildren().isEmpty()) {
-				addItems(category, sub, offer);
-			} else {
-				recusiveCreateCategory(category.getChildren(), sub, rootNavigation, offer);
-			}
-		}
-	}
+            if (category.getChildren().isEmpty()) {
+                addItems(category, sub, offer);
+            } else {
+                recursiveCreateCategory(category.getChildren(), sub, rootNavigation, offer);
+            }
+        }
+    }
 
-	private void addItems(Category category, Submenu sub, Advertisement.AdvertisementType type) {
-		for (Advertisement advertisement : InitTestData.getSortedAds().get(category)) {
-			if (advertisement.getType().equals(type)) {
-				MenuItem item = new MenuItem();
-				item.addActionListener(new Context().createActionListener(
-					"#{userSession.selectOffer(" + advertisement.getId() + ")}", ActionEvent.class, Long.class));
-				item.setValue(advertisement.getTitle());
-				item.setUpdate("toUpdate");
-				sub.getChildren().add(item);
-			}
-		}
-	}
+    private void addItems(Category category, Submenu sub, Advertisement.AdvertisementType type) {
+        for (Advertisement advertisement : InitTestData.getSortedAds().get(category)) {
+            if (advertisement.getType().equals(type)) {
+                MenuItem item = new MenuItem();
+                item.addActionListener(new Context().createActionListener(
+                        "#{userSession.selectOffer(" + advertisement.getId() + ")}", ActionEvent.class, Long.class));
+                item.setValue(advertisement.getTitle());
+                item.setUpdate("toUpdate");
+                sub.getChildren().add(item);
+            }
+        }
+    }
 }

@@ -36,10 +36,13 @@ Features implemented
 - "Motten" currency logging witch user interface
 - Gravatar integration
 - Heroku deployment with embedded Glassfisch [thanks to jsimone](https://github.com/jsimone/embeddedGlassfishSample)
+- Categories assumed
+- User editing
 
 
 Agenda
 --------------
+- prevent resource caching
 - encrypted passwords (maybe some other encryption stuff)
 - JPA with database or mongoDB
 - statefull theme switcher

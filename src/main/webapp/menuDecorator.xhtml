@@ -35,24 +35,24 @@ Environmental damage caused by the use must be kept as small as possible.
                                 outcome="/dashboard.xhtml" icon="ui-icon-home"/>
 
                     <p:menuitem styleClass="#{userSession.activeMenu('ring')}" value="Tauschring" outcome="/ring.xhtml"
-                                icon="ui-icon-star"/>
+                                icon="ui-icon-refresh"/>
 
                     <p:menuitem styleClass="#{userSession.activeMenu('who')}" value="Wer sind wir" outcome="/who.xhtml"
-                                icon="ui-icon-star"/>
+                                icon="ui-icon-help"/>
 
                     <p:menuitem styleClass="#{userSession.activeMenu('news')}" value="Tauschringzeitung"
                                 outcome="/news.xhtml"
-                                icon="ui-icon-star"/>
+                                icon="ui-icon-document"/>
 
                     <p:menuitem styleClass="#{userSession.activeMenu('links')}" value="Links" outcome="/links.xhtml"
-                                icon="ui-icon-star"/>
+                                icon="ui-icon-link"/>
 
                     <p:menuitem styleClass="#{userSession.activeMenu('impressum')}" value="Kontakt &amp; Impressum"
                                 outcome="/impressum.xhtml"
-                                icon="ui-icon-star"/>
+                                icon="ui-icon-comment"/>
                     <p:menuitem styleClass="#{userSession.activeMenu('internal/members')}" value="Mitglieder"
                                 outcome="/internal/members.xhtml"
-                                icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
+                                icon="ui-icon-person" rendered="#{userSession.loggedIn}"/>
                     <p:menuitem styleClass="#{userSession.activeMenu('internal/offers')}" value="Angebote"
                                 outcome="/internal/offers.xhtml"
                                 icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>

@@ -40,7 +40,8 @@ class Context {
     private static final Logger LOGGER = Logger.getLogger(Context.class.getName());
 
     static final String WELCOME_PAGE = "/dashboard.xhtml";
-    private static final String INTERNAL_PREFIXE = "/internal";
+    private static final String INTERNAL_PREFIX = "/internal";
+    public static final String LOGOUT_PREFIX = "/logout";
     private String url;
     private String requestURI;
     private HttpServletRequest request;
@@ -114,7 +115,7 @@ class Context {
     }
 
     private boolean internalRequest() {
-        return getRequestedURI().startsWith(INTERNAL_PREFIXE);
+        return getRequestedURI().startsWith(INTERNAL_PREFIX);
     }
 
     private String getUrl() {
@@ -189,7 +190,7 @@ class Context {
     }
 
     public void leaveInternalAreaView() {
-        if (getViewRoot().getViewId().startsWith(INTERNAL_PREFIXE)) {
+        if (getViewRoot().getViewId().startsWith(INTERNAL_PREFIX)) {
             getViewRoot().setViewId(Context.WELCOME_PAGE);
         }
     }
@@ -199,5 +200,19 @@ class Context {
             session = (HttpSession) getExternalContext().getSession(false);
         }
         return session;
+    }
+
+    public void handleLogout() {
+        if (getRequestedURI().startsWith(LOGOUT_PREFIX)) {
+            transientSessionInvalidation();
+        }
+    }
+
+    private void transientSessionInvalidation() {
+        if (getSession() != null) {
+            LOGGER.info("transient logout " + getSession().getId());
+            getSession().invalidate();
+        }
+        getViewRoot().setTransient(true);
     }
 }

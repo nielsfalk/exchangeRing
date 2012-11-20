@@ -65,13 +65,46 @@ public enum Category {
     health(bodySoul, "Gesundheit"),
     beauty(bodySoul, "Schönheit & Kosmetik"),
 
+	fitForever("Fit Forever"),
+	sports(fitForever,"Spiel & Sport"),
+	dance(fitForever,"Tanzen"),
+
+	cultureEducation("Kultur & Bildung"),
+	music(cultureEducation,"Musik"),
+	language(cultureEducation,"Sprachen"),
+	culture(cultureEducation, "Kultur"),
+
+	smallOnes("Die lieben Kleinen"),
+	babysitting(smallOnes,"Babysitting"),
+	coaching(smallOnes,"Förderung & Nachhilfe"),
+
+	animal("Tierisches"),
+	dog(animal,"Hunde"),
+	cat(animal,"Katzen"),
+	animalMisc(animal,"Andere"),
+
+	mobile("Mobiles"),
+	bike(mobile,"Fahrrad"),
+	car(mobile,"Auto"),
+
+	sozial("Soziales & Lebendiges"),
+	help(sozial,"Rat & Hilfe"),
+	enterprise(sozial,"Unternehmungen"),
+	mottenFree(sozial,"Mottenfreie Zone"),
+
+	substantive("Materielles"),
+	fleaMarket(substantive,"Flohmarkt"),
+	rental(substantive,"Verleih"),
+	free(substantive,"für lau"),
+
 	misc("Sonstiges");
 
     private String name;
     private Category parent;
     private List<Category> children = new ArrayList<Category>();
+	private static ArrayList<Category> root;
 
-    Category(Category parent, String name) {
+	Category(Category parent, String name) {
         this(name);
         this.parent = parent;
         parent.children.add(this);
@@ -81,15 +114,14 @@ public enum Category {
         this.name = name;
     }
 
-
     public static List<Category> rootItems() {
-        List<Category> result = new ArrayList<Category>();
+      	root = new ArrayList<Category>();
         for (Category potentialRoot : values()) {
             if (potentialRoot.parent == null) {
-                result.add(potentialRoot);
+                root.add(potentialRoot);
             }
         }
-        return result;
+        return root;
     }
 
     public String getName() {

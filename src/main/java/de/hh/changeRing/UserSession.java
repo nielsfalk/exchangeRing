@@ -102,4 +102,6 @@ public class UserSession {
 		return password;
 	}
 
+	public void updateUser(){}
+
 }

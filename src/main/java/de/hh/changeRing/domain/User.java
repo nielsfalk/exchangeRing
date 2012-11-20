@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import static de.hh.changeRing.domain.User.DepotItemType.in;
 import static de.hh.changeRing.domain.User.DepotItemType.out;
@@ -40,12 +41,15 @@ import static de.hh.changeRing.domain.User.Status.active;
  * In addition, each military use, and the use for interest profit will be
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
+ *
+ *
+ *
+ *
  */
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class User {
     public static final String GERMAN_DATE = "dd.MM.yyyy";
-    @XmlElement
     private String nickName;
 
     @XmlElement
@@ -54,19 +58,16 @@ public class User {
     @XmlElement
     private String firstName;
 
-    @XmlElement
     private boolean firstNameVisible = true;
 
     @XmlElement
     private String lastName;
 
-    @XmlElement
     private boolean lastNameVisible = true;
 
     @XmlElement
     private String password;
 
-    @XmlElement
     private String email;
 
     private boolean emailVisible = true;
@@ -75,6 +76,12 @@ public class User {
 
     @XmlElement
     private List<String> e;
+
+	@XmlElement
+	private List<String> f;
+
+	@XmlElement
+	private List<String> s;
 
     private String street = "";
 
@@ -116,14 +123,24 @@ public class User {
 
     private long balance;
 
+	private String facebook;
+
+	private String skype;
+
+	@XmlElement
     public String getNickName() {
         return nickName;
     }
 
-    public String getFirstName() {
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public String getFirstName() {
         return firstName;
     }
 
+	@XmlElement
     public boolean isFirstNameVisible() {
         return firstNameVisible;
     }
@@ -136,22 +153,36 @@ public class User {
         return lastName;
     }
 
+	@XmlElement
     public boolean isLastNameVisible() {
         return lastNameVisible;
     }
 
-    public String getPassword() {
+	public void setFirstNameVisible(boolean firstNameVisible) {
+		this.firstNameVisible = firstNameVisible;
+	}
+
+	public void setLastNameVisible(boolean lastNameVisible) {
+		this.lastNameVisible = lastNameVisible;
+	}
+
+	public String getPassword() {
         return password;
     }
 
+	@XmlElement
     public String getEmail() {
-        if (email == null) {
+        if (email == null && e != null) {
             email = Joiner.on("").join(e);
         }
         return email;
     }
 
-    public String getVisibleEmail() {
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getVisibleEmail() {
         return emailVisible ? getEmail() : "";
     }
 
@@ -183,8 +214,43 @@ public class User {
         user.id = i;
         user.email = "email" + i + "@sonstwas.de";
         user.password = "blllllllllllllllllllllllllll";
+		user.nickName = randomName();
+		user.firstName = randomName();
+		user.lastName = randomName();
+		user.firstNameVisible = new Random().nextBoolean();
+		user.lastNameVisible = new Random().nextBoolean();
+		user.emailVisible = new Random().nextBoolean();
+		user.addressVisible = new Random().nextBoolean();
+		user.street = randomName();
+		user.houseNumber = ""+new Random().nextInt(1000);
+		user.plz = new Random().nextInt(99999);
+		user.city = randomName();
+		user.district = randomName();
+
         return user;
     }
+
+	private static String randomName() {
+		return DUMMYNAMES[new Random().nextInt(DUMMYNAMES.length)];
+	}
+
+	public static final String[] DUMMYNAMES = ("Lind-ald'o,Noez-ves-teuf,L'per-eg,Chpsst,Ouiooea,M-shy-llont,Ieoa," +
+			"Wor-unt'ee,Sllcnuooy,Eyieauoigdls,Uoeuae,Yoieyotlghld,Enth-em-i,Aouoeo," +
+			"Aeoaie,Stfmr,Iaee,Eieeoayrdtshph,Ough-lor'shol,Stsckc,K'er-meep," +
+			"Ryrtoeaiea,Uiaoaisllnnl,Yndllnd,Tsrmiay,Ouioie,Vndnnld,B-rod'eeg," +
+			"Ooieoie,Eayaeellcthd,Kmmseyaei,Weul'it'nann,Ayinghw,Y'ryn-phei,Aieaigbrtnn," +
+			"Oeououa,Oieeuilrghd,Ghsttnd,K-nys'yph,Rntghlt,Iaeuiaolmldk,Srntsteiai," +
+			"Aeaoeerrntthl,Aeaooirtpsn,Lwnnoeauoo,Fltrrsiaeiay,Uiaeoeermlr,Rdmbnua,Ieaieyui," +
+			"Ach-qua-cu,Nchnthaiui,Naent-aw'y,Rnnllpoeioi,C-shy-el,Eieoazrntll,Ieiauidslgh," +
+			"Aeuiauo,Yot-nys-woi,Oeayiai,Ghsdnoie,Uiayoeurchtph,Yayueldllrdg,Rtllndl," +
+			"Oouieo,Lshdgh,Ayaiey,Em'er-oi,Ououayauntsrdh,Oeeyucndls,S'hon-u," +
+			"Shrnw,Nltthk,Ooeyehcmch,Slshldyooe,Wlrrchaooi,Lstboau,Eyeaiuisnths,"+
+			"Um'ser'stuit,Ang-wor-i,Phlmsee,Nys-eld-oo,Kphbstiauie,Sttgeuiei,Auiaieouctshv," +
+			"Ooiaeytshprt,Frydou,Ntbkth,Tlddooey,Rvsz,Vpknn,Ver'em'thoeg,"+
+			"Oayaeei,Lndnnt,Aiyoie,Rssckqoaee,Eieaoua,Noos'ight'eesh,Aoeooltlk," +
+			"Kmphduiyey,Shsstld,Tnltbeaeui,Vthrchiaeui,Pdfl,Oaeailmqn,Lsghd," +
+			"Drtlq,Tnlheoue,Euie,Uouayoe,W'tin'iad,Eeioo,Eeyooe," +
+			"Oioaoednht,Fnmss,Chlndleeui,Uioeeaisbsf,Uiayaieynmqll,Cllnnieiey,Znthloeiay").split(",");
 
     public static enum DepotItemType {
         out("ausgegeben"), in("eingenommen");
@@ -316,18 +382,17 @@ public class User {
         return isEmpty(nickName) ? getName() : nickName;
     }
 
-    private boolean isEmpty(String string) {
-        return string == null || string.equals("");
+    public static boolean isEmpty(Object string) {
+        return string == null || "".equals(string);
     }
 
     String getName() {
-
         String result = "";
         if (firstNameVisible && !isEmpty(firstName)) {
             result += firstName;
         }
         if (lastNameVisible && !isEmpty(lastName)) {
-            result += isEmpty(result) ? lastName : (" - " + lastName);
+            result += isEmpty(result) ? lastName : (" " + lastName);
 
         }
         return result;
@@ -555,4 +620,42 @@ public class User {
     public long getLimit() {
         return limit;
     }
+
+	@Override
+	public int hashCode() {
+		return getId().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof User) {
+			User otherUser = (User) other;
+			return getId().equals(otherUser.getId());
+		}
+		return false;
+	}
+
+	@XmlElement
+	public String getFacebook() {
+		if (facebook == null && f != null) {
+			facebook = Joiner.on("").join(f);
+		}
+		return facebook;
+	}
+
+	public void setFacebook(String facebook) {
+		this.facebook = facebook;
+	}
+
+	@XmlElement
+	public String getSkype() {
+		if (skype == null && s != null) {
+			skype = Joiner.on("").join(s);
+		}
+		return skype;
+	}
+
+	public void setSkype(String skype) {
+		this.skype = skype;
+	}
 }

@@ -36,7 +36,7 @@ import java.util.logging.Logger;
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
  */
-class Context {
+public class Context {
     private static final Logger LOGGER = Logger.getLogger(Context.class.getName());
 
     static final String WELCOME_PAGE = "/dashboard.xhtml";
@@ -65,7 +65,7 @@ class Context {
         this(FacesContext.getCurrentInstance());
     }
 
-    void secureInternalArea() {
+    public void secureInternalArea() {
         if (internalRequest()) {
             if (notLoggedIn()) {
                 redirect(WELCOME_PAGE);

@@ -50,6 +50,9 @@ public class TransactionCreator {
 	@ManagedProperty(value = "#{userSession}")
 	private UserSession session;
 
+	@ManagedProperty(value = "#{user}")
+	private de.hh.changeRing.User userBean;
+
 
 	public User getReceiver() {
 		return receiver;
@@ -75,6 +78,11 @@ public class TransactionCreator {
 		subject = null;
 	}
 
+	public void submitFromUserView() {
+		receiver = userBean.getSelectedUser();
+		submit();
+	}
+
 	public void setSession(UserSession session) {
 		this.session = session;
 	}
@@ -85,6 +93,10 @@ public class TransactionCreator {
 
 	public void setSubject(String subject) {
 		this.subject = subject;
+	}
+
+	public void setUserBean(de.hh.changeRing.User userBean) {
+		this.userBean = userBean;
 	}
 
 	@FacesConverter("userConverter")

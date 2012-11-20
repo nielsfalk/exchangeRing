@@ -30,32 +30,73 @@ Environmental damage caused by the use must be kept as small as possible.
     <ui:define name="contentWithMenu">
         <f:metadata>
             <f:viewParam name="userId" value="#{user.selectedUserId}"/>
+            <f:viewParam name="me" value="#{user.selectedMe}"/>
         </f:metadata>
         <p:panel header="#{user.selectedUser.displayName}">
+            <h:form>
             <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
                 <h:outputText value="Avatar:"/>
                 <h:panelGroup>
                     <img src="#{user.selectedUser.gravatarUrl250}" alt="avatar"/>
+                    <ui:fragment rendered="#{user.me}">
+                       <p>Der Avatar lässt sich auch <a href="http://de.gravatar.com/">gravatar.com</a> ändern.</p>
+                    </ui:fragment>
                 </h:panelGroup>
 
                 <h:outputText value="ID:"/>
                 <h:outputText value="#{user.selectedUser.id}"/>
 
-                <h:outputText value="Nickname:"/>
-                <h:outputText value="#{user.selectedUser.nickName}"/>
+                <h:outputText value="Nickname:" rendered="#{user.meOrFilled(user.selectedUser.nickName)}"/>
+                <h:outputText value="#{user.selectedUser.nickName}"
+                              rendered="#{user.otherAndFilled(user.selectedUser.nickName)}"/>
+                <p:inputText value="#{user.selectedUser.nickName}" rendered="#{user.me}"/>
 
-                <h:outputText value="Vorname:"/>
-                <h:outputText value="#{user.selectedUser.visibleFirstName}"/>
+                <h:outputText value="#{user.me?'Vorname, sichtbar':'Vorname'}:"
+                              rendered="#{user.meOrFilled(user.selectedUser.visibleFirstName)}"/>
+                <h:panelGroup rendered="#{user.meOrFilled(user.selectedUser.visibleFirstName)}">
+                    <h:outputText value="#{user.selectedUser.visibleFirstName}"/>
+                    <p:selectBooleanCheckbox value="#{user.selectedUser.firstNameVisible}" rendered="#{user.me}"/>
+                </h:panelGroup>
 
-                <h:outputText value="Nachname:"/>
-                <h:outputText value="#{user.selectedUser.visibleLastName}"/>
+                <h:outputText value="#{user.me?'Nachname, sichtbar':'Nachname'}:"
+                              rendered="#{user.meOrFilled(user.selectedUser.visibleLastName)}"/>
+                <h:panelGroup rendered="#{user.meOrFilled(user.selectedUser.visibleLastName)}">
+                    <h:outputText value="#{user.selectedUser.visibleLastName}"/>
+                    <p:selectBooleanCheckbox value="#{user.selectedUser.lastNameVisible}" rendered="#{user.me}"/>
+                </h:panelGroup>
 
-                <h:outputText value="Email:"/>
-                <h:panelGroup>
+                <h:outputText value="Überweisung:" rendered="#{user.other}"/>
+                <h:outputText value="TODO Überweisungslink" rendered="#{user.other}"/>
+
+                <h:outputText value="#{user.me?'Email, sichtbar':'Email'}:"
+                              rendered="#{user.meOrFilled(user.selectedUser.visibleEmail)}"/>
+                <h:panelGroup rendered="#{user.otherAndFilled(user.selectedUser.visibleEmail)}">
                     <a href="mailto:#{user.selectedUser.visibleEmail}">
                         <h:outputText value="#{user.selectedUser.visibleEmail}"/>
                     </a>
                 </h:panelGroup>
+                <h:panelGroup rendered="#{user.me}">
+                    <p:inputText value="#{user.selectedUser.email}" rendered="#{user.me}"/>
+                    <p:selectBooleanCheckbox value="#{user.selectedUser.emailVisible}" label="sichtbar"/>
+                </h:panelGroup>
+
+                <h:outputText value="facebook" rendered="#{user.meOrFilled(user.selectedUser.facebook)}"/>
+                <h:panelGroup rendered="#{user.otherAndFilled(user.selectedUser.facebook)}">
+                    <a href="http://www.facebook.com/#{user.selectedUser.facebook}">#{user.selectedUser.facebook}</a>
+                </h:panelGroup>
+                <p:inputText value="#{user.selectedUser.facebook}" rendered="#{user.me}"/>
+
+                <h:outputText value="skype" rendered="#{user.meOrFilled(user.selectedUser.skype)}"/>
+                <h:panelGroup rendered="#{user.otherAndFilled(user.selectedUser.skype)}">
+                    <script type="text/javascript" src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js">
+                    </script>
+                    <a href="skype:#{user.selectedUser.skype}?add">
+                        <img src="http://mystatus.skype.com/balloon/#{user.selectedUser.skype}"
+                            style="border: none;" width="150"
+                            height="60" alt="My status"/>
+                    </a>
+                </h:panelGroup>
+                <p:inputText value="#{user.selectedUser.skype}" rendered="#{user.me}"/>
 
                 <h:outputText value="Kontostand:"/>
                 <h:outputText value="#{user.selectedUser.balance}"/>
@@ -69,20 +110,49 @@ Environmental damage caused by the use must be kept as small as possible.
                 <h:outputText value="Gebühr:"/>
                 <h:outputText value="#{user.selectedUser.fee} €"/>
 
-                <h:outputText value="Adresse:"/>
-                <h:outputText value="#{user.selectedUser.visibleAddress}"/>
+                <h:outputText value="Adresse:" rendered="#{user.other and user.selectedUser.addressVisible}"/>
+                <h:panelGroup rendered="#{user.other and user.selectedUser.addressVisible}">
+                    <p>
+                        <h:outputText value="#{user.selectedUser.street}"/>
+                        <h:outputText value="#{user.selectedUser.houseNumber}"/>
+                    </p>
+                    <p>
+                        <h:outputText value="#{user.selectedUser.plz}"/>
+                        <h:outputText value="#{user.selectedUser.city}"/>
+                    </p>
+                </h:panelGroup>
 
-                <h:outputText value="Stadttail:"/>
-                <h:outputText value="#{user.selectedUser.district}"/>
+                <h:outputText value="Adresse sichbar:" rendered="#{user.me}"/>
+                <p:selectBooleanCheckbox value="#{user.selectedUser.addressVisible}" rendered="#{user.me}"/>
 
-                <h:outputText value="Mobil:"/>
-                <h:outputText value="#{user.selectedUser.phoneMobile}"/>
+                <h:outputText value="Straße, Hausnummer:" rendered="#{user.me}"/>
+                <h:panelGroup rendered="#{user.me}">
+                    <p:inputText value="#{user.selectedUser.street}"/>
+                    <p:inputText value="#{user.selectedUser.houseNumber}" size="4"/>
+                </h:panelGroup>
 
-                <h:outputText value="Telefon:"/>
-                <h:outputText value="#{user.selectedUser.phone}"/>
+                <h:outputText value="Plz, Stadt:" rendered="#{user.me}"/>
+                <h:panelGroup rendered="#{user.me}">
+                    <p:inputText value="#{user.selectedUser.plz}"  size="4"/>
+                    <p:inputText value="#{user.selectedUser.city}"/>
+                </h:panelGroup>
 
-                <h:outputText value="Homepage:"/>
-                <h:panelGroup>
+                <h:outputText value="Stadtteil:" rendered="#{user.meOrFilled(user.selectedUser.district)}"/>
+                <h:outputText value="#{user.selectedUser.district}" rendered="#{user.otherAndFilled(user.selectedUser.district)}"/>
+                <p:inputText value="#{user.selectedUser.district}" rendered="#{user.me}"/>
+
+                <h:outputText value="Mobil:" rendered="#{user.meOrFilled(user.selectedUser.phoneMobile)}"/>
+                <h:outputText value="#{user.selectedUser.phoneMobile}"
+                              rendered="#{user.otherAndFilled(user.selectedUser.phoneMobile)}"/>
+                <p:inputText value="#{user.selectedUser.phoneMobile}" rendered="#{user.me}"/>
+
+                <h:outputText value="Telefon:" rendered="#{user.meOrFilled(user.selectedUser.phone)}"/>
+                <h:outputText value="#{user.selectedUser.phone}"
+                              rendered="#{user.otherAndFilled(user.selectedUser.phone)}"/>
+                <p:inputText value="#{user.selectedUser.phone}" rendered="#{user.me}"/>
+
+                <h:outputText value="Homepage:" rendered="#{user.meOrFilled(user.selectedUser.url)}"/>
+                <h:panelGroup rendered="#{user.otherAndFilled(user.selectedUser.url)}">
                     <a href="#{user.selectedUser.url}">
                         <h:outputText value="#{user.selectedUser.url}"/>
                     </a>
@@ -91,18 +161,26 @@ Environmental damage caused by the use must be kept as small as possible.
                         <h:outputText value="#{user.selectedUser.urlDescription}"/>
                     </p>
                 </h:panelGroup>
+                <p:inputText value="#{user.selectedUser.url}" rendered="#{user.me}"/>
 
-                <h:outputText value="Telefon:"/>
-                <h:outputText value="#{user.selectedUser.phone}"/>
+                <h:outputText value="Homepage Beschreibung:" rendered="#{user.me}"/>
+                <p:inputText value="#{user.selectedUser.urlDescription}" rendered="#{user.me}"/>
 
-                <h:outputText value="Geburtstag:"/>
-                <h:outputText value="#{user.selectedUser.formattedBirthDay}"/>
+                <h:outputText value="Geburtstag:" rendered="#{user.meOrFilled(user.selectedUser.birthDay)}"/>
+                <h:outputText value="#{user.selectedUser.formattedBirthDay}"
+                              rendered="#{user.otherAndFilled(user.selectedUser.birthDay)}"/>
+                <p:calendar locale="de" navigator="true" value="#{user.selectedUser.birthDay}" rendered=
+                        "#{user.me}"/>
 
-                <h:outputText value="Profil:"/>
-                <h:outputText value="#{user.selectedUser.wordsOfWisdom}"/>
+                <h:outputText value="Profil:" rendered="#{user.meOrFilled(user.selectedUser.wordsOfWisdom)}"/>
+                <h:outputText value="#{user.selectedUser.wordsOfWisdom}"
+                              rendered="#{user.otherAndFilled(user.selectedUser.wordsOfWisdom)}"/>
+                <p:inputText value="#{user.selectedUser.wordsOfWisdom}" rendered="#{user.me}"/>
 
-                <h:outputText value="Erreichbarkeit:"/>
-                <h:outputText value="#{user.selectedUser.accessibility}"/>
+                <h:outputText value="Erreichbarkeit:" rendered="#{user.meOrFilled(user.selectedUser.accessibility)}"/>
+                <h:outputText value="#{user.selectedUser.accessibility}"
+                              rendered="#{user.otherAndFilled(user.selectedUser.accessibility)}"/>
+                <p:inputText value="#{user.selectedUser.accessibility}" rendered="#{user.me}"/>
 
                 <h:outputText value="Status:"/>
                 <h:outputText value="#{user.selectedUser.status.translation}"/>
@@ -110,9 +188,14 @@ Environmental damage caused by the use must be kept as small as possible.
                 <h:outputText value="Aktivierungsdatum:"/>
                 <h:outputText value="#{user.selectedUser.formattedActivated}"/>
 
-                <h:outputText value="Deaktivierungsdatum:"/>
-                <h:outputText value="#{user.selectedUser.formattedDeActivated}"/>
+                <h:outputText value="Deaktivierungsdatum:" rendered="#{not empty user.selectedUser.formattedDeActivated}"/>
+                <h:outputText value="#{user.selectedUser.formattedDeActivated}" rendered="#{not empty user.selectedUser.formattedDeActivated}"/>
+
+
+                <p:commandButton value="Speichern" ajax="false" actionListener="#{userSession.updateUser}"
+                                 rendered="#{user.me}"/>
             </h:panelGrid>
+            </h:form>
         </p:panel>
 
     </ui:define>

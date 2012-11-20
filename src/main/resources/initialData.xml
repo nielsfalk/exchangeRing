@@ -11,6 +11,8 @@
         <e>tria</e>
         <e>l.</e>
         <e>com</e>
+		<s>nil</s><s>es</s><s>19</s><s>81</s>
+		<f>ni</f><f>le</f><f>s</f><f>8</f><f>1</f>
     </user>
     <user>
         <id>13</id>
@@ -60,6 +62,8 @@
 		<status>disabled</status>
 		<activated>1979-02-02</activated>
 		<deActivated>2012-02-02</deActivated>
+		<facebook>hansMeiser</facebook>
+		<skype>skypeName</skype>
 	</user>
     <transaction>
         <fromId>577</fromId>

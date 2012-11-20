@@ -25,8 +25,8 @@ import javax.faces.application.ResourceHandler;
  * use must be kept as small as possible.
  */
 public class RingResourceHandler extends javax.faces.application.ResourceHandlerWrapper {
-	public static final String REVISION = "" + new Random().nextInt();
-	private ResourceHandler wrapped;
+	private static final String REVISION = "" + new Random().nextInt();
+	private final ResourceHandler wrapped;
 
 	public RingResourceHandler(ResourceHandler wrapped) {
 		this.wrapped = wrapped;
@@ -39,13 +39,13 @@ public class RingResourceHandler extends javax.faces.application.ResourceHandler
 
 	@Override
 	public Resource createResource(String resourceName, String libraryName) {
-		return new CustomResource(super.createResource(resourceName, libraryName));
+		return new RingResource(super.createResource(resourceName, libraryName));
 	}
 
-	public static class CustomResource extends javax.faces.application.ResourceWrapper {
-		private Resource resource;
+	public static class RingResource extends javax.faces.application.ResourceWrapper {
+		private final Resource resource;
 
-		public CustomResource(Resource resource) {
+		public RingResource(Resource resource) {
 			this.resource = resource;
 		}
 

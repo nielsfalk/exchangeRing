@@ -38,16 +38,19 @@ Features implemented
 - Heroku deployment with embedded Glassfisch [thanks to jsimone](https://github.com/jsimone/embeddedGlassfishSample)
 - Categories assumed
 - User editing
+- prevent resource caching
+- transaction links
+- transient logout page
 
 
 Agenda
 --------------
-- prevent resource caching
+- Überweisungs templates
+- Überweisungs Dauerauftrag
 - encrypted passwords (maybe some other encryption stuff)
 - JPA with database or mongoDB
 - statefull theme switcher
 - Full functionality of the old solution
-- transient logout page
 - ensure https
 - Maybe replace old software
 - Subscribable calendar

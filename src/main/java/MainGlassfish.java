@@ -40,7 +40,7 @@ public class MainGlassfish {
         CommandRunner runner = glassfish.getCommandRunner();
 
         String dbUrl = System.getenv("DATABASE_URL");
-        System.out.println("Database url:!!!!!!!!!!" + dbUrl);
+        //System.out.println("Database url:!!!!!!!!!!" + dbUrl);
         //
         //System.out.println("-------db url: " + dbUrl);
         //Matcher matcher = Pattern.compile("postgres://(.*):(.*)@(.*)/(.*)").matcher(dbUrl);

@@ -57,7 +57,7 @@ public class RingResourceHandler extends javax.faces.application.ResourceHandler
 		@Override
 		public String getRequestPath() {
 			String requestPath = resource.getRequestPath();
-			return requestPath + (requestPath.contains("?") ? "&rv=" : "?rv=") + REVISION;
+			return requestPath + (requestPath.contains("?") ? "&rev=" : "?rev=") + REVISION;
 		}
 
 		@Override

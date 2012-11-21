@@ -1,5 +1,7 @@
 package de.hh.changeRing;
 
+import de.hh.changeRing.model.UserSession;
+
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.faces.application.Application;
@@ -39,7 +41,7 @@ import java.util.logging.Logger;
 public class Context {
     private static final Logger LOGGER = Logger.getLogger(Context.class.getName());
 
-    static final String WELCOME_PAGE = "/dashboard.xhtml";
+    public static final String WELCOME_PAGE = "/dashboard.xhtml";
     private static final String INTERNAL_PREFIX = "/internal";
     public static final String LOGOUT_PREFIX = "/logout";
     private String url;
@@ -61,7 +63,7 @@ public class Context {
         this(phaseEvent.getFacesContext());
     }
 
-    Context() {
+    public Context() {
         this(FacesContext.getCurrentInstance());
     }
 
@@ -118,34 +120,6 @@ public class Context {
         return getRequestedURI().startsWith(INTERNAL_PREFIX);
     }
 
-    private String getUrl() {
-        if (url == null) {
-            url = getRequest().getRequestURL().toString();
-        }
-        return url;
-    }
-
-    private String getRequestedURI() {
-        if (requestURI == null) {
-            requestURI = getRequest().getRequestURI();
-        }
-        return requestURI;
-    }
-
-    private HttpServletRequest getRequest() {
-        if (request == null) {
-            request = (HttpServletRequest) getExternalContext().getRequest();
-        }
-        return request;
-    }
-
-    ExternalContext getExternalContext() {
-        if (externalContext == null) {
-            externalContext = context.getExternalContext();
-        }
-        return externalContext;
-    }
-
     public void logUrl() {
         LOGGER.info(getUrl());
     }
@@ -158,6 +132,26 @@ public class Context {
                         valueExpression,
                         Void.class,
                         expectedParamTypes));
+    }
+
+    public void leaveInternalAreaView() {
+        if (getViewRoot().getViewId().startsWith(INTERNAL_PREFIX)) {
+            getViewRoot().setViewId(Context.WELCOME_PAGE);
+        }
+    }
+
+    public void handleLogout() {
+        if (getRequestedURI().startsWith(LOGOUT_PREFIX)) {
+            transientSessionInvalidation();
+        }
+    }
+
+    private void transientSessionInvalidation() {
+        if (getSession() != null) {
+            LOGGER.info("transient logout " + getSession().getId());
+            getSession().invalidate();
+        }
+        getViewRoot().setTransient(true);
     }
 
     private ExpressionFactory getExpressionFactory() {
@@ -189,12 +183,6 @@ public class Context {
         return viewRoot;
     }
 
-    public void leaveInternalAreaView() {
-        if (getViewRoot().getViewId().startsWith(INTERNAL_PREFIX)) {
-            getViewRoot().setViewId(Context.WELCOME_PAGE);
-        }
-    }
-
     private HttpSession getSession() {
         if (session == null) {
             session = (HttpSession) getExternalContext().getSession(false);
@@ -202,17 +190,31 @@ public class Context {
         return session;
     }
 
-    public void handleLogout() {
-        if (getRequestedURI().startsWith(LOGOUT_PREFIX)) {
-            transientSessionInvalidation();
+    private String getUrl() {
+        if (url == null) {
+            url = getRequest().getRequestURL().toString();
         }
+        return url;
     }
 
-    private void transientSessionInvalidation() {
-        if (getSession() != null) {
-            LOGGER.info("transient logout " + getSession().getId());
-            getSession().invalidate();
+    private String getRequestedURI() {
+        if (requestURI == null) {
+            requestURI = getRequest().getRequestURI();
         }
-        getViewRoot().setTransient(true);
+        return requestURI;
+    }
+
+    private HttpServletRequest getRequest() {
+        if (request == null) {
+            request = (HttpServletRequest) getExternalContext().getRequest();
+        }
+        return request;
+    }
+
+    ExternalContext getExternalContext() {
+        if (externalContext == null) {
+            externalContext = context.getExternalContext();
+        }
+        return externalContext;
     }
 }

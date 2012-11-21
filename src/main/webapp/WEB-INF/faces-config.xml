@@ -8,4 +8,7 @@
         <phase-listener>de.hh.changeRing.jsfExtension.SecurityFilter</phase-listener>
         <phase-listener>de.hh.changeRing.jsfExtension.LogoutPhaseListener</phase-listener>
     </lifecycle>
+	<application>
+		<resource-handler>de.hh.changeRing.jsfExtension.RingResourceHandler</resource-handler>
+	</application>
 </faces-config>

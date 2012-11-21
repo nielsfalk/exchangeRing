@@ -21,27 +21,26 @@ excluded.
 Environmental damage caused by the use must be kept as small as possible.
 
 -->
-<ui:composition template="decorator.xhtml"
+<ui:composition template="/decorators/decorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <div class="container,frame">
-        <h:form>
+            <h:form>
 
-            <h:panelGrid columns="4" cellpadding="5">
-                <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
+                <h:panelGrid columns="4" cellpadding="5">
+                    <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
 
-                <p:inputText id="name" value="#{userSession.id}" />
+                    <p:inputText id="name" value="#{userSession.id}"/>
 
-                <p:commandButton value="Submit" update="display"/>
+                    <p:commandButton value="Submit" update="display"/>
 
-                <h:outputText value="#{userSession.id}" id="display" />
-            </h:panelGrid>
+                    <h:outputText value="#{userSession.id}" id="display"/>
+                </h:panelGrid>
 
-        </h:form>
+            </h:form>
         </div>
     </ui:define>
 </ui:composition>

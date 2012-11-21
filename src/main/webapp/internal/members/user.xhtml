@@ -21,7 +21,7 @@ excluded.
 Environmental damage caused by the use must be kept as small as possible.
 
 -->
-<ui:composition template="../../menuDecorator.xhtml"
+<ui:composition template="/decorators/menuDecorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
@@ -66,7 +66,11 @@ Environmental damage caused by the use must be kept as small as possible.
                     </h:panelGroup>
 
                     <h:outputText value="Überweisung:" rendered="#{user.other}"/>
-                    <h:outputText value="TODO Überweisungslink" rendered="#{user.other}"/>
+                    <h:panelGroup rendered="#{user.other}">
+                        <a href="/internal/transaction.xhtml?receiverId=#{user.selectedUser.id}">
+                            überweisung an #{user.selectedUser.id}
+                        </a>
+                    </h:panelGroup>
 
                     <h:outputText value="#{user.me?'Email, sichtbar':'Email'}:"
                                   rendered="#{user.meOrFilled(user.selectedUser.visibleEmail)}"/>
@@ -170,6 +174,7 @@ Environmental damage caused by the use must be kept as small as possible.
                         <a href="#{user.selectedUser.url}">
                             <h:outputText value="#{user.selectedUser.url}"/>
                         </a>
+
                         <p>
                             <h:outputText value="#{user.selectedUser.urlDescription}"/>
                         </p>

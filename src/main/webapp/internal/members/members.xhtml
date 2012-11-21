@@ -21,7 +21,7 @@ excluded.
 Environmental damage caused by the use must be kept as small as possible.
 
 -->
-<ui:composition template="../noMenuDecorator.xhtml"
+<ui:composition template="/decorators/noMenuDecorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
@@ -37,8 +37,8 @@ Environmental damage caused by the use must be kept as small as possible.
                             <h:outputText value="ID"/>
                         </f:facet>
                         <a href="/internal/members/user.xhtml?userId=#{member.id}">
-                        <img src="#{member.gravatarUrl30}" alt="avatar #{member.displayName}"/>
-                        <h:outputText value="#{member.id}"/>
+                            <img src="#{member.gravatarUrl30}" alt="avatar #{member.displayName}"/>
+                            <h:outputText value="#{member.id}"/>
                         </a>
                     </p:column>
                     <p:column id="other" sortBy="#{member.displayName}">

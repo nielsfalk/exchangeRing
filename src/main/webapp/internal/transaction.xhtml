@@ -1,0 +1,71 @@
+<!--
+================GNU General Public License================================
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+================in addition===============================================
+
+In addition, each military use, and the use for interest profit will be
+excluded.
+Environmental damage caused by the use must be kept as small as possible.
+
+-->
+<ui:composition template="/decorators/menuDecorator.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="contentWithMenu">
+        <f:metadata>
+            <f:viewParam name="clear" value="#{transactionCreator.clear}"/>
+            <f:viewParam name="receiverId" value="#{transactionCreator.receiverId}"/>
+            <f:viewParam name="adId" value="#{transactionCreator.adId}"/>
+        </f:metadata>
+        <p:panel header="Überweisung">
+            <h:form>
+                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                    <h:outputText value="Empfänger:"/>
+                    <p:selectOneMenu value="#{transactionCreator.receiver}" converter="userConverter"
+                                     panelStyle="width:150px"
+                                     effect="fade" var="p" style="width:160px" filter="true"
+                                     filterMatchMode="startsWith">
+                        <f:selectItem itemLabel="Select One" itemValue=""/>
+                        <f:selectItems value="#{user.otherUsers}" var="potentialReceiver"
+                                       itemLabel="#{potentialReceiver.id}"
+                                       itemValue="#{potentialReceiver}"/>
+
+                        <p:column>
+                            <img src="#{p.gravatarUrl30}" alt="avatar #{p.displayName}"/>
+                        </p:column>
+
+                        <p:column>
+                            #{p.id} - #{p.displayName}
+                        </p:column>
+                    </p:selectOneMenu>
+
+                    <h:outputText value="Betrag:"/>
+                    <p:inputText id="amount" value="#{transactionCreator.amount}" size="5"/>
+                    <h:outputText value="Betreff:"/>
+
+                    <p:inputTextarea id="subject" rows="4" cols="35" counter="counter" maxlength="140"
+                                     counterTemplate="{0} zeichen übrig." autoResize="false"
+                                     value="#{transactionCreator.subject}"/>
+                    <p:commandButton value="Absenden" ajax="false" actionListener="#{transactionCreator.submit}"/>
+                    <h:outputText id="counter"/>
+                </h:panelGrid>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

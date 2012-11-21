@@ -1,5 +1,7 @@
-package de.hh.changeRing;
+package de.hh.changeRing.model;
 
+import de.hh.changeRing.Context;
+import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.domain.Advertisement;
 import de.hh.changeRing.domain.Category;
 import org.primefaces.component.menuitem.MenuItem;

@@ -21,7 +21,7 @@ excluded.
 Environmental damage caused by the use must be kept as small as possible.
 
 -->
-<ui:composition template="../decorator.xhtml"
+<ui:composition template="/decorators/decorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
@@ -30,42 +30,6 @@ Environmental damage caused by the use must be kept as small as possible.
     <ui:define name="content">
 
         <div class="container">
-            <p:panel header="Überweisung" id="transactionPanel">
-                <h:form>
-                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                        <h:outputText value="Empfänger:"/>
-                        <p:selectOneMenu value="#{transactionCreator.receiver}" converter="userConverter"
-                                         panelStyle="width:150px"
-                                         effect="fade" var="p" style="width:160px" filter="true"
-                                         filterMatchMode="startsWith">
-                            <f:selectItem itemLabel="Select One" itemValue=""/>
-                            <f:selectItems value="#{user.otherUsers}" var="potentialReceiver"
-                                           itemLabel="#{potentialReceiver.id}"
-                                           itemValue="#{potentialReceiver}"/>
-
-                            <p:column>
-                                <img src="#{p.gravatarUrl30}" alt="avatar #{p.displayName}"/>
-                            </p:column>
-
-                            <p:column>
-                                #{p.id} - #{p.displayName}
-                            </p:column>
-                        </p:selectOneMenu>
-
-                        <h:outputText value="Betrag:"/>
-                        <p:inputText id="amount" value="#{transactionCreator.amount}" size="5"/>
-                        <h:outputText value="Betreff:"/>
-
-                        <p:inputTextarea id="subject" rows="4" cols="35" counter="counter" maxlength="140"
-                                         counterTemplate="{0} zeichen übrig." autoResize="false"
-                                         value="#{transactionCreator.subject}"/>
-                        <p:commandButton value="Absenden" ajax="false" actionListener="#{transactionCreator.submit}"/>
-                        <h:outputText id="counter"/>
-                    </h:panelGrid>
-                </h:form>
-            </p:panel>
-            <p/>
-
             <p:panel header="Meine Transaktionen">
                 <p:dataTable id="transactionTable" var="depotItem" value="#{userSession.user.depotItems}"
                              styleClass="ui-corner-all">

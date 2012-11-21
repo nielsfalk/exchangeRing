@@ -1,5 +1,6 @@
-package de.hh.changeRing;
+package de.hh.changeRing.model;
 
+import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.domain.Advertisement;
 import de.hh.changeRing.domain.User;
 
@@ -33,9 +34,9 @@ import java.util.logging.Logger;
 @ManagedBean
 @SessionScoped
 public class UserSession {
-	private static final Logger LOGGER = Logger.getLogger(UserSession.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(UserSession.class.getName());
 
-	private String id, password;
+    private String id, password;
     private User user;
     private Advertisement selectedAdvertisement;
 
@@ -44,12 +45,12 @@ public class UserSession {
         if (user != null && user.getPassword().equals(password)) {
             this.user = user;
         }
-		LOGGER.info(isLoggedIn() ? id + " logged in" : "tried to login " + id);
+        LOGGER.info(isLoggedIn() ? id + " logged in" : "tried to login " + id);
     }
 
 
     public void logout() {
-		LOGGER.info(isLoggedIn() ? "logged out " + user.getId() : "try to logout empty user");
+        LOGGER.info(isLoggedIn() ? "logged out " + user.getId() : "try to logout empty user");
         user = null;
         // TODO new Context().leaveInternalAreaView();
     }
@@ -59,10 +60,10 @@ public class UserSession {
                 ? "ui-state-active" : "";
     }
 
-	@SuppressWarnings("UnusedDeclaration")
-	public void selectOffer(Long id) {
-		selectedAdvertisement = InitTestData.findAd(id);
-	}
+    @SuppressWarnings("UnusedDeclaration")
+    public void selectOffer(Long id) {
+        selectedAdvertisement = InitTestData.findAd(id);
+    }
 
     public boolean isNotLoggedIn() {
         return user == null;
@@ -77,7 +78,6 @@ public class UserSession {
     }
 
 
-
     public boolean isLoggedIn() {
         return user != null;
     }
@@ -90,18 +90,19 @@ public class UserSession {
         return selectedAdvertisement;
     }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void updateUser(){}
+    public void updateUser() {
+    }
 
 }

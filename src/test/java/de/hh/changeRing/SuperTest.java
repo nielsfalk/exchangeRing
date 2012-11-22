@@ -30,15 +30,7 @@ import java.util.List;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 public class SuperTest {
-    private static InitTestData initTestData;
-    static List<Transaction> transactions;
-    static List<User> users;
+    static List<Transaction> transactions= InitTestData.getTransactions();
+    protected static List<User> users= InitTestData.getUsers();
 
-    @BeforeClass
-    public static void parse() {
-        //initTestData = new InitTestData();
-        //InitTestData.init();
-        users = InitTestData.getUsers();
-        transactions = InitTestData.getTransactions();
-    }
 }

@@ -49,7 +49,7 @@ public class InitTestData {
         InitTestData.getTransactions();
     }
 
-    public static void init() {
+    private static void init() {
         try {
             JAXBContext context = JAXBContext.newInstance(InitialData.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -76,8 +76,9 @@ public class InitTestData {
             advertisement.setContent(loremYpsum());
             advertisement.setLocation("egal");
             advertisement.setTitle("anzeige von " + user.getId());
+            //noinspection NumericOverflow
             advertisement.setValidUntil(new Date(System.currentTimeMillis()
-					+ new Random().nextInt(1000 * 24 * 60)));
+                    + new Random().nextInt(1000 * 24 * 60)));
             advertisement.setCategory(Category.values()[new Random().nextInt(Category.values().length)]);
             advertisement.setLinkLocation(user.getId() % 3 == 1);
             advertisements.add(advertisement);

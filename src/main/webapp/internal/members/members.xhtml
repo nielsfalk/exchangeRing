@@ -36,7 +36,7 @@ Environmental damage caused by the use must be kept as small as possible.
                         <f:facet name="header">
                             <h:outputText value="ID"/>
                         </f:facet>
-                        <a href="/internal/members/user.xhtml?userId=#{member.id}">
+                        <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{member.id}">
                             <img src="#{member.gravatarUrl30}" alt="avatar #{member.displayName}"/>
                             <h:outputText value="#{member.id}"/>
                         </a>
@@ -45,7 +45,7 @@ Environmental damage caused by the use must be kept as small as possible.
                         <f:facet name="header">
                             <h:outputText value="Name"/>
                         </f:facet>
-                        <a href="/internal/members/user.xhtml?userId=#{member.id}">
+                        <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{member.id}">
                             <h:outputText value="#{member.displayName}"/>
                         </a>
                     </p:column>

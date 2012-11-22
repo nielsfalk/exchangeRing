@@ -39,7 +39,7 @@ Environmental damage caused by the use must be kept as small as possible.
                         <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
                             <h:outputText value="User:"/>
                             <h:panelGroup>
-                                <a href="/internal/members/user.xhtml?userId=#{userSession.selectedAdvertisement.owner.id}">
+                                <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{userSession.selectedAdvertisement.owner.id}">
                                     <img src="#{userSession.selectedAdvertisement.owner.gravatarUrl30}"
                                          alt="avatar #{userSession.selectedAdvertisement.owner.displayName}"/>
                                     <h:outputText value="#{userSession.selectedAdvertisement.owner.id}"/>
@@ -51,7 +51,7 @@ Environmental damage caused by the use must be kept as small as possible.
 
                             <h:outputText value="Überweisung:"/>
                             <h:panelGroup>
-                                <a href="/internal/transaction.xhtml?receiverId=#{userSession.selectedAdvertisement.owner.id}&amp;adId=#{userSession.selectedAdvertisement.id}">
+                                <a href="${pageContext.request.servletPath}/internal/transaction.xhtml?receiverId=#{userSession.selectedAdvertisement.owner.id}&amp;adId=#{userSession.selectedAdvertisement.id}">
                                     überweisung an #{userSession.selectedAdvertisement.owner.id}
                                 </a>
                             </h:panelGroup>

@@ -67,7 +67,7 @@ Environmental damage caused by the use must be kept as small as possible.
 
                     <h:outputText value="Überweisung:" rendered="#{user.other}"/>
                     <h:panelGroup rendered="#{user.other}">
-                        <a href="/internal/transaction.xhtml?receiverId=#{user.selectedUser.id}">
+                        <a href="${pageContext.request.servletPath}/internal/transaction.xhtml?receiverId=#{user.selectedUser.id}">
                             überweisung an #{user.selectedUser.id}
                         </a>
                     </h:panelGroup>

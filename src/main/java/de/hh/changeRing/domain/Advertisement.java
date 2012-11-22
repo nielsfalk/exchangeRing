@@ -27,7 +27,7 @@ import java.util.Date;
 public class Advertisement {
 
     private static long idCounter = 0;
-    private Long id = idCounter++;
+    private final Long id = idCounter++;
     private User owner;
     private AdvertisementType type;
     private Category category;

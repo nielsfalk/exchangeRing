@@ -39,7 +39,7 @@ import java.util.logging.Logger;
 @ManagedBean
 @SessionScoped
 public class TransactionCreator {
-    public static final Logger LOGGER = Logger.getLogger(TransactionCreator.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TransactionCreator.class.getName());
 
     private User receiver;
 
@@ -105,6 +105,7 @@ public class TransactionCreator {
         advertisement = null;
     }
 
+    @SuppressWarnings("SameReturnValue")
     public String getClear() {
         return "";
     }

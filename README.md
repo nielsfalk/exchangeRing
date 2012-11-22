@@ -35,7 +35,7 @@ Features implemented
 - "Motten" currency transfer
 - "Motten" currency logging witch user interface
 - Gravatar integration
-- Heroku deployment with embedded Glassfisch [thanks to jsimone](https://github.com/jsimone/embeddedGlassfishSample)
+- Heroku deployment with embedded Glassfish [thanks to jsimone](https://github.com/jsimone/embeddedGlassfishSample)
 - Categories assumed
 - User editing
 - prevent resource caching
@@ -49,7 +49,7 @@ Agenda
 - Überweisungs Dauerauftrag
 - encrypted passwords (maybe some other encryption stuff)
 - JPA with database or mongoDB
-- statefull theme switcher
+- stateful theme switcher
 - Full functionality of the old solution
 - ensure https
 - Maybe replace old software

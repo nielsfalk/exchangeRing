@@ -43,11 +43,11 @@ public class Context {
 
     public static final String WELCOME_PAGE = "/dashboard.xhtml";
     private static final String INTERNAL_PREFIX = "/internal";
-    public static final String LOGOUT_PREFIX = "/logout";
+    private static final String LOGOUT_PREFIX = "/logout";
     private String url;
     private String requestURI;
     private HttpServletRequest request;
-    private FacesContext context;
+    private final FacesContext context;
     private ExternalContext externalContext;
     private UIViewRoot viewRoot;
     private HttpSession session;
@@ -113,6 +113,7 @@ public class Context {
     <T> T getSessionBean(Class<T> type) {
         String typeSimpleName = type.getSimpleName();
         String beanName = Character.toLowerCase(typeSimpleName.charAt(0)) + typeSimpleName.substring(1);
+        //noinspection unchecked
         return (T) getExternalContext().getSessionMap().get(beanName);
     }
 

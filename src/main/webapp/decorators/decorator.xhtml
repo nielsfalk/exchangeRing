@@ -38,7 +38,7 @@ Environmental damage caused by the use must be kept as small as possible.
     <script type="text/javascript">
         if (window.location.protocol != "https:") {
             if (window.location.href.indexOf("http://localhost") == -1) {
-                alert("unsecure! use https");
+                alert("unsecured! use https");
             }
         }
     </script>
@@ -47,7 +47,7 @@ Environmental damage caused by the use must be kept as small as possible.
     <div class="header">
         <div class="container">
 
-            <a href="/dashboard.xhtml">
+            <a href="${pageContext.request.servletPath}/dashboard.xhtml">
                 <h:graphicImage name="/img/logoGreen.png" alt="logo" styleClass="headerLogo"/><span id="headLine">Tauschring
                 <span class="green">Hamburg</span></span>
             </a>

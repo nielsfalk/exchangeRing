@@ -2,6 +2,7 @@ import org.glassfish.embeddable.*;
 import org.glassfish.embeddable.archive.ScatteredArchive;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * copied from https://github.com/jsimone/embeddedGlassfishSample
@@ -10,7 +11,7 @@ import java.io.File;
 public class MainGlassfish {
 
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws GlassFishException, IOException {
 
 
         String webappDirLocation = "src/main/webapp/";

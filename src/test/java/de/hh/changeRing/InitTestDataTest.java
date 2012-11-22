@@ -67,29 +67,6 @@ public class InitTestDataTest extends SuperTest {
         assertThat(transaction.getDate(), is(FORMAT.parse("2012.11.07")));
     }
 
-
-    @Test
-    @Ignore
-    public void accounts() {
-        User niles = InitTestData.findUser(577l);
-        User blau = InitTestData.findUser(13l);
-        User oswald = InitTestData.findUser(14l);
-        assertThat(niles.getBalance(), is(-3l));
-        assertThat(niles.getDepotItems().size(), is(2));
-        User.DepotItem depotItem = niles.getDepotItems().get(0);
-        assertThat(depotItem.getOldBalance(), is(0l));
-        assertThat(depotItem.getNewBalance(), is(-1l));
-
-
-        assertThat(blau.getBalance(), is(7l));
-        assertThat(blau.getDepotItems().size(), is(3));
-        assertThat(oswald.getBalance(), is(-4l));
-        assertThat(oswald.getDepotItems().size(), is(1));
-
-        assertThat(InitTestData.getTotalRevenue(), is(7L));
-        assertThat(InitTestData.debtsAndAssetsAreEqual(), is(true));
-    }
-
     @Test
     public void transactions() {
         User niles = InitTestData.findUser(577l);

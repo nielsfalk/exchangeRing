@@ -1,4 +1,4 @@
-package de.hh.changeRing.model;
+package de.hh.changeRing.controller;
 
 import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.domain.Advertisement;
@@ -51,7 +51,7 @@ public class TransactionCreator {
     private UserSession session;
 
     @ManagedProperty(value = "#{user}")
-    private de.hh.changeRing.model.User userBean;
+    private de.hh.changeRing.controller.User userBean;
 
     private Advertisement advertisement;
 
@@ -94,7 +94,7 @@ public class TransactionCreator {
         this.subject = subject;
     }
 
-    public void setUserBean(de.hh.changeRing.model.User userBean) {
+    public void setUserBean(de.hh.changeRing.controller.User userBean) {
         this.userBean = userBean;
     }
 

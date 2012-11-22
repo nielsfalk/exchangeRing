@@ -1,4 +1,4 @@
-package de.hh.changeRing.model;
+package de.hh.changeRing.controller;
 
 import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.domain.Advertisement;

@@ -1,12 +1,12 @@
 package de.hh.changeRing.jsfExtension;
 
+import de.hh.changeRing.Context;
+
 import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 
 import static javax.faces.event.PhaseId.RESTORE_VIEW;
-
-import de.hh.changeRing.Context;
 
 /**
  * ----------------GNU General Public License--------------------------------

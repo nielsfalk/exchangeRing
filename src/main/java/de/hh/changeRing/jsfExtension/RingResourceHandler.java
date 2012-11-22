@@ -1,9 +1,8 @@
 package de.hh.changeRing.jsfExtension;
 
-import java.util.Random;
-
 import javax.faces.application.Resource;
 import javax.faces.application.ResourceHandler;
+import java.util.Random;
 
 
 /**
@@ -25,44 +24,44 @@ import javax.faces.application.ResourceHandler;
  * use must be kept as small as possible.
  */
 public class RingResourceHandler extends javax.faces.application.ResourceHandlerWrapper {
-	private static final String REVISION = "" + new Random().nextInt();
-	private final ResourceHandler wrapped;
+    private static final String REVISION = "" + new Random().nextInt();
+    private final ResourceHandler wrapped;
 
-	public RingResourceHandler(ResourceHandler wrapped) {
-		this.wrapped = wrapped;
-	}
+    public RingResourceHandler(ResourceHandler wrapped) {
+        this.wrapped = wrapped;
+    }
 
-	@Override
-	public ResourceHandler getWrapped() {
-		return this.wrapped;
-	}
+    @Override
+    public ResourceHandler getWrapped() {
+        return this.wrapped;
+    }
 
-	@Override
-	public Resource createResource(String resourceName, String libraryName) {
-		return new RingResource(super.createResource(resourceName, libraryName));
-	}
+    @Override
+    public Resource createResource(String resourceName, String libraryName) {
+        return new RingResource(super.createResource(resourceName, libraryName));
+    }
 
-	public static class RingResource extends javax.faces.application.ResourceWrapper {
-		private final Resource resource;
+    public static class RingResource extends javax.faces.application.ResourceWrapper {
+        private final Resource resource;
 
-		public RingResource(Resource resource) {
-			this.resource = resource;
-		}
+        public RingResource(Resource resource) {
+            this.resource = resource;
+        }
 
-		@Override
-		public Resource getWrapped() {
-			return this.resource;
-		}
+        @Override
+        public Resource getWrapped() {
+            return this.resource;
+        }
 
-		@Override
-		public String getRequestPath() {
-			String requestPath = resource.getRequestPath();
-			return requestPath + (requestPath.contains("?") ? "&rev=" : "?rev=") + REVISION;
-		}
+        @Override
+        public String getRequestPath() {
+            String requestPath = resource.getRequestPath();
+            return requestPath + (requestPath.contains("?") ? "&rev=" : "?rev=") + REVISION;
+        }
 
-		@Override
-		public String getContentType() {
-			return getWrapped().getContentType();
-		}
-	}
+        @Override
+        public String getContentType() {
+            return getWrapped().getContentType();
+        }
+    }
 }

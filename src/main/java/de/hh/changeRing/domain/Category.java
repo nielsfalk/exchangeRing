@@ -98,9 +98,9 @@ public enum Category {
 
     misc("Sonstiges");
 
-    private String name;
+    private final String name;
     private Category parent;
-    private List<Category> children = new ArrayList<Category>();
+    private final List<Category> children = new ArrayList<Category>();
     private static ArrayList<Category> root;
 
     Category(Category parent, String name) {

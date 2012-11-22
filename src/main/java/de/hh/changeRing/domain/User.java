@@ -250,7 +250,7 @@ public class User {
 
     public static enum DepotItemType {
         out("ausgegeben"), in("eingenommen");
-        private String string;
+        private final String string;
 
         DepotItemType(String string) {
             this.string = string;
@@ -268,9 +268,9 @@ public class User {
         private final User user;
         private long amount;
         private final long newBalance;
-        private User other;
-        private DepotItemType type;
-        private long oldBalance;
+        private final User other;
+        private final DepotItemType type;
+        private final long oldBalance;
 
         public DepotItem(Transaction transaction, User user, long amount, User other, DepotItemType type) {
             this.transaction = transaction;

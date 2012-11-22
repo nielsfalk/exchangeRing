@@ -2,7 +2,6 @@ package de.hh.changeRing;
 
 import de.hh.changeRing.domain.Transaction;
 import de.hh.changeRing.domain.User;
-import org.junit.BeforeClass;
 
 import java.util.List;
 
@@ -30,7 +29,7 @@ import java.util.List;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 public class SuperTest {
-    static List<Transaction> transactions= InitTestData.getTransactions();
-    protected static List<User> users= InitTestData.getUsers();
+    static final List<Transaction> transactions = InitTestData.getTransactions();
+    protected static final List<User> users = InitTestData.getUsers();
 
 }

@@ -1,8 +1,8 @@
 package de.hh.changeRing.controller;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import java.util.Map;
 import java.util.TreeMap;
 

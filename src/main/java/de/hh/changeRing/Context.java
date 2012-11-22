@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -79,7 +80,7 @@ public class Context {
     }
 
     @SuppressWarnings("UnusedDeclaration")
-	void onlyHttps() {
+    void onlyHttps() {
         if (getUrl().startsWith("http://")) {
             if (!getUrl().startsWith("http://localhost")) {
                 redirectHttpsRoot(getUrl());
@@ -126,23 +127,21 @@ public class Context {
     }
 
     @SuppressWarnings("UnusedDeclaration")
-	public void logUrl() {
+    public void logUrl() {
         LOGGER.info(getUrl());
     }
 
     public MethodExpressionActionListener createElActionListener(String elExpression,
-			Class<?>... paramTypes) {
-		List<Class<?>> paramTypesList = new ArrayList<Class<?>>();
-		paramTypesList.add(ActionEvent.class);
-		for (Class<?> paramType : paramTypes) {
-			paramTypesList.add(paramType);
-		}
-		return new MethodExpressionActionListener(
+                                                                 Class<?>... paramTypes) {
+        List<Class<?>> paramTypesList = new ArrayList<Class<?>>();
+        paramTypesList.add(ActionEvent.class);
+        Collections.addAll(paramTypesList, paramTypes);
+        return new MethodExpressionActionListener(
                 getExpressionFactory().createMethodExpression(
-						getElContext(),
-						elExpression,
-						Void.class,
-						paramTypesList.toArray(new Class<?>[paramTypesList.size()])));
+                        getElContext(),
+                        elExpression,
+                        Void.class,
+                        paramTypesList.toArray(new Class<?>[paramTypesList.size()])));
     }
 
     public void handleLogout() {

@@ -41,7 +41,7 @@ import java.util.*;
 public class InitTestData {
     private static InitialData data;
     private static List<Transaction> transactions;
-    private static List<Advertisement> advertisements = new ArrayList<Advertisement>();
+    private static final List<Advertisement> advertisements = new ArrayList<Advertisement>();
     private static HashMap<Category, LinkedList<Advertisement>> sortedAds;
 
     static {
@@ -74,7 +74,7 @@ public class InitTestData {
             advertisement.setOwner(user);
             advertisement.setType(Advertisement.AdvertisementType.values()[((int) (user.getId() % 2))]);
             advertisement.setContent(loremYpsum());
-            advertisement.setLocation("egal");
+            advertisement.setLocation("egal bei " + user.getDisplayName());
             advertisement.setTitle("anzeige von " + user.getId());
             //noinspection NumericOverflow
             advertisement.setValidUntil(new Date(System.currentTimeMillis()

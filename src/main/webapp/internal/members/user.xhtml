@@ -102,14 +102,15 @@ Environmental damage caused by the use must be kept as small as possible.
 
                         <p>
                             <h:panelGroup rendered="#{not empty user.selectedUser.skype}">
+                                <!--
+                                Skype 'Skype Me™!' button
+                                http://www.skype.com/go/skypebuttons
+                                -->
                                 <script type="text/javascript"
-                                        src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js">
-                                </script>
-                                <a href="skype:#{user.selectedUser.skype}?add">
-                                    <img src="http://mystatus.skype.com/balloon/#{user.selectedUser.skype}"
-                                         style="border: none;" width="150"
-                                         height="60" alt="My status"/>
-                                </a>
+                                        src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js"></script>
+                                <a href="skype:#{user.selectedUser.skype}?call"><img
+                                        src="http://download.skype.com/share/skypebuttons/buttons/call_green_white_92x82.png"
+                                        style="border: none;" width="92" height="82" alt="Skype Me™!"/></a>
                             </h:panelGroup>
                         </p>
                     </h:panelGroup>

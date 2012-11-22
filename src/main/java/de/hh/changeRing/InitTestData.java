@@ -59,7 +59,7 @@ public class InitTestData {
 
             List<User> users = InitTestData.getUsers();
             for (Long i = 1000L; i < 2000; i++) {
-                users.add(User.dummy(i));
+                users.add(User.dummyUser(i));
 
             }
             initAds();

@@ -48,12 +48,8 @@ public class UserSession {
         LOGGER.info(isLoggedIn() ? id + " logged in" : "tried to login " + id);
     }
 
-
-    public void logout() {
-        LOGGER.info(isLoggedIn() ? "logged out " + user.getId() : "try to logout empty user");
-        user = null;
-        // TODO new Context().leaveInternalAreaView();
-    }
+	public void updateUser() {
+	}
 
     public String activeMenu(String viewIdPrefix) {
         return FacesContext.getCurrentInstance().getViewRoot().getViewId().substring(1).startsWith(viewIdPrefix)
@@ -67,14 +63,6 @@ public class UserSession {
 
     public boolean isNotLoggedIn() {
         return user == null;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public User getUser() {
-        return user;
     }
 
 
@@ -102,7 +90,15 @@ public class UserSession {
         return password;
     }
 
-    public void updateUser() {
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
+	public User getUser() {
+		return user;
+	}
+
+	void setUser(User user) {
+		this.user = user;
+	}
 }

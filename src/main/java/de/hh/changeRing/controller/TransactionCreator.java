@@ -50,26 +50,7 @@ public class TransactionCreator {
     @ManagedProperty(value = "#{userSession}")
     private UserSession session;
 
-    @ManagedProperty(value = "#{user}")
-    private de.hh.changeRing.controller.User userBean;
-
-    private Advertisement advertisement;
-
-    public User getReceiver() {
-        return receiver;
-    }
-
-    public Long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Long amount) {
-        this.amount = amount;
-    }
-
-    public void setReceiver(User receiver) {
-        this.receiver = receiver;
-    }
+	private Advertisement advertisement;
 
     public void submit() {
         LOGGER.info(session.getUser().getId() + " created transaction");
@@ -77,28 +58,12 @@ public class TransactionCreator {
         setClear("clear");
     }
 
-    public void submitFromUserView() {
-        receiver = userBean.getSelectedUser();
-        submit();
-    }
-
-    public void setSession(UserSession session) {
+    @SuppressWarnings("UnusedDeclaration")
+	public void setSession(UserSession session) {
         this.session = session;
     }
 
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public void setUserBean(de.hh.changeRing.controller.User userBean) {
-        this.userBean = userBean;
-    }
-
-    public void setClear(@SuppressWarnings("UnusedParameters") String clear) {
+	public void setClear(@SuppressWarnings("UnusedParameters") String clear) {
         receiver = null;
         amount = null;
         subject = null;
@@ -161,4 +126,28 @@ public class TransactionCreator {
         }
         return advertisement.getId();
     }
+
+	public User getReceiver() {
+		return receiver;
+	}
+
+	public Long getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Long amount) {
+		this.amount = amount;
+	}
+
+	public void setReceiver(User receiver) {
+		this.receiver = receiver;
+	}
+
+	public String getSubject() {
+		return subject;
+	}
+
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
 }

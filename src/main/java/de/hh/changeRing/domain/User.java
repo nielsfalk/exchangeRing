@@ -205,7 +205,7 @@ public class User {
         sortDepot();
     }
 
-    public static User dummy(Long i) {
+    public static User dummyUser(Long i) {
         User user = new User();
         user.id = i;
         user.email = "email" + i + "@sonst-was.de";

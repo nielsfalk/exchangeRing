@@ -41,6 +41,22 @@ public class User {
     private ArrayList<de.hh.changeRing.domain.User> otherUsers;
     private de.hh.changeRing.domain.User selectedUser;
 
+	public boolean isMe() {
+		return getLoggedInUser().equals(selectedUser);
+	}
+
+	public boolean isOther() {
+		return !isMe();
+	}
+
+	public boolean meOrFilled(String s) {
+		return isMe() || !isEmpty(s);
+	}
+
+	public boolean otherAndFilled(String s) {
+		return isOther() && !isEmpty(s);
+	}
+
     public List<de.hh.changeRing.domain.User> getOtherUsers() {
         if (otherUsers == null) {
             otherUsers = new ArrayList<de.hh.changeRing.domain.User>();
@@ -62,7 +78,11 @@ public class User {
         return selectedUser;
     }
 
-    public void setSelectedUserId(Long id) {
+	void setSelectedUser(de.hh.changeRing.domain.User selectedUser) {
+		this.selectedUser = selectedUser;
+	}
+
+	public void setSelectedUserId(Long id) {
         this.selectedUser = InitTestData.findUser(id);
     }
 
@@ -73,32 +93,17 @@ public class User {
         return selectedUser.getId();
     }
 
-    public void setSession(UserSession session) {
+    @SuppressWarnings("UnusedDeclaration")
+	public void setSession(UserSession session) {
         this.session = session;
     }
 
-    public void setSelectedMe(String selectedMe) {
+    public void setSelectedMe(@SuppressWarnings("UnusedParameters") String selectedMe) {
         selectedUser = session.getUser();
     }
 
     @SuppressWarnings("SameReturnValue")
     public String getSelectedMe() {
         return "";
-    }
-
-    public boolean isMe() {
-        return getLoggedInUser().equals(selectedUser);
-    }
-
-    public boolean isOther() {
-        return !isMe();
-    }
-
-    public boolean meOrFilled(String s) {
-        return isMe() || !isEmpty(s);
-    }
-
-    public boolean otherAndFilled(String s) {
-        return isOther() && !isEmpty(s);
     }
 }

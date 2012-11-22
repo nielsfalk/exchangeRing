@@ -8,11 +8,14 @@ import javax.faces.application.Application;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.MethodExpressionActionListener;
 import javax.faces.event.PhaseEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -75,7 +78,8 @@ public class Context {
         }
     }
 
-    void onlyHttps() {
+    @SuppressWarnings("UnusedDeclaration")
+	void onlyHttps() {
         if (getUrl().startsWith("http://")) {
             if (!getUrl().startsWith("http://localhost")) {
                 redirectHttpsRoot(getUrl());
@@ -121,24 +125,24 @@ public class Context {
         return getRequestedURI().startsWith(INTERNAL_PREFIX);
     }
 
-    public void logUrl() {
+    @SuppressWarnings("UnusedDeclaration")
+	public void logUrl() {
         LOGGER.info(getUrl());
     }
 
-    public MethodExpressionActionListener createActionListener(String valueExpression,
-                                                               Class<?>... expectedParamTypes) {
-        return new MethodExpressionActionListener(
+    public MethodExpressionActionListener createElActionListener(String elExpression,
+			Class<?>... paramTypes) {
+		List<Class<?>> paramTypesList = new ArrayList<Class<?>>();
+		paramTypesList.add(ActionEvent.class);
+		for (Class<?> paramType : paramTypes) {
+			paramTypesList.add(paramType);
+		}
+		return new MethodExpressionActionListener(
                 getExpressionFactory().createMethodExpression(
-                        getElContext(),
-                        valueExpression,
-                        Void.class,
-                        expectedParamTypes));
-    }
-
-    public void leaveInternalAreaView() {
-        if (getViewRoot().getViewId().startsWith(INTERNAL_PREFIX)) {
-            getViewRoot().setViewId(Context.WELCOME_PAGE);
-        }
+						getElContext(),
+						elExpression,
+						Void.class,
+						paramTypesList.toArray(new Class<?>[paramTypesList.size()])));
     }
 
     public void handleLogout() {

@@ -45,6 +45,9 @@ Features implemented
 
 Agenda
 --------------
+- Create Ads
+- Search Ads
+- Better Ad-Navigation
 - Überweisungs templates
 - Überweisungs Dauerauftrag
 - encrypted passwords (maybe some other encryption stuff)

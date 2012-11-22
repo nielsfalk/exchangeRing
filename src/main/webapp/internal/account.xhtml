@@ -43,13 +43,18 @@ Environmental damage caused by the use must be kept as small as possible.
                         <f:facet name="header">
                             <h:outputText value=""/>
                         </f:facet>
-                        <img src="#{depotItem.other.gravatarUrl30}" alt="avatar #{depotItem.other.displayName}"/>
+
+                        <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{depotItem.other.id}">
+                            <img src="#{depotItem.other.gravatarUrl30}" alt="avatar #{depotItem.other.displayName}"/>
+                        </a>
                     </p:column>
                     <p:column id="other" sortBy="#{depotItem.other.displayName}">
                         <f:facet name="header">
                             <h:outputText value="mit"/>
                         </f:facet>
-                        <h:outputText value="#{depotItem.other.displayName}"/>
+                        <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{depotItem.other.id}">
+                            <h:outputText value="#{depotItem.other.displayName}"/>
+                        </a>
                     </p:column>
                     <p:column id="type" sortBy="#{depotItem.type.toString()}">
                         <f:facet name="header">

@@ -1,0 +1,41 @@
+<html>
+<head>
+    <title>Warten auf server</title>
+    <script src="jquery-1.8.3.min.js"></script>
+</head>
+<body>
+<div>In der Testphase geht der AppServer nach einer Stunde in den Stromsparmodus. Bitte kurz warten ( max. 10
+    Sekunden)
+</div>
+<script type="text/javascript">
+    function forward() {
+        var url = "http://localhost:8080/ping.xhtml";//javax.faces.resource/
+         // non-existent resource
+        $.ajax({
+            url: url,
+            dataType: "text",
+            contentType: "text/plain",
+            accepts: 'text/plain',
+            cache:false,
+            success: function(jsonResponse, textStatus, jqXHR) {
+                alert("you should never see this");
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert("sorry, could not find URL");
+            }
+        });
+    }
+    $(document).ready(function () {
+        forward();
+    });
+</script>
+<noscript>
+    <div>
+        Die Seite benötigt Javascript
+        <a href="https://floating-sierra-7513.herokuapp.com/">Hier gehts weiter</a>
+    </div>
+</noscript>
+
+</body>
+
+</html>

@@ -21,26 +21,22 @@ excluded.
 Environmental damage caused by the use must be kept as small as possible.
 
 -->
-<ui:composition template="/decorators/decorator.xhtml"
+<ui:composition template="/decorators/menuDecorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui">
-    <ui:define name="content">
-        <div class="container,frame">
-            <h:form>
+    <ui:define name="contentWithMenu">
 
-                <h:panelGrid columns="4" cellpadding="5">
-                    <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
 
-                    <p:inputText id="name" value="#{userSession.id}"/>
+        <p:panel header="Tauschring Hamburg">
+            Wie werde ich Mitglied
+        </p:panel>
 
-                    <p:commandButton value="Submit" update="display"/>
+        <p/>
+        <p:panel header="Termine">
+            <p>Öffentliche Termine</p>
 
-                    <h:outputText value="#{userSession.id}" id="display"/>
-                </h:panelGrid>
-
-            </h:form>
-        </div>
+            <p>Infostände, Stammtische</p>
+        </p:panel>
     </ui:define>
 </ui:composition>

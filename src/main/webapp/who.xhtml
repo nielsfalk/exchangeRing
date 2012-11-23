@@ -1,26 +1,46 @@
 <ui:composition template="/decorators/menuDecorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="contentWithMenu">
+        <p:panel header="Wer sind wir?">
+            <p>
+                Wir stammen aus unterschiedlichen Altersgruppen und haben ebenso unterschiedliche Interessen und Berufe.
+                Du findest bei uns sowohl handwerklich Begabte, als auch Computerfreaks, Arbeitslose mit vielen Ideen
+                und Angeboten, Menschen mit sozialem/menschlichem Engagement, oder auch “ganz normale” Leute, die z.B.
+                mal bei jemanden während des Urlaubs eine Katze hüten.
+            </p>
 
+            <p>
+                Unsere Mitglieder wohnen in verschiedenen Stadtteilen Hamburgs. Du kannst also überall Tauschpartner in
+                deiner Nähe finden.
+            </p>
+        </p:panel>
 
-        #{userSession.activeMenu('dashboard')}
-        #{facesContext.viewRoot.viewId.substring(1)}
-        #{facesContext.viewRoot.viewId.startsWith('/dashboard')?'acticMenuItem':''}
+        <p/>
+        <p:panel header="Der Tauschring in Ton und Bild">
+            <object width="640" height="480">
+                <param name="movie" value="http://www.youtube.com/v/3sOdQFZo6vU?version=3&amp;hl=en_US"></param>
+                <param name="allowFullScreen" value="true"></param>
+                <param name="allowscriptaccess" value="always"></param>
+                <embed src="http://www.youtube.com/v/3sOdQFZo6vU?version=3&amp;hl=en_US"
+                       type="application/x-shockwave-flash" width="640" height="480" allowscriptaccess="always"
+                       allowfullscreen="true"></embed>
+            </object>
+        </p:panel>
 
-        <h:form>
-            <h:panelGrid columns="4" cellpadding="5">
-                <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
+        <p/>
+        <p:panel header="Der Tauschring in der Presse">
+            <p>
+                Das Hamburger Abendblatt hat einen Artikel über uns veröffentlicht. Wer ihn lesen möchte, kann ihn hier
+                sich herunterladen:
+            </p>
 
-                <p:inputText id="name" value="#{userSession.id}"/>
-
-                <p:commandButton value="Submit" update="display"/>
-
-                <h:outputText value="#{userSession.id}" id="display"/>
-            </h:panelGrid>
-
-        </h:form>
+            <p>
+                <a href="/documents/Tauschring-Hamburg-im-Hamburger-Abendblatt.pdf">
+                    Tauschring Hamburg im Hamburger Abendblatt
+                </a>
+            </p>
+        </p:panel>
     </ui:define>
 </ui:composition>

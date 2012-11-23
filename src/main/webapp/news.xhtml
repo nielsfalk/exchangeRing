@@ -24,26 +24,25 @@ Environmental damage caused by the use must be kept as small as possible.
 <ui:composition template="/decorators/menuDecorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="contentWithMenu">
+        <p:panel header="Die Tauschringzeitung: Mottenmarkt">
+            <p>
+                Unsere Zeitung heißt “Mottenmarkt” und erscheint vierteljährlich. Die Tauschringzeitung enthält alle Angebote und Nachfragen unserer Mitglieder. Außerdem stehen dort wichtige Informationen über den Tauschring und natürlich auch Leserbriefe einzelner Mitglieder.
+            </p>
 
+            <p>
+                Hier findest Du immer unsere aktuelle Ausgabe:
+                Der aktuelle Mottenmarkt
+            </p>
 
-        #{userSession.activeMenu('dashboard')}
-        #{facesContext.viewRoot.viewId.substring(1)}
-        #{facesContext.viewRoot.viewId.startsWith('/dashboard')?'acticMenuItem':''}
+            <p>
+                Die Zeitung ist auch in Papierform erhältlich: Sie wird für 1,50 Euro auf allen Treffpunkten und Infoständen des Tauschringes verkauft.
+            </p>
 
-        <h:form>
-            <h:panelGrid columns="4" cellpadding="5">
-                <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
-
-                <p:inputText id="name" value="#{userSession.id}"/>
-
-                <p:commandButton value="Submit" update="display"/>
-
-                <h:outputText value="#{userSession.id}" id="display"/>
-            </h:panelGrid>
-
-        </h:form>
+            <p>
+                Viel Spaß beim Lesen!
+            </p>
+        </p:panel>
     </ui:define>
 </ui:composition>

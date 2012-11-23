@@ -24,28 +24,63 @@ Environmental damage caused by the use must be kept as small as possible.
 <ui:composition template="/decorators/menuDecorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="contentWithMenu">
-        <div class="container">
+        <p:panel header="Postanschrift">
+            <p>Tauschring Hamburg</p>
 
+            <p>Postfach 50 02 45 </p>
 
-            #{userSession.activeMenu('dashboard')}
-            #{facesContext.viewRoot.viewId.substring(1)}
-            #{facesContext.viewRoot.viewId.startsWith('/dashboard')?'acticMenuItem':''}
+            <p>22702 Hamburg </p>
+        </p:panel>
 
-            <h:form>
-                <h:panelGrid columns="4" cellpadding="5">
-                    <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
+        <p/>
+        <p:panel header="Öffentlichkeitsarbeit">
+            <p>Dagmar Akinola</p>
 
-                    <p:inputText id="name" value="#{userSession.id}"/>
+            <p>Tel: 040 – 1812 1771 (Anrufbeantworter)</p>
 
-                    <p:commandButton value="Submit" update="display"/>
+            <p>pressearbeit(at)tauschring-hamburg.org</p>
+        </p:panel>
 
-                    <h:outputText value="#{userSession.id}" id="display"/>
-                </h:panelGrid>
+        <p/>
+        <p:panel header="Mitgliederbetreuung">
+            <p>Supta Weiss</p>
 
-            </h:form>
-        </div>
+            <p>Tel: 040 – 490 31 52</p>
+
+            <p>hotline(at)tauschring-hamburg.org</p>
+        </p:panel>
+
+        <p/>
+        <p:panel header="Bankverbindung">
+            <p>Dagmar Zielke Tauschring Hamburg</p>
+
+            <p>Kto-Nr.: 2030765900</p>
+
+            <p>BLZ: 43060967</p>
+
+            <p>GLS Bank Hamburg</p>
+        </p:panel>
+
+        <p/>
+        <p:panel header="Impressum">
+
+            <p>
+                Presserechtlich verantwortlich für die Inhalte auf www.tauschring-hamburg.org zeichnet:
+            </p>
+
+            <p/>
+
+            <p>René Eberstein</p>
+
+            <p>orga(at)tauschring-hamburg.org</p>
+
+            <p/>
+
+            <p>Haftungsausschluss für externe Links:</p>
+
+            <p>Wir möchten ausdrücklich betonen, dass wir keinerlei Einfluss auf die Gestaltung und die Inhalte der gelinkten Seiten haben. Deshalb distanzieren wir uns hiermit ausdrücklich von allen Inhalten aller gelinkten Seiten auf dieser Website und machen uns diese Inhalte nicht zu eigen. Diese Erklärung gilt für alle auf dieser Website ausgebrachten Links. Der Verfasser dieser Seite trägt keine Verantwortung für die Art, wie die hier zur Verfügung gestellten Informationen genutzt werden.</p>
+        </p:panel>
     </ui:define>
 </ui:composition>

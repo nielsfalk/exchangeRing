@@ -24,41 +24,51 @@ Environmental damage caused by the use must be kept as small as possible.
 <ui:composition template="/decorators/menuDecorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="contentWithMenu">
+        <p:panel header="Was ist ein Tauschring?">
+            <p>
+                Jede/r braucht mal Hilfe im Alltag oder kann mit den eigenen Fähigkeiten anderen helfen. Wir alle haben
+                weit mehr Talent, als wir im “normalen Leben” einsetzen. Im Tauschring finden Menschen in der
+                Nachbarschaft zusammen und tauschen ihre Fähigkeiten bzw. ihr Wissen aus.
+            </p>
 
+            <p>
+                Jede/r kann anbieten, was ihr/ihm Spaß macht, so z.B. Hecke oder Haare schneiden. Es können auch
+                Gegenstände getauscht werden. Dabei gilt: Jede Arbeit ist gleich viel wert, egal ob man z.B. putzt oder
+                Computer-Unterricht gibt.
+            </p>
 
-        #{userSession.activeMenu('dashboard')}
-        #{facesContext.viewRoot.viewId.substring(1)}
-        #{facesContext.viewRoot.viewId.startsWith('/dashboard')?'acticMenuItem':''}
+            <p>
+                Getauscht wird also die “Arbeits” – Zeit, die in unserer Tauscheinheit “Motten” abgerechnet wird. Der
+                Tauschring lebt also vom Geben und Nehmen!
+            </p>
 
-        <h:form>
-            <h:panelGrid columns="4" cellpadding="5">
-                <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
+            <p>
+                Über den Tauschring lassen sich Kontakte in der Nachbarschaft knüpfen, und kann somit zur Verbesserung
+                der Lebensqualität im Stadtteil beitragen. Die kurzen Wege sparen Zeit und Energie, sind also auch
+                ökologisch sinnvoll. Alle Mitglieder, auch die mit wenig Geld, können sich so mal etwas “Besonderes”
+                leisten, d.h. etwas, was sie sich immer schon wünschen, aber normalerweise kaum bezahlen können.
+            </p>
+        </p:panel>
 
-                <p:inputText id="name" value="#{userSession.id}"/>
+        <p/>
+        <p:panel header="Unsere Regeln">
+            <p>
+                Ein Tauschring hat auch Regeln, damit das Tauschen für alle einfacher wird. Du kannst Dir unsere Regeln
+                herunterladen und Dir schon mal einen ersten Einblick verschaffen:
+            </p>
 
-                <p:commandButton value="Submit" update="display"/>
+            <p>
+                <a href="/documents/Tauschring-Hamburg-Unsere-Regeln1.pdf">
+                    Tauschring Hamburg – Unsere Regeln
+                </a>
+            </p>
 
-                <h:outputText value="#{userSession.id}" id="display"/>
-            </h:panelGrid>
-
-            <p:slideMenu style="width:180px">
-                <p:submenu label="Navigations" icon="ui-icon-extlink">
-                    <p:submenu label="Prime Links">
-                        <p:menuitem value="Prime" url="http://www.prime.com.tr"/>
-                        <p:menuitem value="PrimeFaces" actionListener="#{userSession.selectOffer(4)}"
-                                    update="toUpdate"/>
-                    </p:submenu>
-                </p:submenu>
-            </p:slideMenu>
-            <ui:fragment id="toUpdate">
-                #{userSession.selectedAdvertisement}
-                id:#{userSession.selectedAdvertisement.id}
-                #{userSession.selectedAdvertisement.title}
-
-            </ui:fragment>
-        </h:form>
+            <p>
+                Bist Du bei uns Mitglied geworden, erhältst du bei Eintritt ein Tauschringbuch, in dem alles Wichtige
+                steht.
+            </p>
+        </p:panel>
     </ui:define>
 </ui:composition>

@@ -1,7 +1,6 @@
 package de.hh.changeRing.controller;
 
 import de.hh.changeRing.InitTestData;
-import de.hh.changeRing.domain.Advertisement;
 import de.hh.changeRing.domain.User;
 
 import javax.faces.bean.ManagedBean;
@@ -38,7 +37,6 @@ public class UserSession {
 
     private String id, password;
     private User user;
-    private Advertisement selectedAdvertisement;
 
     public void login() {
         User user = InitTestData.findUser(id);
@@ -48,34 +46,20 @@ public class UserSession {
         LOGGER.info(isLoggedIn() ? id + " logged in" : "tried to login " + id);
     }
 
-	public void updateUser() {
-	}
+    public void updateUser() {
+    }
 
     public String activeMenu(String viewIdPrefix) {
         return FacesContext.getCurrentInstance().getViewRoot().getViewId().substring(1).startsWith(viewIdPrefix)
                 ? "ui-state-active" : "";
     }
 
-    @SuppressWarnings("UnusedDeclaration")
-    public void selectOffer(Long id) {
-        selectedAdvertisement = InitTestData.findAd(id);
-    }
-
     public boolean isNotLoggedIn() {
         return user == null;
     }
 
-
     public boolean isLoggedIn() {
         return user != null;
-    }
-
-    public void setSelectedAdvertisement(Advertisement selectedAdvertisement) {
-        this.selectedAdvertisement = selectedAdvertisement;
-    }
-
-    public Advertisement getSelectedAdvertisement() {
-        return selectedAdvertisement;
     }
 
     public String getId() {
@@ -90,15 +74,15 @@ public class UserSession {
         return password;
     }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	void setUser(User user) {
-		this.user = user;
-	}
+    void setUser(User user) {
+        this.user = user;
+    }
 }

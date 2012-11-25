@@ -32,35 +32,36 @@ Environmental damage caused by the use must be kept as small as possible.
                 <p:menu model="#{ad.topAdMenu}" style="width:180px;"/>
 
                 <p/>
-                <p:slideMenu style="width:180px;" model="#{ad.navigation}"/>
+                <p:slideMenu style="width:180px;" model="#{ad.navigation}"
+                             rendered="#{ad.topAdMenuItemType.hasSubMenu}"/>
             </div>
 
             <div id="contentWithMenu">
                 <h:panelGroup id="toUpdate" layout="block">
-                    <p:panel header="#{userSession.selectedAdvertisement.title}"
-                             rendered="#{userSession.selectedAdvertisement != null}">
+                    <p:panel header="#{ad.selectedAdvertisement.title}"
+                             rendered="#{ad.selectedAdvertisement != null}">
                         <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
                             <h:outputText value="User:"/>
                             <h:panelGroup>
-                                <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{userSession.selectedAdvertisement.owner.id}">
-                                    <img src="#{userSession.selectedAdvertisement.owner.gravatarUrl30}"
-                                         alt="avatar #{userSession.selectedAdvertisement.owner.displayName}"/>
-                                    <h:outputText value="#{userSession.selectedAdvertisement.owner.id}"/>
+                                <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{ad.selectedAdvertisement.owner.id}">
+                                    <img src="#{ad.selectedAdvertisement.owner.gravatarUrl30}"
+                                         alt="avatar #{ad.selectedAdvertisement.owner.displayName}"/>
+                                    <h:outputText value="#{ad.selectedAdvertisement.owner.id}"/>
                                 </a>
                             </h:panelGroup>
 
                             <h:outputText value="Name:"/>
-                            <h:outputText value="#{userSession.selectedAdvertisement.name}"/>
+                            <h:outputText value="#{ad.selectedAdvertisement.name}"/>
 
                             <h:outputText value="Überweisung:"/>
                             <h:panelGroup>
-                                <a href="${pageContext.request.servletPath}/internal/transaction.xhtml?receiverId=#{userSession.selectedAdvertisement.owner.id}&amp;adId=#{userSession.selectedAdvertisement.id}">
-                                    überweisung an #{userSession.selectedAdvertisement.owner.id}
+                                <a href="${pageContext.request.servletPath}/internal/transaction.xhtml?receiverId=#{ad.selectedAdvertisement.owner.id}&amp;adId=#{ad.selectedAdvertisement.id}">
+                                    überweisung an #{ad.selectedAdvertisement.owner.id}
                                 </a>
                             </h:panelGroup>
 
                             <h:outputText value="Anzeige:"/>
-                            <h:outputText value="#{userSession.selectedAdvertisement.content}"/>
+                            <h:outputText value="#{ad.selectedAdvertisement.content}"/>
                         </h:panelGrid>
                     </p:panel>
                 </h:panelGroup>

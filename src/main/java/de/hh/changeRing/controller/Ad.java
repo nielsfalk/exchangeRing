@@ -12,11 +12,13 @@ import org.primefaces.model.DefaultMenuModel;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static de.hh.changeRing.controller.Ad.TopAdMenuItemType.offers;
+import static java.util.Calendar.YEAR;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -60,7 +62,7 @@ public class Ad {
     }
 
     public void create() {
-        System.out.println("test");
+        InitTestData.getSortedAds().get(newAd.getCategory()).add(0, newAd);
     }
 
     public DefaultMenuModel getTopAdMenu() {
@@ -146,6 +148,9 @@ public class Ad {
             newAd = new Advertisement();
             newAd.setOwner(session.getUser());
             newAd.setType(Advertisement.AdvertisementType.offer);
+            GregorianCalendar gregorianCalendar = new GregorianCalendar();
+            gregorianCalendar.add(YEAR, 1);
+            newAd.setValidUntil(gregorianCalendar.getTime());
         }
         return newAd;
     }

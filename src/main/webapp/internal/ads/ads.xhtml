@@ -52,7 +52,17 @@ Environmental damage caused by the use must be kept as small as possible.
                             <f:selectItems value="#{ad.categories}" var="cat" itemLabel="#{cat.desc}"
                                            itemValue="#{cat}"/>
                         </p:selectOneMenu>
+
+                        <h:outputText value="Gültig bis (Maximal ein Jahr):"/>
+                        <p:calendar locale="de" navigator="true" value="#{ad.newAd.validUntil}"/>
+
+                        <h:outputText value="Anzeige:"/>
+                        <p:inputTextarea id="content" rows="4" cols="35" counter="counter" maxlength="140"
+                                         counterTemplate="{0} zeichen übrig." autoResize="false"
+                                         value="#{ad.newAd.content}"/>
                         <p:commandButton value="Erstellen" actionListener="#{ad.create}"/>
+                        <h:outputText id="counter"/>
+
                     </h:panelGrid>
                 </p:panel>
 

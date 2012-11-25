@@ -1,12 +1,15 @@
 package de.hh.changeRing.controller;
 
 import de.hh.changeRing.Context;
+import de.hh.changeRing.domain.Advertisement;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.component.separator.Separator;
 import org.primefaces.model.DefaultMenuModel;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import java.util.HashMap;
+import java.util.Map;
 
 import static de.hh.changeRing.controller.Ad.TopAdMenuItemType.offers;
 
@@ -37,6 +40,7 @@ import static de.hh.changeRing.controller.Ad.TopAdMenuItemType.offers;
 public class Ad {
     private DefaultMenuModel topAdMenu;
     private TopAdMenuItemType topAdMenuItemType = offers;
+    private static Map<TopAdMenuItemType, DefaultMenuModel> navigationCache = new HashMap<TopAdMenuItemType, DefaultMenuModel>();
 
     public void selectTop(TopAdMenuItemType name) {
         this.topAdMenuItemType = name;
@@ -68,14 +72,37 @@ public class Ad {
         return topAdMenu;
     }
 
+    public DefaultMenuModel getNavigation() {
+        if (!navigationCache.containsKey(topAdMenuItemType)) {
+
+            DefaultMenuModel navi = topAdMenuItemType.hastSubMenu ? AdNavigation.createAdNavigation(topAdMenuItemType) : null;
+            navigationCache.put(topAdMenuItemType, navi);
+        }
+        return navigationCache.get(topAdMenuItemType);
+    }
+
+
     public static enum TopAdMenuItemType {
         create("Erstellen"),
-        offers("Angebote"),
-        requests("Gesuche");
+        offers("Angebote", Advertisement.AdvertisementType.offer, true),
+        requests("Gesuche", Advertisement.AdvertisementType.request, true);
+
+        private final boolean hastSubMenu;
         private String translation;
+        private Advertisement.AdvertisementType adType;
 
         TopAdMenuItemType(String translation) {
+            this(translation, null, false);
+        }
+
+        TopAdMenuItemType(String translation, Advertisement.AdvertisementType adType, boolean hastSubMenu) {
             this.translation = translation;
+            this.hastSubMenu = hastSubMenu;
+            this.adType = adType;
+        }
+
+        public Advertisement.AdvertisementType getAdType() {
+            return adType;
         }
     }
 }

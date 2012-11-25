@@ -54,11 +54,11 @@ public class AdNavigation {
         return requestNavigation;
     }
 
-    private DefaultMenuModel createAdNavigation(Advertisement.AdvertisementType type) {
+    static DefaultMenuModel createAdNavigation(Advertisement.AdvertisementType type) {
         return recursiveCreateCategory(Category.rootItems(), null, new DefaultMenuModel(), type);
     }
 
-    private DefaultMenuModel recursiveCreateCategory(List<Category> categories, Submenu parent, DefaultMenuModel rootNavigation, Advertisement.AdvertisementType offer) {
+    private static DefaultMenuModel recursiveCreateCategory(List<Category> categories, Submenu parent, DefaultMenuModel rootNavigation, Advertisement.AdvertisementType offer) {
         for (Category category : categories) {
             Submenu sub = new Submenu();
             sub.setLabel(category.getName());
@@ -77,7 +77,7 @@ public class AdNavigation {
         return rootNavigation;
     }
 
-    private void addItems(Category category, Submenu sub, Advertisement.AdvertisementType type) {
+    private static void addItems(Category category, Submenu sub, Advertisement.AdvertisementType type) {
         for (Advertisement advertisement : InitTestData.getSortedAds().get(category)) {
             if (advertisement.getType().equals(type)) {
                 MenuItem item = new MenuItem();
@@ -88,5 +88,9 @@ public class AdNavigation {
                 sub.getChildren().add(item);
             }
         }
+    }
+
+    public static DefaultMenuModel createAdNavigation(Ad.TopAdMenuItemType topAdMenuItemType) {
+        return createAdNavigation(topAdMenuItemType.getAdType());
     }
 }

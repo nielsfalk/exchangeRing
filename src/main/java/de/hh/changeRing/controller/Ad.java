@@ -10,6 +10,7 @@ import org.primefaces.component.submenu.Submenu;
 import org.primefaces.model.DefaultMenuModel;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import java.util.HashMap;
 import java.util.List;
@@ -42,15 +43,24 @@ import static de.hh.changeRing.controller.Ad.TopAdMenuItemType.offers;
 @ManagedBean
 @SessionScoped
 public class Ad {
-
+    @ManagedProperty(value = "#{userSession}")
+    private UserSession session;
     private DefaultMenuModel topAdMenu;
     private TopAdMenuItemType topAdMenuItemType = offers;
     private static Map<TopAdMenuItemType, DefaultMenuModel> navigationCache = new HashMap<TopAdMenuItemType, DefaultMenuModel>();
     private Advertisement selectedAdvertisement;
+    private Advertisement newAd;
 
+    @SuppressWarnings("UnusedDeclaration")
     public void selectTop(TopAdMenuItemType name) {
         this.topAdMenuItemType = name;
         topAdMenu = null;
+        selectedAdvertisement = null;
+        newAd = null;
+    }
+
+    public void create() {
+        System.out.println("test");
     }
 
     public DefaultMenuModel getTopAdMenu() {
@@ -81,7 +91,7 @@ public class Ad {
     public DefaultMenuModel getNavigation() {
         if (!navigationCache.containsKey(topAdMenuItemType)) {
 
-            DefaultMenuModel navi = topAdMenuItemType.hasSubMenu ? AdNavigation.createAdNavigation(topAdMenuItemType) : null;
+            DefaultMenuModel navi = topAdMenuItemType.isHasSubMenu() ? AdNavigation.createAdNavigation(topAdMenuItemType) : null;
             navigationCache.put(topAdMenuItemType, navi);
         }
         return navigationCache.get(topAdMenuItemType);
@@ -103,30 +113,58 @@ public class Ad {
 
     public static enum TopAdMenuItemType {
         create("Erstellen"),
-        offers("Angebote", Advertisement.AdvertisementType.offer, true),
-        requests("Gesuche", Advertisement.AdvertisementType.request, true);
+        offers("Angebote", Advertisement.AdvertisementType.offer),
+        requests("Gesuche", Advertisement.AdvertisementType.request);
 
-        private final boolean hasSubMenu;
         private String translation;
         final Advertisement.AdvertisementType adType;
 
         TopAdMenuItemType(String translation) {
-            this(translation, null, false);
+            this(translation, null);
         }
 
-        TopAdMenuItemType(String translation, Advertisement.AdvertisementType adType, boolean hasSubMenu) {
+        TopAdMenuItemType(String translation, Advertisement.AdvertisementType adType) {
             this.translation = translation;
-            this.hasSubMenu = hasSubMenu;
             this.adType = adType;
         }
 
         public boolean isHasSubMenu() {
-            return hasSubMenu;
+            return adType != null;
+        }
+
+        public boolean isCreate() {
+            return create.equals(this);
         }
     }
 
     public TopAdMenuItemType getTopAdMenuItemType() {
         return topAdMenuItemType;
+    }
+
+    public Advertisement getNewAd() {
+        if (newAd == null) {
+            newAd = new Advertisement();
+            newAd.setOwner(session.getUser());
+            newAd.setType(Advertisement.AdvertisementType.offer);
+        }
+        return newAd;
+    }
+
+    public void setNewAd(Advertisement newAd) {
+        this.newAd = newAd;
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    public void setSession(UserSession session) {
+        this.session = session;
+    }
+
+    public Advertisement.AdvertisementType[] getAdType() {
+        return Advertisement.AdvertisementType.values();
+    }
+
+    public List<Category> getCategories() {
+        return Category.endPointItems();
     }
 
     public static class AdNavigation {

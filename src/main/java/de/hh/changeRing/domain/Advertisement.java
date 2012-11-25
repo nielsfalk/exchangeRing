@@ -49,7 +49,16 @@ public class Advertisement {
     }
 
     public static enum AdvertisementType {
-        offer, request
+        offer("Angebot"), request("Gesuch");
+        private String translation;
+
+        AdvertisementType(String translation) {
+            this.translation = translation;
+        }
+
+        public String getTranslation() {
+            return translation;
+        }
     }
 
     public Category getCategory() {

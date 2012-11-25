@@ -102,6 +102,7 @@ public enum Category {
     private Category parent;
     private final List<Category> children = new ArrayList<Category>();
     private static ArrayList<Category> root;
+    private static List<Category> endPoints;
 
     Category(Category parent, String name) {
         this(name);
@@ -126,11 +127,31 @@ public enum Category {
         return root;
     }
 
+    public static List<Category> endPointItems() {
+        if (endPoints == null) {
+            endPoints = new ArrayList<Category>();
+            for (Category category : values()) {
+                if (category.getChildren().isEmpty()) {
+                    endPoints.add(category);
+                }
+            }
+        }
+        return endPoints;
+    }
+
     public String getName() {
         return name;
     }
 
     public List<Category> getChildren() {
         return children;
+    }
+
+    public String getDesc() {
+        String desc = name;
+        if (parent != null) {
+            desc = parent.getDesc() + '-' + desc;
+        }
+        return desc;
     }
 }

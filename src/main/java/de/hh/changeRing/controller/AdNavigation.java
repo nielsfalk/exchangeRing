@@ -5,7 +5,6 @@ import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.domain.Advertisement;
 import de.hh.changeRing.domain.Category;
 import org.primefaces.component.menuitem.MenuItem;
-import org.primefaces.component.separator.Separator;
 import org.primefaces.component.submenu.Submenu;
 import org.primefaces.model.DefaultMenuModel;
 
@@ -56,20 +55,10 @@ public class AdNavigation {
     }
 
     private DefaultMenuModel createAdNavigation(Advertisement.AdvertisementType type) {
-        DefaultMenuModel navigation = new DefaultMenuModel();
-        MenuItem back = new MenuItem();
-        back.setOutcome(Context.WELCOME_PAGE);
-        back.setValue("Zurück");
-        back.setIcon("ui-icon-home");
-
-        navigation.addMenuItem(back);
-        navigation.addSeparator(new Separator());
-
-        recursiveCreateCategory(Category.rootItems(), null, navigation, type);
-        return navigation;
+        return recursiveCreateCategory(Category.rootItems(), null, new DefaultMenuModel(), type);
     }
 
-    private void recursiveCreateCategory(List<Category> categories, Submenu parent, DefaultMenuModel rootNavigation, Advertisement.AdvertisementType offer) {
+    private DefaultMenuModel recursiveCreateCategory(List<Category> categories, Submenu parent, DefaultMenuModel rootNavigation, Advertisement.AdvertisementType offer) {
         for (Category category : categories) {
             Submenu sub = new Submenu();
             sub.setLabel(category.getName());
@@ -85,6 +74,7 @@ public class AdNavigation {
                 recursiveCreateCategory(category.getChildren(), sub, rootNavigation, offer);
             }
         }
+        return rootNavigation;
     }
 
     private void addItems(Category category, Submenu sub, Advertisement.AdvertisementType type) {

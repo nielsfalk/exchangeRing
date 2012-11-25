@@ -27,8 +27,11 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="contentWithoutMenu">
-        <h:form>
+        <h:form id="adForm">
             <div class="menuContainer">
+                <p:menu model="#{ad.topAdMenu}"/>
+
+                <p/>
                 <p:slideMenu style="width:180px;" model="#{adNavigation.offerNavigation}"/>
             </div>
 

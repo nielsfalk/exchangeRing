@@ -11,7 +11,6 @@ import org.primefaces.model.DefaultMenuModel;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-
 import java.util.List;
 
 import static de.hh.changeRing.domain.Advertisement.AdvertisementType.offer;
@@ -38,9 +37,9 @@ import static de.hh.changeRing.domain.Advertisement.AdvertisementType.request;
 @ManagedBean
 @ApplicationScoped
 public class AdNavigation {
-
     private DefaultMenuModel offerNavigation;
     private DefaultMenuModel requestNavigation;
+
 
     public DefaultMenuModel getOfferNavigation() {
         if (offerNavigation == null) {
@@ -93,7 +92,7 @@ public class AdNavigation {
             if (advertisement.getType().equals(type)) {
                 MenuItem item = new MenuItem();
                 item.addActionListener(new Context().createElActionListener(
-						"#{userSession.selectOffer(" + advertisement.getId() + ")}", Long.class));
+                        "#{userSession.selectOffer(" + advertisement.getId() + ")}", Long.class));
                 item.setValue(advertisement.getTitle());
                 item.setUpdate("toUpdate");
                 sub.getChildren().add(item);

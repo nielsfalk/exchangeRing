@@ -80,7 +80,7 @@ public class Ad {
                 item.addActionListener(new Context().createElActionListener(
                         "#{ad.selectTop('" + itemType.name() + "')}", TopAdMenuItemType.class));
                 item.setValue(itemType.translation);
-                item.setUpdate("adForm");
+                item.setAjax(false);
                 if (itemType.equals(topAdMenuItemType)) {
                     item.setStyleClass("ui-state-active");
                 }
@@ -92,9 +92,10 @@ public class Ad {
 
     public DefaultMenuModel getNavigation() {
         if (!navigationCache.containsKey(topAdMenuItemType)) {
-
-            DefaultMenuModel navi = topAdMenuItemType.isHasSubMenu() ? AdNavigation.createAdNavigation(topAdMenuItemType) : null;
-            navigationCache.put(topAdMenuItemType, navi);
+			navigationCache.put(topAdMenuItemType,
+					topAdMenuItemType.isHasSubMenu() ?
+							AdNavigation.createAdNavigation(topAdMenuItemType)
+							: null);
         }
         return navigationCache.get(topAdMenuItemType);
     }

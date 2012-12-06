@@ -3,9 +3,12 @@ package de.hh.changeRing.controller;
 
 import de.hh.changeRing.Context;
 import de.hh.changeRing.domain.Category;
+import org.primefaces.component.menuitem.MenuItem;
+import org.primefaces.model.DefaultMenuModel;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import java.util.List;
 
 import static de.hh.changeRing.controller.UserSession.ACTIVE_CSS_CLASS;
 import static de.hh.changeRing.domain.Advertisement.AdvertisementType;
@@ -35,6 +38,7 @@ import static de.hh.changeRing.domain.Advertisement.AdvertisementType;
 @ManagedBean
 @SessionScoped
 public class Advertisement {
+    public static final String ADVERTISEMENT_NAVIGATION_APP_KEY = "advertisementNavigation";
     AdvertisementType type;
     Category category;
 
@@ -64,4 +68,22 @@ public class Advertisement {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public DefaultMenuModel getCategoryBrowser() {
+        DefaultMenuModel menuModel = new DefaultMenuModel();
+        //todo zurück
+        List<Category> children = category == null ? Category.rootItems() : category.getChildren();
+        for (Category child : children) {
+            MenuItem menuItem = new MenuItem();
+            menuItem.setValue(child.getName());
+            menuItem.setUrl("/internal/advertisements/browse.xhtml?type=" + type.name() + "&category=" + child.name());
+            menuModel.addMenuItem(menuItem);
+        }
+        if (children.isEmpty()) {
+            //TODO ads
+        }
+
+        return menuModel;
+    }
+
 }

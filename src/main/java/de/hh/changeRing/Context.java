@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 
@@ -121,6 +122,10 @@ public class Context {
         String beanName = Character.toLowerCase(typeSimpleName.charAt(0)) + typeSimpleName.substring(1);
         //noinspection unchecked
         return (T) getExternalContext().getSessionMap().get(beanName);
+    }
+
+    public Map<String, Object> getApplicationMap() {
+        return getExternalContext().getApplicationMap();
     }
 
     private boolean internalRequest() {

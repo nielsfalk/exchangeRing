@@ -33,7 +33,8 @@ Environmental damage caused by the use must be kept as small as possible.
         <f:viewParam name="category" value="#{advertisement.category}"/>
     </f:metadata>
     <ui:define name="categoryBrowser">
-        categoryBr
+        <p/>
+        <p:menu style="width:180px;" id="categoryBrowserMenu" model="#{advertisement.categoryBrowser}"/>
     </ui:define>
     <ui:define name="advertisementContent">
         #{userSession.activeMenu('dashboard')}

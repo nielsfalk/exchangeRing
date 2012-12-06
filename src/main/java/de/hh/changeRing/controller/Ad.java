@@ -44,6 +44,7 @@ import static java.util.Calendar.YEAR;
  */
 @ManagedBean
 @SessionScoped
+@Deprecated
 public class Ad {
     @ManagedProperty(value = "#{userSession}")
     private UserSession session;
@@ -92,10 +93,10 @@ public class Ad {
 
     public DefaultMenuModel getNavigation() {
         if (!navigationCache.containsKey(topAdMenuItemType)) {
-			navigationCache.put(topAdMenuItemType,
-					topAdMenuItemType.isHasSubMenu() ?
-							AdNavigation.createAdNavigation(topAdMenuItemType)
-							: null);
+            navigationCache.put(topAdMenuItemType,
+                    topAdMenuItemType.isHasSubMenu() ?
+                            AdNavigation.createAdNavigation(topAdMenuItemType)
+                            : null);
         }
         return navigationCache.get(topAdMenuItemType);
     }

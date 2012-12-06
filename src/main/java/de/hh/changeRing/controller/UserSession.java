@@ -1,11 +1,11 @@
 package de.hh.changeRing.controller;
 
+import de.hh.changeRing.Context;
 import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.domain.User;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import java.util.logging.Logger;
 
 /**
@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 @SessionScoped
 public class UserSession {
     private static final Logger LOGGER = Logger.getLogger(UserSession.class.getName());
+    public static final String ACTIVE_CSS_CLASS = "ui-state-active";
 
     private String id, password;
     private User user;
@@ -50,8 +51,8 @@ public class UserSession {
     }
 
     public String activeMenu(String viewIdPrefix) {
-        return FacesContext.getCurrentInstance().getViewRoot().getViewId().substring(1).startsWith(viewIdPrefix)
-                ? "ui-state-active" : "";
+        return new Context().getViewId().substring(1).startsWith(viewIdPrefix)
+                ? ACTIVE_CSS_CLASS : "";
     }
 
     public boolean isNotLoggedIn() {

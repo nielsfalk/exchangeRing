@@ -58,6 +58,7 @@ public class Context {
     private ELContext elContext;
     private ExpressionFactory expressionFactory;
     private Application app;
+    private String viewId;
 
     private Context(FacesContext context) {
         this.context = context;
@@ -187,6 +188,13 @@ public class Context {
         return viewRoot;
     }
 
+    public String getViewId() {
+        if (viewId == null) {
+            viewId = getViewRoot().getViewId();
+        }
+        return viewId;
+    }
+
     private HttpSession getSession() {
         if (session == null) {
             session = (HttpSession) getExternalContext().getSession(false);
@@ -208,7 +216,7 @@ public class Context {
         return requestURI;
     }
 
-    private HttpServletRequest getRequest() {
+    public HttpServletRequest getRequest() {
         if (request == null) {
             request = (HttpServletRequest) getExternalContext().getRequest();
         }

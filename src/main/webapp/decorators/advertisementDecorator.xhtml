@@ -1,0 +1,52 @@
+<!--
+================GNU General Public License================================
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+================in addition===============================================
+
+In addition, each military use, and the use for interest profit will be
+excluded.
+Environmental damage caused by the use must be kept as small as possible.
+
+-->
+<ui:composition template="/decorators/noMenuDecorator.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="contentWithoutMenu">
+        <div class="menuContainer">
+            <p:menu style="width:180px;" id="topAdMenu">
+                <p:menuitem value="Zurück" url="/dashboard.xhtml" icon="ui-icon-home"/>
+                <p:separator/>
+                <p:menuitem styleClass="#{userSession.activeMenu('internal/advertisements/create')}" value="Erstelen"
+                            url="/internal/advertisements/create.xhtml"
+                            icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
+
+                <p:menuitem styleClass="#{advertisement.activeMenuBrowse('offer')}" value="Angebote"
+                            url="/internal/advertisements/browse.xhtml?type=offer"
+                            icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
+
+                <p:menuitem styleClass="#{advertisement.activeMenuBrowse('request')}" value="Gesuche"
+                            url="/internal/advertisements/browse.xhtml?type=request"
+                            icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
+            </p:menu>
+
+            <ui:insert name="categoryBrowser"/>
+        </div>
+        <div id="contentWithMenu">
+            <ui:insert name="advertisementContent"/>
+        </div>
+    </ui:define>
+</ui:composition>

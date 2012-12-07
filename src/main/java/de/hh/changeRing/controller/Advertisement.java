@@ -101,7 +101,7 @@ public class Advertisement {
 
 
     public DefaultMenuModel getBreadCrumb() {
-        return advertisement == null ? category.createBreadCrumb(type) : advertisement.createBreadCrumb();
+        return advertisement == null ? category.createBreadCrumb(type) : advertisement.getBreadCrumb();
     }
 
     public List<de.hh.changeRing.domain.Advertisement> getAdvertisements() {

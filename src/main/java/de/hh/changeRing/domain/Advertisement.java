@@ -52,7 +52,7 @@ public class Advertisement extends BaseEntity {
         return creationDate;
     }
 
-    public DefaultMenuModel createBreadCrumb() {
+    public DefaultMenuModel getBreadCrumb() {
         DefaultMenuModel breadCrumb = category.createBreadCrumb(type);
         MenuItem menuItem = new MenuItem();
         menuItem.setValue(title);

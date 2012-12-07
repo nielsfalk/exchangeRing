@@ -38,11 +38,9 @@ Environmental damage caused by the use must be kept as small as possible.
         <p:menu style="width:180px;" id="categoryBrowserMenu" model="#{advertisement.categoryBrowser}"/>
     </ui:define>
     <ui:define name="advertisementContent">
-        <p:breadCrumb model="#{advertisement.breadCrumb}"/>
-
-        <p/>
         <ui:repeat value="#{advertisement.advertisements}" var="adToShow">
-            <p:panel header="#{adToShow.title}">
+            <p:panel>
+                <p:breadCrumb model="#{adToShow.breadCrumb}"/>
                 <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
                     <h:outputText value="User:"/>
                     <h:panelGroup>

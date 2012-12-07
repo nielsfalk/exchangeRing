@@ -26,7 +26,9 @@ import java.util.List;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 public enum Category {
-    service("Service für Daheim"),
+    root(null, null),
+
+    service(root, "Service für Daheim"),
     home(service, "Haus und Wohnung"),
     move(service, "Umzug"),
     garden(service, "Garten"),
@@ -35,7 +37,7 @@ public enum Category {
     cleaning(service, "Putzen"),
     washing(service, "Waschen & Bügeln"),
 
-    engineering("Technik"),
+    engineering(root, "Technik"),
     office(engineering, "Büro"),
     layout(engineering, "Layout"),
     computer(engineering, "Computer"),
@@ -43,20 +45,20 @@ public enum Category {
     phone(engineering, "DSL & Telefon"),
     tv(engineering, "Foto / Hifi / TV"),
 
-    creative("Kreative Ecken"),
+    creative(root, "Kreative Ecken"),
     artCraft(creative, "Kunsthandwerk"),
     tailor(creative, "Kleidung & Schneidern"),
     design(creative, "Design"),
     advertising(creative, "Werbung"),
     otherCreative(creative, "Sonstiges"),
 
-    food("Essen und Trinken"),
+    food(root, "Essen und Trinken"),
     cooking(food, "Kochen"),
     baking(food, "Backen"),
     sweet(food, "Marmelade, Süßes, Nachspeisen"),
     party(food, "Partyservice"),
 
-    bodySoul("Körper & Seele"),
+    bodySoul(root, "Körper & Seele"),
     esoteric(bodySoul, "esoterisch / spirituell"),
     astrology(bodySoul, "Astrologie"),
     therapy(bodySoul, "Therapien"),
@@ -64,67 +66,55 @@ public enum Category {
     health(bodySoul, "Gesundheit"),
     beauty(bodySoul, "Schönheit & Kosmetik"),
 
-    fitForever("Fit Forever"),
+    fitForever(root, "Fit Forever"),
     sports(fitForever, "Spiel & Sport"),
     dance(fitForever, "Tanzen"),
 
-    cultureEducation("Kultur & Bildung"),
+    cultureEducation(root, "Kultur & Bildung"),
     music(cultureEducation, "Musik"),
     language(cultureEducation, "Sprachen"),
     culture(cultureEducation, "Kultur"),
 
-    smallOnes("Die lieben Kleinen"),
+    smallOnes(root, "Die lieben Kleinen"),
     babysitting(smallOnes, "Babysitting"),
     coaching(smallOnes, "Förderung & Nachhilfe"),
 
-    animal("Tierisches"),
+    animal(root, "Tierisches"),
     dog(animal, "Hunde"),
     cat(animal, "Katzen"),
     animalMisc(animal, "Andere"),
 
-    mobile("Mobiles"),
+    mobile(root, "Mobiles"),
     bike(mobile, "Fahrrad"),
     car(mobile, "Auto"),
 
-    sozial("Soziales & Lebendiges"),
+    sozial(root, "Soziales & Lebendiges"),
     help(sozial, "Rat & Hilfe"),
     enterprise(sozial, "Unternehmungen"),
     mottenFree(sozial, "Mottenfreie Zone"),
 
-    substantive("Materielles"),
+    substantive(root, "Materielles"),
     fleaMarket(substantive, "Flohmarkt"),
     rental(substantive, "Verleih"),
     free(substantive, "für lau"),
 
-    misc("Sonstiges");
+    misc(root, "Sonstiges");
 
     private final String name;
-    private Category parent;
+    public final Category parent;
     private final List<Category> children = new ArrayList<Category>();
-    private static ArrayList<Category> root;
     private static List<Category> endPoints;
 
     Category(Category parent, String name) {
-        this(name);
         this.parent = parent;
-        parent.children.add(this);
-    }
-
-    Category(String name) {
         this.name = name;
+        if (parent != null) {
+            parent.children.add(this);
+        }
     }
 
     public static List<Category> rootItems() {
-        if (root == null) {
-            root = new ArrayList<Category>();
-
-            for (Category potentialRoot : values()) {
-                if (potentialRoot.parent == null) {
-                    root.add(potentialRoot);
-                }
-            }
-        }
-        return root;
+        return root.getChildren();
     }
 
     public static List<Category> endPointItems() {

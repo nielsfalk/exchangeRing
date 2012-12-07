@@ -4,6 +4,7 @@ package de.hh.changeRing.controller;
 import de.hh.changeRing.Context;
 import de.hh.changeRing.domain.Category;
 import org.primefaces.component.menuitem.MenuItem;
+import org.primefaces.component.separator.Separator;
 import org.primefaces.model.DefaultMenuModel;
 
 import javax.faces.bean.ManagedBean;
@@ -40,7 +41,7 @@ import static de.hh.changeRing.domain.Advertisement.AdvertisementType;
 public class Advertisement {
     public static final String ADVERTISEMENT_NAVIGATION_APP_KEY = "advertisementNavigation";
     AdvertisementType type;
-    Category category;
+    Category category = Category.root;
 
     public String activeMenuBrowse(AdvertisementType type) {
         Context context = new Context();
@@ -72,11 +73,19 @@ public class Advertisement {
     public DefaultMenuModel getCategoryBrowser() {
         DefaultMenuModel menuModel = new DefaultMenuModel();
         //todo zurück
-        List<Category> children = category == null ? Category.rootItems() : category.getChildren();
+        if (category != Category.root) {
+            MenuItem menuItem = new MenuItem();
+            menuItem.setValue("zurück");
+            menuItem.setUrl(browseUrl(category.parent));
+            menuItem.setIcon("ui-icon-carat-1-n");
+            menuModel.addMenuItem(menuItem);
+            menuModel.addSeparator(new Separator());
+        }
+        List<Category> children = category.getChildren();
         for (Category child : children) {
             MenuItem menuItem = new MenuItem();
             menuItem.setValue(child.getName());
-            menuItem.setUrl("/internal/advertisements/browse.xhtml?type=" + type.name() + "&category=" + child.name());
+            menuItem.setUrl(browseUrl(child));
             menuModel.addMenuItem(menuItem);
         }
         if (children.isEmpty()) {
@@ -84,6 +93,10 @@ public class Advertisement {
         }
 
         return menuModel;
+    }
+
+    private String browseUrl(Category category) {
+        return "/internal/advertisements/browse.xhtml?type=" + type.name() + "&category=" + category.name();
     }
 
 }

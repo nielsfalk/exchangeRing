@@ -73,6 +73,21 @@
         <facebook>hansMeiser</facebook>
         <skype>skypeName</skype>
     </user>
+    <user>
+        <id>595</id>
+        <nickName>dori</nickName>
+        <firstName>Mary-Ann</firstName>
+        <lastName>Lehmann</lastName>
+        <password>123</password>
+        <e>ma</e>
+        <e>ry</e>
+        <e>-</e>
+        <e>dor</e>
+        <e>i@h</e>
+        <e>otma</e>
+        <e>il.</e>
+        <e>de</e>
+    </user>
     <transaction>
         <fromId>577</fromId>
         <toId>13</toId>

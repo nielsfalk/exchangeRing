@@ -63,7 +63,7 @@ public class Ad {
     }
 
     public void create() {
-        InitTestData.getSortedAds().get(newAd.getCategory()).add(0, newAd);
+        InitTestData.getSortedAds().get(newAd.getType()).get(newAd.getCategory()).add(0, newAd);
     }
 
     public DefaultMenuModel getTopAdMenu() {
@@ -199,7 +199,7 @@ public class Ad {
         }
 
         private static void addItems(Category category, Submenu sub, Advertisement.AdvertisementType type) {
-            for (Advertisement advertisement : InitTestData.getSortedAds().get(category)) {
+            for (Advertisement advertisement : InitTestData.getSortedAds().get(type).get(category)) {
                 if (advertisement.getType().equals(type)) {
                     MenuItem item = new MenuItem();
                     item.addActionListener(new Context().createElActionListener(

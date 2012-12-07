@@ -76,7 +76,7 @@ public class Advertisement {
             menuModel.addMenuItem(menuItem);
         }
         if (children.isEmpty()) {
-            for (de.hh.changeRing.domain.Advertisement advertisement : InitTestData.getSortedAds().get(category)) {
+            for (de.hh.changeRing.domain.Advertisement advertisement : InitTestData.getSortedAds().get(type).get(category)) {
                 MenuItem menuItem = new MenuItem();
                 menuItem.setValue(advertisement.getTitle());
                 menuItem.setUrl(browseUrl(advertisement));
@@ -108,7 +108,7 @@ public class Advertisement {
         if (getAdvertisement() != null) {
             return Arrays.asList(getAdvertisement());
         }
-        return InitTestData.getSortedAds().get(category);
+        return InitTestData.getSortedAds().get(type).get(category);
     }
 
     public de.hh.changeRing.domain.Advertisement getAdvertisement() {

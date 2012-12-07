@@ -42,7 +42,7 @@ public class InitTestData {
     private static InitialData data;
     private static List<Transaction> transactions;
     private static final List<Advertisement> advertisements = new ArrayList<Advertisement>();
-    private static HashMap<Category, LinkedList<Advertisement>> sortedAds;
+    private static Map<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>> sortedAds;
 
     static {
         InitTestData.init();
@@ -90,34 +90,55 @@ public class InitTestData {
         }
     }
 
-    public static Map<Category, LinkedList<Advertisement>> getSortedAds() {
+    public static Map<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>> getSortedAds() {
         if (sortedAds == null) {
-            sortedAds = new HashMap<Category, LinkedList<Advertisement>>();
+            sortedAds = createSortedAds();
+        }
+        return sortedAds;
+    }
+
+    private static HashMap<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>> createSortedAds() {
+        HashMap<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>> result
+                = new HashMap<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>>();
+        for (Advertisement.AdvertisementType advertisementType : Advertisement.AdvertisementType.values()) {
+            Map<Category, LinkedList<Advertisement>> categoryMap = new HashMap<Category, LinkedList<Advertisement>>();
+            result.put(advertisementType, categoryMap);
             for (Category category : Category.values()) {
-                sortedAds.put(category, new LinkedList<Advertisement>());
+                categoryMap.put(category, new LinkedList<Advertisement>());
             }
-            for (Advertisement advertisement : advertisements) {
-                boolean notExpired = advertisement.getValidUntil().getTime() > System.currentTimeMillis();
-                if (notExpired) {
-                    for (Category category : advertisement.getCategory().thisWithParents) {
-                        sortedAds.get(category).add(advertisement);
-                    }
+        }
+        fillAdsInMap(result);
+        //sort
+        sortAdMap(result);
+        return result;
+    }
+
+    private static void fillAdsInMap(HashMap<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>> result) {
+        for (Advertisement advertisement : advertisements) {
+            boolean notExpired = advertisement.getValidUntil().getTime() > System.currentTimeMillis();
+            if (notExpired) {
+                for (Category category : advertisement.getCategory().thisWithParents) {
+                    result.get(advertisement.getType()).get(category).add(advertisement);
                 }
             }
-            //sort
+        }
+    }
+
+    private static void sortAdMap(HashMap<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>> result) {
+        for (Advertisement.AdvertisementType advertisementType : Advertisement.AdvertisementType.values()) {
+            Map<Category, LinkedList<Advertisement>> categoryMap = result.get(advertisementType);
             for (Category category : Category.values()) {
                 List<Advertisement> sorted = new Ordering<Advertisement>() {
                     @Override
                     public int compare(Advertisement advertisement, Advertisement advertisement1) {
                         return advertisement.getCreationDate().compareTo(advertisement1.getCreationDate());
                     }
-                }.sortedCopy(sortedAds.get(category));
+                }.sortedCopy(categoryMap.get(category));
                 LinkedList<Advertisement> linkedList = new LinkedList<Advertisement>();
                 linkedList.addAll(sorted);
-                sortedAds.put(category, linkedList);
+                categoryMap.put(category, linkedList);
             }
         }
-        return sortedAds;
     }
 
 

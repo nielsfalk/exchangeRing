@@ -2,6 +2,7 @@ package de.hh.changeRing.controller;
 
 
 import de.hh.changeRing.Context;
+import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.domain.Category;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.component.separator.Separator;
@@ -9,6 +10,7 @@ import org.primefaces.model.DefaultMenuModel;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import java.util.Arrays;
 import java.util.List;
 
 import static de.hh.changeRing.controller.UserSession.ACTIVE_CSS_CLASS;
@@ -39,9 +41,11 @@ import static de.hh.changeRing.domain.Advertisement.AdvertisementType;
 @ManagedBean
 @SessionScoped
 public class Advertisement {
-    public static final String ADVERTISEMENT_NAVIGATION_APP_KEY = "advertisementNavigation";
-    AdvertisementType type;
-    Category category = Category.root;
+    public static final String ADVERTISEMENTS_BROWSE_URL = "/internal/advertisements/browse.xhtml";
+    private AdvertisementType type;
+    private Category category = Category.root;
+
+    private de.hh.changeRing.domain.Advertisement advertisement;
 
     public String activeMenuBrowse(AdvertisementType type) {
         Context context = new Context();
@@ -52,6 +56,67 @@ public class Advertisement {
 
     private boolean typeActive(AdvertisementType type, Context context) {
         return type != null && type.name().equals(context.getRequest().getParameter("type"));
+    }
+
+    public DefaultMenuModel getCategoryBrowser() {
+        DefaultMenuModel menuModel = new DefaultMenuModel();
+        if (category != Category.root) {
+            MenuItem menuItem = new MenuItem();
+            menuItem.setValue("zurück");
+            menuItem.setUrl(browseUrl(category.parent, type));
+            menuItem.setIcon("ui-icon-carat-1-n");
+            menuModel.addMenuItem(menuItem);
+            menuModel.addSeparator(new Separator());
+        }
+        List<Category> children = category.getChildren();
+        for (Category child : children) {
+            MenuItem menuItem = new MenuItem();
+            menuItem.setValue(child.getName());
+            menuItem.setUrl(browseUrl(child, type));
+            menuModel.addMenuItem(menuItem);
+        }
+        if (children.isEmpty()) {
+            for (de.hh.changeRing.domain.Advertisement advertisement : InitTestData.getSortedAds().get(category)) {
+                MenuItem menuItem = new MenuItem();
+                menuItem.setValue(advertisement.getTitle());
+                menuItem.setUrl(browseUrl(advertisement));
+                if (advertisement.equals(getAdvertisement())) {
+                    menuItem.setStyleClass(ACTIVE_CSS_CLASS);
+                }
+                menuModel.addMenuItem(menuItem);
+            }
+        }
+
+        return menuModel;
+    }
+
+    public static String browseUrl(de.hh.changeRing.domain.Advertisement advertisement) {
+        return ADVERTISEMENTS_BROWSE_URL + "?type=" + advertisement.getType().name() + "&advertisement=" + advertisement
+                .getId();
+    }
+
+    public static String browseUrl(Category category, AdvertisementType type) {
+        return ADVERTISEMENTS_BROWSE_URL + "?type=" + type.name() + "&category=" + category.name();
+    }
+
+
+    public DefaultMenuModel getBreadCrumb() {
+        return advertisement == null ? category.createBreadCrumb(type) : advertisement.createBreadCrumb();
+    }
+
+    public List<de.hh.changeRing.domain.Advertisement> getAdvertisements() {
+        if (getAdvertisement() != null) {
+            return Arrays.asList(getAdvertisement());
+        }
+        return InitTestData.getSortedAds().get(category);
+    }
+
+    public de.hh.changeRing.domain.Advertisement getAdvertisement() {
+        return advertisement;
+    }
+
+    public void setAdvertisement(de.hh.changeRing.domain.Advertisement advertisement) {
+        this.advertisement = advertisement;
     }
 
     public AdvertisementType getType() {
@@ -67,36 +132,7 @@ public class Advertisement {
     }
 
     public void setCategory(Category category) {
+        setAdvertisement(null);
         this.category = category;
     }
-
-    public DefaultMenuModel getCategoryBrowser() {
-        DefaultMenuModel menuModel = new DefaultMenuModel();
-        //todo zurück
-        if (category != Category.root) {
-            MenuItem menuItem = new MenuItem();
-            menuItem.setValue("zurück");
-            menuItem.setUrl(browseUrl(category.parent));
-            menuItem.setIcon("ui-icon-carat-1-n");
-            menuModel.addMenuItem(menuItem);
-            menuModel.addSeparator(new Separator());
-        }
-        List<Category> children = category.getChildren();
-        for (Category child : children) {
-            MenuItem menuItem = new MenuItem();
-            menuItem.setValue(child.getName());
-            menuItem.setUrl(browseUrl(child));
-            menuModel.addMenuItem(menuItem);
-        }
-        if (children.isEmpty()) {
-            //TODO ads
-        }
-
-        return menuModel;
-    }
-
-    private String browseUrl(Category category) {
-        return "/internal/advertisements/browse.xhtml?type=" + type.name() + "&category=" + category.name();
-    }
-
 }

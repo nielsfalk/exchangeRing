@@ -31,27 +31,50 @@ Environmental damage caused by the use must be kept as small as possible.
     <f:metadata>
         <f:viewParam name="type" value="#{advertisement.type}"/>
         <f:viewParam name="category" value="#{advertisement.category}"/>
+        <f:viewParam name="advertisement" value="#{advertisement.advertisement}" converter="advertisementConverter"/>
     </f:metadata>
     <ui:define name="categoryBrowser">
         <p/>
         <p:menu style="width:180px;" id="categoryBrowserMenu" model="#{advertisement.categoryBrowser}"/>
     </ui:define>
     <ui:define name="advertisementContent">
-        #{userSession.activeMenu('dashboard')}
-        #{facesContext.viewRoot.viewId.substring(1)}
-        #{facesContext.viewRoot.viewId.startsWith('/dashboard')?'acticMenuItem':''}
+        <p:breadCrumb model="#{advertisement.breadCrumb}"/>
 
-        <h:form>
-            <h:panelGrid columns="4" cellpadding="5">
-                <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
+        <p/>
+        <ui:repeat value="#{advertisement.advertisements}" var="adToShow">
+            <p:panel header="#{adToShow.title}">
+                <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+                    <h:outputText value="User:"/>
+                    <h:panelGroup>
+                        <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{adToShow.owner.id}">
+                            <img src="#{adToShow.owner.gravatarUrl30}" alt="avatar #{adToShow.owner.displayName}"/>
+                            <h:outputText value="#{adToShow.owner.id}"/>
+                        </a>
+                    </h:panelGroup>
+                    <h:outputText value="Bereich:"/>
+                    <h:panelGroup>
+                        TODO
+                        <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{adToShow.owner.id}">
+                            <h:outputText value="#{adToShow.category.desc}"/>
+                        </a>
+                    </h:panelGroup>
 
-                <p:inputText id="name" value="#{userSession.id}"/>
+                    <h:outputText value="Name:"/>
+                    <h:outputText value="#{adToShow.name}"/>
 
-                <p:commandButton value="Submit" update="display"/>
+                    <h:outputText value="Überweisung:"/>
+                    <h:panelGroup>
+                        <a href="${pageContext.request.servletPath}/internal/transaction.xhtml?receiverId=#{adToShow.owner.id}&amp;adId=#{adToShow.id}">
+                            überweisung an #{adToShow.owner.id}
+                        </a>
+                    </h:panelGroup>
 
-                <h:outputText value="#{userSession.id}" id="display"/>
-            </h:panelGrid>
+                    <h:outputText value="Anzeige:"/>
+                    <h:outputText value="#{adToShow.content}"/>
+                </h:panelGrid>
+            </p:panel>
 
-        </h:form>
+            <p/>
+        </ui:repeat>
     </ui:define>
 </ui:composition>

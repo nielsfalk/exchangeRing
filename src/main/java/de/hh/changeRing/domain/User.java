@@ -44,12 +44,9 @@ import static de.hh.changeRing.domain.User.Status.active;
  */
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class User {
+public class User extends BaseEntity {
     private static final String GERMAN_DATE = "dd.MM.yyyy";
     private String nickName;
-
-    @XmlElement
-    private Long id;
 
     @XmlElement
     private String firstName;
@@ -139,10 +136,6 @@ public class User {
     @XmlElement
     public boolean isFirstNameVisible() {
         return firstNameVisible;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getLastName() {
@@ -415,7 +408,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "nickName='" + nickName + '\'' +
-                ", id=" + id +
+                ", id=" + getId() +
                 ", firstName='" + firstName + '\'' +
                 ", firstNameVisible=" + firstNameVisible +
                 ", lastName='" + lastName + '\'' +

@@ -30,9 +30,7 @@ import java.util.Date;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class Transaction {
-    @XmlElement
-    private Long id;
+public class Transaction extends BaseEntity {
     @XmlElement
     private Date date;
     @XmlElement
@@ -65,7 +63,7 @@ public class Transaction {
         return amount;
     }
 
-    public long getId() {
+    public Long getId() {
         if (id == null) {
             id = idCounter++;
         }

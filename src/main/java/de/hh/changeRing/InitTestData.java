@@ -79,7 +79,12 @@ public class InitTestData {
             //noinspection NumericOverflow
             advertisement.setValidUntil(new Date(System.currentTimeMillis()
                     + new Random().nextInt(1000 * 24 * 60)));
-            advertisement.setCategory(Category.values()[new Random().nextInt(Category.values().length)]);
+
+            Category category;
+            do {
+                category = Category.values()[new Random().nextInt(Category.values().length)];
+            } while (!category.getChildren().isEmpty());
+            advertisement.setCategory(category);
             advertisement.setLinkLocation(user.getId() % 3 == 1);
             advertisements.add(advertisement);
         }
@@ -94,7 +99,9 @@ public class InitTestData {
             for (Advertisement advertisement : advertisements) {
                 boolean notExpired = advertisement.getValidUntil().getTime() > System.currentTimeMillis();
                 if (notExpired) {
-                    sortedAds.get(advertisement.getCategory()).add(advertisement);
+                    for (Category category : advertisement.getCategory().thisWithParents) {
+                        sortedAds.get(category).add(advertisement);
+                    }
                 }
             }
             //sort
@@ -112,6 +119,7 @@ public class InitTestData {
         }
         return sortedAds;
     }
+
 
     public static List<User> getUsers() {
         return data.users;
@@ -184,6 +192,7 @@ public class InitTestData {
         }
         return null;
     }
+
 
     @XmlRootElement(name = "exchangeRingInitial")
     @XmlAccessorType(XmlAccessType.PROPERTY)

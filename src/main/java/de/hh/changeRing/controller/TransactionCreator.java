@@ -8,10 +8,6 @@ import de.hh.changeRing.domain.User;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import java.util.logging.Logger;
 
 /**
@@ -50,20 +46,21 @@ public class TransactionCreator {
     @ManagedProperty(value = "#{userSession}")
     private UserSession session;
 
-	private Advertisement advertisement;
+    private Advertisement advertisement;
 
-    public void submit() {
+    public String submit() {
         LOGGER.info(session.getUser().getId() + " created transaction");
         Transaction.create(session.getUser(), receiver, amount, subject).wire();
         setClear("clear");
+        return "/internal/transactions.xhtml";
     }
 
     @SuppressWarnings("UnusedDeclaration")
-	public void setSession(UserSession session) {
+    public void setSession(UserSession session) {
         this.session = session;
     }
 
-	public void setClear(@SuppressWarnings("UnusedParameters") String clear) {
+    public void setClear(@SuppressWarnings("UnusedParameters") String clear) {
         receiver = null;
         amount = null;
         subject = null;
@@ -73,29 +70,6 @@ public class TransactionCreator {
     @SuppressWarnings("SameReturnValue")
     public String getClear() {
         return "";
-    }
-
-    @FacesConverter("userConverter")
-    public static class UserConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
-            for (User user : InitTestData.getUsers()) {
-                if (user.getId().toString().equals(s)) {
-                    return user;
-                }
-            }
-            return null;
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent uiComponent, Object o) {
-            if (o instanceof User) {
-                User user = (User) o;
-                return user.getId().toString();
-            }
-            return "Bitter wählen";
-        }
     }
 
     public Long getReceiverId() {
@@ -127,27 +101,27 @@ public class TransactionCreator {
         return advertisement.getId();
     }
 
-	public User getReceiver() {
-		return receiver;
-	}
+    public User getReceiver() {
+        return receiver;
+    }
 
-	public Long getAmount() {
-		return amount;
-	}
+    public Long getAmount() {
+        return amount;
+    }
 
-	public void setAmount(Long amount) {
-		this.amount = amount;
-	}
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
 
-	public void setReceiver(User receiver) {
-		this.receiver = receiver;
-	}
+    public void setReceiver(User receiver) {
+        this.receiver = receiver;
+    }
 
-	public String getSubject() {
-		return subject;
-	}
+    public String getSubject() {
+        return subject;
+    }
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 }

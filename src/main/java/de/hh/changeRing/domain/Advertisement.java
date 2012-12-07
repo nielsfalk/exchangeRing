@@ -1,6 +1,11 @@
 package de.hh.changeRing.domain;
 
+import org.primefaces.component.menuitem.MenuItem;
+import org.primefaces.model.DefaultMenuModel;
+
 import java.util.Date;
+
+import static de.hh.changeRing.controller.Advertisement.browseUrl;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -24,10 +29,9 @@ import java.util.Date;
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
  */
-public class Advertisement {
+public class Advertisement extends BaseEntity {
 
     private static long idCounter = 0;
-    private final Long id = idCounter++;
     private User owner;
     private AdvertisementType type;
     private Category category;
@@ -40,20 +44,31 @@ public class Advertisement {
     private boolean linkLocation;
     private Date creationDate = new Date();
 
+    public Advertisement() {
+        id = idCounter++;
+    }
+
     public Date getCreationDate() {
         return creationDate;
     }
 
-    public Long getId() {
-        return id;
+    public DefaultMenuModel createBreadCrumb() {
+        DefaultMenuModel breadCrumb = category.createBreadCrumb(type);
+        MenuItem menuItem = new MenuItem();
+        menuItem.setValue(title);
+        menuItem.setUrl(browseUrl(this));
+        breadCrumb.addMenuItem(menuItem);
+        return breadCrumb;
     }
 
     public static enum AdvertisementType {
-        offer("Angebot"), request("Gesuch");
+        offer("Angebot", "Angobote"), request("Gesuch", "Gesuche");
         private String translation;
+        public final String plural;
 
-        AdvertisementType(String translation) {
+        AdvertisementType(String translation, String plural) {
             this.translation = translation;
+            this.plural = plural;
         }
 
         public String getTranslation() {

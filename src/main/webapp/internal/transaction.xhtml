@@ -62,7 +62,7 @@ Environmental damage caused by the use must be kept as small as possible.
                     <p:inputTextarea id="subject" rows="4" cols="35" counter="counter" maxlength="140"
                                      counterTemplate="{0} zeichen übrig." autoResize="false"
                                      value="#{transactionCreator.subject}"/>
-                    <p:commandButton value="Absenden" ajax="false" actionListener="#{transactionCreator.submit}"/>
+                    <p:commandButton value="Absenden" ajax="false" action="#{transactionCreator.submit}"/>
                     <h:outputText id="counter"/>
                 </h:panelGrid>
             </h:form>

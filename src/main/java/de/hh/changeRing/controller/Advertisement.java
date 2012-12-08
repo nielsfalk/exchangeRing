@@ -148,7 +148,6 @@ public class Advertisement {
         if (newAdvertisement == null) {
             newAdvertisement = new de.hh.changeRing.domain.Advertisement();
             newAdvertisement.setOwner(session.getUser());
-            newAdvertisement.setType(de.hh.changeRing.domain.Advertisement.AdvertisementType.offer);
             GregorianCalendar gregorianCalendar = new GregorianCalendar();
             gregorianCalendar.add(YEAR, 1);
             newAdvertisement.setValidUntil(gregorianCalendar.getTime());

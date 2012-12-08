@@ -175,10 +175,11 @@ public class InitTestData {
     }
 
     public static User findUser(String idEmailOrNick) {
+
         for (User user : getUsers()) {
-            if (user.getId().toString().equals(idEmailOrNick)
-                    || user.getEmail().equals(idEmailOrNick)
-                    || user.getNickName().equals(idEmailOrNick)) {
+            if ((user.getId() != null && user.getId().toString().equals(idEmailOrNick))
+                    || (user.getEmail() != null && user.getEmail().equals(idEmailOrNick))
+                    || (user.getNickName() != null && user.getNickName().equals(idEmailOrNick))) {
                 return user;
             }
         }

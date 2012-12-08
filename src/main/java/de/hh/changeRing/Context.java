@@ -5,6 +5,7 @@ import de.hh.changeRing.controller.UserSession;
 import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.faces.application.Application;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -233,5 +234,10 @@ public class Context {
             externalContext = context.getExternalContext();
         }
         return externalContext;
+    }
+
+    public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
+        context.addMessage(null, message);
     }
 }

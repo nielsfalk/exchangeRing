@@ -45,6 +45,9 @@ public class UserSession {
             this.user = user;
         }
         LOGGER.info(isLoggedIn() ? id + " logged in" : "tried to login " + id);
+        id = null;
+        password = null;
+        new Context().addMessage(isLoggedIn() ? ("Wilkommen " + user.getDisplayName() + "!") : "Id oder Passwort falsch");
     }
 
     public void updateUser() {
@@ -86,4 +89,5 @@ public class UserSession {
     void setUser(User user) {
         this.user = user;
     }
+
 }

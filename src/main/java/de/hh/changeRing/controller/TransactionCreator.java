@@ -1,5 +1,6 @@
 package de.hh.changeRing.controller;
 
+import de.hh.changeRing.Context;
 import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.domain.Advertisement;
 import de.hh.changeRing.domain.Transaction;
@@ -52,6 +53,7 @@ public class TransactionCreator {
         LOGGER.info(session.getUser().getId() + " created transaction");
         Transaction.create(session.getUser(), receiver, amount, subject).wire();
         setClear("clear");
+        new Context().addMessage("Überweisung Durchgeführt");
         return "/internal/transactions.xhtml";
     }
 

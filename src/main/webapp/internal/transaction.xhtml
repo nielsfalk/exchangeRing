@@ -62,9 +62,18 @@ Environmental damage caused by the use must be kept as small as possible.
                     <p:inputTextarea id="subject" rows="4" cols="35" counter="counter" maxlength="140"
                                      counterTemplate="{0} zeichen übrig." autoResize="false"
                                      value="#{transactionCreator.subject}"/>
-                    <p:commandButton value="Absenden" ajax="false" action="#{transactionCreator.submit}"/>
+                    <p:commandButton id="showDialogButton" value="Absenden" onclick="confirmation.show()"
+                                     type="button"/>
                     <h:outputText id="counter"/>
                 </h:panelGrid>
+                <p:confirmDialog id="confirmDialog" message="Motten wirklich überweisen?"
+                                 header="Dies ist keine Übung" severity="alert" widgetVar="confirmation">
+
+                    <p:commandButton id="confirm" value="Ja" ajax="false" oncomplete="confirmation.hide()"
+                                     action="#{transactionCreator.submit}"/>
+                    <p:commandButton id="decline" value="Nein" onclick="confirmation.hide()" type="button"/>
+
+                </p:confirmDialog>
             </h:form>
         </p:panel>
     </ui:define>

@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import static de.hh.changeRing.Context.formatGermanDate;
 import static de.hh.changeRing.domain.User.DepotItemType.in;
 import static de.hh.changeRing.domain.User.DepotItemType.out;
 import static de.hh.changeRing.domain.User.Status.active;
@@ -45,7 +46,6 @@ import static de.hh.changeRing.domain.User.Status.active;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class User extends BaseEntity {
-    private static final String GERMAN_DATE = "dd.MM.yyyy";
     private String nickName;
 
     @XmlElement
@@ -596,10 +596,6 @@ public class User extends BaseEntity {
 
     public String getFormattedActivated() {
         return formatGermanDate(activated);
-    }
-
-    private String formatGermanDate(Date date) {
-        return date == null ? "" : new SimpleDateFormat(GERMAN_DATE).format(date);
     }
 
     public String getFormattedDeActivated() {

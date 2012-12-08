@@ -15,10 +15,8 @@ import javax.faces.event.PhaseEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.logging.Logger;
 
 
@@ -50,6 +48,7 @@ public class Context {
     public static final String WELCOME_PAGE = "/dashboard.xhtml";
     private static final String INTERNAL_PREFIX = "/internal";
     private static final String LOGOUT_PREFIX = "/logout";
+    private static final String GERMAN_DATE = "dd.MM.yyyy";
     private String url;
     private String requestURI;
     private HttpServletRequest request;
@@ -72,6 +71,10 @@ public class Context {
 
     public Context() {
         this(FacesContext.getCurrentInstance());
+    }
+
+    public static String formatGermanDate(Date date) {
+        return date == null ? "" : new SimpleDateFormat(GERMAN_DATE).format(date);
     }
 
     public void secureInternalArea() {

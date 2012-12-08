@@ -25,25 +25,37 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core">
     <ui:define name="advertisementContent">
-
-
-        #{userSession.activeMenu('dashboard')}
-        #{facesContext.viewRoot.viewId.substring(1)}
-        #{facesContext.viewRoot.viewId.startsWith('/dashboard')?'acticMenuItem':''}
-
         <h:form>
-            <h:panelGrid columns="4" cellpadding="5">
-                <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
+            <p:panel header="neue Anzeige">
+                <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
+                    <h:outputText value="Titel"/>
+                    <p:inputText value="#{advertisement.newAdvertisement.title}"/>
+                    <h:outputText value="Aangebot/Gesuch:"/>
+                    <p:selectOneMenu value="#{advertisement.newAdvertisement.type}">
+                        <f:selectItems value="#{advertisement.adType}" itemLabel="#{type.translation}"
+                                       itemValue="#{type}"/>
+                    </p:selectOneMenu>
+                    <h:outputText value="Kategorie:"/>
+                    <p:selectOneMenu value="#{advertisement.newAdvertisement.category}">
+                        <f:selectItems value="#{advertisement.categories}" var="cat" itemLabel="#{cat.desc}"
+                                       itemValue="#{cat}"/>
+                    </p:selectOneMenu>
 
-                <p:inputText id="name" value="#{userSession.id}"/>
+                    <h:outputText value="Gültig bis (Maximal ein Jahr):"/>
+                    <p:calendar locale="de" navigator="true" value="#{advertisement.newAdvertisement.validUntil}"/>
 
-                <p:commandButton value="Submit" update="display"/>
-
-                <h:outputText value="#{userSession.id}" id="display"/>
-            </h:panelGrid>
-
+                    <h:outputText value="Anzeige:"/>
+                    <p:inputTextarea rows="4" cols="35" counter="newAdContentCounter"
+                                     maxlength="140"
+                                     counterTemplate="{0} zeichen übrig." autoResize="false"
+                                     value="#{advertisement.newAdvertisement.content}"/>
+                    <p:commandButton value="Erstellen" actionListener="#{advertisement.create}" ajax="false"/>
+                    <h:outputText id="newAdContentCounter"/>
+                </h:panelGrid>
+            </p:panel>
         </h:form>
     </ui:define>
 </ui:composition>

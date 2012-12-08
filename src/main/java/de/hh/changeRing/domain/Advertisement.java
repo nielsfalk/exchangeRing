@@ -5,6 +5,7 @@ import org.primefaces.model.DefaultMenuModel;
 
 import java.util.Date;
 
+import static de.hh.changeRing.Context.formatGermanDate;
 import static de.hh.changeRing.controller.Advertisement.browseUrl;
 
 /**
@@ -59,6 +60,14 @@ public class Advertisement extends BaseEntity {
         menuItem.setUrl(browseUrl(this));
         breadCrumb.addMenuItem(menuItem);
         return breadCrumb;
+    }
+
+    public String getFormattedValidUntil() {
+        return formatGermanDate(getValidUntil());
+    }
+
+    public String getFormattedCreationDate() {
+        return formatGermanDate(getCreationDate());
     }
 
     public static enum AdvertisementType {
@@ -147,4 +156,7 @@ public class Advertisement extends BaseEntity {
         this.linkLocation = linkLocation;
     }
 
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 }

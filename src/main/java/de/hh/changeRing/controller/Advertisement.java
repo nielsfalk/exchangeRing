@@ -9,12 +9,15 @@ import org.primefaces.component.separator.Separator;
 import org.primefaces.model.DefaultMenuModel;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import static de.hh.changeRing.controller.UserSession.ACTIVE_CSS_CLASS;
 import static de.hh.changeRing.domain.Advertisement.AdvertisementType;
+import static java.util.Calendar.YEAR;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -42,10 +45,13 @@ import static de.hh.changeRing.domain.Advertisement.AdvertisementType;
 @SessionScoped
 public class Advertisement {
     public static final String ADVERTISEMENTS_BROWSE_URL = "/internal/advertisements/browse.xhtml";
+    @ManagedProperty(value = "#{userSession}")
+    private UserSession session;
     private AdvertisementType type;
     private Category category = Category.root;
 
     private de.hh.changeRing.domain.Advertisement advertisement;
+    private de.hh.changeRing.domain.Advertisement newAdvertisement;
 
     public String activeMenuBrowse(AdvertisementType type) {
         Context context = new Context();
@@ -100,8 +106,10 @@ public class Advertisement {
     }
 
 
-    public DefaultMenuModel getBreadCrumb() {
-        return advertisement == null ? category.createBreadCrumb(type) : advertisement.getBreadCrumb();
+    public void create() {
+        InitTestData.addAdvertisement(newAdvertisement);
+        new Context().addMessage("Anzeige erstellt");
+        newAdvertisement = null;
     }
 
     public List<de.hh.changeRing.domain.Advertisement> getAdvertisements() {
@@ -134,5 +142,34 @@ public class Advertisement {
     public void setCategory(Category category) {
         setAdvertisement(null);
         this.category = category;
+    }
+
+    public de.hh.changeRing.domain.Advertisement getNewAdvertisement() {
+        if (newAdvertisement == null) {
+            newAdvertisement = new de.hh.changeRing.domain.Advertisement();
+            newAdvertisement.setOwner(session.getUser());
+            newAdvertisement.setType(de.hh.changeRing.domain.Advertisement.AdvertisementType.offer);
+            GregorianCalendar gregorianCalendar = new GregorianCalendar();
+            gregorianCalendar.add(YEAR, 1);
+            newAdvertisement.setValidUntil(gregorianCalendar.getTime());
+        }
+        return newAdvertisement;
+    }
+
+    public void setNewAdvertisement(de.hh.changeRing.domain.Advertisement newAdvertisement) {
+        this.newAdvertisement = newAdvertisement;
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    public void setSession(UserSession session) {
+        this.session = session;
+    }
+
+    public de.hh.changeRing.domain.Advertisement.AdvertisementType[] getAdType() {
+        return de.hh.changeRing.domain.Advertisement.AdvertisementType.values();
+    }
+
+    public List<Category> getCategories() {
+        return Category.endPointItems();
     }
 }

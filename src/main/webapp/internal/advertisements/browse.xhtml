@@ -54,6 +54,12 @@ Environmental damage caused by the use must be kept as small as possible.
                     <h:outputText value="Name:"/>
                     <h:outputText value="#{adToShow.name}"/>
 
+                    <h:outputText value="Gültig Bis:"/>
+                    <h:outputText value="#{adToShow.formattedValidUntil}"/>
+
+                    <h:outputText value="Erstellt Am"/>
+                    <h:outputText value="#{adToShow.formattedCreationDate}"/>
+
                     <h:outputText value="Überweisung:"/>
                     <h:panelGroup>
                         <a href="${pageContext.request.servletPath}/internal/transaction.xhtml?receiverId=#{adToShow.owner.id}&amp;adId=#{adToShow.id}">
@@ -63,6 +69,8 @@ Environmental damage caused by the use must be kept as small as possible.
 
                     <h:outputText value="Anzeige:"/>
                     <h:outputText value="#{adToShow.content}"/>
+
+
                 </h:panelGrid>
             </p:panel>
 

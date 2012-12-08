@@ -77,8 +77,11 @@ public class InitTestData {
             advertisement.setLocation("egal bei " + user.getDisplayName());
             advertisement.setTitle("anzeige von " + user.getId());
             //noinspection NumericOverflow
-            advertisement.setValidUntil(new Date(System.currentTimeMillis()
-                    + new Random().nextInt(1000 * 24 * 60)));
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.add(Calendar.DAY_OF_MONTH, new Random().nextInt(365));
+            advertisement.setValidUntil(calendar.getTime());
+            calendar.add(Calendar.YEAR, -1);
+            advertisement.setCreationDate(calendar.getTime());
 
             Category category;
             do {
@@ -86,7 +89,7 @@ public class InitTestData {
             } while (!category.getChildren().isEmpty());
             advertisement.setCategory(category);
             advertisement.setLinkLocation(user.getId() % 3 == 1);
-            advertisements.add(advertisement);
+            addAdvertisement(advertisement);
         }
     }
 
@@ -131,7 +134,7 @@ public class InitTestData {
                 List<Advertisement> sorted = new Ordering<Advertisement>() {
                     @Override
                     public int compare(Advertisement advertisement, Advertisement advertisement1) {
-                        return advertisement.getCreationDate().compareTo(advertisement1.getCreationDate());
+                        return advertisement1.getCreationDate().compareTo(advertisement.getCreationDate());
                     }
                 }.sortedCopy(categoryMap.get(category));
                 LinkedList<Advertisement> linkedList = new LinkedList<Advertisement>();
@@ -213,6 +216,11 @@ public class InitTestData {
             }
         }
         return null;
+    }
+
+    public static void addAdvertisement(Advertisement newAdvertisement) {
+        advertisements.add(newAdvertisement);
+        sortedAds = null;
     }
 
 

@@ -120,7 +120,7 @@ public enum Category {
 
     public String getDesc() {
         String desc = name;
-        if (parent != null) {
+        if (parent != root) {
             desc = parent.getDesc() + '-' + desc;
         }
         return desc;

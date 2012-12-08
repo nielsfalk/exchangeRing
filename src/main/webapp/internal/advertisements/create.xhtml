@@ -35,11 +35,13 @@ Environmental damage caused by the use must be kept as small as possible.
                     <p:inputText value="#{advertisement.newAdvertisement.title}"/>
                     <h:outputText value="Aangebot/Gesuch:"/>
                     <p:selectOneMenu value="#{advertisement.newAdvertisement.type}">
-                        <f:selectItems value="#{advertisement.adType}" itemLabel="#{type.translation}"
+                        <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
+                        <f:selectItems value="#{advertisement.adType}" var="type" itemLabel="#{type.translation}"
                                        itemValue="#{type}"/>
                     </p:selectOneMenu>
                     <h:outputText value="Kategorie:"/>
                     <p:selectOneMenu value="#{advertisement.newAdvertisement.category}">
+                        <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
                         <f:selectItems value="#{advertisement.categories}" var="cat" itemLabel="#{cat.desc}"
                                        itemValue="#{cat}"/>
                     </p:selectOneMenu>

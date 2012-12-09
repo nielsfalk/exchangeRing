@@ -50,6 +50,9 @@ public class TransactionCreator {
     private Advertisement advertisement;
 
     public String submit() {
+        if (amount < 0) {
+            amount = amount * -1;
+        }
         LOGGER.info(session.getUser().getId() + " created transaction");
         Transaction.create(session.getUser(), receiver, amount, subject).wire();
         setClear("clear");

@@ -25,12 +25,14 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-        >
+                xmlns:f="http://java.sun.com/jsf/core">
+    <f:metadata>
+        <f:viewParam name="advertisement" value="#{advertisements.advertisement}" converter="advertisementConverter"/>
+    </f:metadata>
     <ui:define name="advertisementContent">
-
         <p:panel header="neue Anzeige">
             <ui:include src="editPartial.xhtml">
-                <ui:param name="advertisementToEdit" value="#{advertisements.newAdvertisement}"/>
+                <ui:param name="advertisementToEdit" value="#{advertisements.editAdvertisement}"/>
             </ui:include>
         </p:panel>
     </ui:define>

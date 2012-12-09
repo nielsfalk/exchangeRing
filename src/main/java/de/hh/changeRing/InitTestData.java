@@ -228,6 +228,10 @@ public class InitTestData {
         sortedAds = null;
     }
 
+    public static void clearSorted() {
+        sortedAds = null;
+    }
+
 
     @XmlRootElement(name = "exchangeRingInitial")
     @XmlAccessorType(XmlAccessType.PROPERTY)

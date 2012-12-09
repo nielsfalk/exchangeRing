@@ -21,17 +21,10 @@ excluded.
 Environmental damage caused by the use must be kept as small as possible.
 
 -->
-<ui:composition template="/decorators/advertisementDecorator.xhtml"
+<ui:composition template="/decorators/menuDecorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
         >
-    <ui:define name="advertisementContent">
-
-        <p:panel header="neue Anzeige">
-            <ui:include src="editPartial.xhtml">
-                <ui:param name="advertisementToEdit" value="#{advertisements.newAdvertisement}"/>
-            </ui:include>
-        </p:panel>
+    <ui:define name="contentWithMenu">
     </ui:define>
 </ui:composition>

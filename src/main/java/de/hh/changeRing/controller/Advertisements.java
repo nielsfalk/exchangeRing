@@ -97,10 +97,17 @@ public class Advertisements {
     }
 
 
-    public void create() {
-        InitTestData.addAdvertisement(newAdvertisement);
-        new Context().addMessage("Anzeige erstellt");
-        newAdvertisement = null;
+    public void save() {
+        if (newAdvertisement != null) {
+            InitTestData.addAdvertisement(newAdvertisement);
+            new Context().addMessage("Anzeige erstellt");
+            newAdvertisement = null;
+            return;
+        }
+        if (advertisement != null) {
+            InitTestData.clearSorted();
+            advertisement = null;
+        }
     }
 
     public List<Advertisement> getAdvertisements() {
@@ -114,8 +121,18 @@ public class Advertisements {
         return advertisement;
     }
 
+    public Advertisement getEditAdvertisement() {
+        if (advertisement != null) {
+            if (advertisement.getOwner().equals(session.getUser())) {
+                return advertisement;
+            }
+        }
+        return null;
+    }
+
     public void setAdvertisement(Advertisement advertisement) {
         this.advertisement = advertisement;
+        newAdvertisement = null;
     }
 
     public AdvertisementType getType() {

@@ -32,8 +32,9 @@ Features implemented
 - authentication
 - XML parsed test data
 - Theme switcher
-- "Motten" currency transfer
-- "Motten" currency logging witch user interface
+- "Motten" currency
+    - transfer
+    - logging witch user interface
 - Gravatar integration
 - Heroku deployment with embedded Glassfish [thanks to jsimone](https://github.com/jsimone/embeddedGlassfishSample)
 - Categories assumed

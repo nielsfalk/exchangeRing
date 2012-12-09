@@ -7,7 +7,7 @@ import org.primefaces.model.DefaultMenuModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import static de.hh.changeRing.controller.Advertisement.ADVERTISEMENTS_BROWSE_URL;
+import static de.hh.changeRing.controller.Advertisements.ADVERTISEMENTS_BROWSE_URL;
 import static de.hh.changeRing.domain.Advertisement.AdvertisementType;
 
 /**

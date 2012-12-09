@@ -34,11 +34,11 @@ Environmental damage caused by the use must be kept as small as possible.
                             url="/internal/advertisements/create.xhtml"
                             icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
 
-                <p:menuitem styleClass="#{advertisement.activeMenuBrowse('offer')}" value="Angebote"
+                <p:menuitem styleClass="#{advertisements.activeMenuBrowse('offer')}" value="Angebote"
                             url="/internal/advertisements/browse.xhtml?type=offer"
                             icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
 
-                <p:menuitem styleClass="#{advertisement.activeMenuBrowse('request')}" value="Gesuche"
+                <p:menuitem styleClass="#{advertisements.activeMenuBrowse('request')}" value="Gesuche"
                             url="/internal/advertisements/browse.xhtml?type=request"
                             icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
             </p:menu>

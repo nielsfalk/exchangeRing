@@ -6,7 +6,7 @@ import org.primefaces.model.DefaultMenuModel;
 import java.util.Date;
 
 import static de.hh.changeRing.Context.formatGermanDate;
-import static de.hh.changeRing.controller.Advertisement.ADVERTISEMENTS_BROWSE_URL;
+import static de.hh.changeRing.controller.Advertisements.ADVERTISEMENTS_BROWSE_URL;
 
 /**
  * ----------------GNU General Public License--------------------------------

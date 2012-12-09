@@ -29,7 +29,7 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="contentWithoutMenu">
         <p:panel header="Mitglieder">
-            <p:dataTable id="memberTable" var="member" value="#{user.members}"
+            <p:dataTable id="memberTable" var="member" value="#{users.members}"
                          styleClass="ui-corner-all">
                 <p:column id="memberId" sortBy="#{member.id}">
                     <f:facet name="header">

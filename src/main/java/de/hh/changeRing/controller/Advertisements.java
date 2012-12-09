@@ -3,6 +3,7 @@ package de.hh.changeRing.controller;
 
 import de.hh.changeRing.Context;
 import de.hh.changeRing.InitTestData;
+import de.hh.changeRing.domain.Advertisement;
 import de.hh.changeRing.domain.Category;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.component.separator.Separator;
@@ -43,15 +44,15 @@ import static java.util.Calendar.YEAR;
  */
 @ManagedBean
 @SessionScoped
-public class Advertisement {
+public class Advertisements {
     public static final String ADVERTISEMENTS_BROWSE_URL = "/internal/advertisements/browse.xhtml";
     @ManagedProperty(value = "#{userSession}")
     private UserSession session;
     private AdvertisementType type;
     private Category category = Category.root;
 
-    private de.hh.changeRing.domain.Advertisement advertisement;
-    private de.hh.changeRing.domain.Advertisement newAdvertisement;
+    private Advertisement advertisement;
+    private Advertisement newAdvertisement;
 
     public String activeMenuBrowse(AdvertisementType type) {
         Context context = new Context();
@@ -82,7 +83,7 @@ public class Advertisement {
             menuModel.addMenuItem(menuItem);
         }
         if (children.isEmpty()) {
-            for (de.hh.changeRing.domain.Advertisement advertisement : InitTestData.getSortedAds().get(type).get(category)) {
+            for (Advertisement advertisement : InitTestData.getSortedAds().get(type).get(category)) {
                 MenuItem menuItem = new MenuItem();
                 menuItem.setValue(advertisement.getTitle());
                 menuItem.setUrl(advertisement.getBrowseUrl());
@@ -102,18 +103,18 @@ public class Advertisement {
         newAdvertisement = null;
     }
 
-    public List<de.hh.changeRing.domain.Advertisement> getAdvertisements() {
+    public List<Advertisement> getAdvertisements() {
         if (getAdvertisement() != null) {
             return Arrays.asList(getAdvertisement());
         }
         return InitTestData.getSortedAds().get(type).get(category);
     }
 
-    public de.hh.changeRing.domain.Advertisement getAdvertisement() {
+    public Advertisement getAdvertisement() {
         return advertisement;
     }
 
-    public void setAdvertisement(de.hh.changeRing.domain.Advertisement advertisement) {
+    public void setAdvertisement(Advertisement advertisement) {
         this.advertisement = advertisement;
     }
 
@@ -134,9 +135,9 @@ public class Advertisement {
         this.category = category;
     }
 
-    public de.hh.changeRing.domain.Advertisement getNewAdvertisement() {
+    public Advertisement getNewAdvertisement() {
         if (newAdvertisement == null) {
-            newAdvertisement = new de.hh.changeRing.domain.Advertisement();
+            newAdvertisement = new Advertisement();
             newAdvertisement.setOwner(session.getUser());
             GregorianCalendar gregorianCalendar = new GregorianCalendar();
             gregorianCalendar.add(YEAR, 1);
@@ -145,7 +146,7 @@ public class Advertisement {
         return newAdvertisement;
     }
 
-    public void setNewAdvertisement(de.hh.changeRing.domain.Advertisement newAdvertisement) {
+    public void setNewAdvertisement(Advertisement newAdvertisement) {
         this.newAdvertisement = newAdvertisement;
     }
 
@@ -154,8 +155,8 @@ public class Advertisement {
         this.session = session;
     }
 
-    public de.hh.changeRing.domain.Advertisement.AdvertisementType[] getAdType() {
-        return de.hh.changeRing.domain.Advertisement.AdvertisementType.values();
+    public Advertisement.AdvertisementType[] getAdType() {
+        return Advertisement.AdvertisementType.values();
     }
 
     public List<Category> getCategories() {

@@ -29,16 +29,16 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:f="http://java.sun.com/jsf/core">
 <ui:define name="contentWithMenu">
 <f:metadata>
-    <f:viewParam name="userId" value="#{user.selectedUserId}"/>
-    <f:viewParam name="me" value="#{user.selectedMe}"/>
+    <f:viewParam name="userId" value="#{users.selectedUserId}"/>
+    <f:viewParam name="me" value="#{users.selectedMe}"/>
 </f:metadata>
-<p:panel header="#{user.selectedUser.displayName}">
+<p:panel header="#{users.selectedUser.displayName}">
     <h:form>
         <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
             <h:outputText value="Avatar:"/>
             <h:panelGroup>
-                <img src="#{user.selectedUser.gravatarUrl250}" alt="avatar"/>
-                <ui:fragment rendered="#{user.me}">
+                <img src="#{users.selectedUser.gravatarUrl250}" alt="avatar"/>
+                <ui:fragment rendered="#{users.me}">
                     <p>Der Avatar lässt sich auf <a href="http://de.gravatar.com/">gravatar.com</a> ändern.</p>
 
                     <p>Möchtest du kein Foto benutzen? <a href="http://www.faceyourmanga.com/">faceyourmanga</a></p>
@@ -46,71 +46,71 @@ Environmental damage caused by the use must be kept as small as possible.
             </h:panelGroup>
 
             <h:outputText value="ID:"/>
-            <h:outputText value="#{user.selectedUser.id}"/>
+            <h:outputText value="#{users.selectedUser.id}"/>
 
-            <h:outputText value="Nickname:" rendered="#{user.meOrFilled(user.selectedUser.nickName)}"/>
-            <h:outputText value="#{user.selectedUser.nickName}"
-                          rendered="#{user.otherAndFilled(user.selectedUser.nickName)}"/>
-            <p:inputText value="#{user.selectedUser.nickName}" rendered="#{user.me}"/>
+            <h:outputText value="Nickname:" rendered="#{users.meOrFilled(users.selectedUser.nickName)}"/>
+            <h:outputText value="#{users.selectedUser.nickName}"
+                          rendered="#{users.otherAndFilled(users.selectedUser.nickName)}"/>
+            <p:inputText value="#{users.selectedUser.nickName}" rendered="#{users.me}"/>
 
-            <h:outputText value="#{user.me?'Vorname, sichtbar':'Vorname'}:"
-                          rendered="#{user.meOrFilled(user.selectedUser.visibleFirstName)}"/>
-            <h:panelGroup rendered="#{user.meOrFilled(user.selectedUser.visibleFirstName)}">
-                <h:outputText value="#{user.selectedUser.visibleFirstName}"/>
-                <p:selectBooleanCheckbox value="#{user.selectedUser.firstNameVisible}" rendered="#{user.me}"/>
+            <h:outputText value="#{users.me?'Vorname, sichtbar':'Vorname'}:"
+                          rendered="#{users.meOrFilled(users.selectedUser.visibleFirstName)}"/>
+            <h:panelGroup rendered="#{users.meOrFilled(users.selectedUser.visibleFirstName)}">
+                <h:outputText value="#{users.selectedUser.visibleFirstName}"/>
+                <p:selectBooleanCheckbox value="#{users.selectedUser.firstNameVisible}" rendered="#{users.me}"/>
             </h:panelGroup>
 
-            <h:outputText value="#{user.me?'Nachname, sichtbar':'Nachname'}:"
-                          rendered="#{user.meOrFilled(user.selectedUser.visibleLastName)}"/>
-            <h:panelGroup rendered="#{user.meOrFilled(user.selectedUser.visibleLastName)}">
-                <h:outputText value="#{user.selectedUser.visibleLastName}"/>
-                <p:selectBooleanCheckbox value="#{user.selectedUser.lastNameVisible}" rendered="#{user.me}"/>
+            <h:outputText value="#{users.me?'Nachname, sichtbar':'Nachname'}:"
+                          rendered="#{users.meOrFilled(users.selectedUser.visibleLastName)}"/>
+            <h:panelGroup rendered="#{users.meOrFilled(users.selectedUser.visibleLastName)}">
+                <h:outputText value="#{users.selectedUser.visibleLastName}"/>
+                <p:selectBooleanCheckbox value="#{users.selectedUser.lastNameVisible}" rendered="#{users.me}"/>
             </h:panelGroup>
 
-            <h:outputText value="Überweisung:" rendered="#{user.other}"/>
-            <h:panelGroup rendered="#{user.other}">
-                <a href="${pageContext.request.servletPath}/internal/transaction.xhtml?receiverId=#{user.selectedUser.id}">
-                    überweisung an #{user.selectedUser.id}
+            <h:outputText value="Überweisung:" rendered="#{users.other}"/>
+            <h:panelGroup rendered="#{users.other}">
+                <a href="${pageContext.request.servletPath}/internal/transaction.xhtml?receiverId=#{users.selectedUser.id}">
+                    überweisung an #{users.selectedUser.id}
                 </a>
             </h:panelGroup>
 
-            <h:outputText value="#{user.me?'Email, sichtbar':'Email'}:"
-                          rendered="#{user.meOrFilled(user.selectedUser.visibleEmail)}"/>
-            <h:panelGroup rendered="#{user.otherAndFilled(user.selectedUser.visibleEmail)}">
-                <a href="mailto:#{user.selectedUser.visibleEmail}">
-                    <h:outputText value="#{user.selectedUser.visibleEmail}"/>
+            <h:outputText value="#{users.me?'Email, sichtbar':'Email'}:"
+                          rendered="#{users.meOrFilled(users.selectedUser.visibleEmail)}"/>
+            <h:panelGroup rendered="#{users.otherAndFilled(users.selectedUser.visibleEmail)}">
+                <a href="mailto:#{users.selectedUser.visibleEmail}">
+                    <h:outputText value="#{users.selectedUser.visibleEmail}"/>
                 </a>
             </h:panelGroup>
-            <h:panelGroup rendered="#{user.me}">
-                <p:inputText value="#{user.selectedUser.email}" rendered="#{user.me}"/>
-                <p:selectBooleanCheckbox value="#{user.selectedUser.emailVisible}" label="sichtbar"/>
+            <h:panelGroup rendered="#{users.me}">
+                <p:inputText value="#{users.selectedUser.email}" rendered="#{users.me}"/>
+                <p:selectBooleanCheckbox value="#{users.selectedUser.emailVisible}" label="sichtbar"/>
             </h:panelGroup>
 
-            <h:outputText value="facebook" rendered="#{user.meOrFilled(user.selectedUser.facebook)}"/>
-            <h:panelGroup rendered="#{user.meOrFilled(user.selectedUser.facebook)}">
-                <p:inputText value="#{user.selectedUser.facebook}" rendered="#{user.me}"/>
+            <h:outputText value="facebook" rendered="#{users.meOrFilled(users.selectedUser.facebook)}"/>
+            <h:panelGroup rendered="#{users.meOrFilled(users.selectedUser.facebook)}">
+                <p:inputText value="#{users.selectedUser.facebook}" rendered="#{users.me}"/>
 
                 <p>
-                    <h:panelGroup rendered="#{not empty user.selectedUser.facebook}">
-                        <a href="http://www.facebook.com/#{user.selectedUser.facebook}">#{user.selectedUser.facebook}</a>
+                    <h:panelGroup rendered="#{not empty users.selectedUser.facebook}">
+                        <a href="http://www.facebook.com/#{users.selectedUser.facebook}">#{users.selectedUser.facebook}</a>
                     </h:panelGroup>
                 </p>
             </h:panelGroup>
 
-            <h:outputText value="skype" rendered="#{user.meOrFilled(user.selectedUser.skype)}"/>
-            <h:panelGroup rendered="#{user.meOrFilled(user.selectedUser.skype)}">
+            <h:outputText value="skype" rendered="#{users.meOrFilled(users.selectedUser.skype)}"/>
+            <h:panelGroup rendered="#{users.meOrFilled(users.selectedUser.skype)}">
 
-                <p:inputText value="#{user.selectedUser.skype}" rendered="#{user.me}"/>
+                <p:inputText value="#{users.selectedUser.skype}" rendered="#{users.me}"/>
 
                 <p>
-                    <h:panelGroup rendered="#{not empty user.selectedUser.skype}">
+                    <h:panelGroup rendered="#{not empty users.selectedUser.skype}">
                         <!--
                         Skype 'Skype Me™!' button
                         http://www.skype.com/go/skypebuttons
                         -->
                         <script type="text/javascript"
                                 src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js"></script>
-                        <a href="skype:#{user.selectedUser.skype}?call"><img
+                        <a href="skype:#{users.selectedUser.skype}?call"><img
                                 src="http://download.skype.com/share/skypebuttons/buttons/call_green_white_92x82.png"
                                 style="border: none;" width="92" height="82" alt="Skype Me™!"/></a>
                     </h:panelGroup>
@@ -118,113 +118,113 @@ Environmental damage caused by the use must be kept as small as possible.
             </h:panelGroup>
 
             <h:outputText value="Kontostand:"/>
-            <h:outputText value="#{user.selectedUser.balance}"/>
+            <h:outputText value="#{users.selectedUser.balance}"/>
 
             <h:outputText value="limit:"/>
-            <h:outputText value="#{user.selectedUser.limit}"/>
+            <h:outputText value="#{users.selectedUser.limit}"/>
 
             <h:outputText value="Ausstehende Gebühr:"/>
-            <h:outputText value="#{user.selectedUser.missingFee} €"/>
+            <h:outputText value="#{users.selectedUser.missingFee} €"/>
 
             <h:outputText value="Gebühr:"/>
-            <h:outputText value="#{user.selectedUser.fee} €"/>
+            <h:outputText value="#{users.selectedUser.fee} €"/>
 
-            <h:outputText value="Adresse:" rendered="#{user.other and user.selectedUser.addressVisible}"/>
-            <h:panelGroup rendered="#{user.other and user.selectedUser.addressVisible}">
+            <h:outputText value="Adresse:" rendered="#{users.other and users.selectedUser.addressVisible}"/>
+            <h:panelGroup rendered="#{users.other and users.selectedUser.addressVisible}">
                 <p>
-                    <h:outputText value="#{user.selectedUser.street}"/>
-                    <h:outputText value="#{user.selectedUser.houseNumber}"/>
+                    <h:outputText value="#{users.selectedUser.street}"/>
+                    <h:outputText value="#{users.selectedUser.houseNumber}"/>
                 </p>
 
                 <p>
-                    <h:outputText value="#{user.selectedUser.plz}"/>
-                    <h:outputText value="#{user.selectedUser.city}"/>
+                    <h:outputText value="#{users.selectedUser.plz}"/>
+                    <h:outputText value="#{users.selectedUser.city}"/>
                 </p>
             </h:panelGroup>
 
-            <h:outputText value="Adresse sichbar:" rendered="#{user.me}"/>
-            <p:selectBooleanCheckbox value="#{user.selectedUser.addressVisible}" rendered="#{user.me}"/>
+            <h:outputText value="Adresse sichbar:" rendered="#{users.me}"/>
+            <p:selectBooleanCheckbox value="#{users.selectedUser.addressVisible}" rendered="#{users.me}"/>
 
-            <h:outputText value="Straße, Hausnummer:" rendered="#{user.me}"/>
-            <h:panelGroup rendered="#{user.me}">
-                <p:inputText value="#{user.selectedUser.street}"/>
-                <p:inputText value="#{user.selectedUser.houseNumber}" size="4"/>
+            <h:outputText value="Straße, Hausnummer:" rendered="#{users.me}"/>
+            <h:panelGroup rendered="#{users.me}">
+                <p:inputText value="#{users.selectedUser.street}"/>
+                <p:inputText value="#{users.selectedUser.houseNumber}" size="4"/>
             </h:panelGroup>
 
-            <h:outputText value="Plz, Stadt:" rendered="#{user.me}"/>
-            <h:panelGroup rendered="#{user.me}">
-                <p:inputText value="#{user.selectedUser.plz}" size="4"/>
-                <p:inputText value="#{user.selectedUser.city}"/>
+            <h:outputText value="Plz, Stadt:" rendered="#{users.me}"/>
+            <h:panelGroup rendered="#{users.me}">
+                <p:inputText value="#{users.selectedUser.plz}" size="4"/>
+                <p:inputText value="#{users.selectedUser.city}"/>
             </h:panelGroup>
 
-            <h:outputText value="Stadtteil:" rendered="#{user.meOrFilled(user.selectedUser.district)}"/>
-            <h:outputText value="#{user.selectedUser.district}"
-                          rendered="#{user.otherAndFilled(user.selectedUser.district)}"/>
-            <p:inputText value="#{user.selectedUser.district}" rendered="#{user.me}"/>
+            <h:outputText value="Stadtteil:" rendered="#{users.meOrFilled(users.selectedUser.district)}"/>
+            <h:outputText value="#{users.selectedUser.district}"
+                          rendered="#{users.otherAndFilled(users.selectedUser.district)}"/>
+            <p:inputText value="#{users.selectedUser.district}" rendered="#{users.me}"/>
 
-            <h:outputText value="Mobil:" rendered="#{user.meOrFilled(user.selectedUser.phoneMobile)}"/>
-            <h:outputText value="#{user.selectedUser.phoneMobile}"
-                          rendered="#{user.otherAndFilled(user.selectedUser.phoneMobile)}"/>
-            <p:inputText value="#{user.selectedUser.phoneMobile}" rendered="#{user.me}"/>
+            <h:outputText value="Mobil:" rendered="#{users.meOrFilled(users.selectedUser.phoneMobile)}"/>
+            <h:outputText value="#{users.selectedUser.phoneMobile}"
+                          rendered="#{users.otherAndFilled(users.selectedUser.phoneMobile)}"/>
+            <p:inputText value="#{users.selectedUser.phoneMobile}" rendered="#{users.me}"/>
 
-            <h:outputText value="Telefon:" rendered="#{user.meOrFilled(user.selectedUser.phone)}"/>
-            <h:outputText value="#{user.selectedUser.phone}"
-                          rendered="#{user.otherAndFilled(user.selectedUser.phone)}"/>
-            <p:inputText value="#{user.selectedUser.phone}" rendered="#{user.me}"/>
+            <h:outputText value="Telefon:" rendered="#{users.meOrFilled(users.selectedUser.phone)}"/>
+            <h:outputText value="#{users.selectedUser.phone}"
+                          rendered="#{users.otherAndFilled(users.selectedUser.phone)}"/>
+            <p:inputText value="#{users.selectedUser.phone}" rendered="#{users.me}"/>
 
-            <h:outputText value="Homepage:" rendered="#{user.meOrFilled(user.selectedUser.url)}"/>
-            <h:panelGroup rendered="#{user.otherAndFilled(user.selectedUser.url)}">
-                <a href="#{user.selectedUser.url}">
-                    <h:outputText value="#{user.selectedUser.url}"/>
+            <h:outputText value="Homepage:" rendered="#{users.meOrFilled(users.selectedUser.url)}"/>
+            <h:panelGroup rendered="#{users.otherAndFilled(users.selectedUser.url)}">
+                <a href="#{users.selectedUser.url}">
+                    <h:outputText value="#{users.selectedUser.url}"/>
                 </a>
 
                 <p>
-                    <h:outputText value="#{user.selectedUser.urlDescription}"/>
+                    <h:outputText value="#{users.selectedUser.urlDescription}"/>
                 </p>
             </h:panelGroup>
-            <p:inputText value="#{user.selectedUser.url}" rendered="#{user.me}"/>
+            <p:inputText value="#{users.selectedUser.url}" rendered="#{users.me}"/>
 
-            <h:outputText value="Homepage Beschreibung:" rendered="#{user.me}"/>
-            <p:inputText value="#{user.selectedUser.urlDescription}" rendered="#{user.me}"/>
+            <h:outputText value="Homepage Beschreibung:" rendered="#{users.me}"/>
+            <p:inputText value="#{users.selectedUser.urlDescription}" rendered="#{users.me}"/>
 
-            <h:outputText value="Geburtstag:" rendered="#{user.meOrFilled(user.selectedUser.birthDay)}"/>
-            <h:outputText value="#{user.selectedUser.formattedBirthDay}"
-                          rendered="#{user.otherAndFilled(user.selectedUser.birthDay)}"/>
-            <p:calendar locale="de" navigator="true" value="#{user.selectedUser.birthDay}" rendered=
-                    "#{user.me}"/>
+            <h:outputText value="Geburtstag:" rendered="#{users.meOrFilled(users.selectedUser.birthDay)}"/>
+            <h:outputText value="#{users.selectedUser.formattedBirthDay}"
+                          rendered="#{users.otherAndFilled(users.selectedUser.birthDay)}"/>
+            <p:calendar locale="de" navigator="true" value="#{users.selectedUser.birthDay}" rendered=
+                    "#{users.me}"/>
 
-            <h:outputText value="Profil:" rendered="#{user.meOrFilled(user.selectedUser.profile)}"/>
-            <h:outputText value="#{user.selectedUser.profile}"
-                          rendered="#{user.otherAndFilled(user.selectedUser.profile)}"/>
-            <p:inputText value="#{user.selectedUser.profile}" rendered="#{user.me}"/>
+            <h:outputText value="Profil:" rendered="#{users.meOrFilled(users.selectedUser.profile)}"/>
+            <h:outputText value="#{users.selectedUser.profile}"
+                          rendered="#{users.otherAndFilled(users.selectedUser.profile)}"/>
+            <p:inputText value="#{users.selectedUser.profile}" rendered="#{users.me}"/>
 
             <h:outputText value="Erreichbarkeit:"
-                          rendered="#{user.meOrFilled(user.selectedUser.accessibility)}"/>
-            <h:outputText value="#{user.selectedUser.accessibility}"
-                          rendered="#{user.otherAndFilled(user.selectedUser.accessibility)}"/>
-            <p:inputText value="#{user.selectedUser.accessibility}" rendered="#{user.me}"/>
+                          rendered="#{users.meOrFilled(users.selectedUser.accessibility)}"/>
+            <h:outputText value="#{users.selectedUser.accessibility}"
+                          rendered="#{users.otherAndFilled(users.selectedUser.accessibility)}"/>
+            <p:inputText value="#{users.selectedUser.accessibility}" rendered="#{users.me}"/>
 
             <h:outputText value="Status:"/>
-            <h:outputText value="#{user.selectedUser.status.translation}"/>
+            <h:outputText value="#{users.selectedUser.status.translation}"/>
 
             <h:outputText value="Aktivierungsdatum:"/>
-            <h:outputText value="#{user.selectedUser.formattedActivated}"/>
+            <h:outputText value="#{users.selectedUser.formattedActivated}"/>
 
             <h:outputText value="Deaktivierungsdatum:"
-                          rendered="#{not empty user.selectedUser.formattedDeActivated}"/>
-            <h:outputText value="#{user.selectedUser.formattedDeActivated}"
-                          rendered="#{not empty user.selectedUser.formattedDeActivated}"/>
+                          rendered="#{not empty users.selectedUser.formattedDeActivated}"/>
+            <h:outputText value="#{users.selectedUser.formattedDeActivated}"
+                          rendered="#{not empty users.selectedUser.formattedDeActivated}"/>
 
 
             <p:commandButton value="Speichern" ajax="false" actionListener="#{userSession.updateUser}"
-                             rendered="#{user.me}"/>
+                             rendered="#{users.me}"/>
         </h:panelGrid>
     </h:form>
 </p:panel>
 
 <p/>
-<p:panel header="Anzeigen" rendered="#{not empty user.selectedUser.advertisements}">
-    <p:dataTable id="advertisementTable" var="advertisement" value="#{user.selectedUser.advertisements}"
+<p:panel header="Anzeigen" rendered="#{not empty users.selectedUser.advertisements}">
+    <p:dataTable id="advertisementTable" var="advertisement" value="#{users.selectedUser.advertisements}"
                  styleClass="ui-corner-all">
         <p:column id="memberId" sortBy="#{advertisement.title}">
             <f:facet name="header">

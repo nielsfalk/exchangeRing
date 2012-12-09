@@ -42,7 +42,7 @@ Environmental damage caused by the use must be kept as small as possible.
                                      effect="fade" var="p" style="width:260px" filter="true"
                                      filterMatchMode="startsWith">
                         <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
-                        <f:selectItems value="#{user.otherUsers}" var="potentialReceiver"
+                        <f:selectItems value="#{users.otherUsers}" var="potentialReceiver"
                                        itemLabel="#{potentialReceiver.id}"
                                        itemValue="#{potentialReceiver}"/>
 

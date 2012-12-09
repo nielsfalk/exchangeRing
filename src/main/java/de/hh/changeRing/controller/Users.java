@@ -1,6 +1,7 @@
 package de.hh.changeRing.controller;
 
 import de.hh.changeRing.InitTestData;
+import de.hh.changeRing.domain.User;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -35,11 +36,11 @@ import static de.hh.changeRing.domain.User.isEmpty;
  */
 @ManagedBean
 @SessionScoped
-public class User {
+public class Users {
     @ManagedProperty(value = "#{userSession}")
     private UserSession session;
-    private ArrayList<de.hh.changeRing.domain.User> otherUsers;
-    private de.hh.changeRing.domain.User selectedUser;
+    private ArrayList<User> otherUsers;
+    private User selectedUser;
 
     public boolean isMe() {
         return getLoggedInUser().equals(selectedUser);
@@ -57,28 +58,28 @@ public class User {
         return isOther() && !isEmpty(s);
     }
 
-    public List<de.hh.changeRing.domain.User> getOtherUsers() {
+    public List<User> getOtherUsers() {
         if (otherUsers == null) {
-            otherUsers = new ArrayList<de.hh.changeRing.domain.User>();
+            otherUsers = new ArrayList<User>();
             otherUsers.addAll(InitTestData.getUsers());
             otherUsers.remove(getLoggedInUser());
         }
         return otherUsers;
     }
 
-    private de.hh.changeRing.domain.User getLoggedInUser() {
+    private User getLoggedInUser() {
         return session.getUser();
     }
 
-    public List<de.hh.changeRing.domain.User> getMembers() {
+    public List<User> getMembers() {
         return InitTestData.getUsers();
     }
 
-    public de.hh.changeRing.domain.User getSelectedUser() {
+    public User getSelectedUser() {
         return selectedUser;
     }
 
-    void setSelectedUser(de.hh.changeRing.domain.User selectedUser) {
+    void setSelectedUser(User selectedUser) {
         this.selectedUser = selectedUser;
     }
 

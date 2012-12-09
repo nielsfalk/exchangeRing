@@ -32,29 +32,29 @@ Environmental damage caused by the use must be kept as small as possible.
             <p:panel header="neue Anzeige">
                 <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
                     <h:outputText value="Titel"/>
-                    <p:inputText value="#{advertisement.newAdvertisement.title}"/>
+                    <p:inputText value="#{advertisements.newAdvertisement.title}"/>
                     <h:outputText value="Aangebot/Gesuch:"/>
-                    <p:selectOneMenu value="#{advertisement.newAdvertisement.type}">
+                    <p:selectOneMenu value="#{advertisements.newAdvertisement.type}">
                         <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
-                        <f:selectItems value="#{advertisement.adType}" var="type" itemLabel="#{type.translation}"
+                        <f:selectItems value="#{advertisements.adType}" var="type" itemLabel="#{type.translation}"
                                        itemValue="#{type}"/>
                     </p:selectOneMenu>
                     <h:outputText value="Kategorie:"/>
-                    <p:selectOneMenu value="#{advertisement.newAdvertisement.category}">
+                    <p:selectOneMenu value="#{advertisements.newAdvertisement.category}">
                         <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
-                        <f:selectItems value="#{advertisement.categories}" var="cat" itemLabel="#{cat.desc}"
+                        <f:selectItems value="#{advertisements.categories}" var="cat" itemLabel="#{cat.desc}"
                                        itemValue="#{cat}"/>
                     </p:selectOneMenu>
 
                     <h:outputText value="Gültig bis (Maximal ein Jahr):"/>
-                    <p:calendar locale="de" navigator="true" value="#{advertisement.newAdvertisement.validUntil}"/>
+                    <p:calendar locale="de" navigator="true" value="#{advertisements.newAdvertisement.validUntil}"/>
 
                     <h:outputText value="Anzeige:"/>
                     <p:inputTextarea rows="4" cols="35" counter="newAdContentCounter"
                                      maxlength="140"
                                      counterTemplate="{0} zeichen übrig." autoResize="false"
-                                     value="#{advertisement.newAdvertisement.content}"/>
-                    <p:commandButton value="Erstellen" actionListener="#{advertisement.create}" ajax="false"/>
+                                     value="#{advertisements.newAdvertisement.content}"/>
+                    <p:commandButton value="Erstellen" actionListener="#{advertisements.create}" ajax="false"/>
                     <h:outputText id="newAdContentCounter"/>
                 </h:panelGrid>
             </p:panel>

@@ -70,26 +70,30 @@ public class InitTestData {
 
     private static void initAds() {
         for (User user : getUsers()) {
-            Advertisement advertisement = new Advertisement();
-            advertisement.setOwner(user);
-            advertisement.setType(Advertisement.AdvertisementType.values()[((int) (user.getId() % 2))]);
-            advertisement.setContent(loremYpsum());
-            advertisement.setLocation("egal bei " + user.getDisplayName());
-            advertisement.setTitle("anzeige von " + user.getId());
-            //noinspection NumericOverflow
-            GregorianCalendar calendar = new GregorianCalendar();
-            calendar.add(Calendar.DAY_OF_MONTH, new Random().nextInt(365));
-            advertisement.setValidUntil(calendar.getTime());
-            calendar.add(Calendar.YEAR, -1);
-            advertisement.setCreationDate(calendar.getTime());
+            if (user.getId() > 1400L) {
+                for (int i = 0; i < new Random().nextInt(5); i++) {
+                    Advertisement advertisement = new Advertisement();
+                    advertisement.setOwner(user);
+                    advertisement.setType(Advertisement.AdvertisementType.values()[((int) (user.getId() % 2))]);
+                    advertisement.setContent(loremYpsum());
+                    advertisement.setLocation("egal bei " + user.getDisplayName());
+                    advertisement.setTitle("anzeige von " + user.getId());
+                    //noinspection NumericOverflow
+                    GregorianCalendar calendar = new GregorianCalendar();
+                    calendar.add(Calendar.DAY_OF_MONTH, new Random().nextInt(365));
+                    advertisement.setValidUntil(calendar.getTime());
+                    calendar.add(Calendar.YEAR, -1);
+                    advertisement.setCreationDate(calendar.getTime());
 
-            Category category;
-            do {
-                category = Category.values()[new Random().nextInt(Category.values().length)];
-            } while (!category.getChildren().isEmpty());
-            advertisement.setCategory(category);
-            advertisement.setLinkLocation(user.getId() % 3 == 1);
-            addAdvertisement(advertisement);
+                    Category category;
+                    do {
+                        category = Category.values()[new Random().nextInt(Category.values().length)];
+                    } while (!category.getChildren().isEmpty());
+                    advertisement.setCategory(category);
+                    advertisement.setLinkLocation(user.getId() % 3 == 1);
+                    addAdvertisement(advertisement);
+                }
+            }
         }
     }
 

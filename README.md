@@ -35,22 +35,34 @@ Features implemented
 - "Motten" currency
     - transfer
     - logging witch user interface
+    - transaction links
 - Gravatar integration
 - Heroku deployment with embedded Glassfish [thanks to jsimone](https://github.com/jsimone/embeddedGlassfishSample)
-- Categories assumed
-- User editing
-- prevent resource caching
-- transaction links
-- transient logout page
+- User data self service
+- JSF extension
+    - prevent resource caching
+    - transient logout page
+    - secure internal urls
+- Advertisements
+    - Categories assumed
+    - Browser Menu
+    - Rendering
+    - Creation
 
 
 Agenda
 --------------
-- Create Ads
-- Search Ads
-- Better Ad-Navigation
-- Überweisungs templates
-- Überweisungs Dauerauftrag
+- Advertisements
+    - Search
+    - Editing (My Advertisements)
+    - Members Advertisements
+- Calendar
+    - Browse
+    - Create
+    - Edit
+- "Motten" currency
+    - transfer templates
+    - standing order
 - encrypted passwords (maybe some other encryption stuff)
 - JPA with database or mongoDB
 - stateful theme switcher

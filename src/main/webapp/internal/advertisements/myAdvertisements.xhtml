@@ -24,7 +24,39 @@ Environmental damage caused by the use must be kept as small as possible.
 <ui:composition template="/decorators/menuDecorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-        >
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html">
     <ui:define name="contentWithMenu">
+        <p:panel header="Meine Anzeigen">
+            <p:dataTable id="advertisementTable" var="advertisement" value="#{userSession.user.advertisements}"
+                         styleClass="ui-corner-all">
+                <p:column id="title" sortBy="#{advertisement.title}">
+                    <f:facet name="header">
+                        <h:outputText value="Titel"/>
+                    </f:facet>
+                    <a href="${pageContext.request.servletPath}#{advertisement.editUrl}">
+                        #{advertisement.title}
+                    </a>
+                </p:column>
+                <p:column id="type" sortBy="#{advertisement.title}">
+                    <f:facet name="header">
+                        <h:outputText value="Typ"/>
+                    </f:facet>
+                    <a href="${pageContext.request.servletPath}#{advertisement.browseTypeUrl}">
+                        #{advertisement.type.translation}
+                    </a>
+                </p:column>
+
+                <p:column id="category" sortBy="#{advertisement.category}">
+                    <f:facet name="header">
+                        <h:outputText value="Category"/>
+                    </f:facet>
+                    <a href="${pageContext.request.servletPath}#{advertisement.browseCategoryUrl}">
+                        #{advertisement.category.desc}
+                    </a>
+                </p:column>
+            </p:dataTable>
+        </p:panel>
     </ui:define>
 </ui:composition>

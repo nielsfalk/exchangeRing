@@ -7,6 +7,7 @@ import java.util.Date;
 
 import static de.hh.changeRing.Context.formatGermanDate;
 import static de.hh.changeRing.controller.Advertisements.ADVERTISEMENTS_BROWSE_URL;
+import static de.hh.changeRing.controller.Advertisements.ADVERTISEMENTS_EDIT_URL;
 import static de.hh.changeRing.domain.Category.root;
 
 /**
@@ -73,6 +74,10 @@ public class Advertisement extends BaseEntity {
 
     public String getBrowseUrl() {
         return ADVERTISEMENTS_BROWSE_URL + "?type=" + getType().name() + "&advertisement=" + getId();
+    }
+
+    public String getEditUrl() {
+        return ADVERTISEMENTS_EDIT_URL + "?type=" + getType().name() + "&advertisement=" + getId();
     }
 
     public String getBrowseCategoryUrl() {

@@ -51,7 +51,7 @@ Environmental damage caused by the use must be kept as small as possible.
                              maxlength="140"
                              counterTemplate="{0} zeichen übrig." autoResize="false"
                              value="#{advertisementToEdit.content}"/>
-            <p:commandButton value="Speichern" actionListener="#{advertisements.save}" ajax="false"/>
+            <p:commandButton value="Speichern" action="#{advertisements.save}" ajax="false"/>
             <h:outputText id="newAdContentCounter"/>
         </h:panelGrid>
     </h:form>

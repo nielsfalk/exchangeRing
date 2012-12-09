@@ -46,6 +46,7 @@ import static java.util.Calendar.YEAR;
 @SessionScoped
 public class Advertisements {
     public static final String ADVERTISEMENTS_BROWSE_URL = "/internal/advertisements/browse.xhtml";
+    public static final String ADVERTISEMENTS_EDIT_URL = "/internal/advertisements/edit.xhtml";
     @ManagedProperty(value = "#{userSession}")
     private UserSession session;
     private AdvertisementType type;
@@ -97,17 +98,19 @@ public class Advertisements {
     }
 
 
-    public void save() {
+    public String save() {
         if (newAdvertisement != null) {
             InitTestData.addAdvertisement(newAdvertisement);
             new Context().addMessage("Anzeige erstellt");
+            String browseUrl = newAdvertisement.getBrowseUrl();
             newAdvertisement = null;
-            return;
+            return browseUrl;
         }
         if (advertisement != null) {
             InitTestData.clearSorted();
-            advertisement = null;
+            return advertisement.getBrowseUrl();
         }
+        return null;
     }
 
     public List<Advertisement> getAdvertisements() {

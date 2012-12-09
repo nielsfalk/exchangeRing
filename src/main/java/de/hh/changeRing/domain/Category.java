@@ -7,7 +7,7 @@ import org.primefaces.model.DefaultMenuModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import static de.hh.changeRing.controller.Advertisement.browseUrl;
+import static de.hh.changeRing.controller.Advertisement.ADVERTISEMENTS_BROWSE_URL;
 import static de.hh.changeRing.domain.Advertisement.AdvertisementType;
 
 /**
@@ -134,7 +134,7 @@ public enum Category {
         result.addMenuItem(root);
         MenuItem typeItem = new MenuItem();
         typeItem.setValue(type.plural);
-        typeItem.setUrl(browseUrl(this.root, type));
+        typeItem.setUrl(this.root.getBrowseUrl(type));
         result.addMenuItem(typeItem);
 
         Category[] thisWithParents = this.thisWithParents.toArray(new Category[this.thisWithParents.size()]);
@@ -142,9 +142,14 @@ public enum Category {
             Category category = thisWithParents[i];
             MenuItem menuItem = new MenuItem();
             menuItem.setValue(category.getName());
-            menuItem.setUrl(browseUrl(category, type));
+            menuItem.setUrl(category.getBrowseUrl(type));
             result.addMenuItem(menuItem);
         }
         return result;
+    }
+
+
+    public String getBrowseUrl(AdvertisementType type) {
+        return ADVERTISEMENTS_BROWSE_URL + "?type=" + type.name() + "&category=" + name();
     }
 }

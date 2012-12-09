@@ -120,6 +120,9 @@ public class User extends BaseEntity {
 
     private String skype;
 
+    private List<Advertisement> advertisements = new ArrayList<Advertisement>();
+
+
     @XmlElement
     public String getNickName() {
         return nickName;
@@ -643,5 +646,9 @@ public class User extends BaseEntity {
 
     public void setSkype(String skype) {
         this.skype = skype;
+    }
+
+    public List<Advertisement> getAdvertisements() {
+        return advertisements;
     }
 }

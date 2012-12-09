@@ -69,7 +69,7 @@ public class Advertisement {
         if (category != Category.root) {
             MenuItem menuItem = new MenuItem();
             menuItem.setValue("zurück");
-            menuItem.setUrl(browseUrl(category.parent, type));
+            menuItem.setUrl(category.parent.getBrowseUrl(type));
             menuItem.setIcon("ui-icon-carat-1-n");
             menuModel.addMenuItem(menuItem);
             menuModel.addSeparator(new Separator());
@@ -78,31 +78,21 @@ public class Advertisement {
         for (Category child : children) {
             MenuItem menuItem = new MenuItem();
             menuItem.setValue(child.getName());
-            menuItem.setUrl(browseUrl(child, type));
+            menuItem.setUrl(child.getBrowseUrl(type));
             menuModel.addMenuItem(menuItem);
         }
         if (children.isEmpty()) {
             for (de.hh.changeRing.domain.Advertisement advertisement : InitTestData.getSortedAds().get(type).get(category)) {
                 MenuItem menuItem = new MenuItem();
                 menuItem.setValue(advertisement.getTitle());
-                menuItem.setUrl(browseUrl(advertisement));
+                menuItem.setUrl(advertisement.getBrowseUrl());
                 if (advertisement.equals(getAdvertisement())) {
                     menuItem.setStyleClass(ACTIVE_CSS_CLASS);
                 }
                 menuModel.addMenuItem(menuItem);
             }
         }
-
         return menuModel;
-    }
-
-    public static String browseUrl(de.hh.changeRing.domain.Advertisement advertisement) {
-        return ADVERTISEMENTS_BROWSE_URL + "?type=" + advertisement.getType().name() + "&advertisement=" + advertisement
-                .getId();
-    }
-
-    public static String browseUrl(Category category, AdvertisementType type) {
-        return ADVERTISEMENTS_BROWSE_URL + "?type=" + type.name() + "&category=" + category.name();
     }
 
 

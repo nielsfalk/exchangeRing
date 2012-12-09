@@ -6,7 +6,7 @@ import org.primefaces.model.DefaultMenuModel;
 import java.util.Date;
 
 import static de.hh.changeRing.Context.formatGermanDate;
-import static de.hh.changeRing.controller.Advertisement.browseUrl;
+import static de.hh.changeRing.controller.Advertisement.ADVERTISEMENTS_BROWSE_URL;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -57,7 +57,7 @@ public class Advertisement extends BaseEntity {
         DefaultMenuModel breadCrumb = category.createBreadCrumb(type);
         MenuItem menuItem = new MenuItem();
         menuItem.setValue(title);
-        menuItem.setUrl(browseUrl(this));
+        menuItem.setUrl(getBrowseUrl());
         breadCrumb.addMenuItem(menuItem);
         return breadCrumb;
     }
@@ -68,6 +68,10 @@ public class Advertisement extends BaseEntity {
 
     public String getFormattedCreationDate() {
         return formatGermanDate(getCreationDate());
+    }
+
+    public String getBrowseUrl() {
+        return ADVERTISEMENTS_BROWSE_URL + "?type=" + getType().name() + "&advertisement=" + getId();
     }
 
     public static enum AdvertisementType {

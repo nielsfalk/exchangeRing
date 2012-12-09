@@ -41,21 +41,21 @@ public class User {
     private ArrayList<de.hh.changeRing.domain.User> otherUsers;
     private de.hh.changeRing.domain.User selectedUser;
 
-	public boolean isMe() {
-		return getLoggedInUser().equals(selectedUser);
-	}
+    public boolean isMe() {
+        return getLoggedInUser().equals(selectedUser);
+    }
 
-	public boolean isOther() {
-		return !isMe();
-	}
+    public boolean isOther() {
+        return !isMe();
+    }
 
-	public boolean meOrFilled(String s) {
-		return isMe() || !isEmpty(s);
-	}
+    public boolean meOrFilled(String s) {
+        return isMe() || !isEmpty(s);
+    }
 
-	public boolean otherAndFilled(String s) {
-		return isOther() && !isEmpty(s);
-	}
+    public boolean otherAndFilled(String s) {
+        return isOther() && !isEmpty(s);
+    }
 
     public List<de.hh.changeRing.domain.User> getOtherUsers() {
         if (otherUsers == null) {
@@ -78,11 +78,11 @@ public class User {
         return selectedUser;
     }
 
-	void setSelectedUser(de.hh.changeRing.domain.User selectedUser) {
-		this.selectedUser = selectedUser;
-	}
+    void setSelectedUser(de.hh.changeRing.domain.User selectedUser) {
+        this.selectedUser = selectedUser;
+    }
 
-	public void setSelectedUserId(Long id) {
+    public void setSelectedUserId(Long id) {
         this.selectedUser = InitTestData.findUser(id);
     }
 
@@ -94,7 +94,7 @@ public class User {
     }
 
     @SuppressWarnings("UnusedDeclaration")
-	public void setSession(UserSession session) {
+    public void setSession(UserSession session) {
         this.session = session;
     }
 
@@ -106,4 +106,6 @@ public class User {
     public String getSelectedMe() {
         return "";
     }
+
+
 }

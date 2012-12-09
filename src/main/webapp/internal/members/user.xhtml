@@ -193,10 +193,10 @@ Environmental damage caused by the use must be kept as small as possible.
                 <p:calendar locale="de" navigator="true" value="#{user.selectedUser.birthDay}" rendered=
                         "#{user.me}"/>
 
-                <h:outputText value="Profil:" rendered="#{user.meOrFilled(user.selectedUser.wordsOfWisdom)}"/>
-                <h:outputText value="#{user.selectedUser.wordsOfWisdom}"
-                              rendered="#{user.otherAndFilled(user.selectedUser.wordsOfWisdom)}"/>
-                <p:inputText value="#{user.selectedUser.wordsOfWisdom}" rendered="#{user.me}"/>
+                <h:outputText value="Profil:" rendered="#{user.meOrFilled(user.selectedUser.profile)}"/>
+                <h:outputText value="#{user.selectedUser.profile}"
+                              rendered="#{user.otherAndFilled(user.selectedUser.profile)}"/>
+                <p:inputText value="#{user.selectedUser.profile}" rendered="#{user.me}"/>
 
                 <h:outputText value="Erreichbarkeit:"
                               rendered="#{user.meOrFilled(user.selectedUser.accessibility)}"/>

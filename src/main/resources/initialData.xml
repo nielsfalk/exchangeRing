@@ -21,6 +21,11 @@
         <f>s</f>
         <f>8</f>
         <f>1</f>
+        <profile>Java EE 6, JSF 2.0, EJB 3.1, JPA 2.0, CDI (Weld), JAX-RS, REST, WebServices, HTML, XHTML, XML, XSD,
+            JSON, JavaScript, Spring, Hibernate, EclipseLink, OOP, Maven, Hudson, Glassfish, Tomcat, UML, Continuous
+            Integration, Domain Driven Design, SMSC Entwicklung, EMI/UCP, SMPP, Engagement, Motivation, Flexibilität,
+            Teamgeist
+        </profile>
     </user>
     <user>
         <id>13</id>
@@ -32,6 +37,7 @@
         <e>lau.de</e>
 
         <password>123</password>
+        <profile>Ich helfe menschen blau zu werden</profile>
     </user>
     <user>
         <id>14</id>
@@ -65,7 +71,7 @@
         <limit>3000000</limit>
         <missingFee>2000.00</missingFee>
         <birthDay>1959-02-02</birthDay>
-        <wordsOfWisdom>wer lange duscht wird furtbar nass</wordsOfWisdom>
+        <profile>wer lange duscht wird furtbar nass</profile>
         <accessibility>nicht erreichbar</accessibility>
         <status>disabled</status>
         <activated>1979-02-02</activated>
@@ -87,6 +93,12 @@
         <e>otma</e>
         <e>il.</e>
         <e>de</e>
+        <profile>In Berlin groß geworden wohne ich seit 2010 in Hamburg. Hier studiere ich Erziehungs- und
+            Bildungswissenschaften sowie Gebärdensprache. Zu meinen Hobbys gehören Einradfahren, Slackline laufen,
+            Kochen und allerlei Dinge die an der frischen Luft oder/und in Gesellschaft statt finden. Seit 1995 arbeite
+            ich als Einrad- bzw. Kinderzirkustrainer und bin gerne bereit diese Fähigkeiten auch im Tauschring ein zu
+            bringen. --- Mit Freude erwarte jetzt ich die ersten Anfragen!
+        </profile>
     </user>
     <transaction>
         <fromId>577</fromId>

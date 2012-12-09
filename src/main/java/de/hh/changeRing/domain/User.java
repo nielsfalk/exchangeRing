@@ -102,7 +102,7 @@ public class User extends BaseEntity {
 
     private BigDecimal fee = new BigDecimal("6.00");
 
-    private String wordsOfWisdom;
+    private String profile;
 
     private String accessibility;
 
@@ -536,12 +536,12 @@ public class User extends BaseEntity {
     }
 
     @XmlElement
-    public String getWordsOfWisdom() {
-        return wordsOfWisdom;
+    public String getProfile() {
+        return profile;
     }
 
-    public void setWordsOfWisdom(String wordsOfWisdom) {
-        this.wordsOfWisdom = wordsOfWisdom;
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
     @XmlElement

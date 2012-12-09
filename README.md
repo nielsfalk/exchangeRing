@@ -48,6 +48,7 @@ Features implemented
     - Browser Menu
     - Rendering
     - Creation
+    - Link from Member
 
 
 Agenda
@@ -55,7 +56,6 @@ Agenda
 - Advertisements
     - Search
     - Editing (My Advertisements)
-    - Members Advertisements
 - Calendar
     - Browse
     - Create

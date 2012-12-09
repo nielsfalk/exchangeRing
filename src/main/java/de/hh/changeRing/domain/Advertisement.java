@@ -7,6 +7,7 @@ import java.util.Date;
 
 import static de.hh.changeRing.Context.formatGermanDate;
 import static de.hh.changeRing.controller.Advertisements.ADVERTISEMENTS_BROWSE_URL;
+import static de.hh.changeRing.domain.Category.root;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -72,6 +73,14 @@ public class Advertisement extends BaseEntity {
 
     public String getBrowseUrl() {
         return ADVERTISEMENTS_BROWSE_URL + "?type=" + getType().name() + "&advertisement=" + getId();
+    }
+
+    public String getBrowseCategoryUrl() {
+        return getCategory().getBrowseUrl(getType());
+    }
+
+    public String getBrowseTypeUrl() {
+        return root.getBrowseUrl(getType());
     }
 
     public static enum AdvertisementType {

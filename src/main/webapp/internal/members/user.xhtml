@@ -226,13 +226,29 @@ Environmental damage caused by the use must be kept as small as possible.
 <p:panel header="Anzeigen" rendered="#{not empty users.selectedUser.advertisements}">
     <p:dataTable id="advertisementTable" var="advertisement" value="#{users.selectedUser.advertisements}"
                  styleClass="ui-corner-all">
-        <p:column id="memberId" sortBy="#{advertisement.title}">
+        <p:column id="title" sortBy="#{advertisement.title}">
             <f:facet name="header">
                 <h:outputText value="Titel"/>
             </f:facet>
-            <a href="${pageContext.request.servletPath}#{advertisement.link}/internal/members/user.xhtml?userId=#{member.id}">
-                <img src="#{member.gravatarHeaderUrl49}" alt="avatar #{member.displayName}"/>
-                <h:outputText value="#{member.id}"/>
+            <a href="${pageContext.request.servletPath}#{advertisement.browseUrl}">
+                #{advertisement.title}
+            </a>
+        </p:column>
+        <p:column id="type" sortBy="#{advertisement.title}">
+            <f:facet name="header">
+                <h:outputText value="Typ"/>
+            </f:facet>
+            <a href="${pageContext.request.servletPath}#{advertisement.browseTypeUrl}">
+                #{advertisement.type.translation}
+            </a>
+        </p:column>
+
+        <p:column id="category" sortBy="#{advertisement.category}">
+            <f:facet name="header">
+                <h:outputText value="Category"/>
+            </f:facet>
+            <a href="${pageContext.request.servletPath}#{advertisement.browseCategoryUrl}">
+                #{advertisement.category.desc}
             </a>
         </p:column>
     </p:dataTable>

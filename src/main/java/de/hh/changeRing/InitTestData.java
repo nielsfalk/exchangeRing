@@ -70,7 +70,7 @@ public class InitTestData {
 
     private static void initAds() {
         for (User user : getUsers()) {
-            if (user.getId() > 1400L) {
+            if (user.getId() < 1400L) {
                 for (int i = 0; i < new Random().nextInt(5); i++) {
                     Advertisement advertisement = new Advertisement();
                     advertisement.setOwner(user);
@@ -224,6 +224,7 @@ public class InitTestData {
 
     public static void addAdvertisement(Advertisement newAdvertisement) {
         advertisements.add(newAdvertisement);
+        newAdvertisement.getOwner().getAdvertisements().add(newAdvertisement);
         sortedAds = null;
     }
 

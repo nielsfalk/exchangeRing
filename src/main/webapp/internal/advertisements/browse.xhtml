@@ -29,16 +29,16 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:f="http://java.sun.com/jsf/core">
 
     <f:metadata>
-        <f:viewParam name="type" value="#{advertisements.type}"/>
-        <f:viewParam name="category" value="#{advertisements.category}"/>
-        <f:viewParam name="advertisement" value="#{advertisements.advertisement}" converter="advertisementConverter"/>
+        <f:viewParam name="type" value="#{advertisementModel.type}"/>
+        <f:viewParam name="category" value="#{advertisementModel.category}"/>
+        <f:viewParam name="advertisement" value="#{advertisementModel.advertisement}" converter="advertisementConverter"/>
     </f:metadata>
     <ui:define name="categoryBrowser">
         <p/>
-        <p:menu style="width:180px;" id="categoryBrowserMenu" model="#{advertisements.categoryBrowser}"/>
+        <p:menu style="width:180px;" id="categoryBrowserMenu" model="#{advertisementModel.categoryBrowser}"/>
     </ui:define>
     <ui:define name="advertisementContent">
-        <ui:repeat value="#{advertisements.advertisements}" var="adToShow">
+        <ui:repeat value="#{advertisementModel.advertisements}" var="adToShow">
             <p:panel>
                 <p:breadCrumb model="#{adToShow.breadCrumb}"/>
                 <h:panelGrid columns="2" columnClasses="column" cellpadding="5">

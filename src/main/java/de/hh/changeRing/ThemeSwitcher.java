@@ -1,4 +1,4 @@
-package de.hh.changeRing.controller;
+package de.hh.changeRing;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;

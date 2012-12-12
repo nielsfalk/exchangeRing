@@ -1,10 +1,8 @@
-package de.hh.changeRing.controller;
+package de.hh.changeRing.Advertisement;
 
 
 import de.hh.changeRing.Context;
 import de.hh.changeRing.InitTestData;
-import de.hh.changeRing.domain.Advertisement;
-import de.hh.changeRing.domain.Category;
 import de.hh.changeRing.user.UserSession;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.component.separator.Separator;
@@ -19,7 +17,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import static de.hh.changeRing.user.UserSession.ACTIVE_CSS_CLASS;
-import static de.hh.changeRing.domain.Advertisement.AdvertisementType;
+import static de.hh.changeRing.Advertisement.Advertisement.AdvertisementType;
 import static java.util.Calendar.YEAR;
 
 /**
@@ -46,7 +44,7 @@ import static java.util.Calendar.YEAR;
  */
 @Named
 @SessionScoped
-public class Advertisements implements Serializable {
+public class AdvertisementModel implements Serializable {
     public static final String ADVERTISEMENTS_BROWSE_URL = "/internal/advertisements/browse.xhtml";
     public static final String ADVERTISEMENTS_EDIT_URL = "/internal/advertisements/edit.xhtml";
     @Inject

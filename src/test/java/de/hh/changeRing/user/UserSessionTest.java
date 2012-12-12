@@ -1,4 +1,4 @@
-package de.hh.changeRing.controller;
+package de.hh.changeRing.user;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

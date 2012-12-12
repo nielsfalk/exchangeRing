@@ -1,4 +1,4 @@
-package de.hh.changeRing.domain;
+package de.hh.changeRing;
 
 import javax.xml.bind.annotation.XmlElement;
 

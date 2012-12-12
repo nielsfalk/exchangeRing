@@ -1,8 +1,8 @@
 package de.hh.changeRing.jsfExtension;
 
 import de.hh.changeRing.InitTestData;
-import de.hh.changeRing.domain.Advertisement;
-import de.hh.changeRing.domain.BaseEntity;
+import de.hh.changeRing.Advertisement.Advertisement;
+import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.user.User;
 
 import javax.faces.component.UIComponent;

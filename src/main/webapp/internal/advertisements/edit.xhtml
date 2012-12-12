@@ -27,14 +27,14 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core">
     <f:metadata>
-        <f:viewParam name="type" value="#{advertisements.type}"/>
-        <f:viewParam name="category" value="#{advertisements.category}"/>
-        <f:viewParam name="advertisement" value="#{advertisements.advertisement}" converter="advertisementConverter"/>
+        <f:viewParam name="type" value="#{advertisementModel.type}"/>
+        <f:viewParam name="category" value="#{advertisementModel.category}"/>
+        <f:viewParam name="advertisement" value="#{advertisementModel.advertisement}" converter="advertisementConverter"/>
     </f:metadata>
     <ui:define name="contentWithMenu">
         <p:panel header="Anzeige bearbeiten">
             <ui:include src="editPartial.xhtml">
-                <ui:param name="advertisementToEdit" value="#{advertisements.editAdvertisement}"/>
+                <ui:param name="advertisementToEdit" value="#{advertisementModel.editAdvertisement}"/>
             </ui:include>
         </p:panel>
     </ui:define>

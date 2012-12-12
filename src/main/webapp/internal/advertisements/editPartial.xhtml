@@ -33,13 +33,13 @@ Environmental damage caused by the use must be kept as small as possible.
             <h:outputText value="Aangebot/Gesuch:"/>
             <p:selectOneMenu value="#{advertisementToEdit.type}">
                 <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
-                <f:selectItems value="#{advertisements.adType}" var="type" itemLabel="#{type.translation}"
+                <f:selectItems value="#{advertisementModel.adType}" var="type" itemLabel="#{type.translation}"
                                itemValue="#{type}"/>
             </p:selectOneMenu>
             <h:outputText value="Kategorie:"/>
             <p:selectOneMenu value="#{advertisementToEdit.category}">
                 <f:selectItem itemLabel="Bitte wählen" itemValue=""/>
-                <f:selectItems value="#{advertisements.categories}" var="cat" itemLabel="#{cat.desc}"
+                <f:selectItems value="#{advertisementModel.categories}" var="cat" itemLabel="#{cat.desc}"
                                itemValue="#{cat}"/>
             </p:selectOneMenu>
 
@@ -51,7 +51,7 @@ Environmental damage caused by the use must be kept as small as possible.
                              maxlength="140"
                              counterTemplate="{0} zeichen übrig." autoResize="false"
                              value="#{advertisementToEdit.content}"/>
-            <p:commandButton value="Speichern" action="#{advertisements.save}" ajax="false"/>
+            <p:commandButton value="Speichern" action="#{advertisementModel.save}" ajax="false"/>
             <h:outputText id="newAdContentCounter"/>
         </h:panelGrid>
     </h:form>

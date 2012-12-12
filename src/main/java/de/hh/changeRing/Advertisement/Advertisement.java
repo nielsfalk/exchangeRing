@@ -1,5 +1,6 @@
-package de.hh.changeRing.domain;
+package de.hh.changeRing.Advertisement;
 
+import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.user.User;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.model.DefaultMenuModel;
@@ -7,9 +8,9 @@ import org.primefaces.model.DefaultMenuModel;
 import java.util.Date;
 
 import static de.hh.changeRing.Context.formatGermanDate;
-import static de.hh.changeRing.controller.Advertisements.ADVERTISEMENTS_BROWSE_URL;
-import static de.hh.changeRing.controller.Advertisements.ADVERTISEMENTS_EDIT_URL;
-import static de.hh.changeRing.domain.Category.root;
+import static de.hh.changeRing.Advertisement.AdvertisementModel.ADVERTISEMENTS_BROWSE_URL;
+import static de.hh.changeRing.Advertisement.AdvertisementModel.ADVERTISEMENTS_EDIT_URL;
+import static de.hh.changeRing.Advertisement.Category.root;
 
 /**
  * ----------------GNU General Public License--------------------------------

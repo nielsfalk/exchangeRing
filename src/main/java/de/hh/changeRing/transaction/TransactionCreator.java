@@ -1,9 +1,8 @@
-package de.hh.changeRing.controller;
+package de.hh.changeRing.transaction;
 
 import de.hh.changeRing.Context;
 import de.hh.changeRing.InitTestData;
-import de.hh.changeRing.domain.Advertisement;
-import de.hh.changeRing.domain.Transaction;
+import de.hh.changeRing.Advertisement.Advertisement;
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
 

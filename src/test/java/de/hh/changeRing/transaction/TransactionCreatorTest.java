@@ -1,5 +1,6 @@
-package de.hh.changeRing.controller;
+package de.hh.changeRing.transaction;
 
+import de.hh.changeRing.transaction.TransactionCreator;
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
 import org.junit.Before;

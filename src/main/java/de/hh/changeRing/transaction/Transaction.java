@@ -1,6 +1,7 @@
-package de.hh.changeRing.domain;
+package de.hh.changeRing.transaction;
 
 import de.hh.changeRing.InitTestData;
+import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.user.User;
 
 import javax.xml.bind.annotation.XmlAccessType;

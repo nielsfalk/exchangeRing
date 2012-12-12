@@ -5,12 +5,12 @@ import de.hh.changeRing.Context;
 import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.domain.Advertisement;
 import de.hh.changeRing.domain.Category;
+import de.hh.changeRing.user.UserSession;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.component.separator.Separator;
 import org.primefaces.model.DefaultMenuModel;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import static de.hh.changeRing.controller.UserSession.ACTIVE_CSS_CLASS;
+import static de.hh.changeRing.user.UserSession.ACTIVE_CSS_CLASS;
 import static de.hh.changeRing.domain.Advertisement.AdvertisementType;
 import static java.util.Calendar.YEAR;
 

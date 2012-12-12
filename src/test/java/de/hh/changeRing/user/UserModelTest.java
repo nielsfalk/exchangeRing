@@ -1,9 +1,12 @@
-package de.hh.changeRing.controller;
+package de.hh.changeRing.user;
 
+import de.hh.changeRing.user.User;
+import de.hh.changeRing.user.UserModel;
+import de.hh.changeRing.user.UserSession;
 import org.junit.Before;
 import org.junit.Test;
 
-import static de.hh.changeRing.domain.User.dummyUser;
+import static de.hh.changeRing.user.User.dummyUser;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -25,52 +28,52 @@ import static org.junit.Assert.assertThat;
  * In addition, each military use, and the use for interest profit will be excluded. Environmental damage caused by the
  * use must be kept as small as possible.
  */
-public class UsersTest {
+public class UserModelTest {
 
     private final UserSession session = new UserSession();
-    private final Users users = new Users();
-    private final de.hh.changeRing.domain.User me = dummyUser(1L);
-    private final de.hh.changeRing.domain.User other = dummyUser(2L);
+    private final UserModel userModel = new UserModel();
+    private final User me = dummyUser(1L);
+    private final User other = dummyUser(2L);
 
     @Before
     public void setup() {
-        users.setSession(session);
+        userModel.setSession(session);
         session.setUser(me);
     }
 
     @Test
     public void isMe() {
-        users.setSelectedUser(me);
-        assertThat(users.isMe(), is(true));
-        users.setSelectedUser(other);
-        assertThat(users.isMe(), is(false));
+        userModel.setSelectedUser(me);
+        assertThat(userModel.isMe(), is(true));
+        userModel.setSelectedUser(other);
+        assertThat(userModel.isMe(), is(false));
     }
 
     @Test
     public void isOther() {
-        users.setSelectedUser(me);
-        assertThat(users.isOther(), is(false));
-        users.setSelectedUser(other);
-        assertThat(users.isOther(), is(true));
+        userModel.setSelectedUser(me);
+        assertThat(userModel.isOther(), is(false));
+        userModel.setSelectedUser(other);
+        assertThat(userModel.isOther(), is(true));
     }
 
     @Test
     public void meOrFilled() {
-        users.setSelectedUser(other);
-        assertThat(users.meOrFilled("ö"), is(true));
-        assertThat(users.meOrFilled(""), is(false));
-        users.setSelectedUser(me);
-        assertThat(users.meOrFilled(null), is(true));
+        userModel.setSelectedUser(other);
+        assertThat(userModel.meOrFilled("ö"), is(true));
+        assertThat(userModel.meOrFilled(""), is(false));
+        userModel.setSelectedUser(me);
+        assertThat(userModel.meOrFilled(null), is(true));
     }
 
 
     @Test
     public void otherAndFilled() {
-        users.setSelectedUser(other);
-        assertThat(users.otherAndFilled("ö"), is(true));
-        assertThat(users.otherAndFilled(""), is(false));
-        assertThat(users.otherAndFilled(null), is(false));
-        users.setSelectedUser(me);
-        assertThat(users.otherAndFilled("fd"), is(false));
+        userModel.setSelectedUser(other);
+        assertThat(userModel.otherAndFilled("ö"), is(true));
+        assertThat(userModel.otherAndFilled(""), is(false));
+        assertThat(userModel.otherAndFilled(null), is(false));
+        userModel.setSelectedUser(me);
+        assertThat(userModel.otherAndFilled("fd"), is(false));
     }
 }

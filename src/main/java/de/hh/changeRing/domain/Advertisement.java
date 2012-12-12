@@ -1,5 +1,6 @@
 package de.hh.changeRing.domain;
 
+import de.hh.changeRing.user.User;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.model.DefaultMenuModel;
 

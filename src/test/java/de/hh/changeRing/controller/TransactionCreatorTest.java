@@ -1,13 +1,14 @@
 package de.hh.changeRing.controller;
 
-import de.hh.changeRing.domain.User;
+import de.hh.changeRing.user.User;
+import de.hh.changeRing.user.UserSession;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
 
-import static de.hh.changeRing.domain.User.DepotItemType.in;
-import static de.hh.changeRing.domain.User.DepotItemType.out;
+import static de.hh.changeRing.user.User.DepotItemType.in;
+import static de.hh.changeRing.user.User.DepotItemType.out;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
@@ -40,9 +41,12 @@ public class TransactionCreatorTest {
 
     @Before
     public void login() {
-        UserSession session = new UserSession();
-        session.setUser(owner);
-        transactionCreator = new TransactionCreator();
+        UserSession session = new TestUserSession(owner);
+        transactionCreator = new TransactionCreator() {
+            @Override
+            protected void message(String message) {
+            }
+        };
         transactionCreator.setSession(session);
     }
 
@@ -81,5 +85,12 @@ public class TransactionCreatorTest {
         assertThat(depotItem.getOther(), is(other));
         assertThat(depotItem.getSubject(), is(SUBJECT));
         assertThat(depotItem.getType(), is(type));
+    }
+
+    public static class TestUserSession extends UserSession{
+
+        public TestUserSession(User owner) {
+            user = owner;
+        }
     }
 }

@@ -1,6 +1,6 @@
 package de.hh.changeRing;
 
-import de.hh.changeRing.controller.UserSession;
+import de.hh.changeRing.user.UserSession;
 
 import javax.el.ELContext;
 import javax.el.ELResolver;

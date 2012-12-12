@@ -4,10 +4,10 @@ import de.hh.changeRing.Context;
 import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.domain.Advertisement;
 import de.hh.changeRing.domain.Transaction;
-import de.hh.changeRing.domain.User;
+import de.hh.changeRing.user.User;
+import de.hh.changeRing.user.UserSession;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -58,8 +58,12 @@ public class TransactionCreator implements Serializable{
         LOGGER.info(session.getUser().getId() + " created transaction");
         Transaction.create(session.getUser(), receiver, amount, subject).wire();
         setClear("clear");
-        new Context().addMessage("Überweisung Durchgeführt");
+        message("Überweisung Durchgeführt");
         return "/internal/transactions.xhtml";
+    }
+
+    protected void message(String message) {
+        new Context().addMessage(message);
     }
 
     @SuppressWarnings("UnusedDeclaration")

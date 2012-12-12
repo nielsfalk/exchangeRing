@@ -1,10 +1,13 @@
-package de.hh.changeRing.domain;
+package de.hh.changeRing.user;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Ordering;
 import de.bripkens.gravatar.DefaultImage;
 import de.bripkens.gravatar.Gravatar;
 import de.bripkens.gravatar.Rating;
+import de.hh.changeRing.domain.Advertisement;
+import de.hh.changeRing.domain.BaseEntity;
+import de.hh.changeRing.domain.Transaction;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -17,9 +20,9 @@ import java.util.List;
 import java.util.Random;
 
 import static de.hh.changeRing.Context.formatGermanDate;
-import static de.hh.changeRing.domain.User.DepotItemType.in;
-import static de.hh.changeRing.domain.User.DepotItemType.out;
-import static de.hh.changeRing.domain.User.Status.active;
+import static de.hh.changeRing.user.User.DepotItemType.in;
+import static de.hh.changeRing.user.User.DepotItemType.out;
+import static de.hh.changeRing.user.User.Status.active;
 
 /**
  * ----------------GNU General Public License--------------------------------

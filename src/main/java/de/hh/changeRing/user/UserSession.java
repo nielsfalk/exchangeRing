@@ -1,8 +1,7 @@
-package de.hh.changeRing.controller;
+package de.hh.changeRing.user;
 
 import de.hh.changeRing.Context;
 import de.hh.changeRing.InitTestData;
-import de.hh.changeRing.domain.User;
 
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
@@ -38,7 +37,7 @@ public class UserSession implements Serializable{
     public static final String ACTIVE_CSS_CLASS = "ui-state-active";
 
     private String id, password;
-    private User user;
+    protected User user;
 
     public void login() {
         User user = InitTestData.findUser(id);
@@ -48,7 +47,11 @@ public class UserSession implements Serializable{
         LOGGER.info(isLoggedIn() ? id + " logged in" : "tried to login " + id);
         id = null;
         password = null;
-        new Context().addMessage(isLoggedIn() ? ("Wilkommen " + user.getDisplayName() + "!") : "Id oder Passwort falsch");
+        message(isLoggedIn() ? ("Wilkommen " + user.getDisplayName() + "!") : "Id oder Passwort falsch");
+    }
+
+    protected void message(String message) {
+        new Context().addMessage(message);
     }
 
     public void updateUser() {

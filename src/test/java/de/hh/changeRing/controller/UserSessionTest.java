@@ -4,6 +4,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 import de.hh.changeRing.SuperTest;
+import de.hh.changeRing.user.UserSession;
 import org.junit.Test;
 
 /**
@@ -27,7 +28,11 @@ import org.junit.Test;
 public class UserSessionTest extends SuperTest{
 	private static final String PASSWORD = "123";
 	private static final String NICK = "niles";
-	private final UserSession session = new UserSession();
+	private final UserSession session = new UserSession(){
+        @Override
+        protected void message(String message) {
+        }
+    };
 	@Test
 	public void loginWithId()  {
 		logIn("13");

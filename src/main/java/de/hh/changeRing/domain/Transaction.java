@@ -1,6 +1,7 @@
 package de.hh.changeRing.domain;
 
 import de.hh.changeRing.InitTestData;
+import de.hh.changeRing.user.User;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

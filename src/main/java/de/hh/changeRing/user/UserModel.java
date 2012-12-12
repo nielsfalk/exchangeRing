@@ -1,17 +1,15 @@
-package de.hh.changeRing.controller;
+package de.hh.changeRing.user;
 
 import de.hh.changeRing.InitTestData;
-import de.hh.changeRing.domain.User;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static de.hh.changeRing.domain.User.isEmpty;
+import static de.hh.changeRing.user.User.isEmpty;
 
 
 /**
@@ -38,7 +36,7 @@ import static de.hh.changeRing.domain.User.isEmpty;
  */
 @Named
 @SessionScoped
-public class Users implements Serializable{
+public class UserModel implements Serializable{
     @Inject
     private UserSession session;
     private ArrayList<User> otherUsers;

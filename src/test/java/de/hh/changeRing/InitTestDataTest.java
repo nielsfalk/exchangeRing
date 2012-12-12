@@ -1,8 +1,7 @@
 package de.hh.changeRing;
 
 import de.hh.changeRing.domain.Transaction;
-import de.hh.changeRing.domain.User;
-import org.junit.Ignore;
+import de.hh.changeRing.user.User;
 import org.junit.Test;
 
 import java.text.ParseException;

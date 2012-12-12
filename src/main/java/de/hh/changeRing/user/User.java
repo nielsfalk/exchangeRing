@@ -5,7 +5,7 @@ import com.google.common.collect.Ordering;
 import de.bripkens.gravatar.DefaultImage;
 import de.bripkens.gravatar.Gravatar;
 import de.bripkens.gravatar.Rating;
-import de.hh.changeRing.Advertisement.Advertisement;
+import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.transaction.Transaction;
 

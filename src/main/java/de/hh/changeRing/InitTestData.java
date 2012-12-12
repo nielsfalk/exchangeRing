@@ -1,8 +1,8 @@
 package de.hh.changeRing;
 
 import com.google.common.collect.Ordering;
-import de.hh.changeRing.Advertisement.Advertisement;
-import de.hh.changeRing.Advertisement.Category;
+import de.hh.changeRing.advertisement.Advertisement;
+import de.hh.changeRing.advertisement.Category;
 import de.hh.changeRing.transaction.Transaction;
 import de.hh.changeRing.user.User;
 

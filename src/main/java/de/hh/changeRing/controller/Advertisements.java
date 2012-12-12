@@ -9,9 +9,11 @@ import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.component.separator.Separator;
 import org.primefaces.model.DefaultMenuModel;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -42,12 +44,12 @@ import static java.util.Calendar.YEAR;
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
  */
-@ManagedBean
+@Named
 @SessionScoped
-public class Advertisements {
+public class Advertisements implements Serializable {
     public static final String ADVERTISEMENTS_BROWSE_URL = "/internal/advertisements/browse.xhtml";
     public static final String ADVERTISEMENTS_EDIT_URL = "/internal/advertisements/edit.xhtml";
-    @ManagedProperty(value = "#{userSession}")
+    @Inject
     private UserSession session;
     private AdvertisementType type;
     private Category category = Category.root;

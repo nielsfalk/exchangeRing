@@ -31,9 +31,9 @@ import static javax.faces.event.PhaseId.RESTORE_VIEW;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 public class SecurityFilter implements PhaseListener {
-
     @Override
     public void afterPhase(PhaseEvent phaseEvent) {
+
         Context context = new Context(phaseEvent);
         context.secureInternalArea();
         //context.onlyHttps();

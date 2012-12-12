@@ -3,6 +3,7 @@ package de.hh.changeRing;
 import de.hh.changeRing.controller.UserSession;
 
 import javax.el.ELContext;
+import javax.el.ELResolver;
 import javax.el.ExpressionFactory;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
@@ -60,6 +61,7 @@ public class Context {
     private ExpressionFactory expressionFactory;
     private Application app;
     private String viewId;
+    private javax.el.ELResolver elResolver;
 
     private Context(FacesContext context) {
         this.context = context;
@@ -117,19 +119,14 @@ public class Context {
     }
 
     private boolean notLoggedIn() {
-        UserSession userSession = getSessionBean(UserSession.class);
+        UserSession userSession = getNamedBean(UserSession.class);
         return userSession == null || userSession.isNotLoggedIn();
     }
 
-    <T> T getSessionBean(Class<T> type) {
+    <T> T getNamedBean(Class<T> type) {
         String typeSimpleName = type.getSimpleName();
         String beanName = Character.toLowerCase(typeSimpleName.charAt(0)) + typeSimpleName.substring(1);
-        //noinspection unchecked
-        return (T) getExternalContext().getSessionMap().get(beanName);
-    }
-
-    public Map<String, Object> getApplicationMap() {
-        return getExternalContext().getApplicationMap();
+        return (T) getElResolver().getValue(getElContext(), null, beanName);
     }
 
     private boolean internalRequest() {
@@ -242,5 +239,12 @@ public class Context {
     public void addMessage(String summary) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null);
         context.addMessage(null, message);
+    }
+
+    public ELResolver getElResolver() {
+        if (elResolver == null) {
+            elResolver = getElContext().getELResolver();
+        }
+        return elResolver;
     }
 }

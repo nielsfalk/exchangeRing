@@ -1,8 +1,9 @@
 package de.hh.changeRing.controller;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Model;
+import javax.inject.Named;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -28,8 +29,7 @@ import java.util.TreeMap;
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
  */
-@ManagedBean
-@SessionScoped
+@Model
 public class ThemeSwitcher {
 
     private String theme = "start";

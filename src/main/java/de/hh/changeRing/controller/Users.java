@@ -3,9 +3,11 @@ package de.hh.changeRing.controller;
 import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.domain.User;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,10 +36,10 @@ import static de.hh.changeRing.domain.User.isEmpty;
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
  */
-@ManagedBean
+@Named
 @SessionScoped
-public class Users {
-    @ManagedProperty(value = "#{userSession}")
+public class Users implements Serializable{
+    @Inject
     private UserSession session;
     private ArrayList<User> otherUsers;
     private User selectedUser;

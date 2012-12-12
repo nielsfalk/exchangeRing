@@ -6,9 +6,11 @@ import de.hh.changeRing.domain.Advertisement;
 import de.hh.changeRing.domain.Transaction;
 import de.hh.changeRing.domain.User;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.logging.Logger;
 
 /**
@@ -33,9 +35,9 @@ import java.util.logging.Logger;
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
  */
-@ManagedBean
+@Named
 @SessionScoped
-public class TransactionCreator {
+public class TransactionCreator implements Serializable{
     private static final Logger LOGGER = Logger.getLogger(TransactionCreator.class.getName());
 
     private User receiver;
@@ -44,7 +46,7 @@ public class TransactionCreator {
 
     private String subject;
 
-    @ManagedProperty(value = "#{userSession}")
+    @Inject
     private UserSession session;
 
     private Advertisement advertisement;

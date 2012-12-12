@@ -4,8 +4,9 @@ import de.hh.changeRing.Context;
 import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.domain.User;
 
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.logging.Logger;
 
 /**
@@ -30,9 +31,9 @@ import java.util.logging.Logger;
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
  */
-@ManagedBean
+@Named
 @SessionScoped
-public class UserSession {
+public class UserSession implements Serializable{
     private static final Logger LOGGER = Logger.getLogger(UserSession.class.getName());
     public static final String ACTIVE_CSS_CLASS = "ui-state-active";
 

@@ -30,6 +30,6 @@ public class TestPersistence {
         // }
         System.out.println("bla persistence");
         entityManager.persist(new TestBlubb("bla"));
-        System.out.println(entityManager.find(TestBlubb.class, 1L));
+        System.out.println("find:"+entityManager.find(TestBlubb.class, 1L));
     }
 }

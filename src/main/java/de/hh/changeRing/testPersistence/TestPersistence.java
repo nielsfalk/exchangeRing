@@ -1,5 +1,6 @@
 package de.hh.changeRing.testPersistence;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import de.hh.changeRing.testPersistence.TestBlubb;
 
 import javax.annotation.PostConstruct;
@@ -31,5 +32,6 @@ public class TestPersistence {
       // }
         System.out.println("bla persistence");
         entityManager.persist(new TestBlubb("bla"));
+        System.out.println(entityManager.find(TestBlubb.class, 1L));
     }
 }

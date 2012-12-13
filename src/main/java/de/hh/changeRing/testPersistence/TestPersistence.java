@@ -17,10 +17,10 @@ import javax.persistence.PersistenceContext;
 @Singleton
 @Startup
 public class TestPersistence {
-    @PersistenceContext
-    EntityManager entityManager;
-
-    @PostConstruct
+    //@PersistenceContext
+    //EntityManager entityManager;
+    //
+    //@PostConstruct
     public void testPersistence() {
 
         // List resultList = entityManager.createQuery("SELECT e FROM TestBlubb e").getResultList();

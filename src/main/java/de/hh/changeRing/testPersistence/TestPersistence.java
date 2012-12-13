@@ -18,7 +18,7 @@ import javax.persistence.PersistenceContext;
 @Startup
 public class TestPersistence {
     //@PersistenceContext
-    //EntityManager entityManager;
+    EntityManager entityManager;
     //
     //@PostConstruct
     public void testPersistence() {

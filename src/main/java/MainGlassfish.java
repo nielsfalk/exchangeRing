@@ -5,6 +5,9 @@ import org.glassfish.embeddable.archive.ScatteredArchive;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,48 +74,43 @@ public class MainGlassfish {
 
 	private static void setUpPool(String[] args, CommandRunner runner, String poolName) {
 
-		for (String dbUrl : args) {
-			if(dbUrl.startsWith("jdbc:")) {
-				log("db url", dbUrl);
+        String dbUrl = System.getenv("DATABASE_URL");
+		for (String arg : args) {
 
-				String escapedDbUrl = replace(dbUrl, ':', "\\:");
-				escapedDbUrl = replace(escapedDbUrl, '=', "\\=");
-
-				String properties = "LoginTimeout=0:URL=" + escapedDbUrl;
-				log("properties: ", properties);
-
-				log("output of create conn pool: ", runner.run("create-jdbc-connection-pool",
-						"--datasourceclassname", "org.h2.jdbcx.JdbcDataSource",
-						"--restype", "javax.sql.DataSource",
-						"--property", properties,
-						poolName).getOutput());
+			if(arg.startsWith("jdbc:")) {
+                dbUrl = arg;
+                setupJdbcPool(runner, poolName, dbUrl);
 				return;
 			}
+            if(arg.startsWith("postgres:")) {
+                dbUrl = arg;
+            }
 		}
-		String dbUrl = System.getenv("DATABASE_URL");
 		if (dbUrl== null) {
 			throw new RuntimeException("set DATABASE_URL or use JDCB parameter like" +
 					"MainGlassfish jdbc:h2:file:~/h2DatabaseFile;MVCC=TRUE;MODE=PostgreSQL");
 		}
-		log("db url", dbUrl);
-		Matcher matcher = Pattern.compile("postgres://(.*):(.*)@(.*)/(.*)").matcher(dbUrl);
-		matcher.find();
+        setupJdbcPool(runner, poolName, postgresToJDBCUrl(dbUrl));
 
-		String properties = "user=" + matcher.group(1) +
-				":password=" + matcher.group(2) +
-				":databasename=" + matcher.group(4) +
-				":loglevel=4:servername=" + matcher.group(3);
-
-
-		log("properties: ", properties);
-
-		log("output of create conn pool: ",
-				runner.run("create-jdbc-connection-pool", "--datasourceclassname", "org.postgresql.ds.PGSimpleDataSource", "--restype", "javax.sql.DataSource",
-				"--property", properties,
-				poolName).getOutput());
 	}
 
-	private static void log(final String message, String dbUrl) {
+    private static void setupJdbcPool(CommandRunner runner, String poolName, String dbUrl) {
+        log("db url", dbUrl);
+
+        String escapedDbUrl = replace(dbUrl, ':', "\\:");
+        escapedDbUrl = replace(escapedDbUrl, '=', "\\=");
+
+        String properties = "LoginTimeout=0:URL=" + escapedDbUrl;
+        log("properties: ", properties);
+
+        log("output of create conn pool: ", runner.run("create-jdbc-connection-pool",
+                "--datasourceclassname", "org.h2.jdbcx.JdbcDataSource",
+                "--restype", "javax.sql.DataSource",
+                "--property", properties,
+                poolName).getOutput());
+    }
+
+    private static void log(final String message, String dbUrl) {
 		System.out.println("-------" + message + ": " + dbUrl);
 	}
 
@@ -120,4 +118,17 @@ public class MainGlassfish {
 		Iterable<String> split = Splitter.on(separator).split(dbUrl);
 		return Joiner.on(joiner).join(split);
 	}
+
+    private static String postgresToJDBCUrl(String dbUrl) {
+        dbUrl = dbUrl.substring(11);
+        Iterator<String> atSplit = Splitter.on('@').split(dbUrl).iterator();
+        String userNamePwd = atSplit.next();
+        String hostAndDBName = atSplit.next();
+
+        Iterator<String> userNamePwdIterator = Splitter.on(':').split(userNamePwd).iterator();
+        String userName = userNamePwdIterator.next();
+        String password = userNamePwdIterator.next();
+
+        return "jdbc:postgresql://"+hostAndDBName+"?user="+userName+"&password="+password;
+    }
 }

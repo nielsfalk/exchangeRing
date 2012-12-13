@@ -14,7 +14,6 @@ import javax.persistence.PersistenceContext;
  * Time: 19:45
  * To change this template use File | Settings | File Templates.
  */
-@Stateless
 @Singleton
 @Startup
 public class TestPersistence {

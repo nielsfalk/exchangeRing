@@ -16,12 +16,26 @@
             <scope>provided</scope>
             <version>6.0</version>
         </dependency>
+
+
         <!-- Glassfish -->
         <dependency>
             <groupId>org.glassfish.extras</groupId>
             <artifactId>glassfish-embedded-web</artifactId>
             <version>3.1.1</version>
         </dependency>
+		<!-- JDBC Driver -->
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.0-801.jdbc4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.1.114</version>
+		</dependency>
+
 
         <dependency>
             <groupId>org.primefaces</groupId>
@@ -247,6 +261,14 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
             <!-- The maven app assembler plugin will generate a script that sets up the classpath and runs your project -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>

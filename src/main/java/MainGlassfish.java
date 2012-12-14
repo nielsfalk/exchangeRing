@@ -103,8 +103,10 @@ public class MainGlassfish {
         String properties = "LoginTimeout=0:URL=" + escapedDbUrl;
         log("properties: ", properties);
 
-        log("output of create conn pool: ", runner.run("create-jdbc-connection-pool",
-                "--datasourceclassname", "org.h2.jdbcx.JdbcDataSource",
+		String datasourceClassname = dbUrl.contains("postgresql")?"org.postgresql.ds.PGPoolingDataSource":"org.h2" +
+				".jdbcx.JdbcDataSource";
+		log("output of create conn pool: ", runner.run("create-jdbc-connection-pool",
+                "--datasourceclassname", datasourceClassname,
                 "--restype", "javax.sql.DataSource",
                 "--property", properties,
                 poolName).getOutput());

@@ -1,4 +1,4 @@
-package de.hh.changeRing.advertisement;
+package de.hh.changeRing.advertisementCaseRenamung;
 
 
 import de.hh.changeRing.Context;
@@ -17,7 +17,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import static de.hh.changeRing.user.UserSession.ACTIVE_CSS_CLASS;
-import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType;
+import static de.hh.changeRing.advertisementCaseRenamung.Advertisement.AdvertisementType;
 import static java.util.Calendar.YEAR;
 
 /**

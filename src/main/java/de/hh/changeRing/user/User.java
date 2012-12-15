@@ -46,7 +46,7 @@ import static javax.persistence.CascadeType.PERSIST;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 
-@Entity
+@Entity(name = "tr_user")
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class User extends BaseEntity {
     private String nickName;

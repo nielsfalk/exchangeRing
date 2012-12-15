@@ -36,7 +36,7 @@ import static de.hh.changeRing.advertisement.Category.root;
  */
 public class Advertisement extends BaseEntity {
 
-    private static long idCounter = 0;
+
     private User owner;
     private AdvertisementType type;
     private Category category;
@@ -48,10 +48,6 @@ public class Advertisement extends BaseEntity {
     private String name;
     private boolean linkLocation;
     private Date creationDate = new Date();
-
-    public Advertisement() {
-        id = idCounter++;
-    }
 
     public Date getCreationDate() {
         return creationDate;

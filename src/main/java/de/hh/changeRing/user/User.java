@@ -9,6 +9,9 @@ import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.transaction.Transaction;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -47,6 +50,7 @@ import static de.hh.changeRing.user.User.Status.active;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 
+@Entity
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class User extends BaseEntity {
     private String nickName;
@@ -71,12 +75,15 @@ public class User extends BaseEntity {
     private boolean addressVisible = true;
 
     @XmlElement
+    @Transient
     private List<String> e;
 
     @XmlElement
+    @Transient
     private List<String> f;
 
     @XmlElement
+    @Transient
     private List<String> s;
 
     private String street = "";
@@ -97,10 +104,12 @@ public class User extends BaseEntity {
 
     private String urlDescription;
 
+    @Column(name = "user_limit")
     private long limit = 0;
 
     private BigDecimal missingFee = new BigDecimal("0.00");
 
+    @Transient
     private Date birthDay;
 
     private BigDecimal fee = new BigDecimal("6.00");
@@ -111,10 +120,13 @@ public class User extends BaseEntity {
 
     private Status status = active;
 
+    @Transient
     private Date activated;
 
+    @Transient
     private Date deActivated;
 
+    @Transient
     private List<DepotItem> depotItems = new ArrayList<DepotItem>();
 
     private long balance;
@@ -123,6 +135,7 @@ public class User extends BaseEntity {
 
     private String skype;
 
+    @Transient
     private List<Advertisement> advertisements = new ArrayList<Advertisement>();
 
 

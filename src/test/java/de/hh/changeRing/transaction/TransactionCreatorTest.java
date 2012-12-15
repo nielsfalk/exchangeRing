@@ -1,6 +1,6 @@
 package de.hh.changeRing.transaction;
 
-import de.hh.changeRing.transaction.TransactionCreator;
+import de.hh.changeRing.user.DepotItem;
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
 import org.junit.Before;
@@ -75,10 +75,10 @@ public class TransactionCreatorTest {
     }
 
     private void expectDepotItem(User user, long amount, User other, User.DepotItemType type) {
-        List<User.DepotItem> depotItems = user.getDepotItems();
+        List<DepotItem> depotItems = user.getDepotItems();
         assertThat(depotItems.size(), is(1));
 
-        User.DepotItem depotItem = depotItems.get(0);
+        DepotItem depotItem = depotItems.get(0);
         assertThat(depotItem.getAmount(), is(amount));
         assertThat(depotItem.getFormattedDate(), is(not(nullValue())));
         assertThat(depotItem.getOldBalance(), is(0l));

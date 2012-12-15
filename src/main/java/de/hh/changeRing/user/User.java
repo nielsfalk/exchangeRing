@@ -9,23 +9,19 @@ import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.transaction.Transaction;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import static de.hh.changeRing.Context.formatGermanDate;
-import static de.hh.changeRing.user.User.DepotItemType.in;
-import static de.hh.changeRing.user.User.DepotItemType.out;
 import static de.hh.changeRing.user.User.Status.active;
+import static javax.persistence.CascadeType.PERSIST;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -104,7 +100,7 @@ public class User extends BaseEntity {
 
     private String urlDescription;
 
-    @Column(name = "user_limit")
+    @Transient//@Column(name = "user_limit")
     private long limit = 0;
 
     private BigDecimal missingFee = new BigDecimal("0.00");
@@ -126,7 +122,8 @@ public class User extends BaseEntity {
     @Transient
     private Date deActivated;
 
-    @Transient
+    @OneToMany(cascade = PERSIST)
+    @JoinColumn(name = "user_id", nullable = false)
     private List<DepotItem> depotItems = new ArrayList<DepotItem>();
 
     private long balance;
@@ -213,7 +210,7 @@ public class User extends BaseEntity {
     public void execute(Transaction transaction) {
         DepotItem depotItem = DepotItem.create(transaction, this);
         depotItems.add(depotItem);
-        balance = depotItem.newBalance;
+        balance = depotItem.getNewBalance();
         sortDepot();
     }
 
@@ -272,89 +269,6 @@ public class User extends BaseEntity {
         public String toString() {
             return string;
         }
-    }
-
-    public static class DepotItem {
-        private long id;
-        private final Transaction transaction;
-        private final User user;
-        private long amount;
-        private final long newBalance;
-        private final User other;
-        private final DepotItemType type;
-        private final long oldBalance;
-
-        public DepotItem(Transaction transaction, User user, long amount, User other, DepotItemType type) {
-            this.transaction = transaction;
-            this.user = user;
-            this.amount = amount;
-            this.newBalance = user.balance + amount;
-            this.other = other;
-            this.type = type;
-            this.oldBalance = user.getBalance();
-        }
-
-        public String getFormattedDate() {
-            return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(transaction.getDate());
-        }
-
-        public static DepotItem create(Transaction transaction, User user) {
-            if (transaction.getFrom() == transaction.getTo()) {
-                throw new RuntimeException("invalid transaction from == to" + transaction);
-            }
-            if (transaction.getFrom() == user) {
-                return new DepotItem(transaction, user, -transaction.getAmount(), transaction.getTo(), out);
-
-            }
-            if (transaction.getTo() == user) {
-                return new DepotItem(transaction, user, transaction.getAmount(), transaction.getFrom(), in);
-            }
-            throw new RuntimeException("not for this user");
-        }
-
-        public long getOldBalance() {
-            return oldBalance;
-        }
-
-        public long getAmount() {
-            return amount;
-        }
-
-        public DepotItemType getType() {
-            return type;
-        }
-
-        public long getNewBalance() {
-            return newBalance;
-        }
-
-        public Transaction getTransaction() {
-            return transaction;
-        }
-
-        public User getOther() {
-            return other;
-        }
-
-        public String getSubject() {
-            String subject = transaction.getSubject();
-            if (subject == null) {
-                return "";
-            }
-            if (subject.length() <= 35) {
-                return subject;
-            }
-            ArrayList<String> splitted = new ArrayList<String>();
-            while (subject.length() > 35) {
-                splitted.add(subject.substring(0, 35));
-                subject = subject.substring(35);
-            }
-            splitted.add(subject);
-
-            return Joiner.on('\n').join(splitted);
-
-        }
-
     }
 
     public List<DepotItem> getDepotItems() {

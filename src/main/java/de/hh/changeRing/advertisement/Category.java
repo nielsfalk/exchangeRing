@@ -1,4 +1,4 @@
-package de.hh.changeRing.advertisementCaseRenamung;
+package de.hh.changeRing.advertisement;
 
 import de.hh.changeRing.Context;
 import org.primefaces.component.menuitem.MenuItem;
@@ -7,8 +7,8 @@ import org.primefaces.model.DefaultMenuModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import static de.hh.changeRing.advertisementCaseRenamung.AdvertisementModel.ADVERTISEMENTS_BROWSE_URL;
-import static de.hh.changeRing.advertisementCaseRenamung.Advertisement.AdvertisementType;
+import static de.hh.changeRing.advertisement.AdvertisementModel.ADVERTISEMENTS_BROWSE_URL;
+import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType;
 
 /**
  * ----------------GNU General Public License--------------------------------

@@ -2,7 +2,7 @@ package de.hh.changeRing.transaction;
 
 import de.hh.changeRing.Context;
 import de.hh.changeRing.InitTestData;
-import de.hh.changeRing.advertisementCaseRenamung.Advertisement;
+import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
 

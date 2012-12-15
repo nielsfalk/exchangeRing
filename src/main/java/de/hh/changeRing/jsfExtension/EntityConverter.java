@@ -1,7 +1,7 @@
 package de.hh.changeRing.jsfExtension;
 
 import de.hh.changeRing.InitTestData;
-import de.hh.changeRing.advertisementCaseRenamung.Advertisement;
+import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.user.User;
 

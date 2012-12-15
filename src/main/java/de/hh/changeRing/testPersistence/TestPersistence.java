@@ -17,7 +17,7 @@ import javax.persistence.PersistenceContext;
 @Singleton
 @Startup
 public class TestPersistence {
-    //@PersistenceContext
+    @PersistenceContext
     EntityManager entityManager;
     
     @PostConstruct
@@ -27,8 +27,8 @@ public class TestPersistence {
         // for (Object o : resultList) {
         //     System.out.println(o);
         // }
-        //System.out.println("bla persistence");
-        //entityManager.persist(new TestBlubb("bla"));
-        //System.out.println("find:"+entityManager.find(TestBlubb.class, 1L));
+        System.out.println("bla persistence");
+        entityManager.persist(new TestBlubb("bla"));
+        System.out.println("find:"+entityManager.find(TestBlubb.class, 1L));
     }
 }

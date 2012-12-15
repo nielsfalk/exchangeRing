@@ -90,9 +90,30 @@ public class MainGlassfish {
 			throw new RuntimeException("set DATABASE_URL or use JDCB parameter like" +
 					"MainGlassfish jdbc:h2:file:~/h2DatabaseFile;MVCC=TRUE;MODE=PostgreSQL");
 		}
-        setupJdbcPool(runner, poolName, postgresToJDBCUrl(dbUrl));
+        setupPostgresPool(runner, poolName, dbUrl);
 
 	}
+
+    private static void setupPostgresPool(CommandRunner runner, String poolName, String dbUrl) {
+        log("db url", dbUrl);
+        Matcher matcher = Pattern.compile("postgres://(.*):(.*)@(.*)/(.*)").matcher(dbUrl);
+        matcher.find();
+
+        String host = matcher.group(3);
+        String database = matcher.group(4);
+        String user = matcher.group(1);
+        String password = matcher.group(2);
+        host = host.replaceAll("\\:", "\\\\:");
+
+
+        String properties = "user=" + user + ":password=" + password + ":databasename=" + database + ":loglevel=4:servername=" + host;
+
+        log("properties",properties);
+
+        log("output of create  pg conn pool: ", runner.run("create-jdbc-connection-pool", "--datasourceclassname", "org.postgresql.ds.PGSimpleDataSource", "--restype", "javax.sql.DataSource",
+                "--property", properties,
+                poolName).getOutput());
+    }
 
     private static void setupJdbcPool(CommandRunner runner, String poolName, String dbUrl) {
         log("db url", dbUrl);

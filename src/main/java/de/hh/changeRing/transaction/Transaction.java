@@ -1,13 +1,16 @@
 package de.hh.changeRing.transaction;
 
-import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.BaseEntity;
+import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.user.User;
 
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import java.util.Date;
+
+import static javax.persistence.TemporalType.DATE;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -32,15 +35,30 @@ import java.util.Date;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 @XmlAccessorType(XmlAccessType.PROPERTY)
+@Entity
 public class Transaction extends BaseEntity {
     @XmlElement
+    @Temporal(DATE)
     private Date date;
+
     @XmlElement
+    @Transient
     private Long fromId;
+
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @ManyToOne
+    @JoinColumn(name = "from_user_id", nullable = false)
     private User from;
+
     @XmlElement
+    @Transient
     private Long toId;
+
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @ManyToOne
+    @JoinColumn(name = "to_user_id", nullable = false)
     private User to;
+
     @XmlElement
     private long amount;
 

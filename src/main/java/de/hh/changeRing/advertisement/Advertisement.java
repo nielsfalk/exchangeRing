@@ -5,12 +5,14 @@ import de.hh.changeRing.user.User;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.model.DefaultMenuModel;
 
+import javax.persistence.*;
 import java.util.Date;
 
 import static de.hh.changeRing.Context.formatGermanDate;
 import static de.hh.changeRing.advertisement.AdvertisementModel.ADVERTISEMENTS_BROWSE_URL;
 import static de.hh.changeRing.advertisement.AdvertisementModel.ADVERTISEMENTS_EDIT_URL;
 import static de.hh.changeRing.advertisement.Category.root;
+import static javax.persistence.TemporalType.DATE;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -34,12 +36,21 @@ import static de.hh.changeRing.advertisement.Category.root;
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
  */
+@Entity
 public class Advertisement extends BaseEntity {
 
-
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @ManyToOne
+    @JoinColumn(name = "owner_user_id", nullable = false)
     private User owner;
+
+    @Enumerated(EnumType.STRING)
     private AdvertisementType type;
+
+    @Enumerated(EnumType.STRING)
     private Category category;
+
+    @Temporal(DATE)
     private Date validUntil;
 
     private String title;
@@ -47,6 +58,8 @@ public class Advertisement extends BaseEntity {
     private String location;
     private String name;
     private boolean linkLocation;
+
+    @Temporal(DATE)
     private Date creationDate = new Date();
 
     public Date getCreationDate() {

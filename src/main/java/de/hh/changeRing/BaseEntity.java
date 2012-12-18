@@ -31,9 +31,9 @@ import java.util.logging.Logger;
 @MappedSuperclass
 public class BaseEntity {
     public static final Logger log = Logger.getLogger(BaseEntity.class.getName());
-    @XmlElement
     @Id
     @GeneratedValue // TODO fix tests
+    @XmlElement
     protected Long id;
 
     private static long idCounter = -1;

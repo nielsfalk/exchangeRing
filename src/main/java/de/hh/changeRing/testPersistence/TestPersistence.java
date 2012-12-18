@@ -6,14 +6,12 @@ import de.hh.changeRing.user.User;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 
 @SuppressWarnings("UnusedDeclaration")
 @Singleton
-@Stateless
 @Startup
 public class TestPersistence {
     @PersistenceContext
@@ -26,11 +24,11 @@ public class TestPersistence {
         // for (Object o : resultList) {
         //     System.out.println(o);
         // }
-        if (entityManager.createQuery("select user from User user").getResultList().isEmpty()) {
+        if (entityManager.createQuery("select user_tr from tr_user user_tr").getResultList().isEmpty()) {
             for (User user : InitTestData.getUsers()) {
                 entityManager.persist(user);
             }
-            System.out.println(entityManager.createQuery("select user from User user").getResultList().size());
+            System.out.println(entityManager.createQuery("select user from tr_user user").getResultList().size());
         }
         System.out.println("bla persistence");
         entityManager.persist(new TestBlubb("bla"));

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import static de.hh.changeRing.user.User.DepotItemType.in;
 import static de.hh.changeRing.user.User.DepotItemType.out;
+import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.EnumType.STRING;
 
 /**
@@ -21,13 +22,21 @@ import static javax.persistence.EnumType.STRING;
 */
 @Entity
 public class DepotItem extends BaseEntity{
-    @Transient
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @ManyToOne(cascade = PERSIST)
+    @JoinColumn(name = "transaction_id", nullable = false)
     private Transaction transaction;
+
+    @SuppressWarnings({"JpaDataSourceORMInspection", "UnusedDeclaration"})
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
     private long amount;
+
     private long newBalance;
+
+    @SuppressWarnings("JpaDataSourceORMInspection")
     @ManyToOne
     @JoinColumn(name = "other_user_id", nullable = false)
     private User other;

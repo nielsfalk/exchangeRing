@@ -5,8 +5,8 @@ import com.google.common.collect.Ordering;
 import de.bripkens.gravatar.DefaultImage;
 import de.bripkens.gravatar.Gravatar;
 import de.bripkens.gravatar.Rating;
-import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.BaseEntity;
+import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.transaction.Transaction;
 
 import javax.persistence.*;
@@ -22,6 +22,7 @@ import java.util.Random;
 import static de.hh.changeRing.Context.formatGermanDate;
 import static de.hh.changeRing.user.User.Status.active;
 import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.TemporalType.DATE;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -100,14 +101,17 @@ public class User extends BaseEntity {
 
     private String urlDescription;
 
-    @Transient//@Column(name = "user_limit")
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @Column(name = "user_limit")
     private long limit = 0;
 
+    @Column(scale = 2, precision = 7)
     private BigDecimal missingFee = new BigDecimal("0.00");
 
-    @Transient
+    @Temporal(DATE)
     private Date birthDay;
 
+    @Column(scale = 2, precision = 7)
     private BigDecimal fee = new BigDecimal("6.00");
 
     private String profile;
@@ -116,10 +120,10 @@ public class User extends BaseEntity {
 
     private Status status = active;
 
-    @Transient
+    @Temporal(DATE)
     private Date activated;
 
-    @Transient
+    @Temporal(DATE)
     private Date deActivated;
 
     @OneToMany(cascade = PERSIST)

@@ -114,6 +114,7 @@ public class User extends BaseEntity {
     @Column(scale = 2, precision = 7)
     private BigDecimal fee = new BigDecimal("6.00");
 
+    @Column(length = 512)
     private String profile;
 
     private String accessibility;

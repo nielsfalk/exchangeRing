@@ -54,6 +54,8 @@ public class Advertisement extends BaseEntity {
     private Date validUntil;
 
     private String title;
+
+    @Column(length = 512)
     private String content;
     private String location;
     private String name;

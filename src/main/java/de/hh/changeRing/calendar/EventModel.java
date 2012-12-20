@@ -1,13 +1,14 @@
 package de.hh.changeRing.calendar;
 
-import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
-
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
-
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -30,26 +31,72 @@ import javax.inject.Named;
 @Named
 @SessionScoped
 public class EventModel implements Serializable {
-	private TimeFilter timeFilter = future;
+    private TimeFilter timeFilter = future;
+    private Map<String, EventType> typeFilters;
+    private List<String> selectedTypeFilters = new ArrayList<String>();
 
-	public String selectedStyleClass(TimeFilter timeFilter) {
-		return this.timeFilter.equals(timeFilter) ? "ui-state-active" : "";
-	}
+    public EventModel() {
+        typeFilters = new HashMap<String, EventType>();
+        for (EventType eventType : EventType.values()) {
+            typeFilters.put(eventType.translation, eventType);
+            if (eventType != EventType.info) {
+                selectedTypeFilters.add(eventType.name());
+            }
+        }
+    }
 
-	public void activateTimeFilter(TimeFilter timeFilter) {
-		this.timeFilter = timeFilter;
-	}
+    public void refresh(){
+        System.out.println("bla");
+    }
 
-	public static enum TimeFilter {
-		future("Kommende"), past("Vergangene"), all("Alle");
-		private String translation;
+    public String selectedStyleClass(TimeFilter timeFilter) {
+        return getTimeFilter().equals(timeFilter) ? "ui-state-active" : "";
+    }
 
-		TimeFilter(String translation) {
-			this.translation = translation;
-		}
+    public TimeFilter getTimeFilter() {
+        return timeFilter;
+    }
 
-		public String getTranslation() {
-			return translation;
-		}
-	}
+    public Map<String, EventType> getTypeFilters() {
+        return typeFilters;
+    }
+
+    public void setTimeFilter(TimeFilter timeFilter) {
+        this.timeFilter = timeFilter;
+    }
+
+    public List<String> getSelectedTypeFilters() {
+        return selectedTypeFilters;
+    }
+
+    public void setSelectedTypeFilters(List<String> selectedTypeFilters) {
+        this.selectedTypeFilters = selectedTypeFilters;
+    }
+
+    public static enum TimeFilter {
+        future("Kommende"), past("Vergangene");
+        private String translation;
+
+        TimeFilter(String translation) {
+            this.translation = translation;
+        }
+
+        public String getTranslation() {
+            return translation;
+        }
+    }
+
+    public static enum EventType {
+        summerFestival("Sommerfest"),
+        fleaMarket("Flohmarkt"),
+        regularsTable("Stammtisch"),
+        individual("Individuel"),
+        organization("Orga"),
+        info("Infostand");
+        private String translation;
+
+        EventType(String translation) {
+            this.translation = translation;
+        }
+    }
 }

@@ -25,33 +25,34 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://java.sun.com/jsf/html">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <f:metadata>
+        <f:viewParam name="timeFilter" value="#{eventModel.timeFilter}"/>
+    </f:metadata>
     <ui:define name="eventFilter">
 
-        <h:form>
-        <p:menu style="width:180px;" id="timeFilterNavigation">
-            <p:menuitem styleClass="#{eventModel.selectedStyleClass('future')}" value="Kommende"
-                        actionListener="#{eventModel.activateTimeFilter('future')}"
-                        icon="ui-icon-circle-triangle-e" ajax="false"/>
-            <p:menuitem styleClass="#{eventModel.selectedStyleClass('past')}" value="Vergangene"
-                        actionListener="#{eventModel.activateTimeFilter('past')}"
-                        icon="ui-icon-circle-triangle-w" ajax="false"/>
-            <p:menuitem styleClass="#{eventModel.selectedStyleClass('all')}" value="Alle"
-                        actionListener="#{eventModel.activateTimeFilter('all')}"
-                        icon="ui-icon-circle-triangle-n" ajax="false"/>
-        </p:menu>
+        <h:form id="eventFilterForm">
+            <p:menu style="width:180px;" id="timeFilterNavigation">
+                <p:menuitem styleClass="#{eventModel.selectedStyleClass('future')}" value="Kommende"
+                            url="?timeFilter=future"
+                            icon="ui-icon-circle-triangle-e" ajax="false"/>
+                <p:menuitem styleClass="#{eventModel.selectedStyleClass('past')}" value="Vergangene"
+                            url="?timeFilter=past"
+                            icon="ui-icon-circle-triangle-w" ajax="false"/>
+            </p:menu>
 
+
+            <p/>
+            <p:panel style="width:182px;">
+                <p:selectManyCheckbox layout="pageDirection" value="#{eventModel.selectedTypeFilters}" onchange="$('#eventFilterForm-refresh').click()">
+                    <f:selectItems value="#{eventModel.typeFilters}"/>
+                </p:selectManyCheckbox>
+            </p:panel>
+            <h:commandLink style="display: none" id="refresh" action="#{eventModel.refresh}">
+                #
+            </h:commandLink>
         </h:form>
-        <p/>
-
-        <p:menu style="width:180px;" id="typeFilterNavigation">
-            <p:menuitem value="Info ausblenden" url="#" styleClass="ui-state-active"/>
-            <p:menuitem value="Infoveranstaltungen" url="#" />
-            <p:menuitem value="Tauschring" url="#" /><!--(Stammtische, Flohmärkte)-->
-            <p:menuitem value="Orga" url="#" /><!--(Nur für admins sichbar)-->
-            <p:menuitem value="Mitglieder" url="#" /><!--(Veranstaltungen von Mitgliedern früher in den Anzeigen)-->
-            <p:menuitem value="Alle" url="#" />
-        </p:menu>
     </ui:define>
     <ui:define name="eventContent">
 

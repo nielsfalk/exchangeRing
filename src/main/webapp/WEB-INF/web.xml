@@ -66,6 +66,10 @@
         <param-value>start</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>javax.faces.SEPARATOR_CHAR</param-name>
+        <param-value>-</param-value>
+    </context-param>
 
     <context-param>
         <description>

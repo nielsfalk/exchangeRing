@@ -1,6 +1,7 @@
 package de.hh.changeRing.transaction;
 
 import de.hh.changeRing.user.DepotItem;
+import de.hh.changeRing.user.DepotItemType;
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
 import org.junit.Before;
@@ -8,8 +9,8 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static de.hh.changeRing.user.User.DepotItemType.in;
-import static de.hh.changeRing.user.User.DepotItemType.out;
+import static de.hh.changeRing.user.DepotItemType.in;
+import static de.hh.changeRing.user.DepotItemType.out;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
@@ -74,7 +75,7 @@ public class TransactionCreatorTest {
         assertThat(user.getBalance(), is(amount));
     }
 
-    private void expectDepotItem(User user, long amount, User other, User.DepotItemType type) {
+    private void expectDepotItem(User user, long amount, User other, DepotItemType type) {
         List<DepotItem> depotItems = user.getDepotItems();
         assertThat(depotItems.size(), is(1));
 

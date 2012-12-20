@@ -8,8 +8,8 @@ import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import static de.hh.changeRing.user.User.DepotItemType.in;
-import static de.hh.changeRing.user.User.DepotItemType.out;
+import static de.hh.changeRing.user.DepotItemType.in;
+import static de.hh.changeRing.user.DepotItemType.out;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.EnumType.STRING;
 
@@ -58,10 +58,10 @@ public class DepotItem extends BaseEntity{
     private User other;
 
     @Enumerated(STRING)
-    private User.DepotItemType type;
+    private DepotItemType type;
     private long oldBalance;
 
-    public DepotItem(Transaction transaction, User user, long amount, User other, User.DepotItemType type) {
+    public DepotItem(Transaction transaction, User user, long amount, User other, DepotItemType type) {
         this.transaction = transaction;
         this.user = user;
         this.amount = amount;
@@ -100,7 +100,7 @@ public class DepotItem extends BaseEntity{
         return amount;
     }
 
-    public User.DepotItemType getType() {
+    public DepotItemType getType() {
         return type;
     }
 

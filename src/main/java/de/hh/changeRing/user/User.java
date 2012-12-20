@@ -271,20 +271,6 @@ public class User extends BaseEntity {
             "Drtlq,Tnlheoue,Euie,Uouayoe,W'tin'iad,Eeioo,Eeyooe," +
             "Oioaoednht,Fnmss,Chlndleeui,Uioeeaisbsf,Uiayaieynmqll,Cllnnieiey,Znthloeiay").split(",");
 
-    public static enum DepotItemType {
-        out("ausgegeben"), in("eingenommen");
-        private final String string;
-
-        DepotItemType(String string) {
-            this.string = string;
-        }
-
-        @Override
-        public String toString() {
-            return string;
-        }
-    }
-
     public List<DepotItem> getDepotItems() {
         return depotItems;
     }

@@ -1,8 +1,11 @@
 package de.hh.changeRing;
 
+import static de.hh.changeRing.calendar.Audience.both;
+
 import com.google.common.collect.Ordering;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.advertisement.Category;
+import de.hh.changeRing.calendar.Event;
 import de.hh.changeRing.transaction.Transaction;
 import de.hh.changeRing.user.User;
 
@@ -43,10 +46,12 @@ public class InitTestData {
     private static List<Transaction> transactions;
     private static final List<Advertisement> advertisements = new ArrayList<Advertisement>();
     private static Map<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>> sortedAds;
+	private static List<Event> events;
 
-    static {
+	static {
         InitTestData.init();
         InitTestData.getTransactions();
+		InitTestData.getEvents();
     }
 
     private static void init() {
@@ -232,8 +237,38 @@ public class InitTestData {
         sortedAds = null;
     }
 
+	public static List<Event> getEvents() {
+		if (events == null) {
+			events = new ArrayList<Event>();
+			events.add(getStammtisch(1L,0));
+			events.add(getStammtisch(2L,7));
+			events.add(getStammtisch(3L,-1));
+		}
+		return events;
+	}
 
-    @XmlRootElement(name = "exchangeRingInitial")
+	private static Event getStammtisch(Long id, int daysToAdd) {
+		Event result = new Event();
+		result.setId(id);
+		result.setTitle("Stammtisch Eppendorf");
+		result.setAudience(both);
+		result.setContent("Monatlicher Stammtisch des Tauschrings");
+		result.setLocation("Kulturhaus Eppendorf, Julius-Reincke-Stieg 13a, 20251 Hamburg");
+
+		GregorianCalendar from = new GregorianCalendar();
+		from.set(Calendar.HOUR, 19);
+		from.set(Calendar.MINUTE, 0);
+		from.add(Calendar.DAY_OF_MONTH, daysToAdd);
+
+		result.setWhen(from.getTime());
+		User user = findUser(577L);
+		result.setUser(user);
+		user.getEvents().add(result);
+		return result;
+	}
+
+
+	@XmlRootElement(name = "exchangeRingInitial")
     @XmlAccessorType(XmlAccessType.PROPERTY)
     public static class InitialData {
         @XmlElement(name = "user")
@@ -241,8 +276,8 @@ public class InitTestData {
 
         @XmlElement(name = "transaction")
         List<Transaction> transactions;
-
-    }
+		private static Object events;
+	}
 
     private static String loremYpsum() {
         return loremYpsum(new Random().nextInt(4));

@@ -34,6 +34,15 @@ Environmental damage caused by the use must be kept as small as possible.
                     <p:menuitem styleClass="#{userSession.activeMenu('dashboard')}" value="Dashboard"
                                 url="/dashboard.xhtml" icon="ui-icon-home"/>
 
+                    <p:menuitem styleClass="#{userSession.activeMenu('internal/events/')}"
+                                value="Veranstaltungen"
+                                url="/internal/events/browse.xhtml"
+                                icon="ui-icon-calendar" rendered="#{userSession.loggedIn}"/>
+
+                    <p:menuitem styleClass="#{userSession.activeMenu('publicEvents')}" value="Termine"
+                                url="/publicEvents.xhtml"
+                                icon="ui-icon-calendar" rendered="#{userSession.notLoggedIn}"/>
+
                     <p:menuitem styleClass="#{userSession.activeMenu('signUp')}" value="Mitglied werden"
                                 url="/signUp.xhtml"
                                 icon="ui-icon-person" rendered="#{userSession.notLoggedIn}"/>

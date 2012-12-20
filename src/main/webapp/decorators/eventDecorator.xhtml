@@ -30,23 +30,25 @@ Environmental damage caused by the use must be kept as small as possible.
             <p:menu style="width:180px;" id="topAdMenu">
                 <p:menuitem value="Zurück" url="/dashboard.xhtml" icon="ui-icon-home"/>
                 <p:separator/>
-                <p:menuitem styleClass="#{userSession.activeMenu('internal/advertisements/create')}" value="Erstellen"
-                            url="/internal/advertisements/create.xhtml"
-                            icon="ui-icon-document" rendered="#{userSession.loggedIn}"/>
 
-                <p:menuitem styleClass="#{advertisementModel.activeMenuBrowse('offer')}" value="Angebote"
-                            url="/internal/advertisements/browse.xhtml?type=offer"
-                            icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
 
-                <p:menuitem styleClass="#{advertisementModel.activeMenuBrowse('request')}" value="Gesuche"
-                            url="/internal/advertisements/browse.xhtml?type=request"
-                            icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
+                <p:menuitem styleClass="#{userSession.activeMenu('internal/events/browse')}" value="Anzeigen"
+                            url="/internal/events/browse.xhtml"
+                            icon="ui-icon-calendar"/>
+
+                <p:menuitem styleClass="#{userSession.activeMenu('internal/events/create')}" value="Erstellen"
+                            url="/internal/events/create.xhtml"
+                            icon="ui-icon-document"/>
+
+                <p:menuitem styleClass="#{userSession.activeMenu('internal/events/abo')}" value="Abbonieren"
+                            url="/internal/events/abo.xhtml"
+                            icon="ui-icon-star"/>
             </p:menu>
-
-            <ui:insert name="categoryBrowser"/>
+            <p/>
+            <ui:insert name="eventFilter"/>
         </div>
         <div id="contentWithMenu">
-            <ui:insert name="advertisementContent"/>
+            <ui:insert name="eventContent"/>
         </div>
     </ui:define>
 </ui:composition>

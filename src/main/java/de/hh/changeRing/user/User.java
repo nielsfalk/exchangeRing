@@ -7,6 +7,7 @@ import de.bripkens.gravatar.Gravatar;
 import de.bripkens.gravatar.Rating;
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.advertisement.Advertisement;
+import de.hh.changeRing.calendar.Event;
 import de.hh.changeRing.transaction.Transaction;
 
 import javax.persistence.*;
@@ -127,8 +128,9 @@ public class User extends BaseEntity {
     @Temporal(DATE)
     private Date deActivated;
 
-    @OneToMany(cascade = PERSIST)
-    @JoinColumn(name = "user_id", nullable = false)
+    @SuppressWarnings("JpaDataSourceORMInspection")
+	@OneToMany(cascade = PERSIST)
+    @JoinColumn(name = "user_id")
     private List<DepotItem> depotItems = new ArrayList<DepotItem>();
 
     private long balance;
@@ -137,8 +139,15 @@ public class User extends BaseEntity {
 
     private String skype;
 
-    @Transient
+	@SuppressWarnings("JpaDataSourceORMInspection")
+	@OneToMany(cascade = PERSIST)
+	@JoinColumn(name = "owner_user_id")
     private List<Advertisement> advertisements = new ArrayList<Advertisement>();
+
+	@SuppressWarnings("JpaDataSourceORMInspection")
+	@OneToMany(cascade = PERSIST)
+	@JoinColumn(name = "user_id")
+	private List<Event> events = new ArrayList<Event>();
 
 
     @XmlElement
@@ -586,4 +595,12 @@ public class User extends BaseEntity {
     public List<Advertisement> getAdvertisements() {
         return advertisements;
     }
+
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}
 }

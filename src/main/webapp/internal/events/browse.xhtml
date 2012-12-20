@@ -1,0 +1,60 @@
+<!--
+================GNU General Public License================================
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+================in addition===============================================
+
+In addition, each military use, and the use for interest profit will be
+excluded.
+Environmental damage caused by the use must be kept as small as possible.
+
+-->
+<ui:composition template="/decorators/eventDecorator.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html">
+    <ui:define name="eventFilter">
+
+        <h:form>
+        <p:menu style="width:180px;" id="timeFilterNavigation">
+            <p:menuitem styleClass="#{eventModel.selectedStyleClass('future')}" value="Kommende"
+                        actionListener="#{eventModel.activateTimeFilter('future')}"
+                        icon="ui-icon-circle-triangle-e" ajax="false"/>
+            <p:menuitem styleClass="#{eventModel.selectedStyleClass('past')}" value="Vergangene"
+                        actionListener="#{eventModel.activateTimeFilter('past')}"
+                        icon="ui-icon-circle-triangle-w" ajax="false"/>
+            <p:menuitem styleClass="#{eventModel.selectedStyleClass('all')}" value="Alle"
+                        actionListener="#{eventModel.activateTimeFilter('all')}"
+                        icon="ui-icon-circle-triangle-n" ajax="false"/>
+        </p:menu>
+
+        </h:form>
+        <p/>
+
+        <p:menu style="width:180px;" id="typeFilterNavigation">
+            <p:menuitem value="Info ausblenden" url="#" styleClass="ui-state-active"/>
+            <p:menuitem value="Infoveranstaltungen" url="#" />
+            <p:menuitem value="Tauschring" url="#" /><!--(Stammtische, Flohmärkte)-->
+            <p:menuitem value="Orga" url="#" /><!--(Nur für admins sichbar)-->
+            <p:menuitem value="Mitglieder" url="#" /><!--(Veranstaltungen von Mitgliedern früher in den Anzeigen)-->
+            <p:menuitem value="Alle" url="#" />
+        </p:menu>
+    </ui:define>
+    <ui:define name="eventContent">
+
+        test
+    </ui:define>
+</ui:composition>

@@ -48,7 +48,8 @@ public class Event extends BaseEntity {
 
 	private String title;
 
-	private String content;
+    @Column(length = 512)
+    private String content;
 
 	private String location;
 

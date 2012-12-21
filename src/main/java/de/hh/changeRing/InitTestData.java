@@ -306,7 +306,7 @@ public class InitTestData {
         result.getId();
         result.setEventType(eventType);
         GregorianCalendar from = new GregorianCalendar();
-        from.set(Calendar.HOUR, 19);
+        from.set(Calendar.HOUR_OF_DAY, 19);
         from.set(Calendar.MINUTE, 0);
         from.add(DAY_OF_MONTH, daysToAdd);
 

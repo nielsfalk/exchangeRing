@@ -6,6 +6,7 @@ import de.hh.changeRing.InitTestData;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -52,6 +53,10 @@ public class UserSession implements Serializable{
 
     protected void message(String message) {
         new Context().addMessage(message);
+    }
+
+    public List<User> getNewestMembers(int count) {
+        return InitTestData.getNewestMembers(count);
     }
 
     public void updateUser() {

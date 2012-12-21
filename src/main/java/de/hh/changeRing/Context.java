@@ -50,6 +50,7 @@ public class Context {
     private static final String INTERNAL_PREFIX = "/internal";
     private static final String LOGOUT_PREFIX = "/logout";
     private static final String GERMAN_DATE = "dd.MM.yyyy";
+    private static final String GERMAN_TIME = "HH:mm";
     private String url;
     private String requestURI;
     private HttpServletRequest request;
@@ -77,6 +78,12 @@ public class Context {
 
     public static String formatGermanDate(Date date) {
         return date == null ? "" : new SimpleDateFormat(GERMAN_DATE).format(date);
+    }
+
+
+
+    public static String formatGermanTime(Date date) {
+        return date == null ? "" : new SimpleDateFormat(GERMAN_TIME).format(date);
     }
 
     public void secureInternalArea() {

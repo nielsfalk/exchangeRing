@@ -127,4 +127,16 @@ body {
     height: 351px;
 }
 
+.ui-growl {
+    top: 50px;
+}
+
+.ui-panel{
+    margin-bottom: 10px;;
+}
+
+#defaultSwitcher{
+    margin-top: 10px;;
+}
+
 

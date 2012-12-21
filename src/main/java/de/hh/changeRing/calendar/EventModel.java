@@ -1,14 +1,17 @@
 package de.hh.changeRing.calendar;
 
+import com.google.common.collect.Ordering;
+import de.hh.changeRing.InitTestData;
+
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.YEAR;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -34,6 +37,17 @@ public class EventModel implements Serializable {
     private TimeFilter timeFilter = future;
     private Map<String, EventType> typeFilters;
     private List<String> selectedTypeFilters = new ArrayList<String>();
+    private List<Event> eventsToDisplay;
+
+
+
+    public List<Event> getEventsToDisplay() {
+        if (eventsToDisplay == null) {
+            eventsToDisplay = InitTestData.getFilteredEvents(timeFilter, selectedTypeFilters);
+
+        }
+        return eventsToDisplay;
+    }
 
     public EventModel() {
         typeFilters = new HashMap<String, EventType>();
@@ -46,6 +60,7 @@ public class EventModel implements Serializable {
     }
 
     public void refresh(){
+        eventsToDisplay= null;
         System.out.println("bla");
     }
 
@@ -63,6 +78,7 @@ public class EventModel implements Serializable {
 
     public void setTimeFilter(TimeFilter timeFilter) {
         this.timeFilter = timeFilter;
+        refresh();
     }
 
     public List<String> getSelectedTypeFilters() {
@@ -71,6 +87,10 @@ public class EventModel implements Serializable {
 
     public void setSelectedTypeFilters(List<String> selectedTypeFilters) {
         this.selectedTypeFilters = selectedTypeFilters;
+    }
+
+    public void setEventsToDisplay(List<Event> eventsToDisplay) {
+        this.eventsToDisplay = eventsToDisplay;
     }
 
     public static enum TimeFilter {
@@ -84,19 +104,40 @@ public class EventModel implements Serializable {
         public String getTranslation() {
             return translation;
         }
-    }
 
-    public static enum EventType {
-        summerFestival("Sommerfest"),
-        fleaMarket("Flohmarkt"),
-        regularsTable("Stammtisch"),
-        individual("Individuel"),
-        organization("Orga"),
-        info("Infostand");
-        private String translation;
+        public boolean accepts(Date time) {
+            if (past == this){
+                return time.before(tomorrow());
+            }
+            return time.after(today());
+        }
 
-        EventType(String translation) {
-            this.translation = translation;
+        public Date today(){
+            return calendarWithoutTime().getTime();
+        }
+
+        public Date tomorrow(){
+            GregorianCalendar result = calendarWithoutTime();
+            result.add(Calendar.DAY_OF_MONTH, 1);
+            return result.getTime();
+        }
+
+        private GregorianCalendar calendarWithoutTime() {
+            GregorianCalendar result = new GregorianCalendar();
+            result = new GregorianCalendar(result.get(YEAR), result.get(MONTH), result.get(DAY_OF_MONTH));
+            return result;
+        }
+
+        public List<Event> order(List<Event> result) {
+            return new Ordering<Event>() {
+                @Override
+                public int compare(Event event, Event event2) {
+                    return TimeFilter.this == past
+                            ? event2.getWhen().compareTo(event.getWhen())
+                            : event.getWhen().compareTo(event2.getWhen());
+                }
+            }.sortedCopy(result);
         }
     }
+
 }

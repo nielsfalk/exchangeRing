@@ -1,11 +1,16 @@
 package de.hh.changeRing;
 
-import static de.hh.changeRing.calendar.Audience.both;
+import static de.hh.changeRing.calendar.EventType.*;
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.YEAR;
 
 import com.google.common.collect.Ordering;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.advertisement.Category;
 import de.hh.changeRing.calendar.Event;
+import de.hh.changeRing.calendar.EventModel;
+import de.hh.changeRing.calendar.EventType;
 import de.hh.changeRing.transaction.Transaction;
 import de.hh.changeRing.user.User;
 
@@ -85,9 +90,9 @@ public class InitTestData {
                     advertisement.setTitle("anzeige von " + user.getId());
                     //noinspection NumericOverflow
                     GregorianCalendar calendar = new GregorianCalendar();
-                    calendar.add(Calendar.DAY_OF_MONTH, new Random().nextInt(365));
+                    calendar.add(DAY_OF_MONTH, new Random().nextInt(365));
                     advertisement.setValidUntil(calendar.getTime());
-                    calendar.add(Calendar.YEAR, -1);
+                    calendar.add(YEAR, -1);
                     advertisement.setCreationDate(calendar.getTime());
 
                     Category category;
@@ -240,35 +245,109 @@ public class InitTestData {
 	public static List<Event> getEvents() {
 		if (events == null) {
 			events = new ArrayList<Event>();
-			events.add(getStammtisch(1L,0));
-			events.add(getStammtisch(2L,7));
-			events.add(getStammtisch(3L,-1));
-		}
+            for  (int daysToAdd : new int[]{-5, -1, 0, 7, 14, 36, 360}) {
+               events.add(createStammtisch(daysToAdd));
+            }
+            events.add(createInfoStand());
+            events.add(createMembersEvent());
+            events.add(summerEvent());
+            events.add(fleaMarketEvent());
+        }
 		return events;
 	}
 
-	private static Event getStammtisch(Long id, int daysToAdd) {
-		Event result = new Event();
-		result.setId(id);
-		result.setTitle("Stammtisch Eppendorf");
-		result.setAudience(both);
+    private static Event fleaMarketEvent() {
+        Event event = createEvent(182, 13l, fleaMarket);
+        event.setLocation("Hintertupfingen");
+        event.setTitle("Alles Kaufen");
+        event.setContent("Alles darf gekauft werden. \nStände bitte Anmelde. \nEuros werden nicht akzeptiert!");
+        return event;
+    }
+
+    private static Event summerEvent() {
+        Event event = createEvent(180, 1l, summerFestival);
+        event.setTitle("Riesen Sause");
+        event.setContent("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam" +
+                " nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, " +
+                "sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. " +
+                "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit " +
+                "amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy " +
+                "eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. ");
+        return event;
+    }
+
+    private static Event createInfoStand() {
+        Event result = createEvent(15, 577l, info);
+        result.setTitle("Mercado");
+        result.setContent("Hier kann man Mitglied werden");
+        result.setLocation("Mercado Altona");
+        return result;
+    }
+
+    private static Event createMembersEvent() {
+        Event result = createEvent(15, 595, individual);
+        result.setTitle("Brotaufstrich Basteln");
+        result.setContent("Bei mir werden vegetarische und vegane Brotaufstriche gekocht. Bitte vorher anmelden");
+        result.setLocation("Bei mir in Winterhude");
+        result.setDuration(90);
+        return result;
+    }
+
+
+    private static Event createStammtisch(int daysToAdd) {
+        Event result = createEvent(daysToAdd, 577L, regularsTable);
+        result.setTitle("Eppendorf");
 		result.setContent("Monatlicher Stammtisch des Tauschrings");
 		result.setLocation("Kulturhaus Eppendorf, Julius-Reincke-Stieg 13a, 20251 Hamburg");
-
-		GregorianCalendar from = new GregorianCalendar();
-		from.set(Calendar.HOUR, 19);
-		from.set(Calendar.MINUTE, 0);
-		from.add(Calendar.DAY_OF_MONTH, daysToAdd);
-
-		result.setWhen(from.getTime());
-		User user = findUser(577L);
-		result.setUser(user);
-		user.getEvents().add(result);
 		return result;
 	}
 
+    private static Event createEvent(int daysToAdd, long userId, EventType eventType) {
+        Event result = new Event();
+        result.getId();
+        result.setEventType(eventType);
+        GregorianCalendar from = new GregorianCalendar();
+        from.set(Calendar.HOUR, 19);
+        from.set(Calendar.MINUTE, 0);
+        from.add(DAY_OF_MONTH, daysToAdd);
 
-	@XmlRootElement(name = "exchangeRingInitial")
+        result.setWhen(from.getTime());
+        User user = findUser(userId);
+        result.setUser(user);
+        user.getEvents().add(result);
+        return result;
+    }
+
+    public static List<Event> getFilteredEvents(EventModel.TimeFilter timeFilter, List<String> selectedTypeFilters) {
+
+        List<Event> result = new ArrayList<Event>();
+        for (Event event : getEvents()) {
+            if (selectedTypeFilters.contains(event.getEventType().name())){
+                if (timeFilter.accepts(event.getWhen())){
+                    result.add(event);
+                }
+            }
+        }
+        return timeFilter.order(result);
+    }
+
+    public static List<User> getNewestMembers(int count) {
+        List<User> users = new Ordering<User>(){
+            @Override
+            public int compare(User user, User user2) {
+                return user2.getActivated().compareTo(user.getActivated());
+            }
+        }.sortedCopy(getUsers());
+        Iterator<User> iterator = users.iterator();
+        List<User> result = new ArrayList<User>();
+        for (int i = 0; i < count; i++) {
+            result.add(iterator.next());
+        }
+        return result;
+    }
+
+
+    @XmlRootElement(name = "exchangeRingInitial")
     @XmlAccessorType(XmlAccessType.PROPERTY)
     public static class InitialData {
         @XmlElement(name = "user")

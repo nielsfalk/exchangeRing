@@ -23,6 +23,7 @@ import java.util.Random;
 import static de.hh.changeRing.Context.formatGermanDate;
 import static de.hh.changeRing.user.User.Status.active;
 import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.EnumType.STRING;
 import static javax.persistence.TemporalType.DATE;
 
 /**
@@ -120,10 +121,11 @@ public class User extends BaseEntity {
 
     private String accessibility;
 
+    @Enumerated(STRING)
     private Status status = active;
 
     @Temporal(DATE)
-    private Date activated;
+    private Date activated = new Date();
 
     @Temporal(DATE)
     private Date deActivated;
@@ -286,18 +288,25 @@ public class User extends BaseEntity {
     }
 
     public String getGravatarUrl30() {
-        return new Gravatar().setSize(30).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
-                .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
+        return getGravatarUrl(30);
     }
 
     public String getGravatarHeaderUrl49() {
-        return new Gravatar().setSize(49).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
+        return getGravatarUrl(49);
+    }
+
+
+    public String getGravatarHeaderUrl80() {
+        return getGravatarUrl(80);
+    }
+
+    private String getGravatarUrl(int size) {
+        return new Gravatar().setSize(size).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
                 .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
     }
 
     public String getGravatarUrl250() {
-        return new Gravatar().setSize(250).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
-                .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
+        return getGravatarUrl(250);
     }
 
     public String getDisplayName() {

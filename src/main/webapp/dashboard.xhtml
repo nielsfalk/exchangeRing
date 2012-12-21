@@ -26,7 +26,7 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="contentWithMenu">
-        <p:panel header="!!! Testseite !!!" style="background: red">
+        <p:panel header="!!! Testseite !!!" style="background: red" rendered="#{userSession.notLoggedIn}">
             <p>Dies ist lediglich der Versuch einer neuen Tauschringseite.</p>
 
             <p>Inhalte haben keinerlei Relevanz</p>
@@ -34,12 +34,37 @@ Environmental damage caused by the use must be kept as small as possible.
             <p>echte Informationen erhällst du auf http://www.tauschring-hamburg.org/</p>
         </p:panel>
 
-        <p/>
-
-
-        <p:panel header="Tauschring Hamburg">
+        <p:panel header="Tauschring Hamburg" rendered="#{userSession.notLoggedIn}">
             Hier wird eine übersichtsseite mit Terminen entstehen.
             Bei Login werden jew. die aktuellsten 3 Überweisungen, neuste Mitglieder, neusten Angebote ... zu sehen sein.
         </p:panel>
+
+        <p:panel header="Kommende Termine" rendered="#{userSession.loggedIn}">
+        </p:panel>
+
+        <p:panel header="Kommende Termine" rendered="#{userSession.notLoggedIn}">
+            weitere Termine sind im eingeloggten Bereich sichtbar.
+        </p:panel>
+
+        <p:panel header="Neuste Mitglieder" rendered="#{userSession.notLoggedIn}">
+            <ui:repeat value="#{userSession.getNewestMembers(8)}" var="member">
+                <img src="#{member.gravatarHeaderUrl80}"/>
+            </ui:repeat>
+        </p:panel>
+        <p:panel header="Neuste Mitglieder" rendered="#{userSession.loggedIn}">
+            <ui:repeat value="#{userSession.getNewestMembers(8)}" var="member">
+                <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{member.id}"><img src="#{member.gravatarHeaderUrl80}"/></a>
+            </ui:repeat>
+        </p:panel>
+
+        <p:panel header="Neuste Gesuche" rendered="#{userSession.loggedIn}">
+        </p:panel>
+
+        <p:panel header="Neuste Angebote" rendered="#{userSession.loggedIn}">
+
+        </p:panel>
+
+
+
     </ui:define>
 </ui:composition>

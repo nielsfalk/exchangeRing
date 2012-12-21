@@ -41,6 +41,7 @@ public class Event extends BaseEntity {
 	private User user;
 
 	@Temporal(TIMESTAMP)
+    @Column(name = "event_date")
 	private Date when;
 
 	private Integer duration;

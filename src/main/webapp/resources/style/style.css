@@ -22,7 +22,9 @@ Environmental damage caused by the use must be kept as small as possible.
 
 */
 .header {
-    border-bottom: 1px solid #CACACA;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
     margin: 0;
     padding: 0
 

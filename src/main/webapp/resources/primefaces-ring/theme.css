@@ -79,11 +79,11 @@
 .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
     border: 1px solid #4eb305;
     background: #7b0a6f url("#{resource['primefaces-ring:images/ui-bg_diagonals-thick_10_7b0a6f_40x40.png']}") 50% 50% repeat;
-    color: #363636;
+    color: #ffffff;
 }
 
 .ui-state-highlight a, .ui-widget-content .ui-state-highlight a, .ui-widget-header .ui-state-highlight a {
-    color: #363636;
+    color: #ffffff;
 }
 
 .ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {

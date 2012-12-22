@@ -87,7 +87,23 @@ public class InitTestData {
                     advertisement.setType(Advertisement.AdvertisementType.values()[((int) (user.getId() % 2))]);
                     advertisement.setContent(loremYpsum());
                     advertisement.setLocation("egal bei " + user.getDisplayName());
-                    advertisement.setTitle("anzeige von " + user.getId());
+                    String[] strings = {
+                            "Blllp",
+                            "Grrr",
+                            "Ö",
+                            "Ich habe es voll drauf",
+                            "Nachts ist es kälter als draußen",
+                            "wer lange Duscht wird furchtbar nass",
+                            "Rollt ne Kugel um die Ecke und fällt um",
+                            "Treffen sich drei Studenten und streiten sich wer wohl der Faulste sei.",
+                            "Schraube",
+                            "Töröööh",
+                            "Fetz",
+                            "Kokel",
+                            "Zisch",
+                            "Peng"
+                    };
+                    advertisement.setTitle(strings[new Random().nextInt(strings.length)]);
                     //noinspection NumericOverflow
                     GregorianCalendar calendar = new GregorianCalendar();
                     calendar.add(DAY_OF_MONTH, new Random().nextInt(365));
@@ -353,7 +369,7 @@ public class InitTestData {
     private static <T> List<T> filterFirst(int count, List<T> orderedItems) {
         Iterator<T> itemIterator = orderedItems.iterator();
         int availableCount = orderedItems.size();
-        if (count<availableCount) {
+        if (count < availableCount) {
             availableCount = count;
         }
 

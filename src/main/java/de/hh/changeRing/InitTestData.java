@@ -1,10 +1,5 @@
 package de.hh.changeRing;
 
-import static de.hh.changeRing.calendar.EventType.*;
-import static java.util.Calendar.DAY_OF_MONTH;
-import static java.util.Calendar.MONTH;
-import static java.util.Calendar.YEAR;
-
 import com.google.common.collect.Ordering;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.advertisement.Category;
@@ -23,6 +18,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.InputStream;
 import java.util.*;
+
+import static de.hh.changeRing.calendar.EventType.*;
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.YEAR;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -51,12 +50,12 @@ public class InitTestData {
     private static List<Transaction> transactions;
     private static final List<Advertisement> advertisements = new ArrayList<Advertisement>();
     private static Map<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>> sortedAds;
-	private static List<Event> events;
+    private static List<Event> events;
 
-	static {
+    static {
         InitTestData.init();
         InitTestData.getTransactions();
-		InitTestData.getEvents();
+        InitTestData.getEvents();
     }
 
     private static void init() {
@@ -242,19 +241,19 @@ public class InitTestData {
         sortedAds = null;
     }
 
-	public static List<Event> getEvents() {
-		if (events == null) {
-			events = new ArrayList<Event>();
-            for  (int daysToAdd : new int[]{-5, -1, 0, 7, 14, 36, 360}) {
-               events.add(createStammtisch(daysToAdd));
+    public static List<Event> getEvents() {
+        if (events == null) {
+            events = new ArrayList<Event>();
+            for (int daysToAdd : new int[]{-5, -1, 0, 7, 14, 36, 360}) {
+                events.add(createStammtisch(daysToAdd));
             }
             events.add(createInfoStand());
             events.add(createMembersEvent());
             events.add(summerEvent());
             events.add(fleaMarketEvent());
         }
-		return events;
-	}
+        return events;
+    }
 
     private static Event fleaMarketEvent() {
         Event event = createEvent(182, 13l, fleaMarket);
@@ -296,10 +295,10 @@ public class InitTestData {
     private static Event createStammtisch(int daysToAdd) {
         Event result = createEvent(daysToAdd, 577L, regularsTable);
         result.setTitle("Eppendorf");
-		result.setContent("Monatlicher Stammtisch des Tauschrings");
-		result.setLocation("Kulturhaus Eppendorf, Julius-Reincke-Stieg 13a, 20251 Hamburg");
-		return result;
-	}
+        result.setContent("Monatlicher Stammtisch des Tauschrings");
+        result.setLocation("Kulturhaus Eppendorf, Julius-Reincke-Stieg 13a, 20251 Hamburg");
+        return result;
+    }
 
     private static Event createEvent(int daysToAdd, long userId, EventType eventType) {
         Event result = new Event();
@@ -321,8 +320,8 @@ public class InitTestData {
 
         List<Event> result = new ArrayList<Event>();
         for (Event event : getEvents()) {
-            if (selectedTypeFilters.contains(event.getEventType().name())){
-                if (timeFilter.accepts(event.getWhen())){
+            if (selectedTypeFilters.contains(event.getEventType().name())) {
+                if (timeFilter.accepts(event.getWhen())) {
                     result.add(event);
                 }
             }
@@ -331,7 +330,7 @@ public class InitTestData {
     }
 
     public static List<User> getNewestMembers(int count) {
-        List<User> users = new Ordering<User>(){
+        List<User> users = new Ordering<User>() {
             @Override
             public int compare(User user, User user2) {
                 return user2.getActivated().compareTo(user.getActivated());
@@ -340,6 +339,21 @@ public class InitTestData {
         Iterator<User> iterator = users.iterator();
         List<User> result = new ArrayList<User>();
         for (int i = 0; i < count; i++) {
+            result.add(iterator.next());
+        }
+        return result;
+    }
+
+    public static List<Event> getNextEventsInternal(int count) {
+        List<Event> filteredEvents = getFilteredEvents(EventModel.TimeFilter.future, EventType.allButInfo());
+        Iterator<Event> iterator = filteredEvents.iterator();
+        int availableCount = filteredEvents.size();
+        if (count>availableCount) {
+            availableCount = count;
+        }
+
+        List<Event> result = new ArrayList<Event>();
+        for (int i = 0; i < availableCount; i++) {
             result.add(iterator.next());
         }
         return result;
@@ -354,8 +368,8 @@ public class InitTestData {
 
         @XmlElement(name = "transaction")
         List<Transaction> transactions;
-		private static Object events;
-	}
+        private static Object events;
+    }
 
     private static String loremYpsum() {
         return loremYpsum(new Random().nextInt(4));

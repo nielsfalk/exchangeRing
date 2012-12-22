@@ -40,6 +40,9 @@ Environmental damage caused by the use must be kept as small as possible.
         </p:panel>
 
         <p:panel header="Kommende Termine" rendered="#{userSession.loggedIn}">
+            <ui:repeat value="#{userSession.getNextEventsInternal(5)}" var="event">
+                #{event.title}
+            </ui:repeat>
         </p:panel>
 
         <p:panel header="Kommende Termine" rendered="#{userSession.notLoggedIn}">
@@ -48,12 +51,12 @@ Environmental damage caused by the use must be kept as small as possible.
 
         <p:panel header="Neuste Mitglieder" rendered="#{userSession.notLoggedIn}">
             <ui:repeat value="#{userSession.getNewestMembers(8)}" var="member">
-                <img src="#{member.gravatarHeaderUrl80}"/>
+                <img src="#{member.gravatarUrl80}"/>
             </ui:repeat>
         </p:panel>
         <p:panel header="Neuste Mitglieder" rendered="#{userSession.loggedIn}">
             <ui:repeat value="#{userSession.getNewestMembers(8)}" var="member">
-                <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{member.id}"><img src="#{member.gravatarHeaderUrl80}"/></a>
+                <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{member.id}"><img src="#{member.gravatarUrl80}" alt="#{member.displayName}"/></a>
             </ui:repeat>
         </p:panel>
 

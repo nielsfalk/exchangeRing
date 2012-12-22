@@ -1,5 +1,10 @@
 package de.hh.changeRing.calendar;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public enum EventType {
     summerFestival("Sommerfest"),
     fleaMarket("Flohmarkt"),
@@ -15,5 +20,15 @@ public enum EventType {
 
     public String getTranslation() {
         return translation;
+    }
+
+    public static List<String> allButInfo() {
+        List<String> result = new ArrayList<String>();
+        for (EventType eventType : EventType.values()) {
+            if (eventType != EventType.info) {
+                result.add(eventType.name());
+            }
+        }
+        return result;
     }
 }

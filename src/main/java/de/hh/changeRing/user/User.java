@@ -296,13 +296,17 @@ public class User extends BaseEntity {
     }
 
 
-    public String getGravatarHeaderUrl80() {
+    public String getGravatarUrl80() {
         return getGravatarUrl(80);
     }
 
     private String getGravatarUrl(int size) {
         return new Gravatar().setSize(size).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
                 .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
+    }
+
+    public String getGravatarUrl29() {
+        return getGravatarUrl(29);
     }
 
     public String getGravatarUrl250() {

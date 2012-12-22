@@ -41,22 +41,20 @@ public class EventModel implements Serializable {
 
 
 
+    public EventModel() {
+        typeFilters = new HashMap<String, EventType>();
+        for (EventType eventType : EventType.values()) {
+            typeFilters.put(eventType.translation, eventType);
+        }
+        selectedTypeFilters = EventType.allButInfo();
+    }
+
     public List<Event> getEventsToDisplay() {
         if (eventsToDisplay == null) {
             eventsToDisplay = InitTestData.getFilteredEvents(timeFilter, selectedTypeFilters);
 
         }
         return eventsToDisplay;
-    }
-
-    public EventModel() {
-        typeFilters = new HashMap<String, EventType>();
-        for (EventType eventType : EventType.values()) {
-            typeFilters.put(eventType.translation, eventType);
-            if (eventType != EventType.info) {
-                selectedTypeFilters.add(eventType.name());
-            }
-        }
     }
 
     public void refresh(){

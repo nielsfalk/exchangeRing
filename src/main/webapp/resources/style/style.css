@@ -22,14 +22,16 @@ Environmental damage caused by the use must be kept as small as possible.
 
 */
 .header {
-    background: #fafefb;
-    background: -webkit-linear-gradient(#fafefb, #e0e1e2);
-    background: -moz-linear-gradient(#fafefb, #e0e1e2);
-    background: linear-gradient(#fafefb, #e0e1e2);
     border-bottom: 1px solid #CACACA;
     margin: 0;
     padding: 0
 
+}
+.exHeader{
+    background: #fafefb;
+    background: -webkit-linear-gradient(#fafefb, #e0e1e2);
+    background: -moz-linear-gradient(#fafefb, #e0e1e2);
+    background: linear-gradient(#fafefb, #e0e1e2);
 }
 
 .header div a {
@@ -59,7 +61,8 @@ Environmental damage caused by the use must be kept as small as possible.
 
 body {
     margin: 0;
-    padding: 0
+    padding: 0;
+    background-color: #303030;
 }
 
 .container {
@@ -90,7 +93,7 @@ body {
 #headLine {
     font-size: 26px;
     vertical-align: super;
-    color: black;
+    color: #ffffff;
 }
 
 body {

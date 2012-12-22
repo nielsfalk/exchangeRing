@@ -63,7 +63,7 @@
 
     <context-param>
         <param-name>primefaces.THEME</param-name>
-        <param-value>start</param-value>
+        <param-value>ring</param-value>
     </context-param>
 
     <context-param>

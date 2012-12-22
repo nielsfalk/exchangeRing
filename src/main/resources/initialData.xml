@@ -130,4 +130,12 @@
         <subject>Großes Geschenk!</subject>
     </transaction>
 
+    <transaction>
+        <fromId>595</fromId>
+        <toId>577</toId>
+        <amount>123</amount>
+        <date>2012-11-10</date>
+        <subject>Leihgabe</subject>
+    </transaction>
+
 </exchangeRingInitial>

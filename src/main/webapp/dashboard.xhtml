@@ -62,37 +62,40 @@ Environmental damage caused by the use must be kept as small as possible.
             <div style="width: 20px; float: left">
                 <h:outputText value="&#160;"/>
             </div>
-            <p:panel header="letzte konto aktivität" style="overflow: auto"
-                     rendered="#{not empty userSession.user.depotItems}">
-
-                <table class="borderlessTable">
-                    <tr>
-                        <td rowspan="4">
-                            <a href="${pageContext.request.servletPath}/internal/account.xhtml">
-                                <img alt="#{userSession.user.newestDepotItem.other.displayName}"
-                                     src="#{userSession.user.newestDepotItem.other.gravatarUrl80}"/>
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Betrag:</td>
-                        <td>
-                            <a href="${pageContext.request.servletPath}/internal/account.xhtml">
-                                #{userSession.user.newestDepotItem.amount}</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Datum:</td>
-                        <td>#{userSession.user.newestDepotItem.shortFormattedDate}</td>
-                    </tr>
-                    <tr>
-                        <td>Mit:</td>
-                        <td>
-                            <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{userSession.user.newestDepotItem.other.id}">
-                                #{userSession.user.newestDepotItem.other.displayName}</a>
-                        </td>
-                    </tr>
-                </table>
+            <p:panel header="Letzte Kontoaktivität" style="overflow: auto">
+                <ui:fragment rendered="#{empty userSession.user.depotItems}">
+                    Keine
+                </ui:fragment>
+                <ui:fragment rendered="#{not empty userSession.user.depotItems}">
+                    <table class="borderlessTable">
+                        <tr>
+                            <td rowspan="5">
+                                <a href="${pageContext.request.servletPath}/internal/account.xhtml">
+                                    <img alt="#{userSession.user.newestDepotItem.other.displayName}"
+                                         src="#{userSession.user.newestDepotItem.other.gravatarUrl80}"/>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Betrag:</td>
+                            <td>
+                                <a href="${pageContext.request.servletPath}/internal/account.xhtml">
+                                    #{userSession.user.newestDepotItem.amount}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Datum:</td>
+                            <td>#{userSession.user.newestDepotItem.shortFormattedDate}</td>
+                        </tr>
+                        <tr>
+                            <td>Mit:</td>
+                            <td>
+                                <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{userSession.user.newestDepotItem.other.id}">
+                                    #{userSession.user.newestDepotItem.other.displayName}</a>
+                            </td>
+                        </tr>
+                    </table>
+                </ui:fragment>
             </p:panel>
         </h:panelGroup>
 

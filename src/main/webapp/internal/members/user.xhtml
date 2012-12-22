@@ -32,7 +32,7 @@ Environmental damage caused by the use must be kept as small as possible.
     <f:viewParam name="userId" value="#{userModel.selectedUserId}"/>
     <f:viewParam name="me" value="#{userModel.selectedMe}"/>
 </f:metadata>
-<p:panel header="#{userModel.selectedUser.displayName}">
+<p:panel header="#{userModel.other?userModel.selectedUser.displayName:'Einstellungen'}">
     <h:form>
         <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
             <h:outputText value="Avatar:"/>

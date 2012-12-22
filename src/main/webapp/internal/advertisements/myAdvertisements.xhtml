@@ -29,11 +29,30 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:h="http://java.sun.com/jsf/html">
     <ui:define name="contentWithMenu">
         <p:panel header="Meine Anzeigen">
+            <p>
+                <p:splitButton value="Alle Auswählen" actionListener="#{userSession.save}" icon="ui-icon-circle-check">
+                    <p:menuitem value="Keine Auswählen" url="#"
+                                icon="ui-icon-closethick"/>
+                    <p:menuitem value="Auswähl umkehren" url="#"
+                                icon="ui-icon-info"/>
+                </p:splitButton>
+                <p:button outcome="/dashboard.xhtml" value="Loschen" icon="ui-icon-trash"/>
+                <p:button outcome="/dashboard.xhtml" value="Deaktivieren" icon="ui-icon-stop"/>
+                <p:button outcome="/dashboard.xhtml" value="Aktivieren / Verlängern" icon="ui-icon-play"/>
+                <!--TODO-->Diese Knöpfe haben noch keine Funktion
+            </p>
+
             <p:dataTable id="advertisementTable" var="advertisement" value="#{userSession.user.advertisements}"
                          styleClass="ui-corner-all">
+                <p:column id="mark">
+                    <f:facet name="header">
+                        <h:outputText value="Auswählen"/>
+                    </f:facet>
+                    <p:selectBooleanCheckbox value="#{false}"/>
+                </p:column>
                 <p:column id="title" sortBy="#{advertisement.title}">
                     <f:facet name="header">
-                        <h:outputText value="Titel"/>
+                        <h:outputText value="Titel / Bearbeiten"/>
                     </f:facet>
                     <a href="${pageContext.request.servletPath}#{advertisement.editUrl}">
                         #{advertisement.title}
@@ -48,7 +67,7 @@ Environmental damage caused by the use must be kept as small as possible.
                     </a>
                 </p:column>
 
-                <p:column id="category" sortBy="#{advertisement.category}">
+                <p:column id="category" sortBy="#{advertisement.category.desc}">
                     <f:facet name="header">
                         <h:outputText value="Category"/>
                     </f:facet>

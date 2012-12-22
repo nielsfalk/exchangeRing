@@ -60,6 +60,10 @@ public class InitTestData {
 
     private static void init() {
         try {
+            List<User> dummies = new ArrayList<User>();
+            for (Long i = 1000L; i < 2000; i++) {
+                dummies.add(User.dummyUser(i));
+            }
             JAXBContext context = JAXBContext.newInstance(InitialData.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
             InputStream is = InitialData.class.getResourceAsStream("/initialData.xml");
@@ -67,10 +71,7 @@ public class InitTestData {
             data = (InitialData) unmarshaller.unmarshal(is);
 
             List<User> users = InitTestData.getUsers();
-            for (Long i = 1000L; i < 2000; i++) {
-                users.add(User.dummyUser(i));
-
-            }
+            users.addAll(dummies);
             initAds();
         } catch (JAXBException e) {
             throw new RuntimeException(e);

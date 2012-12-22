@@ -333,6 +333,16 @@ public class User extends BaseEntity {
         return result;
     }
 
+    public DepotItem getNewestDepotItem() {
+        List<DepotItem> sorted = new Ordering<DepotItem>() {
+            @Override
+            public int compare(DepotItem o1, DepotItem o2) {
+                return o2.getTransaction().getDate().compareTo(o1.getTransaction().getDate());
+            }
+        }.sortedCopy(getDepotItems());
+        return sorted.isEmpty() ? null : sorted.get(0);
+    }
+
     @SuppressWarnings("CanBeFinal")
     public static enum Status {
         active("aktiv"),

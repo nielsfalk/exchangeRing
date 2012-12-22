@@ -35,16 +35,16 @@ Environmental damage caused by the use must be kept as small as possible.
     background-color: #ffffff;
 }
 
-.subheader div div a{
+.subheader div div a {
     text-decoration: none;
 }
 
-.rightSubHead{
+.rightSubHead {
     float: right;
     width: 728px;
 }
 
-.exHeader{
+.exHeader {
     background: #fafefb;
     background: -webkit-linear-gradient(#fafefb, #e0e1e2);
     background: -moz-linear-gradient(#fafefb, #e0e1e2);
@@ -117,6 +117,7 @@ body {
     vertical-align: super;
     color: #ffffff;
 }
+
 #headLine2 {
     font-size: 26px;
     vertical-align: super;
@@ -161,23 +162,29 @@ body {
     top: 50px;
 }
 
-.ui-panel{
+.ui-panel {
     margin-bottom: 10px;;
 }
 
-#defaultSwitcher{
+#defaultSwitcher {
     margin-top: 10px;;
 }
 
-.borderlessTable{
+.borderlessTable {
     border: none;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.borderlessTable td{
+.borderlessTable td {
     padding-right: 10px;
     text-align: left;
+}
+
+.horizontalFloatContainer {
+    width: 100%;
+    vertical-align: bottom;
+    display: inline-block;
 }
 
 

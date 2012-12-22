@@ -78,6 +78,10 @@ public class DepotItem extends BaseEntity{
         return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(transaction.getDate());
     }
 
+    public String getShortFormattedDate() {
+        return new SimpleDateFormat("dd.MM.yy").format(transaction.getDate());
+    }
+
     public static DepotItem create(Transaction transaction, User user) {
         if (transaction.getFrom() == transaction.getTo()) {
             throw new RuntimeException("invalid transaction from == to" + transaction);

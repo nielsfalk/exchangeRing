@@ -46,7 +46,7 @@ Environmental damage caused by the use must be kept as small as possible.
 <h:body>
     <div class="header ui-widget-content">
         <div class="container">
-            <div style="width: 130px;float: left;">
+            <div style="width: 137px;float: left;">
                 <a href="${pageContext.request.servletPath}/dashboard.xhtml">
                 <h:graphicImage name="/img/logoGreen.png" alt="logo" styleClass="headerLogo" rendered="#{userSession.loggedIn}"/>
                 </a>
@@ -74,7 +74,7 @@ Environmental damage caused by the use must be kept as small as possible.
 
 
                 <h:form rendered="#{userSession.loggedIn}" styleClass="loggedInHeader"
-                        style="background-image: url('#{userSession.user.gravatarHeaderUrl49}')">
+                        style="background-image: url('#{userSession.user.gravatarHeaderUrl51}')">
                     <p:splitButton value="Kontostand: #{userSession.user.balance}" url="/internal/account.xhtml"
                                    onclick="location='/internal/account.xhtml'">
                         <p:menuitem value="Mein Konto" url="/internal/account.xhtml" icon="ui-icon-transferthick-e-w"/>

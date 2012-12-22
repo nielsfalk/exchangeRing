@@ -26,7 +26,7 @@ Environmental damage caused by the use must be kept as small as possible.
     border-bottom: 2px solid #72b42d;
     margin: 0;
     padding: 0;
-    height: 38px;
+    height: 45px;
 }
 
 .subheader {
@@ -64,7 +64,7 @@ Environmental damage caused by the use must be kept as small as possible.
 }
 
 .headerLogo {
-    height: 33px;
+    height: 40px;
     margin-top: 3px
 }
 
@@ -74,7 +74,7 @@ Environmental damage caused by the use must be kept as small as possible.
 }
 
 .ui-widget {
-    font-size: 0.8em
+    font-size: 0.9em
 }
 
 .green {
@@ -109,11 +109,12 @@ body {
     background-repeat: no-repeat;
     padding-left: 42px;
     padding-top: 4px;
+    padding-bottom: 5px;
     height: 36px
 }
 
 #headLine {
-    font-size: 26px;
+    font-size: 29px;
     vertical-align: super;
     color: #ffffff;
 }
@@ -140,7 +141,7 @@ body {
 
 #contentWithMenu {
     float: right;
-    width: 790px;
+    width: 794px;
 }
 
 .innerSet {

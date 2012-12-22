@@ -291,8 +291,8 @@ public class User extends BaseEntity {
         return getGravatarUrl(30);
     }
 
-    public String getGravatarHeaderUrl49() {
-        return getGravatarUrl(49);
+    public String getGravatarHeaderUrl51() {
+        return getGravatarUrl(51);
     }
 
 

@@ -51,7 +51,7 @@ public class EventModel implements Serializable {
 
     public List<Event> getEventsToDisplay() {
         if (eventsToDisplay == null) {
-            eventsToDisplay = InitTestData.getFilteredEvents(timeFilter, selectedTypeFilters);
+            eventsToDisplay = InitTestData.getFilteredAndOrderedEvents(timeFilter, selectedTypeFilters);
 
         }
         return eventsToDisplay;

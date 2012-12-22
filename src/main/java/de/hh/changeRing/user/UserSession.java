@@ -2,6 +2,7 @@ package de.hh.changeRing.user;
 
 import de.hh.changeRing.Context;
 import de.hh.changeRing.InitTestData;
+import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.calendar.Event;
 
 import javax.enterprise.context.SessionScoped;
@@ -110,5 +111,13 @@ public class UserSession implements Serializable{
 
     public List<User> getNewestMembers8() {
         return getNewestMembers(8);
+    }
+
+    public List<Advertisement> getNewestRequests() {
+        return InitTestData.getNewestAdvertisements(3, Advertisement.AdvertisementType.request);
+    }
+
+    public List<Advertisement> getNewestOffers() {
+        return InitTestData.getNewestAdvertisements(3, Advertisement.AdvertisementType.offer);
     }
 }

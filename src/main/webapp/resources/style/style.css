@@ -71,7 +71,7 @@ body {
 .container {
     margin: 0 auto;
     vertical-align: middle;
-    width: 920px
+    width: 1000px
 }
 
 .frame {
@@ -115,7 +115,7 @@ body {
 
 #contentWithMenu {
     float: right;
-    width: 711px;
+    width: 790px;
 }
 
 .innerSet {
@@ -153,6 +153,7 @@ body {
 
 .borderlessTable td{
     padding-right: 10px;
+    text-align: left;
 }
 
 

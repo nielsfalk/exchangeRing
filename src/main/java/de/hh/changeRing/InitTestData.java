@@ -245,7 +245,7 @@ public class InitTestData {
     public static List<Event> getEvents() {
         if (events == null) {
             events = new ArrayList<Event>();
-            for (int daysToAdd : new int[]{-5, -1, 0, 7, 14, 36, 360}) {
+            for (int daysToAdd : new int[]{-60, -30, 0, 30, 60, 90, 120}) {
                 events.add(createStammtisch(daysToAdd));
             }
             events.add(createInfoStand());
@@ -349,7 +349,7 @@ public class InitTestData {
         List<Event> filteredEvents = getFilteredEvents(EventModel.TimeFilter.future, EventType.allButInfo());
         Iterator<Event> iterator = filteredEvents.iterator();
         int availableCount = filteredEvents.size();
-        if (count>availableCount) {
+        if (count<availableCount) {
             availableCount = count;
         }
 

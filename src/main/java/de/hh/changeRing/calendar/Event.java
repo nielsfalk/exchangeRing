@@ -5,7 +5,6 @@ import static java.util.Calendar.MINUTE;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.TemporalType.TIMESTAMP;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -109,12 +108,12 @@ public class Event extends BaseEntity {
 	}
 
 	public String getFormattedWhen() {
-		return Context.formatGermanDate(getWhen());
+		return Context.longFormatGermanDate(getWhen());
 	}
 
 	public String getHeadLine() {
 		return getFormattedWhen() + ' '
-				+ (eventType.equals(individual) ? getTitle() : (getEventType().translation + ' ' + getTitle()));
+				+ getDisplayTitle();
 	}
 
     public String getPeriod(){
@@ -130,5 +129,13 @@ public class Event extends BaseEntity {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public String getDisplayTitle() {
+        return (eventType.equals(individual) ? getTitle() : (getEventType().translation + ' ' + getTitle()));
+    }
+
+    public String getDashboardDate() {
+        return getFormattedWhen();
     }
 }

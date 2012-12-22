@@ -29,6 +29,7 @@ Environmental damage caused by the use must be kept as small as possible.
     padding: 0
 
 }
+
 .exHeader{
     background: #fafefb;
     background: -webkit-linear-gradient(#fafefb, #e0e1e2);
@@ -143,5 +144,16 @@ body {
 #defaultSwitcher{
     margin-top: 10px;;
 }
+
+.borderlessTable{
+    border: none;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.borderlessTable td{
+    padding-right: 10px;
+}
+
 
 

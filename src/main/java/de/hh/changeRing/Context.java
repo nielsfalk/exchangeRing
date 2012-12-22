@@ -16,6 +16,7 @@ import javax.faces.event.PhaseEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
@@ -253,5 +254,9 @@ public class Context {
             elResolver = getElContext().getELResolver();
         }
         return elResolver;
+    }
+
+    public static String longFormatGermanDate(Date when) {
+        return when == null ? "" : new SimpleDateFormat("EE, dd.MM.yy").format(when);
     }
 }

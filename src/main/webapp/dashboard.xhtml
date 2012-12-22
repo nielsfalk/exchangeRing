@@ -24,7 +24,7 @@ Environmental damage caused by the use must be kept as small as possible.
 <ui:composition template="/decorators/menuDecorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html">
     <ui:define name="contentWithMenu">
         <p:panel header="!!! Testseite !!!" style="background: red" rendered="#{userSession.notLoggedIn}">
             <p>Dies ist lediglich der Versuch einer neuen Tauschringseite.</p>
@@ -40,10 +40,51 @@ Environmental damage caused by the use must be kept as small as possible.
         </p:panel>
 
         <p:panel header="Kommende Termine" rendered="#{userSession.loggedIn}">
-            <ui:repeat value="#{userSession.getNextEventsInternal(5)}" var="event">
-                #{event.title}
-            </ui:repeat>
+            <p:dataTable var="event" value="#{userSession.next3EventsInternal}" rendered="false">
+                <p:column>
+                    <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{event.user.id}"><img
+                            src="#{event.user.gravatarUrl29}" alt="#{event.user.displayName}"/></a>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{event.dashboardDate}"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{event.period}"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{event.displayTitle}"/>
+                </p:column>
+
+                <p:column>
+                    <h:outputText value="#{event.content}"/>
+                </p:column>
+
+                <p:column>
+                    <h:outputText value="#{event.location}"/>
+                </p:column>
+
+            </p:dataTable>
+
+            <div style="text-align: center">
+                <table class="borderlessTable">
+                    <ui:repeat value="#{userSession.next3EventsInternal}" var="event">
+                        <tr>
+                            <td>
+                                <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{event.user.id}"><img
+                                        src="#{event.user.gravatarUrl29}" alt="#{event.user.displayName}"/></a>
+                            </td>
+                            <td><h:outputText value="#{event.dashboardDate}"/></td>
+                            <td style="text-align: center"><h:outputText value="#{event.period}"/></td>
+                            <td><h:outputText value="#{event.displayTitle}"/></td>
+                            <!--td><h:outputText value="#{event.content}"/></td>
+                            <td><h:outputText value="#{event.location}"/></td-->
+                        </tr>
+                    </ui:repeat>
+                </table>
+                <a href="${pageContext.request.servletPath}/internal/events/browse.xhtml">Details und weitere Termine</a>
+            </div>
         </p:panel>
+
 
         <p:panel header="Kommende Termine" rendered="#{userSession.notLoggedIn}">
             weitere Termine sind im eingeloggten Bereich sichtbar.
@@ -54,18 +95,25 @@ Environmental damage caused by the use must be kept as small as possible.
                 <img src="#{member.gravatarUrl80}"/>
             </ui:repeat>
         </p:panel>
+
+        <h:panelGroup layout="block" style="width: 100%" rendered="#{userSession.loggedIn}">
+            <p:panel header="Neuste Gesuche" rendered="#{userSession.loggedIn}" style="float: left; width: 46%;">
+
+            </p:panel>
+
+            <div style="width: 20px; float: left"><h:outputText value="&#160;"/></div>
+            <p:panel header="Neuste Angebote" rendered="#{userSession.loggedIn}" style="overflow: auto">
+
+            </p:panel>
+        </h:panelGroup>
+
         <p:panel header="Neuste Mitglieder" rendered="#{userSession.loggedIn}">
-            <ui:repeat value="#{userSession.getNewestMembers(8)}" var="member">
-                <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{member.id}"><img src="#{member.gravatarUrl80}" alt="#{member.displayName}"/></a>
+            <ui:repeat value="#{userSession.newestMembers8}" var="member">
+                <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{member.id}"><img
+                        src="#{member.gravatarUrl80}" alt="#{member.displayName}"/></a>
             </ui:repeat>
         </p:panel>
 
-        <p:panel header="Neuste Gesuche" rendered="#{userSession.loggedIn}">
-        </p:panel>
-
-        <p:panel header="Neuste Angebote" rendered="#{userSession.loggedIn}">
-
-        </p:panel>
 
 
 

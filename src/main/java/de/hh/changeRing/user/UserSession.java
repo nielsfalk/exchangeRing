@@ -104,4 +104,11 @@ public class UserSession implements Serializable{
         this.user = user;
     }
 
+    public List<Event> getNext3EventsInternal() {
+        return getNextEventsInternal(3);
+    }
+
+    public List<User> getNewestMembers8() {
+        return getNewestMembers(8);
+    }
 }

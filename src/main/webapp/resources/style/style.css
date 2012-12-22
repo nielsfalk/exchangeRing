@@ -22,12 +22,26 @@ Environmental damage caused by the use must be kept as small as possible.
 
 */
 .header {
-    border-top: 0px;
-    border-left: 0px;
-    border-right: 0px;
+    border: none;
+    border-bottom: 2px solid #72b42d;
     margin: 0;
-    padding: 0
+    padding: 0;
+    height: 38px;
+}
 
+.subheader {
+    border-bottom: 2px solid #72b42d;
+    height: 212px;
+    background-color: #ffffff;
+}
+
+.subheader div div a{
+    text-decoration: none;
+}
+
+.rightSubHead{
+    float: right;
+    width: 728px;
 }
 
 .exHeader{
@@ -52,6 +66,11 @@ Environmental damage caused by the use must be kept as small as possible.
 .headerLogo {
     height: 33px;
     margin-top: 3px
+}
+
+.headerLogo2 {
+    height: 71px;
+    margin-top: 13px
 }
 
 .ui-widget {
@@ -97,6 +116,11 @@ body {
     font-size: 26px;
     vertical-align: super;
     color: #ffffff;
+}
+#headLine2 {
+    font-size: 26px;
+    vertical-align: super;
+    color: #000000;
 }
 
 body {

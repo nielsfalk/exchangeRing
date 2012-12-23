@@ -28,26 +28,6 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:r="http://www.tauschring-hamburg.org/public/ring">
     <ui:define name="contentWithMenu">
-
-
-        #{resource['primefaces-nollie-rolling-wrap:images/ui-bg_diagonals-thick_15_444444_40x40.png']}
-        rrr
-
-        #{r:activeMenu('dashboard')}
-        #{facesContext.viewRoot.viewId.substring(1)}
-        #{facesContext.viewRoot.viewId.startsWith('/dashboard')?'acticMenuItem':''}
-
-        <h:form>
-            <h:panelGrid columns="4" cellpadding="5">
-                <h:outputLabel for="name" value="Name:" style="font-weight:bold"/>
-
-                <p:inputText id="name" value="#{userSession.id}"/>
-
-                <p:commandButton value="Submit" update="display"/>
-
-                <h:outputText value="#{userSession.id}" id="display"/>
-            </h:panelGrid>
-
-        </h:form>
+        Hier wird es bald Links geben
     </ui:define>
 </ui:composition>

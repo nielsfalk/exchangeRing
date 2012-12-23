@@ -46,6 +46,7 @@ public class UserSession implements Serializable{
         User user = InitTestData.findUser(id);
         if (user != null && user.getPassword().equals(password)) {
             this.user = user;
+            new Context().leavePublicEvents();
         }
         LOGGER.info(isLoggedIn() ? id + " logged in" : "tried to login " + id);
         id = null;

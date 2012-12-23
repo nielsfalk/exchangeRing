@@ -35,9 +35,17 @@ Environmental damage caused by the use must be kept as small as possible.
             <p>echte Informationen erhällst du auf http://www.tauschring-hamburg.org/</p>
         </p:panel>
 
-        <p:panel header="Tauschring Hamburg" rendered="#{userSession.notLoggedIn}">
-            Hier wird eine übersichtsseite mit Terminen entstehen.
-            Bei Login werden jew. die aktuellsten 3 Überweisungen, neuste Mitglieder, neusten Angebote ... zu sehen sein.
+        <p:panel header="Die wunderbare Welt des Tauschens" rendered="#{userSession.notLoggedIn}">
+            <p>Herzlich Willkommen beim Tauschring Hamburg</p>
+            <p>Hier kannst Du alles über unseren Tauschring erfahren:</p>
+            <ul>
+                <li>Wie funktioniert das <a title="Was ist ein Tauschring?" href="${pageContext.request.servletPath}/ring.xhtml">Tauschen</a></li>
+                <li>Welche <a title="Die Tauschringzeitung: Mottenmarkt" href="${pageContext.request.servletPath}/news.xhtml">Angebote und Gesuche</a> gibt es zur Zeit</li>
+                <li>Wo <a title="Unsere Treffpunkte" href="${pageContext.request.servletPath}/publicEvents.xhtml">treffen wir uns</a>, um persönlichen Kontakt aufzunehmen</li>
+                <li>Wie und wo kannst Du <a title="Hier kann ich Mitglied werden" href="${pageContext.request.servletPath}/signUp.xhtml">Mitglied</a> werden</li>
+            </ul>
+            <p>Wir freuen uns über <a title="Wie kannst Du uns erreichen?" href="/impressum.xhtml">Anfragen und Anregungen</a>!</p>
+
         </p:panel>
 
         <h:panelGroup layout="block" class="horizontalFloatContainer" rendered="#{userSession.loggedIn}">

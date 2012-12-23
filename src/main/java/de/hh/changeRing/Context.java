@@ -16,7 +16,6 @@ import javax.faces.event.PhaseEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Logger;
@@ -224,11 +223,17 @@ public class Context {
         return url;
     }
 
-    private String getRequestedURI() {
+    public String getRequestedURI() {
         if (requestURI == null) {
             requestURI = getRequest().getRequestURI();
         }
         return requestURI;
+    }
+
+    public void leavePublicEvents(){
+        if (getViewId().startsWith("/publicEvennts")){
+            getViewRoot().setViewId("/internal/events/browse.xhtml");
+        }
     }
 
     public HttpServletRequest getRequest() {
@@ -264,5 +269,14 @@ public class Context {
     public static String activeMenu(String viewIdPrefix) {
         return new Context().getViewId().substring(1).startsWith(viewIdPrefix)
                 ? UserSession.ACTIVE_CSS_CLASS : "";
+    }
+
+    public static String eventRedirectIdLoggedIn() {
+        Context context = new Context();
+        UserSession session = context.getNamedBean(UserSession.class);
+        if (session.isLoggedIn()){
+            context.redirect("/internal/events/browse.xhtml");
+        }
+        return "";
     }
 }

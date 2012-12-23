@@ -31,4 +31,14 @@ public enum EventType {
         }
         return result;
     }
+
+    public static List<String> publicTypes() {
+        List<String> result = new ArrayList<String>();
+        for (EventType eventType : EventType.values()) {
+            if (eventType != EventType.individual) {
+                result.add(eventType.name());
+            }
+        }
+        return result;
+    }
 }

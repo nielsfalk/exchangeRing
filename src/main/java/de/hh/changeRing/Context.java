@@ -134,6 +134,7 @@ public class Context {
     <T> T getNamedBean(Class<T> type) {
         String typeSimpleName = type.getSimpleName();
         String beanName = Character.toLowerCase(typeSimpleName.charAt(0)) + typeSimpleName.substring(1);
+        //noinspection unchecked
         return (T) getElResolver().getValue(getElContext(), null, beanName);
     }
 

@@ -134,7 +134,7 @@ public enum Category {
         result.addMenuItem(root);
         MenuItem typeItem = new MenuItem();
         typeItem.setValue(type.plural);
-        typeItem.setUrl(this.root.getBrowseUrl(type));
+        typeItem.setUrl(Category.root.getBrowseUrl(type));
         result.addMenuItem(typeItem);
 
         Category[] thisWithParents = this.thisWithParents.toArray(new Category[this.thisWithParents.size()]);

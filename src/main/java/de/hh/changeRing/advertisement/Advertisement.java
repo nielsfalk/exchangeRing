@@ -103,7 +103,7 @@ public class Advertisement extends BaseEntity {
 
     public static enum AdvertisementType {
         offer("Angebot", "Angobote"), request("Gesuch", "Gesuche");
-        private String translation;
+        private final String translation;
         public final String plural;
 
         AdvertisementType(String translation, String plural) {

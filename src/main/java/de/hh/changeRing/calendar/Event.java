@@ -39,7 +39,8 @@ public class Event extends BaseEntity {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	@Temporal(TIMESTAMP)
+	@SuppressWarnings("JpaDataSourceORMInspection")
+    @Temporal(TIMESTAMP)
     @Column(name = "event_date")
 	private Date when;
 

@@ -50,6 +50,7 @@ public class UserSession implements Serializable{
         LOGGER.info(isLoggedIn() ? id + " logged in" : "tried to login " + id);
         id = null;
         password = null;
+        //noinspection ConstantConditions
         message(isLoggedIn() ? ("Wilkommen " + user.getDisplayName() + "!") : "Id oder Passwort falsch");
     }
 

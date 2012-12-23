@@ -93,7 +93,7 @@ public class EventModel implements Serializable {
 
     public static enum TimeFilter {
         future("Kommende"), past("Vergangene");
-        private String translation;
+        private final String translation;
 
         TimeFilter(String translation) {
             this.translation = translation;

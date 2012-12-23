@@ -366,6 +366,11 @@ public class InitTestData {
         return filterFirst(count, orderedFilteredEvents);
     }
 
+    public static List<Event> getNextEventsPublic(int count) {
+        List<Event> orderedFilteredEvents = getFilteredAndOrderedEvents(EventModel.TimeFilter.future, EventType.publicTypes());
+        return filterFirst(count, orderedFilteredEvents);
+    }
+
     private static <T> List<T> filterFirst(int count, List<T> orderedItems) {
         Iterator<T> itemIterator = orderedItems.iterator();
         int availableCount = orderedItems.size();

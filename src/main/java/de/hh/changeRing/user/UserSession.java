@@ -68,6 +68,11 @@ public class UserSession implements Serializable{
         return InitTestData.getNextEventsInternal(count);
     }
 
+    public List<Event> getNextEventsPublic(int count) {
+        return InitTestData.getNextEventsPublic(count);
+    }
+
+
     public void updateUser() {
     }
 
@@ -105,6 +110,10 @@ public class UserSession implements Serializable{
 
     public List<Event> getNext3EventsInternal() {
         return getNextEventsInternal(3);
+    }
+
+    public List<Event> getNext3EventsPublic() {
+        return getNextEventsPublic(3);
     }
 
     public List<User> getNewestMembers8() {

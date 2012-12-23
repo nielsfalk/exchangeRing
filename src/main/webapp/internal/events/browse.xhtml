@@ -26,7 +26,8 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:r="http://www.tauschring-hamburg.org/public/ring">
     <f:metadata>
         <f:viewParam name="timeFilter" value="#{eventModel.timeFilter}"/>
     </f:metadata>
@@ -61,11 +62,7 @@ Environmental damage caused by the use must be kept as small as possible.
                 <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
                     <h:outputText value="Enladender:"/>
                     <h:panelGroup>
-                        <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{event.user.id}">
-                            <img src="#{event.user.gravatarHeaderUrl51}"
-                                 alt="avatar #{event.user.displayName}"/>
-                            <h:outputText value="   #{event.user.id} - #{event.user.displayName}"/>
-                        </a>
+                        <r:gravatar user="#{event.user}" showUserId="true" showDisplayName="true"/>
                     </h:panelGroup>
                     <h:outputText value="Zeit:"/>
                     <h:outputText value="#{event.period}"/>

@@ -1,6 +1,5 @@
 package de.hh.changeRing.jsfExtension;
 
-import de.hh.changeRing.Context;
 import de.hh.changeRing.user.User;
 
 import javax.faces.component.FacesComponent;
@@ -47,13 +46,9 @@ public class GravatarTag extends UIComponentBase {
         if (Boolean.FALSE.equals(this.getAttributes().get("rendered"))) {
             return;
         }
-        String doLinkStr = (String) this.getAttributes().get("doLink");
-        String noNameStr = (String) this.getAttributes().get("noName");
         String sizeString = (String) this.getAttributes().get("size");
         int size = sizeString==null?80:Integer.parseInt(sizeString);
         User user = (User) this.getAttributes().get("user");
-        boolean doLink = doLinkStr == null || Boolean.valueOf(doLinkStr);
-        boolean noName = noNameStr != null && Boolean.valueOf(noNameStr);
 
         ResponseWriter writer = context.getResponseWriter();
         writer.startElement("a", this);
@@ -70,15 +65,33 @@ public class GravatarTag extends UIComponentBase {
                 writer.writeAttribute(key, value, null);
             }
         }
-        if (doLink && ! noName){
+        boolean noName = getBooleanAttribute("noName", false);
+        if (getBooleanAttribute("doLink", true) && ! noName){
             writer.writeAttribute("href",user.getLink(),null);
         }
 
         writer.startElement("img", this);
         writer.writeAttribute("src", user.getGravatarUrl(size), null);
         if (!noName){
-            writer.writeAttribute("alt", user.getDisplayName(), null);
+            writer.writeAttribute("alt", "avatar: "+ user.getDisplayName(), null);
+        }
+        boolean showUserId = getBooleanAttribute("showUserId", false);
+        boolean showDisplayName = getBooleanAttribute("showDisplayName", false);
+        if (showUserId) {
+            writer.write(" "+user.getId());
+            if (showDisplayName){
+                writer.write(" - ");
+            }
+        }
+        if (showDisplayName){
+            writer.write(user.getDisplayName());
         }
         writer.endElement("img");
+        writer.endElement("a");
+    }
+
+    private boolean getBooleanAttribute(String key, boolean defaultValue) {
+        String valueStr = (String) this.getAttributes().get(key);
+        return valueStr == null ? defaultValue : Boolean.valueOf(valueStr);
     }
 }

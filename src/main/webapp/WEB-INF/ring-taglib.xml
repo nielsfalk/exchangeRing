@@ -74,6 +74,16 @@
             <type>boolean</type>
         </attribute>
         <attribute>
+            <name>showUserId</name>
+            <required>false</required>
+            <type>boolean</type>
+        </attribute>
+        <attribute>
+            <name>showDisplayName</name>
+            <required>false</required>
+            <type>boolean</type>
+        </attribute>
+        <attribute>
             <description>
                 The component identifier for this component. This value must be
                 unique within the closest parent component that is a naming

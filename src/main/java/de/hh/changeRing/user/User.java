@@ -287,30 +287,13 @@ public class User extends BaseEntity {
         }.sortedCopy(depotItems);
     }
 
-    public String getGravatarUrl30() {
-        return getGravatarUrl(30);
-    }
-
     public String getGravatarHeaderUrl51() {
         return getGravatarUrl(51);
-    }
-
-
-    public String getGravatarUrl80() {
-        return getGravatarUrl(80);
     }
 
     public String getGravatarUrl(int size) {
         return new Gravatar().setSize(size).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
                 .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
-    }
-
-    public String getGravatarUrl29() {
-        return getGravatarUrl(29);
-    }
-
-    public String getGravatarUrl250() {
-        return getGravatarUrl(250);
     }
 
     public String getDisplayName() {

@@ -104,8 +104,8 @@ public class UserSession implements Serializable{
         return getNextEventsInternal(3);
     }
 
-    public List<User> getNewestMembers9() {
-        return getNewestMembers(9);
+    public List<User> getNewestMembers8() {
+        return getNewestMembers(8);
     }
 
     public List<Advertisement> getNewestRequests() {

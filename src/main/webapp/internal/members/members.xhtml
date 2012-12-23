@@ -26,17 +26,23 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:r="http://www.tauschring-hamburg.org/public/ring">
     <ui:define name="contentWithoutMenu">
         <p:panel header="Mitglieder">
             <p:dataTable id="memberTable" var="member" value="#{userModel.members}"
                          styleClass="ui-corner-all">
+                <p:column id="memberAvatar">
+                    <f:facet name="header">
+                        <h:outputText value="Avatar"/>
+                    </f:facet>
+                    <r:gravatar user="#{member}"/>
+                </p:column>
                 <p:column id="memberId" sortBy="#{member.id}">
                     <f:facet name="header">
                         <h:outputText value="ID"/>
                     </f:facet>
                     <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{member.id}">
-                        <img src="#{member.gravatarHeaderUrl51}" alt="avatar #{member.displayName}"/>
                         <h:outputText value="#{member.id}"/>
                     </a>
                 </p:column>

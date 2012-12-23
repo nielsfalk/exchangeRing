@@ -150,14 +150,18 @@ Environmental damage caused by the use must be kept as small as possible.
         </h:panelGroup>
 
         <p:panel header="Neuste Mitglieder" rendered="#{userSession.loggedIn}">
-            <ui:repeat value="#{userSession.newestMembers9}" var="member">
-                <r:gravatar user="#{member}"/>
-            </ui:repeat>
+            <div style="text-align: center">
+                <ui:repeat value="#{userSession.newestMembers8}" var="member">
+                    <r:gravatar user="#{member}" style="margin: 7px"/>
+                </ui:repeat>
+            </div>
         </p:panel>
         <p:panel header="Neuste Mitglieder" rendered="#{userSession.notLoggedIn}">
-            <ui:repeat value="#{userSession.newestMembers9}" var="member">
-                <r:gravatar user="#{member}" noName="true"/>
-            </ui:repeat>
+            <div style="text-align: center">
+                <ui:repeat value="#{userSession.newestMembers8}" var="member">
+                    <r:gravatar user="#{member}" style="margin: 7px" noName="true"/>
+                </ui:repeat>
+            </div>
         </p:panel>
 
 

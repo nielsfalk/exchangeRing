@@ -26,7 +26,8 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:r="http://www.tauschring-hamburg.org/public/ring">
 
     <f:metadata>
         <f:viewParam name="type" value="#{advertisementModel.type}"/>
@@ -44,11 +45,7 @@ Environmental damage caused by the use must be kept as small as possible.
                 <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
                     <h:outputText value="User:"/>
                     <h:panelGroup>
-                        <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{adToShow.owner.id}">
-                            <img src="#{adToShow.owner.gravatarHeaderUrl51}"
-                                 alt="avatar #{adToShow.owner.displayName}"/>
-                            <h:outputText value="#{adToShow.owner.id}"/>
-                        </a>
+                        <r:gravatar user="#{adToShow.owner}" size="51" showUserId="true"/>
                     </h:panelGroup>
 
                     <h:outputText value="Name:"/>

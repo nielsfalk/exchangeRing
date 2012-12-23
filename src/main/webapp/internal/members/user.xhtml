@@ -26,7 +26,8 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:r="http://www.tauschring-hamburg.org/public/ring">
 <ui:define name="contentWithMenu">
 <f:metadata>
     <f:viewParam name="userId" value="#{userModel.selectedUserId}"/>
@@ -37,7 +38,7 @@ Environmental damage caused by the use must be kept as small as possible.
         <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
             <h:outputText value="Avatar:"/>
             <h:panelGroup>
-                <img src="#{userModel.selectedUser.gravatarUrl250}" alt="avatar"/>
+                <r:gravatar user="#{userModel.selectedUser}" size="250" doLink="false"/>
                 <ui:fragment rendered="#{userModel.me}">
                     <p>Der Avatar lässt sich auf <a href="http://de.gravatar.com/">gravatar.com</a> ändern.</p>
 

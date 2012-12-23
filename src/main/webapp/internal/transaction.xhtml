@@ -26,7 +26,8 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:r="http://www.tauschring-hamburg.org/public/ring">
     <ui:define name="contentWithMenu">
         <f:metadata>
             <f:viewParam name="clear" value="#{transactionCreator.clear}"/>
@@ -47,7 +48,7 @@ Environmental damage caused by the use must be kept as small as possible.
                                        itemValue="#{potentialReceiver}"/>
 
                         <p:column>
-                            <img src="#{p.gravatarUrl30}" alt="avatar #{p.displayName}"/>
+                            <r:gravatar user="#{p}" doLink="false"/>
                         </p:column>
 
                         <p:column>

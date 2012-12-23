@@ -24,7 +24,8 @@ Environmental damage caused by the use must be kept as small as possible.
 <ui:composition template="/decorators/noMenuDecorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:r="http://www.tauschring-hamburg.org/public/ring">
     <ui:define name="contentWithoutMenu">
         <div class="menuContainer">
             <p:menu style="width:180px;" id="topAdMenu">
@@ -32,15 +33,15 @@ Environmental damage caused by the use must be kept as small as possible.
                 <p:separator/>
 
 
-                <p:menuitem styleClass="#{userSession.activeMenu('internal/events/browse')}" value="Anzeigen"
+                <p:menuitem styleClass="#{r:activeMenu('internal/events/browse')}" value="Anzeigen"
                             url="/internal/events/browse.xhtml"
                             icon="ui-icon-calendar"/>
 
-                <p:menuitem styleClass="#{userSession.activeMenu('internal/events/create')}" value="Erstellen"
+                <p:menuitem styleClass="#{r:activeMenu('internal/events/create')}" value="Erstellen"
                             url="/internal/events/create.xhtml"
                             icon="ui-icon-document"/>
 
-                <p:menuitem styleClass="#{userSession.activeMenu('internal/events/abo')}" value="Abbonieren"
+                <p:menuitem styleClass="#{r:activeMenu('internal/events/abo')}" value="Abbonieren"
                             url="/internal/events/abo.xhtml"
                             icon="ui-icon-star"/>
             </p:menu>

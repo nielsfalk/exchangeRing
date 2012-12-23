@@ -25,50 +25,51 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:r="http://www.tauschring-hamburg.org/public/ring">
     <ui:define name="content">
         <div class="container">
             <div class="menuContainer">
                 <p:menu id="mainMenu">
 
-                    <p:menuitem styleClass="#{userSession.activeMenu('dashboard')}" value="Dashboard"
+                    <p:menuitem styleClass="#{r:activeMenu('dashboard')}" value="Dashboard"
                                 url="/dashboard.xhtml" icon="ui-icon-home"/>
 
-                    <p:menuitem styleClass="#{userSession.activeMenu('internal/events/')}"
+                    <p:menuitem styleClass="#{r:activeMenu('internal/events/')}"
                                 value="Termine"
                                 url="/internal/events/browse.xhtml"
                                 icon="ui-icon-calendar" rendered="#{userSession.loggedIn}"/>
 
-                    <p:menuitem styleClass="#{userSession.activeMenu('publicEvents')}" value="Termine"
+                    <p:menuitem styleClass="#{r:activeMenu('publicEvents')}" value="Termine"
                                 url="/publicEvents.xhtml"
                                 icon="ui-icon-calendar" rendered="#{userSession.notLoggedIn}"/>
 
-                    <p:menuitem styleClass="#{userSession.activeMenu('signUp')}" value="Mitglied werden"
+                    <p:menuitem styleClass="#{r:activeMenu('signUp')}" value="Mitglied werden"
                                 url="/signUp.xhtml"
                                 icon="ui-icon-person" rendered="#{userSession.notLoggedIn}"/>
 
-                    <p:menuitem styleClass="#{userSession.activeMenu('internal/advertisements/')}" value="Anzeigen"
+                    <p:menuitem styleClass="#{r:activeMenu('internal/advertisements/')}" value="Anzeigen"
                                 url="/internal/advertisements/browse.xhtml?type=offer&amp;category=root"
                                 icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
 
-                    <p:menuitem styleClass="#{userSession.activeMenu('internal/members')}" value="Mitglieder"
+                    <p:menuitem styleClass="#{r:activeMenu('internal/members')}" value="Mitglieder"
                                 url="/internal/members/members.xhtml"
                                 icon="ui-icon-person" rendered="#{userSession.loggedIn}"/>
 
-                    <p:menuitem styleClass="#{userSession.activeMenu('ring')}" value="Tauschring" url="/ring.xhtml"
+                    <p:menuitem styleClass="#{r:activeMenu('ring')}" value="Tauschring" url="/ring.xhtml"
                                 icon="ui-icon-refresh"/>
 
-                    <p:menuitem styleClass="#{userSession.activeMenu('who')}" value="Wer sind wir" url="/who.xhtml"
+                    <p:menuitem styleClass="#{r:activeMenu('who')}" value="Wer sind wir" url="/who.xhtml"
                                 icon="ui-icon-help"/>
 
-                    <p:menuitem styleClass="#{userSession.activeMenu('news')}" value="Tauschringzeitung"
+                    <p:menuitem styleClass="#{r:activeMenu('news')}" value="Tauschringzeitung"
                                 url="/news.xhtml"
                                 icon="ui-icon-document"/>
 
-                    <p:menuitem styleClass="#{userSession.activeMenu('links')}" value="Links" url="/links.xhtml"
+                    <p:menuitem styleClass="#{r:activeMenu('links')}" value="Links" url="/links.xhtml"
                                 icon="ui-icon-link"/>
 
-                    <p:menuitem styleClass="#{userSession.activeMenu('impressum')}" value="Kontakt &amp; Impressum"
+                    <p:menuitem styleClass="#{r:activeMenu('impressum')}" value="Kontakt &amp; Impressum"
                                 url="/impressum.xhtml"
                                 icon="ui-icon-comment"/>
                 </p:menu>

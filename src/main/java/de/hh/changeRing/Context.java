@@ -259,4 +259,9 @@ public class Context {
     public static String longFormatGermanDate(Date when) {
         return when == null ? "" : new SimpleDateFormat("EE, dd.MM.yy").format(when);
     }
+
+    public static String activeMenu(String viewIdPrefix) {
+        return new Context().getViewId().substring(1).startsWith(viewIdPrefix)
+                ? UserSession.ACTIVE_CSS_CLASS : "";
+    }
 }

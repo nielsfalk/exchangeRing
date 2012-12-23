@@ -68,7 +68,7 @@ public class UserSession implements Serializable{
     public void updateUser() {
     }
 
-    public String activeMenu(String viewIdPrefix) {
+    public static String activeMenu(String viewIdPrefix) {
         return new Context().getViewId().substring(1).startsWith(viewIdPrefix)
                 ? ACTIVE_CSS_CLASS : "";
     }

@@ -65,7 +65,7 @@ public class Context {
     private String viewId;
     private javax.el.ELResolver elResolver;
 
-    private Context(FacesContext context) {
+    public Context(FacesContext context) {
         this.context = context;
     }
 

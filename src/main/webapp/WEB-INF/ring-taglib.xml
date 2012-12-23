@@ -48,4 +48,68 @@
         <function-class>de.hh.changeRing.Context</function-class>
         <function-signature>java.lang.String activeMenu(java.lang.String)</function-signature>
     </function>
+    <tag>
+        <tag-name>gravatar</tag-name>
+        <component>
+            <component-type>GravatarTag</component-type>
+        </component>
+        <attribute>
+            <name>user</name>
+            <required>true</required>
+            <type>de.hh.changeRing.user.User</type>
+        </attribute>
+        <attribute>
+            <name>size</name>
+            <required>false</required>
+            <type>java.lang.Integer</type>
+        </attribute>
+        <attribute>
+            <name>doLink</name>
+            <required>false</required>
+            <type>boolean</type>
+        </attribute>
+        <attribute>
+            <name>noName</name>
+            <required>false</required>
+            <type>boolean</type>
+        </attribute>
+        <attribute>
+            <description>
+                The component identifier for this component. This value must be
+                unique within the closest parent component that is a naming
+                container.
+            </description>
+            <name>imgId</name>
+            <required>false</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>
+                Flag indicating whether or not this component should be rendered
+                (during Render Response Phase), or processed on any subsequent
+                form submit. The default value for this property is true.
+            </description>
+            <name>rendered</name>
+            <required>false</required>
+            <type>boolean</type>
+        </attribute>
+        <attribute>
+            <description>
+                CSS style(s) to be applied when this component is rendered.
+            </description>
+            <name>style</name>
+            <required>false</required>
+            <type>java.lang.String</type>
+        </attribute>
+        <attribute>
+            <description>
+                Space-separated list of CSS style class(es) to be applied when
+                this element is rendered. This value must be passed through
+                as the "class" attribute on generated markup.
+            </description>
+            <name>styleClass</name>
+            <required>false</required>
+            <type>java.lang.String</type>
+        </attribute>
+    </tag>
 </facelet-taglib>

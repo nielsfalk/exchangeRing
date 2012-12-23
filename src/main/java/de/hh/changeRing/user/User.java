@@ -300,7 +300,7 @@ public class User extends BaseEntity {
         return getGravatarUrl(80);
     }
 
-    private String getGravatarUrl(int size) {
+    public String getGravatarUrl(int size) {
         return new Gravatar().setSize(size).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
                 .setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
     }
@@ -341,6 +341,10 @@ public class User extends BaseEntity {
             }
         }.sortedCopy(getDepotItems());
         return sorted.isEmpty() ? null : sorted.get(0);
+    }
+
+    public String getLink() {
+        return "/internal/members/user.xhtml?userId="+getId();
     }
 
     @SuppressWarnings("CanBeFinal")

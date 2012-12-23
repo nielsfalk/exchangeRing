@@ -47,8 +47,7 @@ Environmental damage caused by the use must be kept as small as possible.
                         <ui:repeat value="#{userSession.next3EventsInternal}" var="event">
                             <tr>
                                 <td>
-                                    <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{event.user.id}"><img
-                                            src="#{event.user.gravatarUrl29}" alt="#{event.user.displayName}"/></a>
+                                    <r:gravatar user="#{event.user}" size="29"/>
                                 </td>
                                 <td><h:outputText value="#{event.dashboardDate}"/></td>
                                 <td style="text-align: center"><h:outputText value="#{event.period}"/></td>
@@ -71,10 +70,7 @@ Environmental damage caused by the use must be kept as small as possible.
                     <table class="borderlessTable">
                         <tr>
                             <td rowspan="5">
-                                <a href="${pageContext.request.servletPath}/internal/account.xhtml">
-                                    <img alt="#{userSession.user.newestDepotItem.other.displayName}"
-                                         src="#{userSession.user.newestDepotItem.other.gravatarUrl80}"/>
-                                </a>
+                                <r:gravatar user="#{userSession.user.newestDepotItem.other}" doLink="false"/>
                             </td>
                         </tr>
                         <tr>
@@ -112,9 +108,7 @@ Environmental damage caused by the use must be kept as small as possible.
                     <ui:repeat value="#{userSession.newestRequests}" var="advertisement">
                         <tr>
                             <td>
-                                <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{advertisement.owner.id}"><img
-                                        src="#{advertisement.owner.gravatarUrl29}"
-                                        alt="#{advertisement.owner.displayName}"/></a>
+                                <r:gravatar user="#{advertisement.owner}" size="29"/>
                             </td>
                             <td>
                                 <a href="#{advertisement.browseUrl}">
@@ -137,9 +131,7 @@ Environmental damage caused by the use must be kept as small as possible.
                     <ui:repeat value="#{userSession.newestOffers}" var="advertisement">
                         <tr>
                             <td>
-                                <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{advertisement.owner.id}"><img
-                                        src="#{advertisement.owner.gravatarUrl29}"
-                                        alt="#{advertisement.owner.displayName}"/></a>
+                                <r:gravatar user="#{advertisement.owner}" size="29"/>
                             </td>
                             <td>
                                 <a href="#{advertisement.browseUrl}">
@@ -159,13 +151,12 @@ Environmental damage caused by the use must be kept as small as possible.
 
         <p:panel header="Neuste Mitglieder" rendered="#{userSession.loggedIn}">
             <ui:repeat value="#{userSession.newestMembers9}" var="member">
-                <a href="${pageContext.request.servletPath}/internal/members/user.xhtml?userId=#{member.id}"><img
-                        src="#{member.gravatarUrl80}" alt="#{member.displayName}"/></a>
+                <r:gravatar user="#{member}"/>
             </ui:repeat>
         </p:panel>
         <p:panel header="Neuste Mitglieder" rendered="#{userSession.notLoggedIn}">
             <ui:repeat value="#{userSession.newestMembers9}" var="member">
-                <img src="#{member.gravatarUrl80}"/>
+                <r:gravatar user="#{member}" noName="true"/>
             </ui:repeat>
         </p:panel>
 

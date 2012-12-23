@@ -68,11 +68,6 @@ public class UserSession implements Serializable{
     public void updateUser() {
     }
 
-    public static String activeMenu(String viewIdPrefix) {
-        return new Context().getViewId().substring(1).startsWith(viewIdPrefix)
-                ? ACTIVE_CSS_CLASS : "";
-    }
-
     public boolean isNotLoggedIn() {
         return user == null;
     }

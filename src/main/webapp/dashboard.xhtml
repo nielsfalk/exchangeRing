@@ -48,6 +48,26 @@ Environmental damage caused by the use must be kept as small as possible.
 
         </p:panel>
 
+        <p:panel header="Kommende Termine" rendered="#{userSession.notLoggedIn}">
+            <div style="text-align: center">
+                <table class="borderlessTable">
+                    <ui:repeat value="#{userSession.next3EventsPublic}" var="event">
+                        <tr>
+                            <td>
+                                <r:gravatar user="#{event.user}" size="29" doLink="false"/>
+                            </td>
+                            <td><h:outputText value="#{event.dashboardDate}"/></td>
+                            <td style="text-align: center"><h:outputText value="#{event.period}"/></td>
+                            <td><h:outputText value="#{event.displayTitle}"/></td>
+                        </tr>
+                    </ui:repeat>
+                </table>
+                <a href="${pageContext.request.servletPath}/publicEvents.xhtml">Details und weitere Termine</a>
+                Vollständige Terminliste nur im eingeloggten Bereich.
+            </div>
+        </p:panel>
+
+
         <h:panelGroup layout="block" class="horizontalFloatContainer" rendered="#{userSession.loggedIn}">
             <p:panel header="Kommende Termine" rendered="#{userSession.loggedIn}" style="width: 510px; float: left">
                 <div style="text-align: center">
@@ -63,7 +83,7 @@ Environmental damage caused by the use must be kept as small as possible.
                             </tr>
                         </ui:repeat>
                     </table>
-                    <a href="${pageContext.request.servletPath}/internal/events/browse.xhtml">Details und weitere Termine</a>
+                    <a href="${pageContext.request.servletPath}/internal/events/browse.xhtml">Details und weitere Termine.</a>
                 </div>
             </p:panel>
 
@@ -103,11 +123,6 @@ Environmental damage caused by the use must be kept as small as possible.
                 </ui:fragment>
             </p:panel>
         </h:panelGroup>
-
-
-        <p:panel header="Kommende Termine" rendered="#{userSession.notLoggedIn}">
-            weitere Termine sind im eingeloggten Bereich sichtbar.
-        </p:panel>
 
 
         <h:panelGroup layout="block" class="horizontalFloatContainer" rendered="#{userSession.loggedIn}">

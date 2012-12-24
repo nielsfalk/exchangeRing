@@ -1,12 +1,15 @@
 package de.hh.changeRing.jsfExtension;
 
 import de.hh.changeRing.user.User;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import java.io.IOException;
+
+import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -84,7 +87,7 @@ public class GravatarTag extends UIComponentBase {
             }
         }
         if (showDisplayName){
-            writer.write(user.getDisplayName());
+            writer.write(escapeHtml(user.getDisplayName()));
         }
         writer.endElement("img");
         writer.endElement("a");

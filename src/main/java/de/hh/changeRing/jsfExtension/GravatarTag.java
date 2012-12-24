@@ -45,7 +45,7 @@ public class GravatarTag extends UIComponentBase {
     }
 
     @Override
-    public void encodeEnd(FacesContext context) throws IOException {
+    public void encodeBegin(FacesContext context) throws IOException {
         if (Boolean.FALSE.equals(this.getAttributes().get("rendered"))) {
             return;
         }
@@ -90,6 +90,11 @@ public class GravatarTag extends UIComponentBase {
             writer.write(escapeHtml(user.getDisplayName()));
         }
         writer.endElement("img");
+    }
+
+    @Override
+    public void encodeEnd(FacesContext context) throws IOException {
+        ResponseWriter writer = context.getResponseWriter();
         writer.endElement("a");
     }
 

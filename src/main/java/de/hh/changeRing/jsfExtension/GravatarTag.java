@@ -94,6 +94,9 @@ public class GravatarTag extends UIComponentBase {
 
     @Override
     public void encodeEnd(FacesContext context) throws IOException {
+        if (Boolean.FALSE.equals(this.getAttributes().get("rendered"))) {
+            return;
+        }
         ResponseWriter writer = context.getResponseWriter();
         writer.endElement("a");
     }

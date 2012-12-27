@@ -1,7 +1,6 @@
 package de.hh.changeRing.jsfExtension;
 
 import de.hh.changeRing.user.User;
-import org.apache.commons.lang.StringEscapeUtils;
 
 import javax.faces.component.FacesComponent;
 import javax.faces.component.UIComponentBase;
@@ -49,9 +48,6 @@ public class GravatarTag extends UIComponentBase {
         if (Boolean.FALSE.equals(this.getAttributes().get("rendered"))) {
             return;
         }
-        String sizeString = (String) this.getAttributes().get("size");
-        int size = sizeString==null?80:Integer.parseInt(sizeString);
-        User user = (User) this.getAttributes().get("user");
 
         ResponseWriter writer = context.getResponseWriter();
         writer.startElement("a", this);
@@ -68,17 +64,18 @@ public class GravatarTag extends UIComponentBase {
                 writer.writeAttribute(key, value, null);
             }
         }
+        User user = (User) this.getAttributes().get("user");
         boolean noName = getBooleanAttribute("noName", false);
         if (getBooleanAttribute("doLink", true) && ! noName){
             writer.writeAttribute("href",user.getLink(),null);
         }
 
         writer.startElement("img", this);
-        writer.writeAttribute("src", user.getGravatarUrl(size), null);
+        writer.writeAttribute("src", user.getGravatarUrl(getIntegerAttribute("size", 80)), null);
         if (!noName){
             writer.writeAttribute("alt", "avatar: "+ user.getDisplayName(), null);
         }
-        boolean showUserId = getBooleanAttribute("showUserId", false);
+        boolean showUserId = getBooleanAttribute("showUserId", Boolean.FALSE);
         boolean showDisplayName = getBooleanAttribute("showDisplayName", false);
         if (showUserId) {
             writer.write(" "+user.getId());
@@ -104,5 +101,10 @@ public class GravatarTag extends UIComponentBase {
     private boolean getBooleanAttribute(String key, boolean defaultValue) {
         String valueStr = (String) this.getAttributes().get(key);
         return valueStr == null ? defaultValue : Boolean.valueOf(valueStr);
+    }
+
+    private int getIntegerAttribute(String key, int defaultValue) {
+        String sizeString = (String) this.getAttributes().get(key);
+        return sizeString==null? defaultValue :Integer.parseInt(sizeString);
     }
 }

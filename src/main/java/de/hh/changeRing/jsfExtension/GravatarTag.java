@@ -8,6 +8,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import java.io.IOException;
 
+import static java.lang.Boolean.FALSE;
 import static org.apache.commons.lang.StringEscapeUtils.escapeHtml;
 
 /**
@@ -45,7 +46,7 @@ public class GravatarTag extends UIComponentBase {
 
     @Override
     public void encodeBegin(FacesContext context) throws IOException {
-        if (Boolean.FALSE.equals(this.getAttributes().get("rendered"))) {
+        if (isNotRendered()) {
             return;
         }
 
@@ -66,24 +67,24 @@ public class GravatarTag extends UIComponentBase {
         }
         User user = (User) this.getAttributes().get("user");
         boolean noName = getBooleanAttribute("noName", false);
-        if (getBooleanAttribute("doLink", true) && ! noName){
-            writer.writeAttribute("href",user.getLink(),null);
+        if (getBooleanAttribute("doLink", true) && !noName) {
+            writer.writeAttribute("href", user.getLink(), null);
         }
 
         writer.startElement("img", this);
         writer.writeAttribute("src", user.getGravatarUrl(getIntegerAttribute("size", 80)), null);
-        if (!noName){
-            writer.writeAttribute("alt", "avatar: "+ user.getDisplayName(), null);
+        if (!noName) {
+            writer.writeAttribute("alt", "avatar: " + user.getDisplayName(), null);
         }
-        boolean showUserId = getBooleanAttribute("showUserId", Boolean.FALSE);
+        boolean showUserId = getBooleanAttribute("showUserId", FALSE);
         boolean showDisplayName = getBooleanAttribute("showDisplayName", false);
         if (showUserId) {
-            writer.write(" "+user.getId());
-            if (showDisplayName){
+            writer.write(" " + user.getId());
+            if (showDisplayName) {
                 writer.write(" - ");
             }
         }
-        if (showDisplayName){
+        if (showDisplayName) {
             writer.write(escapeHtml(user.getDisplayName()));
         }
         writer.endElement("img");
@@ -91,11 +92,15 @@ public class GravatarTag extends UIComponentBase {
 
     @Override
     public void encodeEnd(FacesContext context) throws IOException {
-        if (Boolean.FALSE.equals(this.getAttributes().get("rendered"))) {
+        if (isNotRendered()) {
             return;
         }
         ResponseWriter writer = context.getResponseWriter();
         writer.endElement("a");
+    }
+
+    private boolean isNotRendered() {
+        return FALSE.equals(this.getAttributes().get("rendered"));
     }
 
     private boolean getBooleanAttribute(String key, boolean defaultValue) {
@@ -105,6 +110,6 @@ public class GravatarTag extends UIComponentBase {
 
     private int getIntegerAttribute(String key, int defaultValue) {
         String sizeString = (String) this.getAttributes().get(key);
-        return sizeString==null? defaultValue :Integer.parseInt(sizeString);
+        return sizeString == null ? defaultValue : Integer.parseInt(sizeString);
     }
 }

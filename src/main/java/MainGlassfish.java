@@ -20,7 +20,7 @@ public class MainGlassfish {
 
 	public static final String POOL_NAME = "ringPool";
 
-	public static void main(String[] args) throws GlassFishException, IOException {
+    public static void main(String[] args) throws Exception {
 
 
         String webappDirLocation = "src/main/webapp/";
@@ -47,7 +47,7 @@ public class MainGlassfish {
                 .newGlassFish(gfProps);
         glassfish.start();
 
-		setupDb(args, glassfish.getCommandRunner());
+        setupDb(args, glassfish.getCommandRunner());
 
         Deployer deployer = glassfish.getDeployer();
 
@@ -60,39 +60,39 @@ public class MainGlassfish {
         deployer.deploy(archive.toURI());
     }
 
-	private static void setupDb(String[] args, CommandRunner runner) {
-		setUpPool(args, runner, POOL_NAME);
+    private static void setupDb(String[] args, CommandRunner runner) {
+        setUpPool(args, runner, POOL_NAME);
 
-		log("output of create jdbc: ", runner.run("create-jdbc-resource", "--connectionpoolid", POOL_NAME,
-				"app/jdbc/ring").getOutput());
+        log("output of create jdbc: ", runner.run("create-jdbc-resource", "--connectionpoolid", POOL_NAME,
+                "app/jdbc/ring").getOutput());
 
-		log("output of set log level: ",
-				runner.run("set-log-level",
-						"javax.enterprise.system.container.web=INFO:javax.enterprise.system.container.ejb=FINEST")
-						.getOutput());
-	}
+        log("output of set log level: ",
+                runner.run("set-log-level",
+                        "javax.enterprise.system.container.web=INFO:javax.enterprise.system.container.ejb=FINEST")
+                        .getOutput());
+    }
 
-	private static void setUpPool(String[] args, CommandRunner runner, String poolName) {
+    private static void setUpPool(String[] args, CommandRunner runner, String poolName) {
 
         String dbUrl = System.getenv("DATABASE_URL");
-		for (String arg : args) {
+        for (String arg : args) {
 
-			if(arg.startsWith("jdbc:")) {
+            if (arg.startsWith("jdbc:")) {
                 dbUrl = arg;
                 setupJdbcPool(runner, poolName, dbUrl);
-				return;
-			}
-            if(arg.startsWith("postgres:")) {
+                return;
+            }
+            if (arg.startsWith("postgres:")) {
                 dbUrl = arg;
             }
-		}
-		if (dbUrl== null) {
-			throw new RuntimeException("set DATABASE_URL or use JDCB parameter like" +
-					"MainGlassfish jdbc:h2:file:~/h2DatabaseFile;MVCC=TRUE;MODE=PostgreSQL");
-		}
+        }
+        if (dbUrl == null) {
+            throw new RuntimeException("set DATABASE_URL or use JDCB parameter like" +
+                    "MainGlassfish jdbc:h2:file:~/h2DatabaseFile;MVCC=TRUE;MODE=PostgreSQL");
+        }
         setupPostgresPool(runner, poolName, dbUrl);
 
-	}
+    }
 
     private static void setupPostgresPool(CommandRunner runner, String poolName, String dbUrl) {
         log("db url", dbUrl);
@@ -108,7 +108,7 @@ public class MainGlassfish {
 
         String properties = "user=" + user + ":password=" + password + ":databasename=" + database + ":loglevel=4:servername=" + host;
 
-        log("properties",properties);
+        log("properties", properties);
 
         log("output of create  pg conn pool: ", runner.run("create-jdbc-connection-pool", "--datasourceclassname", "org.postgresql.ds.PGSimpleDataSource", "--restype", "javax.sql.DataSource",
                 "--property", properties,
@@ -124,9 +124,8 @@ public class MainGlassfish {
         String properties = "LoginTimeout=0:URL=" + escapedDbUrl;
         log("properties: ", properties);
 
-		String datasourceClassname = dbUrl.contains("postgresql")?"org.postgresql.ds.PGPoolingDataSource":"org.h2" +
-				".jdbcx.JdbcDataSource";
-		log("output of create conn pool: ", runner.run("create-jdbc-connection-pool",
+        String datasourceClassname = dbUrl.contains("postgresql") ? "org.postgresql.ds.PGPoolingDataSource" : "org.h2.jdbcx.JdbcDataSource";
+        log("output of create conn pool: ", runner.run("create-jdbc-connection-pool",
                 "--datasourceclassname", datasourceClassname,
                 "--restype", "javax.sql.DataSource",
                 "--property", properties,
@@ -134,13 +133,13 @@ public class MainGlassfish {
     }
 
     private static void log(final String message, String dbUrl) {
-		System.out.println("-------" + message + ": " + dbUrl);
-	}
+        System.out.println("-------" + message + ": " + dbUrl);
+    }
 
-	private static String replace(String dbUrl, char separator, String joiner) {
-		Iterable<String> split = Splitter.on(separator).split(dbUrl);
-		return Joiner.on(joiner).join(split);
-	}
+    private static String replace(String dbUrl, char separator, String joiner) {
+        Iterable<String> split = Splitter.on(separator).split(dbUrl);
+        return Joiner.on(joiner).join(split);
+    }
 
     private static String postgresToJDBCUrl(String dbUrl) {
         dbUrl = dbUrl.substring(11);
@@ -152,6 +151,6 @@ public class MainGlassfish {
         String userName = userNamePwdIterator.next();
         String password = userNamePwdIterator.next();
 
-        return "jdbc:postgresql://"+hostAndDBName+"?user="+userName+"&password="+password;
+        return "jdbc:postgresql://" + hostAndDBName + "?user=" + userName + "&password=" + password;
     }
 }

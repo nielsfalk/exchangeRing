@@ -12,7 +12,7 @@ import javax.persistence.PersistenceContext;
 
 @SuppressWarnings("UnusedDeclaration")
 @Singleton
-//@Startup
+@Startup
 public class TestPersistence {
     @PersistenceContext
     EntityManager entityManager;

@@ -33,15 +33,15 @@ Environmental damage caused by the use must be kept as small as possible.
                 <p:separator/>
                 <p:menuitem styleClass="#{r:activeMenu('internal/advertisements/create')}" value="Erstellen"
                             url="/internal/advertisements/create.xhtml"
-                            icon="ui-icon-document" rendered="#{userSession.loggedIn}"/>
+                            icon="ui-icon-document" rendered="#{loggedIn}"/>
 
                 <p:menuitem styleClass="#{advertisementModel.activeMenuBrowse('offer')}" value="Angebote"
                             url="/internal/advertisements/browse.xhtml?type=offer"
-                            icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
+                            icon="ui-icon-star" rendered="#{loggedIn}"/>
 
                 <p:menuitem styleClass="#{advertisementModel.activeMenuBrowse('request')}" value="Gesuche"
                             url="/internal/advertisements/browse.xhtml?type=request"
-                            icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
+                            icon="ui-icon-star" rendered="#{loggedIn}"/>
             </p:menu>
 
             <ui:insert name="categoryBrowser"/>

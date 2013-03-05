@@ -38,23 +38,23 @@ Environmental damage caused by the use must be kept as small as possible.
                     <p:menuitem styleClass="#{r:activeMenu('internal/events/')}"
                                 value="Termine"
                                 url="/internal/events/browse.xhtml"
-                                icon="ui-icon-calendar" rendered="#{userSession.loggedIn}"/>
+                                icon="ui-icon-calendar" rendered="#{loggedIn}"/>
 
                     <p:menuitem styleClass="#{r:activeMenu('publicEvents')}" value="Termine"
                                 url="/publicEvents.xhtml"
-                                icon="ui-icon-calendar" rendered="#{userSession.notLoggedIn}"/>
+                                icon="ui-icon-calendar" rendered="#{notLoggedIn}"/>
 
                     <p:menuitem styleClass="#{r:activeMenu('signUp')}" value="Mitglied werden"
                                 url="/signUp.xhtml"
-                                icon="ui-icon-person" rendered="#{userSession.notLoggedIn}"/>
+                                icon="ui-icon-person" rendered="#{notLoggedIn}"/>
 
                     <p:menuitem styleClass="#{r:activeMenu('internal/advertisements/')}" value="Anzeigen"
                                 url="/internal/advertisements/browse.xhtml?type=offer&amp;category=root"
-                                icon="ui-icon-star" rendered="#{userSession.loggedIn}"/>
+                                icon="ui-icon-star" rendered="#{loggedIn}"/>
 
                     <p:menuitem styleClass="#{r:activeMenu('internal/members')}" value="Mitglieder"
                                 url="/internal/members/members.xhtml"
-                                icon="ui-icon-person" rendered="#{userSession.loggedIn}"/>
+                                icon="ui-icon-person" rendered="#{loggedIn}"/>
 
                     <p:menuitem styleClass="#{r:activeMenu('ring')}" value="Tauschring" url="/ring.xhtml"
                                 icon="ui-icon-refresh"/>

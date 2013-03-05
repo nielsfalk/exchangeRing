@@ -24,7 +24,7 @@ Environmental damage caused by the use must be kept as small as possible.
 <html xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:r="http://www.tauschring-hamburg.org/public/ring">
+        >
 <h:head>
     <title>Tauschring Hamburg</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -45,7 +45,8 @@ Environmental damage caused by the use must be kept as small as possible.
         <div class="container">
             <div style="width: 137px;float: left;">
                 <a href="${pageContext.request.servletPath}/dashboard.xhtml">
-                <h:graphicImage name="/img/logoGreen.png" alt="logo" styleClass="headerLogo" rendered="#{userSession.loggedIn}"/>
+                    <h:graphicImage name="/img/logoGreen.png" alt="logo" styleClass="headerLogo"
+                                    rendered="#{loggedIn}"/>
                 </a>
             </div>
             <div style="width: 400px;float: left;padding-top: 4px;">
@@ -58,7 +59,7 @@ Environmental damage caused by the use must be kept as small as possible.
 
 
             <div class="userStuff">
-                <h:form styleClass="loginForm" rendered="#{userSession.notLoggedIn}">
+                <h:form styleClass="loginForm" rendered="#{notLoggedIn}">
                     ID
                     <p:inputText id="name" value="#{userSession.id}" size="5"/>
                     Passwort
@@ -70,7 +71,7 @@ Environmental damage caused by the use must be kept as small as possible.
                 </h:form>
 
 
-                <h:form rendered="#{userSession.loggedIn}" styleClass="loggedInHeader"
+                <h:form rendered="#{loggedIn}" styleClass="loggedInHeader"
                         style="background-image: url('#{userSession.user.gravatarHeaderUrl51}')">
                     <p:splitButton value="Kontostand: #{userSession.user.balance}" url="/internal/account.xhtml"
                                    onclick="location='/internal/account.xhtml'">
@@ -88,7 +89,7 @@ Environmental damage caused by the use must be kept as small as possible.
             </div>
         </div>
     </div>
-    <h:panelGroup layout="block" styleClass="subheader" rendered="#{userSession.notLoggedIn}">
+    <h:panelGroup layout="block" styleClass="subheader" rendered="#{notLoggedIn}">
         <div class="container" style="">
             <div style="width: 180px;float: left;">
                 <a href="${pageContext.request.servletPath}/dashboard.xhtml">

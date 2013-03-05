@@ -27,7 +27,7 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:p="http://primefaces.org/ui" xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:r="http://www.tauschring-hamburg.org/public/ring">
     <ui:define name="contentWithMenu">
-        <p:panel header="!!! Testseite !!!" style="background: red" rendered="#{userSession.notLoggedIn}">
+        <p:panel header="!!! Testseite !!!" style="background: red" rendered="#{notLoggedIn}">
             <p>Dies ist lediglich der Versuch einer neuen Tauschringseite.</p>
 
             <p>Inhalte haben keinerlei Relevanz</p>
@@ -35,20 +35,29 @@ Environmental damage caused by the use must be kept as small as possible.
             <p>echte Informationen erhällst du auf http://www.tauschring-hamburg.org/</p>
         </p:panel>
 
-        <p:panel header="Die wunderbare Welt des Tauschens" rendered="#{userSession.notLoggedIn}">
+        <p:panel header="Die wunderbare Welt des Tauschens" rendered="#{notLoggedIn}">
             <p>Herzlich Willkommen beim Tauschring Hamburg</p>
+
             <p>Hier kannst Du alles über unseren Tauschring erfahren:</p>
             <ul>
-                <li>Wie funktioniert das <a title="Was ist ein Tauschring?" href="${pageContext.request.servletPath}/ring.xhtml">Tauschen</a></li>
-                <li>Welche <a title="Die Tauschringzeitung: Mottenmarkt" href="${pageContext.request.servletPath}/news.xhtml">Angebote und Gesuche</a> gibt es zur Zeit</li>
-                <li>Wo <a title="Unsere Treffpunkte" href="${pageContext.request.servletPath}/publicEvents.xhtml">treffen wir uns</a>, um persönlichen Kontakt aufzunehmen</li>
-                <li>Wie und wo kannst Du <a title="Hier kann ich Mitglied werden" href="${pageContext.request.servletPath}/signUp.xhtml">Mitglied</a> werden</li>
+                <li>Wie funktioniert das <a title="Was ist ein Tauschring?"
+                                            href="${pageContext.request.servletPath}/ring.xhtml">Tauschen</a></li>
+                <li>Welche <a title="Die Tauschringzeitung: Mottenmarkt"
+                              href="${pageContext.request.servletPath}/news.xhtml">Angebote und Gesuche</a> gibt es zur Zeit
+                </li>
+                <li>Wo <a title="Unsere Treffpunkte"
+                          href="${pageContext.request.servletPath}/publicEvents.xhtml">treffen wir uns</a>, um persönlichen Kontakt aufzunehmen
+                </li>
+                <li>Wie und wo kannst Du <a title="Hier kann ich Mitglied werden"
+                                            href="${pageContext.request.servletPath}/signUp.xhtml">Mitglied</a> werden
+                </li>
             </ul>
-            <p>Wir freuen uns über <a title="Wie kannst Du uns erreichen?" href="/impressum.xhtml">Anfragen und Anregungen</a>!</p>
+            <p>Wir freuen uns über <a title="Wie kannst Du uns erreichen?"
+                                      href="/impressum.xhtml">Anfragen und Anregungen</a>!</p>
 
         </p:panel>
 
-        <p:panel header="Kommende Termine" rendered="#{userSession.notLoggedIn}">
+        <p:panel header="Kommende Termine" rendered="#{notLoggedIn}">
             <div style="text-align: center">
                 <table class="borderlessTable">
                     <ui:repeat value="#{userSession.next3EventsPublic}" var="event">
@@ -68,8 +77,8 @@ Environmental damage caused by the use must be kept as small as possible.
         </p:panel>
 
 
-        <h:panelGroup layout="block" class="horizontalFloatContainer" rendered="#{userSession.loggedIn}">
-            <p:panel header="Kommende Termine" rendered="#{userSession.loggedIn}" style="width: 510px; float: left">
+        <h:panelGroup layout="block" class="horizontalFloatContainer" rendered="#{loggedIn}">
+            <p:panel header="Kommende Termine" rendered="#{loggedIn}" style="width: 510px; float: left">
                 <div style="text-align: center">
                     <table class="borderlessTable">
                         <ui:repeat value="#{userSession.next3EventsInternal}" var="event">
@@ -125,8 +134,8 @@ Environmental damage caused by the use must be kept as small as possible.
         </h:panelGroup>
 
 
-        <h:panelGroup layout="block" class="horizontalFloatContainer" rendered="#{userSession.loggedIn}">
-            <p:panel header="Neuste Gesuche" rendered="#{userSession.loggedIn}" style="float: left; width: 46%;">
+        <h:panelGroup layout="block" class="horizontalFloatContainer" rendered="#{loggedIn}">
+            <p:panel header="Neuste Gesuche" rendered="#{loggedIn}" style="float: left; width: 46%;">
                 <table class="borderlessTable">
                     <ui:repeat value="#{userSession.newestRequests}" var="advertisement">
                         <tr>
@@ -149,7 +158,7 @@ Environmental damage caused by the use must be kept as small as possible.
             </p:panel>
 
             <div style="width: 20px; float: left"><h:outputText value="&#160;"/></div>
-            <p:panel header="Neuste Angebote" rendered="#{userSession.loggedIn}" style="overflow: auto">
+            <p:panel header="Neuste Angebote" rendered="#{loggedIn}" style="overflow: auto">
                 <table class="borderlessTable">
                     <ui:repeat value="#{userSession.newestOffers}" var="advertisement">
                         <tr>
@@ -172,14 +181,14 @@ Environmental damage caused by the use must be kept as small as possible.
             </p:panel>
         </h:panelGroup>
 
-        <p:panel header="Neuste Mitglieder" rendered="#{userSession.loggedIn}">
+        <p:panel header="Neuste Mitglieder" rendered="#{loggedIn}">
             <div style="text-align: center">
                 <ui:repeat value="#{userSession.newestMembers8}" var="member">
                     <r:gravatar user="#{member}" style="margin: 7px"/>
                 </ui:repeat>
             </div>
         </p:panel>
-        <p:panel header="Neuste Mitglieder" rendered="#{userSession.notLoggedIn}">
+        <p:panel header="Neuste Mitglieder" rendered="#{notLoggedIn}">
             <div style="text-align: center">
                 <ui:repeat value="#{userSession.newestMembers8}" var="member">
                     <r:gravatar user="#{member}" style="margin: 7px" noName="true"/>

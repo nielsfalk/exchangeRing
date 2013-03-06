@@ -1,5 +1,6 @@
 package de.hh.changeRing.user;
 
+import de.hh.changeRing.FunctionalTest;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -38,6 +39,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(Arquillian.class)
 public class UserSessionTest extends FunctionalTest {
+
     @Deployment
     public static Archive<?> createDeployment() {
         return functionalJarWithEntities().addClasses(UserSession.class, DataPump.class);

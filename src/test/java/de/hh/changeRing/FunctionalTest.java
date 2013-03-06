@@ -1,10 +1,10 @@
-package de.hh.changeRing.user;
+package de.hh.changeRing;
 
-import de.hh.changeRing.BaseEntity;
-import de.hh.changeRing.Context;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.calendar.Event;
 import de.hh.changeRing.transaction.Transaction;
+import de.hh.changeRing.user.DepotItem;
+import de.hh.changeRing.user.User;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -16,7 +16,7 @@ public class FunctionalTest {
     public static final String PASSWORD = "321";
 
 
-    private static User createTestUser() {
+    protected static User createTestUser() {
         User result = new User();
         result.setNickName("nick");
         result.setEmail("hans@meiser.de");
@@ -24,7 +24,7 @@ public class FunctionalTest {
         return result;
     }
 
-    static JavaArchive functionalJarWithEntities() {
+    protected static JavaArchive functionalJarWithEntities() {
         return ShrinkWrap.create(JavaArchive.class, "test.jar")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")

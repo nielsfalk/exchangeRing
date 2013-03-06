@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import static de.hh.changeRing.Context.context;
+import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType.offer;
+import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType.request;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -136,10 +138,14 @@ public class UserSession implements Serializable {
     }
 
     public List<Advertisement> getNewestRequests() {
-        return InitTestData.getNewestAdvertisements(3, Advertisement.AdvertisementType.request);
+        return InitTestData.getNewestAdvertisements(3, request);
     }
 
     public List<Advertisement> getNewestOffers() {
-        return InitTestData.getNewestAdvertisements(3, Advertisement.AdvertisementType.offer);
+        return InitTestData.getNewestAdvertisements(3, offer);
+    }
+
+    public void refreshUser() {
+        user = entityManager.find(User.class, user.getId());
     }
 }

@@ -1,16 +1,20 @@
 package de.hh.changeRing.transaction;
 
-import de.hh.changeRing.Context;
 import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
 
+import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.logging.Logger;
+
+import static de.hh.changeRing.Context.context;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -36,7 +40,8 @@ import java.util.logging.Logger;
  */
 @Named
 @SessionScoped
-public class TransactionCreator implements Serializable{
+@Stateful
+public class TransactionCreator implements Serializable {
     private static final Logger LOGGER = Logger.getLogger(TransactionCreator.class.getName());
 
     private User receiver;
@@ -48,6 +53,9 @@ public class TransactionCreator implements Serializable{
     @Inject
     private UserSession session;
 
+    @PersistenceContext
+    EntityManager entityManager;
+
     private Advertisement advertisement;
 
     public String submit() {
@@ -55,14 +63,20 @@ public class TransactionCreator implements Serializable{
             amount = amount * -1;
         }
         LOGGER.info(session.getUser().getId() + " created transaction");
-        Transaction.create(session.getUser(), receiver, amount, subject).wire();
+        User owner = entityManager.find(User.class, session.getUser().getId());
+        User receiver = entityManager.find(User.class, this.receiver.getId());
+        Transaction transaction = Transaction.create(owner, receiver, amount, subject);
+        owner.execute(transaction);
+        receiver.execute(transaction);
+        session.refreshUser();
+
         setClear("clear");
         message("Überweisung Durchgeführt");
         return "/internal/transactions.xhtml";
     }
 
     protected void message(String message) {
-        new Context().addMessage(message);
+        context().addMessage(message);
     }
 
     @SuppressWarnings("UnusedDeclaration")

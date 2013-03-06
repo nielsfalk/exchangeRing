@@ -114,4 +114,21 @@ public class Transaction extends BaseEntity {
     public String getSubject() {
         return subject;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Transaction that = (Transaction) other;
+        return !(id != null ? !id.equals(that.id) : that.id != null);
+    }
+
+    @Override
+    public int hashCode() {
+        return fromId != null ? fromId.hashCode() : 0;
+    }
 }

@@ -1,17 +1,29 @@
 package de.hh.changeRing.transaction;
 
+import de.hh.changeRing.FunctionalTest;
 import de.hh.changeRing.user.DepotItem;
 import de.hh.changeRing.user.DepotItemType;
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.Archive;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static de.hh.changeRing.user.DepotItemType.in;
 import static de.hh.changeRing.user.DepotItemType.out;
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
@@ -34,31 +46,50 @@ import static org.junit.Assert.assertThat;
  * In addition, each military use, and the use for interest profit will be excluded. Environmental damage caused by the
  * use must be kept as small as possible.
  */
-public class TransactionCreatorTest {
 
-    private static final String SUBJECT = "test";
-    private TransactionCreator transactionCreator;
-    private final User owner = User.dummyUser(1L);
-    private final User receiver = User.dummyUser(2L);
+@RunWith(Arquillian.class)
+public class TransactionCreatorTest extends FunctionalTest {
+    public static final String SUBJECT = TransactionCreatorTest.class.getName();
+    private static User owner = USER;
+    private static User receiver = createTestUser();
+
+    @Deployment
+    public static Archive<?> createDeployment() {
+        return functionalJarWithEntities().addClasses(UserSession.class, TransactionCreator.class, DataPump.class);
+    }
+
+    @Inject
+    UserSession userSession;
+
+    @EJB
+    TransactionCreator transactionCreator;
+
+    @PersistenceContext
+    EntityManager entityManager;
 
     @Before
     public void login() {
-        UserSession session = new UserSession();
-        transactionCreator = new TransactionCreator() {
-            @Override
-            protected void message(String message) {
-            }
-        };
-        transactionCreator.setSession(session);
+        userSession.setId(USER.getId().toString());
+        userSession.setPassword(PASSWORD);
+        userSession.login();
     }
 
     @Test
-    public void submit() {
+    public void transaction() {
         transactionCreator.setReceiver(receiver);
         transactionCreator.setAmount(30l);
         transactionCreator.setSubject(SUBJECT);
-
         transactionCreator.submit();
+        expectTransactionProcessed();
+    }
+
+    private void expectTransactionProcessed() {
+        assertThat(userSession.getUser().getBalance(), is(-30l));
+        owner = refresh(owner);
+        receiver = refresh(receiver);
+        assertThat(owner.getBalance(), is(-30l));
+
+        assertThat(receiver.getBalance(), is(30l));
         expectBalance(owner, -30l);
         expectDepotItem(owner, -30l, receiver, out);
         expectBalance(receiver, 30l);
@@ -85,8 +116,25 @@ public class TransactionCreatorTest {
         assertThat(depotItem.getOldBalance(), is(0l));
         assertThat(depotItem.getNewBalance(), is(amount));
         assertThat(depotItem.getOther(), is(other));
-        assertThat(depotItem.getSubject(), is(SUBJECT));
+        assertThat(depotItem.getTransaction().getSubject(), is(SUBJECT));
         assertThat(depotItem.getType(), is(type));
+    }
+
+    private User refresh(User user) {
+        return entityManager.find(User.class, user.getId());
+    }
+
+    @Singleton
+    @Startup
+    public static class DataPump {
+        @PersistenceContext
+        EntityManager entityManager;
+
+        @PostConstruct
+        public void createUser() {
+            entityManager.persist(owner);
+            entityManager.persist(receiver);
+        }
     }
 
 }

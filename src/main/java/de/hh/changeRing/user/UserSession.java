@@ -6,6 +6,7 @@ import de.hh.changeRing.calendar.Event;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -145,7 +146,9 @@ public class UserSession implements Serializable {
         return InitTestData.getNewestAdvertisements(3, offer);
     }
 
-    public void refreshUser() {
-        user = entityManager.find(User.class, user.getId());
+    public void eventListener(@Observes UserUpdateEvent event) {
+        if (event.regards(user)) {
+            user = entityManager.find(User.class, user.getId());
+        }
     }
 }

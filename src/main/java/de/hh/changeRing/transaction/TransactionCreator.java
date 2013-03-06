@@ -4,9 +4,11 @@ import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
+import de.hh.changeRing.user.UserUpdateEvent;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -58,6 +60,9 @@ public class TransactionCreator implements Serializable {
 
     private Advertisement advertisement;
 
+    @Inject
+    Event<UserUpdateEvent> events;
+
     public String submit() {
         if (amount < 0) {
             amount = amount * -1;
@@ -68,7 +73,7 @@ public class TransactionCreator implements Serializable {
         Transaction transaction = Transaction.create(owner, receiver, amount, subject);
         owner.execute(transaction);
         receiver.execute(transaction);
-        session.refreshUser();
+        events.fire(new UserUpdateEvent(owner, receiver));
 
         setClear("clear");
         message("Überweisung Durchgeführt");

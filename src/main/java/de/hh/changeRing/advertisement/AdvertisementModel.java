@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import static de.hh.changeRing.user.UserSession.ACTIVE_CSS_CLASS;
+import static de.hh.changeRing.Context.ACTIVE_CSS_CLASS;
 import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType;
 import static java.util.Calendar.YEAR;
 

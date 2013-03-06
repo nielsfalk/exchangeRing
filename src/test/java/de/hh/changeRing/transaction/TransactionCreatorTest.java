@@ -43,7 +43,7 @@ public class TransactionCreatorTest {
 
     @Before
     public void login() {
-        UserSession session = new TestUserSession(owner);
+        UserSession session = new UserSession();
         transactionCreator = new TransactionCreator() {
             @Override
             protected void message(String message) {
@@ -89,10 +89,4 @@ public class TransactionCreatorTest {
         assertThat(depotItem.getType(), is(type));
     }
 
-    public static class TestUserSession extends UserSession{
-
-        public TestUserSession(User owner) {
-            user = owner;
-        }
-    }
 }

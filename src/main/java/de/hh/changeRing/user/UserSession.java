@@ -1,17 +1,20 @@
 package de.hh.changeRing.user;
 
+import de.hh.changeRing.InitTestData;
+import de.hh.changeRing.advertisement.Advertisement;
+import de.hh.changeRing.calendar.Event;
+
+import javax.ejb.Stateful;
+import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Produces;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Produces;
-import javax.inject.Named;
-
-import de.hh.changeRing.Context;
-import de.hh.changeRing.InitTestData;
-import de.hh.changeRing.advertisement.Advertisement;
-import de.hh.changeRing.calendar.Event;
+import static de.hh.changeRing.Context.context;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -33,98 +36,110 @@ import de.hh.changeRing.calendar.Event;
  */
 @Named
 @SessionScoped
+@Stateful
 public class UserSession implements Serializable {
-	private static final Logger LOGGER = Logger.getLogger(UserSession.class.getName());
-	public static final String ACTIVE_CSS_CLASS = "ui-state-active";
+    private static final Logger LOGGER = Logger.getLogger(UserSession.class.getName());
 
-	private String id, password;
-	protected User user;
+    private String id, password;
+    private User user;
 
-	public void login() {
-		User user = InitTestData.findUser(id);
-		if (user != null && user.getPassword().equals(password)) {
-			this.user = user;
-			new Context().leavePublicEvents();
-		}
-		LOGGER.info(isLoggedIn() ? id + " logged in" : "tried to login " + id);
-		id = null;
-		password = null;
-		//noinspection ConstantConditions
-		message(isLoggedIn() ? ("Wilkommen " + user.getDisplayName() + "!") : "Id oder Passwort falsch");
-		//return isLoggedIn()?"/internal/events/browse.xhtml":"";
-	}
+    @PersistenceContext
+    private
+    EntityManager entityManager;
 
-	protected void message(String message) {
-		new Context().addMessage(message);
-	}
+    public void login() {
+        User user;
+        try {
+            user = entityManager.find(User.class, Long.parseLong(this.id));
+        } catch (NumberFormatException e) {
+            List<User> resultList = entityManager.createNamedQuery("loginWithEmail", User.class).setParameter("email", id).getResultList();
+            user = resultList.isEmpty() ? null : resultList.get(0);
+        }
 
-	public List<User> getNewestMembers(int count) {
-		return InitTestData.getNewestMembers(count);
-	}
+        // User user = InitTestData.findUser(id);
+        if (user != null && user.getPassword().equals(password)) {
+            this.user = user;
+            context().leavePublicEvents();
+        }
+        LOGGER.info(isLoggedIn() ? id + " logged in" : "tried to login " + id);
+        id = null;
+        password = null;
+        //noinspection ConstantConditions
+        message(isLoggedIn() ? ("Wilkommen " + user.getDisplayName() + "!") : "Id oder Passwort falsch");
+        //return isLoggedIn()?"/internal/events/browse.xhtml":"";
+    }
 
-	public List<Event> getNextEventsInternal(int count) {
-		return InitTestData.getNextEventsInternal(count);
-	}
+    protected void message(String message) {
+        context().addMessage(message);
+    }
 
-	public List<Event> getNextEventsPublic(int count) {
-		return InitTestData.getNextEventsPublic(count);
-	}
+    public List<User> getNewestMembers(int count) {
+        return InitTestData.getNewestMembers(count);
+    }
 
-	public void updateUser() {}
+    public List<Event> getNextEventsInternal(int count) {
+        return InitTestData.getNextEventsInternal(count);
+    }
 
-	@Named
-	@Produces
-	public boolean isNotLoggedIn() {
-		return user == null;
-	}
+    public List<Event> getNextEventsPublic(int count) {
+        return InitTestData.getNextEventsPublic(count);
+    }
 
-	@Named
-	@Produces
-	public boolean isLoggedIn() {
-		return user != null;
-	}
+    public void updateUser() {}
 
-	public String getId() {
-		return id;
-	}
+    @Named
+    @Produces
+    public boolean isNotLoggedIn() {
+        return user == null;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @Named
+    @Produces
+    public boolean isLoggedIn() {
+        return user != null;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	void setUser(User user) {
-		this.user = user;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public List<Event> getNext3EventsInternal() {
-		return getNextEventsInternal(3);
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public List<Event> getNext3EventsPublic() {
-		return getNextEventsPublic(3);
-	}
+    void setUser(User user) {
+        this.user = user;
+    }
 
-	public List<User> getNewestMembers8() {
-		return getNewestMembers(8);
-	}
+    public List<Event> getNext3EventsInternal() {
+        return getNextEventsInternal(3);
+    }
 
-	public List<Advertisement> getNewestRequests() {
-		return InitTestData.getNewestAdvertisements(3, Advertisement.AdvertisementType.request);
-	}
+    public List<Event> getNext3EventsPublic() {
+        return getNextEventsPublic(3);
+    }
 
-	public List<Advertisement> getNewestOffers() {
-		return InitTestData.getNewestAdvertisements(3, Advertisement.AdvertisementType.offer);
-	}
+    public List<User> getNewestMembers8() {
+        return getNewestMembers(8);
+    }
+
+    public List<Advertisement> getNewestRequests() {
+        return InitTestData.getNewestAdvertisements(3, Advertisement.AdvertisementType.request);
+    }
+
+    public List<Advertisement> getNewestOffers() {
+        return InitTestData.getNewestAdvertisements(3, Advertisement.AdvertisementType.offer);
+    }
 }

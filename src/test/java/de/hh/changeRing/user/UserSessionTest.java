@@ -1,11 +1,21 @@
 package de.hh.changeRing.user;
 
-import static org.hamcrest.core.Is.is;
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.Archive;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import de.hh.changeRing.SuperTest;
-import de.hh.changeRing.user.UserSession;
-import org.junit.Test;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -25,46 +35,51 @@ import org.junit.Test;
  * In addition, each military use, and the use for interest profit will be excluded. Environmental damage caused by the
  * use must be kept as small as possible.
  */
-public class UserSessionTest extends SuperTest{
-	private static final String PASSWORD = "123";
-	private static final String NICK = "niles";
-	private final UserSession session = new UserSession(){
-        @Override
-        protected void message(String message) {
+
+@RunWith(Arquillian.class)
+public class UserSessionTest extends FunctionalTest {
+    @Deployment
+    public static Archive<?> createDeployment() {
+        return functionalJarWithEntities().addClasses(UserSession.class, DataPump.class);
+    }
+
+    @Inject
+    UserSession userSession;
+
+    @Test
+    public void loginWithId() {
+        userSession.setId(USER.getId().toString());
+        userSession.setPassword(PASSWORD);
+        userSession.login();
+        assertThat(userSession.isLoggedIn(), is(true));
+    }
+
+    @Test
+    public void loginWithIdWrong() {
+        userSession.setId(USER.getId().toString());
+        userSession.setPassword("wrong");
+        userSession.login();
+        assertThat(userSession.isNotLoggedIn(), is(true));
+    }
+
+    @Test
+    public void loginWithEmail() {
+        userSession.setId(USER.getEmail());
+        userSession.setPassword(PASSWORD);
+        userSession.login();
+        assertThat(userSession.isLoggedIn(), is(true));
+    }
+
+    @Singleton
+    @Startup
+    public static class DataPump {
+        @PersistenceContext
+        EntityManager entityManager;
+
+        @PostConstruct
+        public void createUser() {
+            entityManager.persist(USER);
         }
-    };
-	@Test
-	public void loginWithId()  {
-		logIn("13");
-	}
+    }
 
-	@Test
-	public void loginWithEmail()  {
-		logIn(email());
-	}
-
-	@Test
-	public void loginWithNickname()  {
-		logIn(NICK);
-	}
-
-	private String email() {return users.get(0).getEmail();}
-
-	private void logIn(String id) {
-		expectLoggedOut();
-		session.setId(id);
-		session.setPassword(UserSessionTest.PASSWORD);
-		session.login();
-		expectLoggedIn();
-	}
-
-	private void expectLoggedOut() {
-		assertThat(session.isLoggedIn(), is(false));
-		assertThat(session.isNotLoggedIn(), is(true));
-	}
-
-	private void expectLoggedIn() {
-		assertThat(session.isLoggedIn(), is(true));
-		assertThat(session.isNotLoggedIn(), is(false));
-	}
 }

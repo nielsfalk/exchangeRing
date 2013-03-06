@@ -17,7 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -44,6 +47,7 @@ import java.util.logging.Logger;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 public class Context {
+    public static final String ACTIVE_CSS_CLASS = "ui-state-active";
     private static final Logger LOGGER = Logger.getLogger(Context.class.getName());
 
     public static final String WELCOME_PAGE = "/dashboard.xhtml";
@@ -63,6 +67,8 @@ public class Context {
     private Application app;
     private String viewId;
     private javax.el.ELResolver elResolver;
+    //for test purposes only
+    protected static Context dummyContext;
 
     public Context(FacesContext context) {
         this.context = context;
@@ -72,6 +78,10 @@ public class Context {
         this(phaseEvent.getFacesContext());
     }
 
+    public static Context context() {
+        return dummyContext == null ? new Context() : dummyContext;
+    }
+
     public Context() {
         this(FacesContext.getCurrentInstance());
     }
@@ -79,7 +89,6 @@ public class Context {
     public static String formatGermanDate(Date date) {
         return date == null ? "" : new SimpleDateFormat(GERMAN_DATE).format(date);
     }
-
 
 
     public static String formatGermanTime(Date date) {
@@ -230,8 +239,8 @@ public class Context {
         return requestURI;
     }
 
-    public void leavePublicEvents(){
-        if (getViewId().startsWith("/publicEvents")){
+    public void leavePublicEvents() {
+        if (getViewId().startsWith("/publicEvents")) {
             getViewRoot().setViewId("/internal/events/browse.xhtml");
         }
     }
@@ -268,13 +277,13 @@ public class Context {
 
     public static String activeMenu(String viewIdPrefix) {
         return new Context().getViewId().substring(1).startsWith(viewIdPrefix)
-                ? UserSession.ACTIVE_CSS_CLASS : "";
+                ? ACTIVE_CSS_CLASS : "";
     }
 
     public static String eventRedirectIdLoggedIn() {
         Context context = new Context();
         UserSession session = context.getNamedBean(UserSession.class);
-        if (session.isLoggedIn()){
+        if (session.isLoggedIn()) {
             context.redirect("/internal/events/browse.xhtml");
         }
         return "";

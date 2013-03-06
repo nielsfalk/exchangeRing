@@ -26,6 +26,7 @@ public class TestPersistence {
         // }
         if (entityManager.createQuery("select user_tr from tr_user user_tr").getResultList().isEmpty()) {
             for (User user : InitTestData.getUsers()) {
+                user.initialStuffAfterParsing();
                 entityManager.persist(user);
             }
             System.out.println(entityManager.createQuery("select user from tr_user user").getResultList().size());

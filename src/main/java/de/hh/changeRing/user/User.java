@@ -51,6 +51,9 @@ import static javax.persistence.TemporalType.DATE;
 
 @Entity(name = "tr_user")
 @XmlAccessorType(XmlAccessType.PROPERTY)
+@NamedQueries({
+        @NamedQuery(name = "loginWithEmail", query = "select user from tr_user user where user.email =:email")
+})
 public class User extends BaseEntity {
     private String nickName;
 
@@ -64,7 +67,6 @@ public class User extends BaseEntity {
 
     private boolean lastNameVisible = true;
 
-    @XmlElement
     private String password;
 
     private String email;
@@ -131,7 +133,7 @@ public class User extends BaseEntity {
     private Date deActivated;
 
     @SuppressWarnings("JpaDataSourceORMInspection")
-	@OneToMany(cascade = PERSIST)
+    @OneToMany(cascade = PERSIST)
     @JoinColumn(name = "user_id")
     private List<DepotItem> depotItems = new ArrayList<DepotItem>();
 
@@ -141,15 +143,15 @@ public class User extends BaseEntity {
 
     private String skype;
 
-	@SuppressWarnings("JpaDataSourceORMInspection")
-	@OneToMany(cascade = PERSIST)
-	@JoinColumn(name = "owner_user_id")
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @OneToMany(cascade = PERSIST)
+    @JoinColumn(name = "owner_user_id")
     private List<Advertisement> advertisements = new ArrayList<Advertisement>();
 
-	@SuppressWarnings("JpaDataSourceORMInspection")
-	@OneToMany(cascade = PERSIST)
-	@JoinColumn(name = "user_id")
-	private List<Event> events = new ArrayList<Event>();
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @OneToMany(cascade = PERSIST)
+    @JoinColumn(name = "user_id")
+    private List<Event> events = new ArrayList<Event>();
 
 
     @XmlElement
@@ -187,6 +189,7 @@ public class User extends BaseEntity {
         this.lastNameVisible = lastNameVisible;
     }
 
+    @XmlElement
     public String getPassword() {
         return password;
     }
@@ -327,7 +330,13 @@ public class User extends BaseEntity {
     }
 
     public String getLink() {
-        return "/internal/members/user.xhtml?userId="+getId();
+        return "/internal/members/user.xhtml?userId=" + getId();
+    }
+
+    public void initialStuffAfterParsing() {
+        getEmail();
+        getFacebook();
+        getSkype();
     }
 
     @SuppressWarnings("CanBeFinal")
@@ -592,11 +601,15 @@ public class User extends BaseEntity {
         return advertisements;
     }
 
-	public List<Event> getEvents() {
-		return events;
-	}
+    public List<Event> getEvents() {
+        return events;
+    }
 
-	public void setEvents(List<Event> events) {
-		this.events = events;
-	}
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

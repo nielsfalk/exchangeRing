@@ -139,7 +139,7 @@ public class Context {
         return userSession == null || userSession.isNotLoggedIn();
     }
 
-    <T> T getNamedBean(Class<T> type) {
+    public <T> T getNamedBean(Class<T> type) {
         String typeSimpleName = type.getSimpleName();
         String beanName = Character.toLowerCase(typeSimpleName.charAt(0)) + typeSimpleName.substring(1);
         //noinspection unchecked

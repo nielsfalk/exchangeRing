@@ -61,7 +61,7 @@ public class TransactionCreator implements Serializable {
     private Advertisement advertisement;
 
     @Inject
-    Event<UserUpdateEvent> events;
+    private Event<UserUpdateEvent> events;
 
     public String submit() {
         if (amount < 0) {

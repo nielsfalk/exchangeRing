@@ -1,15 +1,19 @@
 package de.hh.changeRing.jsfExtension;
 
-import de.hh.changeRing.InitTestData;
-import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.BaseEntity;
+import de.hh.changeRing.Context;
+import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.user.User;
 
+import javax.enterprise.inject.Model;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
-import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import static java.lang.Long.parseLong;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -35,41 +39,49 @@ import java.util.List;
  */
 @SuppressWarnings("UnusedDeclaration")
 public abstract class EntityConverter<TYPE extends BaseEntity> implements Converter {
-    @FacesConverter("advertisementConverter")
-    public static class AdvertisementConverter extends EntityConverter<Advertisement> {
-        @Override
-        protected List<Advertisement> getAllEntities() {
-            return InitTestData.getAdvertisements();
+    @FacesConverter("userConverter")
+    public static class UserConverter extends EntityConverter<User> {
+        public UserConverter() {
+            super(User.class);
         }
     }
 
-    @FacesConverter("userConverter")
-    public static class UserConverterNew extends EntityConverter<User> {
-        @Override
-        protected List<User> getAllEntities() {
-            return InitTestData.getUsers();
+    @FacesConverter("advertisementConverter")
+    public static class AdvertisementConverter extends EntityConverter<Advertisement> {
+        public AdvertisementConverter() {
+            super(Advertisement.class);
         }
+    }
+
+    private Class<TYPE> clazz;
+
+    protected EntityConverter(Class<TYPE> clazz) {
+        this.clazz = clazz;
     }
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
-        for (TYPE entity : getAllEntities()) {
-            if (entity.getId().toString().equals(s)) {
-                return entity;
-            }
+        try {
+            return new Context(facesContext).getNamedBean(ConverterDataProvider.class).getData(clazz, parseLong(s));
+        } catch (NumberFormatException e) {
+            return null;
         }
-        return null;
     }
-
 
     @Override
     public String getAsString(FacesContext facesContext, UIComponent uiComponent, Object o) {
-        if (o instanceof BaseEntity) {
-            BaseEntity user = (BaseEntity) o;
-            return user.getId().toString();
-        }
-        return "Bitter wählen";
+        return o instanceof BaseEntity
+                ? ((BaseEntity) o).getId().toString()
+                : "Bitte wählen";
     }
 
-    protected abstract List<TYPE> getAllEntities();
+    @Model
+    public static class ConverterDataProvider {
+        @PersistenceContext
+        private EntityManager entityManager;
+
+        public <T> T getData(Class<T> type, Object obj) {
+            return entityManager.find(type, obj);
+        }
+    }
 }

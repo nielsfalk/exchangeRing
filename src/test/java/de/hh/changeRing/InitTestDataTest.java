@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -32,9 +33,11 @@ import static org.junit.Assert.assertThat;
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
  */
-public class InitTestDataTest extends SuperTest {
+public class InitTestDataTest {
 
 
+    protected static final List<User> users = InitTestData.getUsers();
+    static final List<Transaction> transactions = InitTestData.getTransactions();
     private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy.MM.dd");
 
     @Test

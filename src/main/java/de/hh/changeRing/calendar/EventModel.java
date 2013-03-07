@@ -4,9 +4,19 @@ import com.google.common.collect.Ordering;
 import de.hh.changeRing.InitTestData;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.EnumConverter;
+import javax.faces.convert.FacesConverter;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
 import static java.util.Calendar.DAY_OF_MONTH;
@@ -36,9 +46,8 @@ import static java.util.Calendar.YEAR;
 public class EventModel implements Serializable {
     private TimeFilter timeFilter = future;
     private Map<String, EventType> typeFilters;
-    private List<String> selectedTypeFilters = new ArrayList<String>();
+    private List<EventType> selectedTypeFilters = new ArrayList<EventType>();
     private List<Event> eventsToDisplay;
-
 
 
     public EventModel() {
@@ -48,6 +57,7 @@ public class EventModel implements Serializable {
         }
         selectedTypeFilters = EventType.allButInfo();
     }
+
     public List<Event> getEventsToDisplay() {
         if (eventsToDisplay == null) {
             eventsToDisplay = InitTestData.getFilteredAndOrderedEvents(timeFilter, selectedTypeFilters);
@@ -56,8 +66,8 @@ public class EventModel implements Serializable {
         return eventsToDisplay;
     }
 
-    public void refresh(){
-        eventsToDisplay= null;
+    public void refresh() {
+        eventsToDisplay = null;
         System.out.println("bla");
     }
 
@@ -78,11 +88,11 @@ public class EventModel implements Serializable {
         refresh();
     }
 
-    public List<String> getSelectedTypeFilters() {
+    public List<EventType> getSelectedTypeFilters() {
         return selectedTypeFilters;
     }
 
-    public void setSelectedTypeFilters(List<String> selectedTypeFilters) {
+    public void setSelectedTypeFilters(List<EventType> selectedTypeFilters) {
         this.selectedTypeFilters = selectedTypeFilters;
     }
 
@@ -103,17 +113,17 @@ public class EventModel implements Serializable {
         }
 
         public boolean accepts(Date time) {
-            if (past == this){
+            if (past == this) {
                 return time.before(tomorrow());
             }
             return time.after(today());
         }
 
-        public Date today(){
+        public Date today() {
             return calendarWithoutTime().getTime();
         }
 
-        public Date tomorrow(){
+        public Date tomorrow() {
             GregorianCalendar result = calendarWithoutTime();
             result.add(Calendar.DAY_OF_MONTH, 1);
             return result.getTime();
@@ -137,4 +147,20 @@ public class EventModel implements Serializable {
         }
     }
 
+    @FacesConverter("eventTypeConverter")
+    public static class EventTypeConverter extends EnumConverter {
+        public EventTypeConverter() {
+            super(EventType.class);
+        }
+
+        @Override
+        public Object getAsObject(FacesContext context, UIComponent component, String value) {
+            return super.getAsObject(context, component, value);
+        }
+
+        @Override
+        public String getAsString(FacesContext context, UIComponent component, Object value) {
+            return super.getAsString(context, component, value);
+        }
+    }
 }

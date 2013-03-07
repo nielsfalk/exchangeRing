@@ -1,9 +1,7 @@
 package de.hh.changeRing.calendar;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public enum EventType {
     summerFestival("Sommerfest"),
@@ -22,21 +20,21 @@ public enum EventType {
         return translation;
     }
 
-    public static List<String> allButInfo() {
-        List<String> result = new ArrayList<String>();
+    public static List<EventType> allButInfo() {
+        List<EventType> result = new ArrayList<EventType>();
         for (EventType eventType : EventType.values()) {
             if (eventType != EventType.info) {
-                result.add(eventType.name());
+                result.add(eventType);
             }
         }
         return result;
     }
 
-    public static List<String> publicTypes() {
-        List<String> result = new ArrayList<String>();
+    public static List<EventType> publicTypes() {
+        List<EventType> result = new ArrayList<EventType>();
         for (EventType eventType : EventType.values()) {
             if (eventType != EventType.individual) {
-                result.add(eventType.name());
+                result.add(eventType);
             }
         }
         return result;

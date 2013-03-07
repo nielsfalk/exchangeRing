@@ -47,7 +47,8 @@ Environmental damage caused by the use must be kept as small as possible.
             <p/>
             <p:panel style="width:182px;">
                 <p:selectManyCheckbox layout="pageDirection" value="#{eventModel.selectedTypeFilters}"
-                                      onchange="$('#eventFilterForm-refresh').click()">
+                                      onchange="$('#eventFilterForm-refresh').click()"
+                                      converter="eventTypeConverter">
                     <f:selectItems value="#{eventModel.typeFilters}"/>
                 </p:selectManyCheckbox>
             </p:panel>

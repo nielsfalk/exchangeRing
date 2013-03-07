@@ -17,9 +17,21 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
-import static de.hh.changeRing.calendar.EventType.*;
+import static de.hh.changeRing.calendar.EventType.fleaMarket;
+import static de.hh.changeRing.calendar.EventType.individual;
+import static de.hh.changeRing.calendar.EventType.info;
+import static de.hh.changeRing.calendar.EventType.regularsTable;
+import static de.hh.changeRing.calendar.EventType.summerFestival;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.YEAR;
 
@@ -333,11 +345,11 @@ public class InitTestData {
         return result;
     }
 
-    public static List<Event> getFilteredAndOrderedEvents(EventModel.TimeFilter timeFilter, List<String> selectedTypeFilters) {
+    public static List<Event> getFilteredAndOrderedEvents(EventModel.TimeFilter timeFilter, List<EventType> selectedTypeFilters) {
 
         List<Event> result = new ArrayList<Event>();
         for (Event event : getEvents()) {
-            if (selectedTypeFilters.contains(event.getEventType().name())) {
+            if (selectedTypeFilters.contains(event.getEventType())) {
                 if (timeFilter.accepts(event.getWhen())) {
                     result.add(event);
                 }

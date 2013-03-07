@@ -13,6 +13,7 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -55,10 +56,10 @@ public class EventTest extends FunctionalTest {
     private static final Event PRESENT_EVENT = createEvent(0, fleaMarket);
     private static final Event PAST_EVENT1 = createEvent(-1, fleaMarket);
     private static final Event PAST_EVENT2 = createEvent(-2, individual);
-    private static final Event PAST_WRONG_TYPE = createEvent(-3, info);
+    private static final Event PAST_EVENT3 = createEvent(-3, info);
     private static final Event FUTURE_EVENT1 = createEvent(1, fleaMarket);
     private static final Event FUTURE_EVENT2 = createEvent(2, individual);
-    private static final Event FUTURE_WRONG_TYPE = createEvent(3, info);
+    private static final Event FUTURE_EVENT3 = createEvent(3, info);
 
     @Deployment
     public static Archive<?> createDeployment() {
@@ -69,26 +70,36 @@ public class EventTest extends FunctionalTest {
     private EntityManager entityManager;
 
     @Test
+    public void findFilteredFutureEvents() {
+        List<Event> events = Event.findEvents(entityManager, future, newArrayList(individual));
+        expectEventsContainInCorrectOrder(events, FUTURE_EVENT2);
+    }
+
+    @Test
     public void findAllFutureEvents() {
-        List<Event> events = Event.findEvents(entityManager, future, newArrayList(fleaMarket, individual));
-        expectEventsContainInCorrectOrder(events, PRESENT_EVENT, FUTURE_EVENT1, FUTURE_EVENT2);
+        List<Event> events = Event.findEvents(entityManager, future, allEvents());
+        expectEventsContainInCorrectOrder(events, PRESENT_EVENT, FUTURE_EVENT1, FUTURE_EVENT2, FUTURE_EVENT3);
+    }
+
+    private ArrayList<EventType> allEvents() {
+        return newArrayList(EventType.values());
     }
 
     @Test
     public void find2FutureEvents() {
-        List<Event> events = Event.findEvents(entityManager, future, newArrayList(fleaMarket, individual), 2);
+        List<Event> events = Event.findEvents(entityManager, future, allEvents(), 2);
         expectEventsContainInCorrectOrder(events, PRESENT_EVENT, FUTURE_EVENT1);
     }
 
     @Test
     public void findAllPastEvents() {
-        List<Event> events = Event.findEvents(entityManager, past, newArrayList(fleaMarket, individual));
-        expectEventsContainInCorrectOrder(events, PRESENT_EVENT, PAST_EVENT1, PAST_EVENT2);
+        List<Event> events = Event.findEvents(entityManager, past, allEvents());
+        expectEventsContainInCorrectOrder(events, PRESENT_EVENT, PAST_EVENT1, PAST_EVENT2, PAST_EVENT3);
     }
 
     @Test
     public void find2PastEvents() {
-        List<Event> events = Event.findEvents(entityManager, past, newArrayList(fleaMarket, individual), 2);
+        List<Event> events = Event.findEvents(entityManager, past, allEvents(), 2);
         expectEventsContainInCorrectOrder(events, PRESENT_EVENT, PAST_EVENT1);
     }
 

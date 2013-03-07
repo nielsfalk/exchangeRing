@@ -10,7 +10,15 @@ import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.calendar.Event;
 import de.hh.changeRing.transaction.Transaction;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -557,20 +565,6 @@ public class User extends BaseEntity {
     @XmlElement
     public long getLimit() {
         return limit;
-    }
-
-    @Override
-    public int hashCode() {
-        return getId().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other instanceof User) {
-            User otherUser = (User) other;
-            return getId().equals(otherUser.getId());
-        }
-        return false;
     }
 
     @XmlElement

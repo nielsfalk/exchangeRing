@@ -1,18 +1,28 @@
 package de.hh.changeRing.calendar;
 
+import de.hh.changeRing.BaseEntity;
+import de.hh.changeRing.Context;
+import de.hh.changeRing.InitTestData;
+import de.hh.changeRing.user.User;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import static de.hh.changeRing.calendar.EventModel.TimeFilter;
 import static de.hh.changeRing.calendar.EventType.individual;
 import static java.util.Calendar.MINUTE;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.TemporalType.TIMESTAMP;
-
-import java.util.Date;
-import java.util.GregorianCalendar;
-
-import javax.persistence.*;
-
-import de.hh.changeRing.BaseEntity;
-import de.hh.changeRing.Context;
-import de.hh.changeRing.user.User;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -33,96 +43,102 @@ import de.hh.changeRing.user.User;
  * use must be kept as small as possible.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "findFilteredAndOrderedFutureEvents",
+                query = "select event from Event event where event.when >= :today and event.eventType in :filter order by event.when"),
+        @NamedQuery(name = "findFilteredAndOrderedPastEvents",
+                query = "select event from Event event where event.when <= :today and event.eventType in :filter order by event.when desc")
+})
 public class Event extends BaseEntity {
-	@SuppressWarnings("JpaDataSourceORMInspection")
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-	@SuppressWarnings("JpaDataSourceORMInspection")
+    @SuppressWarnings("JpaDataSourceORMInspection")
     @Temporal(TIMESTAMP)
     @Column(name = "event_date")
-	private Date when;
+    private Date when;
 
-	private Integer duration;
+    private Integer duration;
 
-	private String title;
+    private String title;
 
     @Column(length = 512)
     private String content;
 
-	private String location;
+    private String location;
 
-	@Enumerated(STRING)
-	private EventType eventType;
+    @Enumerated(STRING)
+    private EventType eventType;
 
-	public User getUser() {
-		return user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public EventType getEventType() {
-		return eventType;
-	}
+    public EventType getEventType() {
+        return eventType;
+    }
 
-	public void setEventType(EventType eventType) {
-		this.eventType = eventType;
-	}
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getLocation() {
-		return location;
-	}
+    public String getLocation() {
+        return location;
+    }
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
-	public Date getWhen() {
-		return when;
-	}
+    public Date getWhen() {
+        return when;
+    }
 
-	public void setWhen(Date from) {
-		this.when = from;
-	}
+    public void setWhen(Date from) {
+        this.when = from;
+    }
 
-	public String getFormattedWhen() {
-		return Context.longFormatGermanDate(getWhen());
-	}
+    public String getFormattedWhen() {
+        return Context.longFormatGermanDate(getWhen());
+    }
 
-	public String getHeadLine() {
-		return getFormattedWhen() + ' '
-				+ getDisplayTitle();
-	}
+    public String getHeadLine() {
+        return getFormattedWhen() + ' '
+                + getDisplayTitle();
+    }
 
-    public String getPeriod(){
+    public String getPeriod() {
         String result = Context.formatGermanTime(getWhen());
-        if (duration!= null){
+        if (duration != null) {
             GregorianCalendar endTime = new GregorianCalendar();
             endTime.setTime(getWhen());
-            endTime.add(MINUTE,duration);
+            endTime.add(MINUTE, duration);
             result += " - " + Context.formatGermanTime(endTime.getTime());
         }
         return result;
@@ -138,5 +154,13 @@ public class Event extends BaseEntity {
 
     public String getDashboardDate() {
         return getFormattedWhen();
+    }
+
+    public static List<Event> findFilteredAndOrderedEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> selectedTypeFilters) {
+        return InitTestData.getFilteredAndOrderedEvents(timeFilter, selectedTypeFilters);
+    }
+
+    public static List<Event> findFilteredAndOrderedEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> eventTypes, int count) {
+        return InitTestData.filterFirst(count, findFilteredAndOrderedEvents(entityManager, timeFilter, eventTypes));
     }
 }

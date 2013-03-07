@@ -1,7 +1,6 @@
 package de.hh.changeRing.calendar;
 
 import com.google.common.collect.Ordering;
-import de.hh.changeRing.InitTestData;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -9,6 +8,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.EnumConverter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -49,6 +50,9 @@ public class EventModel implements Serializable {
     private List<EventType> selectedTypeFilters = new ArrayList<EventType>();
     private List<Event> eventsToDisplay;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
 
     public EventModel() {
         typeFilters = new HashMap<String, EventType>();
@@ -60,7 +64,8 @@ public class EventModel implements Serializable {
 
     public List<Event> getEventsToDisplay() {
         if (eventsToDisplay == null) {
-            eventsToDisplay = InitTestData.getFilteredAndOrderedEvents(timeFilter, selectedTypeFilters);
+
+            eventsToDisplay = Event.findFilteredAndOrderedEvents(entityManager, timeFilter, selectedTypeFilters);
 
         }
         return eventsToDisplay;
@@ -144,6 +149,10 @@ public class EventModel implements Serializable {
                             : event.getWhen().compareTo(event2.getWhen());
                 }
             }.sortedCopy(result);
+        }
+
+        public Date relevant() {
+            return this.equals(future) ? today() : tomorrow();
         }
     }
 

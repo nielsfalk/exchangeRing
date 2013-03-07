@@ -1,10 +1,7 @@
 package de.hh.changeRing.calendar;
 
 
-import de.hh.changeRing.InitTestData;
-
 import javax.enterprise.inject.Model;
-
 import java.util.List;
 
 import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
@@ -33,7 +30,8 @@ public class PublicEventModel {
 
     public List<Event> getEventsToDisplay() {
         if (eventsToDisplay == null) {
-            eventsToDisplay = InitTestData.getFilteredAndOrderedEvents(future, EventType.publicTypes());
+
+            eventsToDisplay = Event.findFilteredAndOrderedEvents(null, future, EventType.publicTypes());
         }
         return eventsToDisplay;
     }

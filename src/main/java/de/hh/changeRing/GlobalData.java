@@ -2,11 +2,15 @@ package de.hh.changeRing;
 
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.calendar.Event;
+import de.hh.changeRing.calendar.EventModel;
+import de.hh.changeRing.calendar.EventType;
 import de.hh.changeRing.user.User;
 
 import javax.enterprise.inject.Model;
 import javax.enterprise.inject.Produces;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType.offer;
@@ -14,16 +18,19 @@ import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType.req
 
 @Model
 public class GlobalData {
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public List<Event> getNextEventsInternal(int count) {
+        return Event.findFilteredAndOrderedEvents(entityManager, EventModel.TimeFilter.future, EventType.allButInfo(), count);
+    }
+
+    public List<Event> getNextEventsPublic(int count) {
+        return Event.findFilteredAndOrderedEvents(entityManager, EventModel.TimeFilter.future, EventType.publicTypes(), count);
+    }
+
     private List<User> getNewestMembers(int count) {
         return InitTestData.getNewestMembers(count);
-    }
-
-    private List<Event> getNextEventsInternal(int count) {
-        return InitTestData.getNextEventsInternal(count);
-    }
-
-    private List<Event> getNextEventsPublic(int count) {
-        return InitTestData.getNextEventsPublic(count);
     }
 
     @Named

@@ -4,7 +4,11 @@ import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.user.User;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -113,22 +117,5 @@ public class Transaction extends BaseEntity {
 
     public String getSubject() {
         return subject;
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
-        }
-        if (other == null || getClass() != other.getClass()) {
-            return false;
-        }
-        Transaction that = (Transaction) other;
-        return !(id != null ? !id.equals(that.id) : that.id != null);
-    }
-
-    @Override
-    public int hashCode() {
-        return fromId != null ? fromId.hashCode() : 0;
     }
 }

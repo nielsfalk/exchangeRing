@@ -45,4 +45,24 @@ public class BaseEntity {
         }
         return id;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        BaseEntity that = (BaseEntity) other;
+        if (id == null) {
+            return that.id == null ? super.equals(other) : false;
+        }
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : super.hashCode();
+    }
 }

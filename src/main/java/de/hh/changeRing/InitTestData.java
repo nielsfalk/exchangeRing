@@ -346,7 +346,6 @@ public class InitTestData {
     }
 
     public static List<Event> getFilteredAndOrderedEvents(EventModel.TimeFilter timeFilter, List<EventType> selectedTypeFilters) {
-
         List<Event> result = new ArrayList<Event>();
         for (Event event : getEvents()) {
             if (selectedTypeFilters.contains(event.getEventType())) {
@@ -373,17 +372,12 @@ public class InitTestData {
         return result;
     }
 
-    public static List<Event> getNextEventsInternal(int count) {
-        List<Event> orderedFilteredEvents = getFilteredAndOrderedEvents(EventModel.TimeFilter.future, EventType.allButInfo());
-        return filterFirst(count, orderedFilteredEvents);
+    public static List<Advertisement> getNewestAdvertisements(int count, Advertisement.AdvertisementType request) {
+        LinkedList<Advertisement> list = InitTestData.getSortedAds().get(request).get(Category.root);
+        return filterFirst(count, list);
     }
 
-    public static List<Event> getNextEventsPublic(int count) {
-        List<Event> orderedFilteredEvents = getFilteredAndOrderedEvents(EventModel.TimeFilter.future, EventType.publicTypes());
-        return filterFirst(count, orderedFilteredEvents);
-    }
-
-    private static <T> List<T> filterFirst(int count, List<T> orderedItems) {
+    public static <T> List<T> filterFirst(int count, List<T> orderedItems) {
         Iterator<T> itemIterator = orderedItems.iterator();
         int availableCount = orderedItems.size();
         if (count < availableCount) {
@@ -395,11 +389,6 @@ public class InitTestData {
             result.add(itemIterator.next());
         }
         return result;
-    }
-
-    public static List<Advertisement> getNewestAdvertisements(int count, Advertisement.AdvertisementType request) {
-        LinkedList<Advertisement> list = InitTestData.getSortedAds().get(request).get(Category.root);
-        return filterFirst(count, list);
     }
 
 

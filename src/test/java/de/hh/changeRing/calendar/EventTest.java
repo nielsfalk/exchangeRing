@@ -1,6 +1,7 @@
 package de.hh.changeRing.calendar;
 
 import de.hh.changeRing.FunctionalTest;
+import de.hh.changeRing.user.User;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -12,9 +13,6 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TemporalType;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -22,6 +20,7 @@ import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
+import static de.hh.changeRing.calendar.EventModel.TimeFilter.past;
 import static de.hh.changeRing.calendar.EventType.fleaMarket;
 import static de.hh.changeRing.calendar.EventType.individual;
 import static de.hh.changeRing.calendar.EventType.info;
@@ -50,15 +49,16 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(Arquillian.class)
 public class EventTest extends FunctionalTest {
+    public static final User USER = createTestUser();
     private static final List<Event> EVENTS = newArrayList();
 
     private static final Event PRESENT_EVENT = createEvent(0, fleaMarket);
     private static final Event PAST_EVENT1 = createEvent(-1, fleaMarket);
     private static final Event PAST_EVENT2 = createEvent(-2, individual);
-    private static final Event PAST_EVENT3 = createEvent(-3, info);
+    private static final Event PAST_WRONG_TYPE = createEvent(-3, info);
     private static final Event FUTURE_EVENT1 = createEvent(1, fleaMarket);
     private static final Event FUTURE_EVENT2 = createEvent(2, individual);
-    private static final Event FUTURE_EVENT3 = createEvent(3, info);
+    private static final Event FUTURE_WRONG_TYPE = createEvent(3, info);
 
     @Deployment
     public static Archive<?> createDeployment() {
@@ -69,9 +69,27 @@ public class EventTest extends FunctionalTest {
     private EntityManager entityManager;
 
     @Test
-    public void find() {
-        List<Event> events = findFilteredAndOrderedEvents(entityManager, future, newArrayList(fleaMarket, individual));
+    public void findAllFutureEvents() {
+        List<Event> events = Event.findEvents(entityManager, future, newArrayList(fleaMarket, individual));
         expectEventsContainInCorrectOrder(events, PRESENT_EVENT, FUTURE_EVENT1, FUTURE_EVENT2);
+    }
+
+    @Test
+    public void find2FutureEvents() {
+        List<Event> events = Event.findEvents(entityManager, future, newArrayList(fleaMarket, individual), 2);
+        expectEventsContainInCorrectOrder(events, PRESENT_EVENT, FUTURE_EVENT1);
+    }
+
+    @Test
+    public void findAllPastEvents() {
+        List<Event> events = Event.findEvents(entityManager, past, newArrayList(fleaMarket, individual));
+        expectEventsContainInCorrectOrder(events, PRESENT_EVENT, PAST_EVENT1, PAST_EVENT2);
+    }
+
+    @Test
+    public void find2PastEvents() {
+        List<Event> events = Event.findEvents(entityManager, past, newArrayList(fleaMarket, individual), 2);
+        expectEventsContainInCorrectOrder(events, PRESENT_EVENT, PAST_EVENT1);
     }
 
     private void expectEventsContainInCorrectOrder(List<Event> events, Event... expectedEvents) {
@@ -80,15 +98,6 @@ public class EventTest extends FunctionalTest {
             Event expectedEvent = expectedEvents[i];
             assertThat(events.get(i), is(expectedEvent));
         }
-    }
-
-    private List<Event> findFilteredAndOrderedEvents(EntityManager entityManager, EventModel.TimeFilter timeFilter, ArrayList<EventType> typeFilter) {
-        Query result = (timeFilter.equals(future)
-                ? entityManager.createNamedQuery("findFilteredAndOrderedFutureEvents")
-                : entityManager.createNamedQuery("findFilteredAndOrderedPastEvents"))
-                .setParameter("today", timeFilter.relevant(), TemporalType.TIMESTAMP)
-                .setParameter("filter", typeFilter);
-        return result.getResultList();
     }
 
     private static Date date(int daysToAdd) {

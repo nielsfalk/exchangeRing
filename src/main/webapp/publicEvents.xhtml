@@ -32,7 +32,7 @@ Environmental damage caused by the use must be kept as small as possible.
             Mehr Termine sind im engelogten Bereich zu sehen.
             <a href="${pageContext.request.servletPath}/signUp.xhtml">Werde Mitglied</a> und log dich ein.
         </p:panel>
-        <ui:repeat value="#{publicEventModel.eventsToDisplay}" var="event">
+        <ui:repeat value="#{eventsToDisplay}" var="event">
             <p:panel header="#{event.headLine}">
                 <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
                     <h:outputText value="Enladender:"/>

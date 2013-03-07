@@ -2,7 +2,6 @@ package de.hh.changeRing.calendar;
 
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.Context;
-import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.user.User;
 
 import javax.persistence.Column;
@@ -13,12 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Query;
 import javax.persistence.Temporal;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import static de.hh.changeRing.calendar.EventModel.TimeFilter;
+import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
 import static de.hh.changeRing.calendar.EventType.individual;
 import static java.util.Calendar.MINUTE;
 import static javax.persistence.EnumType.STRING;
@@ -45,9 +46,9 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 @Entity
 @NamedQueries({
         @NamedQuery(name = "findFilteredAndOrderedFutureEvents",
-                query = "select event from Event event where event.when >= :today and event.eventType in :filter order by event.when"),
+                query = "select event from Event event where event.when >= :relevant and event.eventType in :filter order by event.when"),
         @NamedQuery(name = "findFilteredAndOrderedPastEvents",
-                query = "select event from Event event where event.when <= :today and event.eventType in :filter order by event.when desc")
+                query = "select event from Event event where event.when <= :relevant and event.eventType in :filter order by event.when desc")
 })
 public class Event extends BaseEntity {
     @SuppressWarnings("JpaDataSourceORMInspection")
@@ -71,6 +72,7 @@ public class Event extends BaseEntity {
 
     @Enumerated(STRING)
     private EventType eventType;
+
 
     public User getUser() {
         return user;
@@ -156,11 +158,19 @@ public class Event extends BaseEntity {
         return getFormattedWhen();
     }
 
-    public static List<Event> findFilteredAndOrderedEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> selectedTypeFilters) {
-        return InitTestData.getFilteredAndOrderedEvents(timeFilter, selectedTypeFilters);
+    public static List<Event> findEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> typeFilter, int count) {
+        return queryEvents(entityManager, timeFilter, typeFilter).setMaxResults(count).getResultList();
     }
 
-    public static List<Event> findFilteredAndOrderedEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> eventTypes, int count) {
-        return InitTestData.filterFirst(count, findFilteredAndOrderedEvents(entityManager, timeFilter, eventTypes));
+    public static List<Event> findEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> typeFilter) {
+        return queryEvents(entityManager, timeFilter, typeFilter).getResultList();
+    }
+
+    private static Query queryEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> typeFilter) {
+        return (timeFilter.equals(future)
+                ? entityManager.createNamedQuery("findFilteredAndOrderedFutureEvents")
+                : entityManager.createNamedQuery("findFilteredAndOrderedPastEvents"))
+                .setParameter("relevant", timeFilter.relevant(), TIMESTAMP)
+                .setParameter("filter", typeFilter);
     }
 }

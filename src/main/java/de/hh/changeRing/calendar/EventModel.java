@@ -63,12 +63,7 @@ public class EventModel implements Serializable {
     }
 
     public List<Event> getEventsToDisplay() {
-        if (eventsToDisplay == null) {
-
-            eventsToDisplay = Event.findFilteredAndOrderedEvents(entityManager, timeFilter, selectedTypeFilters);
-
-        }
-        return eventsToDisplay;
+        return Event.findEvents(entityManager, timeFilter, selectedTypeFilters);
     }
 
     public void refresh() {

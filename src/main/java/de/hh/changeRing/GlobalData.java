@@ -15,6 +15,7 @@ import java.util.List;
 
 import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType.offer;
 import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType.request;
+import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
 
 @Model
 public class GlobalData {
@@ -22,11 +23,11 @@ public class GlobalData {
     private EntityManager entityManager;
 
     public List<Event> getNextEventsInternal(int count) {
-        return Event.findFilteredAndOrderedEvents(entityManager, EventModel.TimeFilter.future, EventType.allButInfo(), count);
+        return Event.findEvents(entityManager, EventModel.TimeFilter.future, EventType.allButInfo(), count);
     }
 
     public List<Event> getNextEventsPublic(int count) {
-        return Event.findFilteredAndOrderedEvents(entityManager, EventModel.TimeFilter.future, EventType.publicTypes(), count);
+        return Event.findEvents(entityManager, EventModel.TimeFilter.future, EventType.publicTypes(), count);
     }
 
     private List<User> getNewestMembers(int count) {
@@ -61,6 +62,12 @@ public class GlobalData {
     @Produces
     public List<Advertisement> getNewestOffers() {
         return InitTestData.getNewestAdvertisements(3, offer);
+    }
+
+    @Named
+    @Produces
+    public List<Event> getEventsToDisplay() {
+        return Event.findEvents(entityManager, future, EventType.publicTypes());
     }
 
     public List<User> getMembers() {

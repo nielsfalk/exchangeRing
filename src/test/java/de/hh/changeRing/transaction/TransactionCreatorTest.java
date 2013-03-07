@@ -50,7 +50,8 @@ import static org.junit.Assert.assertThat;
 @RunWith(Arquillian.class)
 public class TransactionCreatorTest extends FunctionalTest {
     public static final String SUBJECT = TransactionCreatorTest.class.getName();
-    private static User owner = USER;
+    private static User owner = createTestUser();
+    ;
     private static User receiver = createTestUser();
 
     @Deployment
@@ -69,7 +70,7 @@ public class TransactionCreatorTest extends FunctionalTest {
 
     @Before
     public void login() {
-        userSession.setId(USER.getId().toString());
+        userSession.setId(owner.getId().toString());
         userSession.setPassword(PASSWORD);
         userSession.login();
     }

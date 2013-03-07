@@ -12,7 +12,6 @@ import org.junit.After;
 import org.junit.Before;
 
 public class FunctionalTest {
-    public static final User USER = createTestUser();
     public static final String PASSWORD = "321";
 
 
@@ -51,9 +50,11 @@ public class FunctionalTest {
         }
 
         @Override
-        public void addMessage(String summary) {}
+        public void addMessage(String summary) {
+        }
 
         @Override
-        public void leavePublicEvents() {}
+        public void leavePublicEvents() {
+        }
     }
 }

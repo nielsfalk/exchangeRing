@@ -60,7 +60,7 @@ Environmental damage caused by the use must be kept as small as possible.
         <p:panel header="Kommende Termine" rendered="#{notLoggedIn}">
             <div style="text-align: center">
                 <table class="borderlessTable">
-                    <ui:repeat value="#{userSession.next3EventsPublic}" var="event">
+                    <ui:repeat value="#{next3EventsPublic}" var="event">
                         <tr>
                             <td>
                                 <r:gravatar user="#{event.user}" size="29" doLink="false"/>
@@ -81,7 +81,7 @@ Environmental damage caused by the use must be kept as small as possible.
             <p:panel header="Kommende Termine" rendered="#{loggedIn}" style="width: 510px; float: left">
                 <div style="text-align: center">
                     <table class="borderlessTable">
-                        <ui:repeat value="#{userSession.next3EventsInternal}" var="event">
+                        <ui:repeat value="#{next3EventsInternal}" var="event">
                             <tr>
                                 <td>
                                     <r:gravatar user="#{event.user}" size="29"/>
@@ -137,7 +137,7 @@ Environmental damage caused by the use must be kept as small as possible.
         <h:panelGroup layout="block" class="horizontalFloatContainer" rendered="#{loggedIn}">
             <p:panel header="Neuste Gesuche" rendered="#{loggedIn}" style="float: left; width: 46%;">
                 <table class="borderlessTable">
-                    <ui:repeat value="#{userSession.newestRequests}" var="advertisement">
+                    <ui:repeat value="#{newestRequests}" var="advertisement">
                         <tr>
                             <td>
                                 <r:gravatar user="#{advertisement.owner}" size="29"/>
@@ -160,7 +160,7 @@ Environmental damage caused by the use must be kept as small as possible.
             <div style="width: 20px; float: left"><h:outputText value="&#160;"/></div>
             <p:panel header="Neuste Angebote" rendered="#{loggedIn}" style="overflow: auto">
                 <table class="borderlessTable">
-                    <ui:repeat value="#{userSession.newestOffers}" var="advertisement">
+                    <ui:repeat value="#{newestOffers}" var="advertisement">
                         <tr>
                             <td>
                                 <r:gravatar user="#{advertisement.owner}" size="29"/>
@@ -183,14 +183,14 @@ Environmental damage caused by the use must be kept as small as possible.
 
         <p:panel header="Neuste Mitglieder" rendered="#{loggedIn}">
             <div style="text-align: center">
-                <ui:repeat value="#{userSession.newestMembers8}" var="member">
+                <ui:repeat value="#{newestMembers8}" var="member">
                     <r:gravatar user="#{member}" style="margin: 7px"/>
                 </ui:repeat>
             </div>
         </p:panel>
         <p:panel header="Neuste Mitglieder" rendered="#{notLoggedIn}">
             <div style="text-align: center">
-                <ui:repeat value="#{userSession.newestMembers8}" var="member">
+                <ui:repeat value="#{newestMembers8}" var="member">
                     <r:gravatar user="#{member}" style="margin: 7px" noName="true"/>
                 </ui:repeat>
             </div>

@@ -1,9 +1,5 @@
 package de.hh.changeRing.user;
 
-import de.hh.changeRing.InitTestData;
-import de.hh.changeRing.advertisement.Advertisement;
-import de.hh.changeRing.calendar.Event;
-
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
@@ -16,8 +12,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import static de.hh.changeRing.Context.context;
-import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType.offer;
-import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType.request;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -76,18 +70,6 @@ public class UserSession implements Serializable {
         context().addMessage(message);
     }
 
-    public List<User> getNewestMembers(int count) {
-        return InitTestData.getNewestMembers(count);
-    }
-
-    public List<Event> getNextEventsInternal(int count) {
-        return InitTestData.getNextEventsInternal(count);
-    }
-
-    public List<Event> getNextEventsPublic(int count) {
-        return InitTestData.getNextEventsPublic(count);
-    }
-
     public void updateUser() {}
 
     @Named
@@ -124,26 +106,6 @@ public class UserSession implements Serializable {
 
     void setUser(User user) {
         this.user = user;
-    }
-
-    public List<Event> getNext3EventsInternal() {
-        return getNextEventsInternal(3);
-    }
-
-    public List<Event> getNext3EventsPublic() {
-        return getNextEventsPublic(3);
-    }
-
-    public List<User> getNewestMembers8() {
-        return getNewestMembers(8);
-    }
-
-    public List<Advertisement> getNewestRequests() {
-        return InitTestData.getNewestAdvertisements(3, request);
-    }
-
-    public List<Advertisement> getNewestOffers() {
-        return InitTestData.getNewestAdvertisements(3, offer);
     }
 
     public void eventListener(@Observes UserUpdateEvent event) {

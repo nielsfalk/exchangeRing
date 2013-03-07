@@ -30,7 +30,7 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:r="http://www.tauschring-hamburg.org/public/ring">
     <ui:define name="contentWithoutMenu">
         <p:panel header="Mitglieder">
-            <p:dataTable id="memberTable" var="member" value="#{userModel.members}"
+            <p:dataTable id="memberTable" var="member" value="#{globalData.members}"
                          styleClass="ui-corner-all">
                 <p:column id="memberAvatar">
                     <f:facet name="header">

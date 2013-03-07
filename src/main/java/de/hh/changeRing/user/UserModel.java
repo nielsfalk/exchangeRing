@@ -36,7 +36,7 @@ import static de.hh.changeRing.user.User.isEmpty;
  */
 @Named
 @SessionScoped
-public class UserModel implements Serializable{
+public class UserModel implements Serializable {
     @Inject
     private UserSession session;
     private ArrayList<User> otherUsers;
@@ -69,10 +69,6 @@ public class UserModel implements Serializable{
 
     private User getLoggedInUser() {
         return session.getUser();
-    }
-
-    public List<User> getMembers() {
-        return InitTestData.getUsers();
     }
 
     public User getSelectedUser() {

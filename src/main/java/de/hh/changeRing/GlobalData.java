@@ -31,7 +31,7 @@ public class GlobalData {
     }
 
     private List<User> getNewestMembers(int count) {
-        return InitTestData.getNewestMembers(count);
+        return entityManager.createNamedQuery("newestUser").setMaxResults(count).getResultList();
     }
 
     @Named
@@ -71,6 +71,6 @@ public class GlobalData {
     }
 
     public List<User> getMembers() {
-        return InitTestData.getUsers();
+        return entityManager.createNamedQuery("allUsers").getResultList();
     }
 }

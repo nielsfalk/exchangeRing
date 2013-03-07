@@ -84,6 +84,14 @@ public class TransactionCreatorTest extends FunctionalTest {
         expectTransactionProcessed();
     }
 
+    @Test
+    public void findOthers() {
+        List<User> otherUsers = transactionCreator.getOtherUsers();
+        assertThat(otherUsers.size(),is(1));
+        assertThat(otherUsers.get(0), is(receiver));
+
+    }
+
     private void expectTransactionProcessed() {
         assertThat(userSession.getUser().getBalance(), is(-30l));
         owner = refresh(owner);

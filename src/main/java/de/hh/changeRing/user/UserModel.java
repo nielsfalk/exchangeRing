@@ -58,15 +58,6 @@ public class UserModel implements Serializable {
         return isOther() && !isEmpty(s);
     }
 
-    public List<User> getOtherUsers() {
-        if (otherUsers == null) {
-            otherUsers = new ArrayList<User>();
-            otherUsers.addAll(InitTestData.getUsers());
-            otherUsers.remove(getLoggedInUser());
-        }
-        return otherUsers;
-    }
-
     private User getLoggedInUser() {
         return session.getUser();
     }

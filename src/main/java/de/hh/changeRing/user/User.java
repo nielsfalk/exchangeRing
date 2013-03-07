@@ -10,26 +10,17 @@ import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.calendar.Event;
 import de.hh.changeRing.transaction.Transaction;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static de.hh.changeRing.Context.formatGermanDate;
 import static de.hh.changeRing.user.User.Status.active;
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.SECOND;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.TemporalType.DATE;
@@ -60,7 +51,10 @@ import static javax.persistence.TemporalType.DATE;
 @Entity(name = "tr_user")
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @NamedQueries({
-        @NamedQuery(name = "loginWithEmail", query = "select user from tr_user user where user.email =:email")
+        @NamedQuery(name = "loginWithEmail", query = "select user from tr_user user where user.email =:email"),
+        @NamedQuery(name = "findOthers", query = "select user from tr_user user where user <> :me"),
+        @NamedQuery(name = "allUsers", query = "select user from tr_user user"),
+        @NamedQuery(name = "newestUser", query = "select user from tr_user user order by user.activated desc")
 })
 public class User extends BaseEntity {
     private String nickName;
@@ -258,6 +252,13 @@ public class User extends BaseEntity {
         user.plz = new Random().nextInt(99999);
         user.city = randomName();
         user.district = randomName();
+
+        GregorianCalendar from = new GregorianCalendar();
+        from.set(Calendar.HOUR_OF_DAY, 19);
+        from.set(Calendar.MINUTE, 0);
+        from.add(DAY_OF_MONTH, -30);
+        from.add(SECOND, i.intValue());
+        user.activated = from.getTime();
 
         return user;
     }

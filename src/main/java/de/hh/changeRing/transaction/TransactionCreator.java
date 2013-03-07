@@ -14,6 +14,8 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import static de.hh.changeRing.Context.context;
@@ -78,6 +80,10 @@ public class TransactionCreator implements Serializable {
         setClear("clear");
         message("Überweisung Durchgeführt");
         return "/internal/transactions.xhtml";
+    }
+
+    public List<User> getOtherUsers() {
+        return entityManager.createNamedQuery("findOthers").setParameter("me", session.getUser()).getResultList();
     }
 
     protected void message(String message) {

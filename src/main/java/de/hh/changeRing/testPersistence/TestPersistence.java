@@ -19,12 +19,7 @@ public class TestPersistence {
 
     @PostConstruct
     public void testPersistence() {
-
-        // List resultList = entityManager.createQuery("SELECT e FROM TestBlubb e").getResultList();
-        // for (Object o : resultList) {
-        //     System.out.println(o);
-        // }
-        if (entityManager.createQuery("select user_tr from tr_user user_tr").getResultList().isEmpty()) {
+        if (entityManager.createNamedQuery("allUsers").setMaxResults(1).getResultList().isEmpty()) {
             for (User user : InitTestData.getUsers()) {
                 user.initialStuffAfterParsing();
                 entityManager.persist(user);
@@ -32,7 +27,5 @@ public class TestPersistence {
             System.out.println(entityManager.createQuery("select user from tr_user user").getResultList().size());
         }
         System.out.println("bla persistence");
-        entityManager.persist(new TestBlubb("bla"));
-        System.out.println("find:" + entityManager.find(TestBlubb.class, 1L));
     }
 }

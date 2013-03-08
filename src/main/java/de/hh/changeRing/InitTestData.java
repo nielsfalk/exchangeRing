@@ -4,7 +4,6 @@ import com.google.common.collect.Ordering;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.advertisement.Category;
 import de.hh.changeRing.calendar.Event;
-import de.hh.changeRing.calendar.EventModel;
 import de.hh.changeRing.calendar.EventType;
 import de.hh.changeRing.transaction.Transaction;
 import de.hh.changeRing.user.User;
@@ -206,7 +205,7 @@ public class InitTestData {
         return transactions;
     }
 
-    static void process(Transaction transaction) {
+    private static void process(Transaction transaction) {
         transaction.wire();
     }
 
@@ -217,34 +216,6 @@ public class InitTestData {
             }
         }
         return null;
-    }
-
-    public static User findUser(String idEmailOrNick) {
-
-        for (User user : getUsers()) {
-            if ((user.getId() != null && user.getId().toString().equals(idEmailOrNick))
-                    || (user.getEmail() != null && user.getEmail().equals(idEmailOrNick))
-                    || (user.getNickName() != null && user.getNickName().equals(idEmailOrNick))) {
-                return user;
-            }
-        }
-        return null;
-    }
-
-    public static long getTotalRevenue() {
-        long result = 0;
-        for (Transaction transaction : transactions) {
-            result += transaction.getAmount();
-        }
-        return result;
-    }
-
-    public static Boolean debtsAndAssetsAreEqual() {
-        long debtsAndAssets = 0;
-        for (User user : getUsers()) {
-            debtsAndAssets += user.getBalance();
-        }
-        return debtsAndAssets == 0;
     }
 
     public static List<Advertisement> getAdvertisements() {
@@ -270,7 +241,7 @@ public class InitTestData {
         sortedAds = null;
     }
 
-    public static List<Event> getEvents() {
+    private static List<Event> getEvents() {
         if (events == null) {
             events = new ArrayList<Event>();
             for (int daysToAdd : new int[]{-60, -30, 0, 30, 60, 90, 120}) {
@@ -345,39 +316,12 @@ public class InitTestData {
         return result;
     }
 
-    public static List<Event> getFilteredAndOrderedEvents(EventModel.TimeFilter timeFilter, List<EventType> selectedTypeFilters) {
-        List<Event> result = new ArrayList<Event>();
-        for (Event event : getEvents()) {
-            if (selectedTypeFilters.contains(event.getEventType())) {
-                if (timeFilter.accepts(event.getWhen())) {
-                    result.add(event);
-                }
-            }
-        }
-        return timeFilter.order(result);
-    }
-
-    public static List<User> getNewestMembers(int count) {
-        List<User> users = new Ordering<User>() {
-            @Override
-            public int compare(User user, User user2) {
-                return user2.getActivated().compareTo(user.getActivated());
-            }
-        }.sortedCopy(getUsers());
-        Iterator<User> iterator = users.iterator();
-        List<User> result = new ArrayList<User>();
-        for (int i = 0; i < count; i++) {
-            result.add(iterator.next());
-        }
-        return result;
-    }
-
     public static List<Advertisement> getNewestAdvertisements(int count, Advertisement.AdvertisementType request) {
         LinkedList<Advertisement> list = InitTestData.getSortedAds().get(request).get(Category.root);
         return filterFirst(count, list);
     }
 
-    public static <T> List<T> filterFirst(int count, List<T> orderedItems) {
+    private static <T> List<T> filterFirst(int count, List<T> orderedItems) {
         Iterator<T> itemIterator = orderedItems.iterator();
         int availableCount = orderedItems.size();
         if (count < availableCount) {

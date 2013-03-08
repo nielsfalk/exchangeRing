@@ -1,10 +1,6 @@
 package de.hh.changeRing.calendar;
 
-import com.google.common.collect.Ordering;
-
 import javax.enterprise.context.SessionScoped;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 import javax.faces.convert.EnumConverter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Named;
@@ -46,9 +42,8 @@ import static java.util.Calendar.YEAR;
 @SessionScoped
 public class EventModel implements Serializable {
     private TimeFilter timeFilter = future;
-    private Map<String, EventType> typeFilters;
+    private final Map<String, EventType> typeFilters;
     private List<EventType> selectedTypeFilters = new ArrayList<EventType>();
-    private List<Event> eventsToDisplay;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -67,8 +62,6 @@ public class EventModel implements Serializable {
     }
 
     public void refresh() {
-        eventsToDisplay = null;
-        System.out.println("bla");
     }
 
     public String selectedStyleClass(TimeFilter timeFilter) {
@@ -96,28 +89,8 @@ public class EventModel implements Serializable {
         this.selectedTypeFilters = selectedTypeFilters;
     }
 
-    public void setEventsToDisplay(List<Event> eventsToDisplay) {
-        this.eventsToDisplay = eventsToDisplay;
-    }
-
     public static enum TimeFilter {
-        future("Kommende"), past("Vergangene");
-        private final String translation;
-
-        TimeFilter(String translation) {
-            this.translation = translation;
-        }
-
-        public String getTranslation() {
-            return translation;
-        }
-
-        public boolean accepts(Date time) {
-            if (past == this) {
-                return time.before(tomorrow());
-            }
-            return time.after(today());
-        }
+        future, past;
 
         public Date today() {
             return calendarWithoutTime().getTime();
@@ -135,17 +108,6 @@ public class EventModel implements Serializable {
             return result;
         }
 
-        public List<Event> order(List<Event> result) {
-            return new Ordering<Event>() {
-                @Override
-                public int compare(Event event, Event event2) {
-                    return TimeFilter.this == past
-                            ? event2.getWhen().compareTo(event.getWhen())
-                            : event.getWhen().compareTo(event2.getWhen());
-                }
-            }.sortedCopy(result);
-        }
-
         public Date relevant() {
             return this.equals(future) ? today() : tomorrow();
         }
@@ -155,16 +117,6 @@ public class EventModel implements Serializable {
     public static class EventTypeConverter extends EnumConverter {
         public EventTypeConverter() {
             super(EventType.class);
-        }
-
-        @Override
-        public Object getAsObject(FacesContext context, UIComponent component, String value) {
-            return super.getAsObject(context, component, value);
-        }
-
-        @Override
-        public String getAsString(FacesContext context, UIComponent component, Object value) {
-            return super.getAsString(context, component, value);
         }
     }
 }

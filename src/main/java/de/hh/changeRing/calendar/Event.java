@@ -106,10 +106,6 @@ public class Event extends BaseEntity {
         this.eventType = eventType;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getLocation() {
         return location;
     }

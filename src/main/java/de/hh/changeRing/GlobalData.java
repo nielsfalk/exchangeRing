@@ -15,6 +15,7 @@ import java.util.List;
 
 import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType.offer;
 import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType.request;
+import static de.hh.changeRing.advertisement.Advertisement.getNewestAdvertisements;
 import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
 
 @Model
@@ -43,13 +44,13 @@ public class GlobalData {
     @Named
     @Produces
     public List<Advertisement> getNewestRequests() {
-        return InitTestData.getNewestAdvertisements(3, request);
+        return getNewestAdvertisements(3, request, entityManager);
     }
 
     @Named
     @Produces
     public List<Advertisement> getNewestOffers() {
-        return InitTestData.getNewestAdvertisements(3, offer);
+        return getNewestAdvertisements(3, offer, entityManager);
     }
 
     @Named

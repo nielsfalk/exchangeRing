@@ -1,13 +1,11 @@
 package de.hh.changeRing.user;
 
-import de.hh.changeRing.InitTestData;
-
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import static de.hh.changeRing.user.User.isEmpty;
 
@@ -39,8 +37,10 @@ import static de.hh.changeRing.user.User.isEmpty;
 public class UserModel implements Serializable {
     @Inject
     private UserSession session;
-    private ArrayList<User> otherUsers;
     private User selectedUser;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public boolean isMe() {
         return getLoggedInUser().equals(selectedUser);
@@ -71,7 +71,7 @@ public class UserModel implements Serializable {
     }
 
     public void setSelectedUserId(Long id) {
-        this.selectedUser = InitTestData.findUser(id);
+        this.selectedUser = entityManager.find(User.class, id);
     }
 
     public Long getSelectedUserId() {

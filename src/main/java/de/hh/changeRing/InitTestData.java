@@ -16,21 +16,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
-import static de.hh.changeRing.calendar.EventType.fleaMarket;
-import static de.hh.changeRing.calendar.EventType.individual;
-import static de.hh.changeRing.calendar.EventType.info;
-import static de.hh.changeRing.calendar.EventType.regularsTable;
-import static de.hh.changeRing.calendar.EventType.summerFestival;
+import static de.hh.changeRing.calendar.EventType.*;
 import static java.util.Calendar.DAY_OF_MONTH;
 import static java.util.Calendar.YEAR;
 
@@ -59,14 +47,11 @@ import static java.util.Calendar.YEAR;
 public class InitTestData {
     private static InitialData data;
     private static List<Transaction> transactions;
-    private static final List<Advertisement> advertisements = new ArrayList<Advertisement>();
-    private static Map<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>> sortedAds;
-    private static List<Event> events;
 
     static {
         InitTestData.init();
-        InitTestData.getTransactions();
-        InitTestData.getEvents();
+        InitTestData.initTransactions();
+        InitTestData.initEvents();
     }
 
     private static void init() {
@@ -128,59 +113,8 @@ public class InitTestData {
                     } while (!category.getChildren().isEmpty());
                     advertisement.setCategory(category);
                     advertisement.setLinkLocation(user.getId() % 3 == 1);
-                    addAdvertisement(advertisement);
+                    wire(advertisement);
                 }
-            }
-        }
-    }
-
-    public static Map<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>> getSortedAds() {
-        if (sortedAds == null) {
-            sortedAds = createSortedAds();
-        }
-        return sortedAds;
-    }
-
-    private static HashMap<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>> createSortedAds() {
-        HashMap<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>> result
-                = new HashMap<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>>();
-        for (Advertisement.AdvertisementType advertisementType : Advertisement.AdvertisementType.values()) {
-            Map<Category, LinkedList<Advertisement>> categoryMap = new HashMap<Category, LinkedList<Advertisement>>();
-            result.put(advertisementType, categoryMap);
-            for (Category category : Category.values()) {
-                categoryMap.put(category, new LinkedList<Advertisement>());
-            }
-        }
-        fillAdsInMap(result);
-        //sort
-        sortAdMap(result);
-        return result;
-    }
-
-    private static void fillAdsInMap(HashMap<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>> result) {
-        for (Advertisement advertisement : advertisements) {
-            boolean notExpired = advertisement.getValidUntil().getTime() > System.currentTimeMillis();
-            if (notExpired) {
-                for (Category category : advertisement.getCategory().thisWithParents) {
-                    result.get(advertisement.getType()).get(category).add(advertisement);
-                }
-            }
-        }
-    }
-
-    private static void sortAdMap(HashMap<Advertisement.AdvertisementType, Map<Category, LinkedList<Advertisement>>> result) {
-        for (Advertisement.AdvertisementType advertisementType : Advertisement.AdvertisementType.values()) {
-            Map<Category, LinkedList<Advertisement>> categoryMap = result.get(advertisementType);
-            for (Category category : Category.values()) {
-                List<Advertisement> sorted = new Ordering<Advertisement>() {
-                    @Override
-                    public int compare(Advertisement advertisement, Advertisement advertisement1) {
-                        return advertisement1.getCreationDate().compareTo(advertisement.getCreationDate());
-                    }
-                }.sortedCopy(categoryMap.get(category));
-                LinkedList<Advertisement> linkedList = new LinkedList<Advertisement>();
-                linkedList.addAll(sorted);
-                categoryMap.put(category, linkedList);
             }
         }
     }
@@ -190,7 +124,7 @@ public class InitTestData {
         return data.users;
     }
 
-    public static List<Transaction> getTransactions() {
+    private static void initTransactions() {
         if (transactions == null) {
             transactions = new Ordering<Transaction>() {
                 @Override
@@ -202,7 +136,6 @@ public class InitTestData {
                 process(transaction);
             }
         }
-        return transactions;
     }
 
     private static void process(Transaction transaction) {
@@ -218,52 +151,28 @@ public class InitTestData {
         return null;
     }
 
-    public static List<Advertisement> getAdvertisements() {
-        return advertisements;
-    }
-
-    public static Advertisement findAd(Long id) {
-        for (Advertisement advertisement : advertisements) {
-            if (advertisement.getId().equals(id)) {
-                return advertisement;
-            }
-        }
-        return null;
-    }
-
-    public static void addAdvertisement(Advertisement newAdvertisement) {
-        advertisements.add(newAdvertisement);
+    private static void wire(Advertisement newAdvertisement) {
         newAdvertisement.getOwner().getAdvertisements().add(newAdvertisement);
-        sortedAds = null;
     }
 
-    public static void clearSorted() {
-        sortedAds = null;
-    }
-
-    private static List<Event> getEvents() {
-        if (events == null) {
-            events = new ArrayList<Event>();
-            for (int daysToAdd : new int[]{-60, -30, 0, 30, 60, 90, 120}) {
-                events.add(createStammtisch(daysToAdd));
-            }
-            events.add(createInfoStand());
-            events.add(createMembersEvent());
-            events.add(summerEvent());
-            events.add(fleaMarketEvent());
+    private static void initEvents() {
+        for (int daysToAdd : new int[]{-60, -30, 0, 30, 60, 90, 120}) {
+            createStammtisch(daysToAdd);
         }
-        return events;
+        createInfoStand();
+        createMembersEvent();
+        summerEvent();
+        fleaMarketEvent();
     }
 
-    private static Event fleaMarketEvent() {
+    private static void fleaMarketEvent() {
         Event event = createEvent(182, 13l, fleaMarket);
         event.setLocation("Hintertupfingen");
         event.setTitle("Alles Kaufen");
         event.setContent("Alles darf gekauft werden. \nStände bitte Anmelde. \nEuros werden nicht akzeptiert!");
-        return event;
     }
 
-    private static Event summerEvent() {
+    private static void summerEvent() {
         Event event = createEvent(180, 1l, summerFestival);
         event.setTitle("Riesen Sause");
         event.setContent("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam" +
@@ -271,33 +180,29 @@ public class InitTestData {
                 "sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. " +
                 "Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit " +
                 "amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy ");
-        return event;
     }
 
-    private static Event createInfoStand() {
+    private static void createInfoStand() {
         Event result = createEvent(15, 577l, info);
         result.setTitle("Mercado");
         result.setContent("Hier kann man Mitglied werden");
         result.setLocation("Mercado Altona");
-        return result;
     }
 
-    private static Event createMembersEvent() {
+    private static void createMembersEvent() {
         Event result = createEvent(15, 595, individual);
         result.setTitle("Brotaufstrich Basteln");
         result.setContent("Bei mir werden vegetarische und vegane Brotaufstriche gekocht. Bitte vorher anmelden");
         result.setLocation("Bei mir in Winterhude");
         result.setDuration(90);
-        return result;
     }
 
 
-    private static Event createStammtisch(int daysToAdd) {
+    private static void createStammtisch(int daysToAdd) {
         Event result = createEvent(daysToAdd, 577L, regularsTable);
         result.setTitle("Eppendorf");
         result.setContent("Monatlicher Stammtisch des Tauschrings");
         result.setLocation("Kulturhaus Eppendorf, Julius-Reincke-Stieg 13a, 20251 Hamburg");
-        return result;
     }
 
     private static Event createEvent(int daysToAdd, long userId, EventType eventType) {
@@ -316,25 +221,6 @@ public class InitTestData {
         return result;
     }
 
-    public static List<Advertisement> getNewestAdvertisements(int count, Advertisement.AdvertisementType request) {
-        LinkedList<Advertisement> list = InitTestData.getSortedAds().get(request).get(Category.root);
-        return filterFirst(count, list);
-    }
-
-    private static <T> List<T> filterFirst(int count, List<T> orderedItems) {
-        Iterator<T> itemIterator = orderedItems.iterator();
-        int availableCount = orderedItems.size();
-        if (count < availableCount) {
-            availableCount = count;
-        }
-
-        List<T> result = new ArrayList<T>();
-        for (int i = 0; i < availableCount; i++) {
-            result.add(itemIterator.next());
-        }
-        return result;
-    }
-
 
     @XmlRootElement(name = "exchangeRingInitial")
     @XmlAccessorType(XmlAccessType.PROPERTY)
@@ -344,7 +230,6 @@ public class InitTestData {
 
         @XmlElement(name = "transaction")
         List<Transaction> transactions;
-        private static Object events;
     }
 
     private static String loremYpsum() {

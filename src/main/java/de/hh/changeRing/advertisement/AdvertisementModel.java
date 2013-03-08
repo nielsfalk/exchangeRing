@@ -2,15 +2,17 @@ package de.hh.changeRing.advertisement;
 
 
 import de.hh.changeRing.Context;
-import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.user.UserSession;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.component.separator.Separator;
 import org.primefaces.model.DefaultMenuModel;
 
+import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.GregorianCalendar;
@@ -44,11 +46,15 @@ import static java.util.Calendar.YEAR;
  */
 @Named
 @SessionScoped
+@Stateful
 public class AdvertisementModel implements Serializable {
     public static final String ADVERTISEMENTS_BROWSE_URL = "/internal/advertisements/browse.xhtml";
     public static final String ADVERTISEMENTS_EDIT_URL = "/internal/advertisements/edit.xhtml";
     @Inject
     private UserSession session;
+
+    @PersistenceContext
+    private EntityManager entityManager;
     private AdvertisementType type;
     private Category category = Category.root;
 
@@ -84,7 +90,7 @@ public class AdvertisementModel implements Serializable {
             menuModel.addMenuItem(menuItem);
         }
         if (children.isEmpty()) {
-            for (Advertisement advertisement : InitTestData.getSortedAds().get(type).get(category)) {
+            for (Advertisement advertisement : Advertisement.findAdvertisement(type, category, entityManager)) {
                 MenuItem menuItem = new MenuItem();
                 menuItem.setValue(advertisement.getTitle());
                 menuItem.setUrl(advertisement.getBrowseUrl());
@@ -97,17 +103,15 @@ public class AdvertisementModel implements Serializable {
         return menuModel;
     }
 
-
     public String save() {
         if (newAdvertisement != null) {
-            InitTestData.addAdvertisement(newAdvertisement);
+            entityManager.persist(newAdvertisement);
             new Context().addMessage("Anzeige erstellt");
             String browseUrl = newAdvertisement.getBrowseUrl();
             newAdvertisement = null;
             return browseUrl;
         }
         if (advertisement != null) {
-            InitTestData.clearSorted();
             return advertisement.getBrowseUrl();
         }
         return null;
@@ -117,7 +121,7 @@ public class AdvertisementModel implements Serializable {
         if (getAdvertisement() != null) {
             return Arrays.asList(getAdvertisement());
         }
-        return InitTestData.getSortedAds().get(type).get(category);
+        return Advertisement.findAdvertisement(type, category, entityManager);
     }
 
     public Advertisement getAdvertisement() {

@@ -1,6 +1,5 @@
 package de.hh.changeRing.transaction;
 
-import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
@@ -116,12 +115,12 @@ public class TransactionCreator implements Serializable {
 
     public void setReceiverId(Long receiverId) {
         setClear("clear");
-        receiver = InitTestData.findUser(receiverId);
+        receiver = entityManager.find(User.class, receiverId);
     }
 
 
     public void setAdId(Long adId) {
-        advertisement = InitTestData.findAd(adId);
+        advertisement = entityManager.find(Advertisement.class, adId);
         subject = adId + " - " + advertisement.getContent();
         if (subject.length() > 140) {
             subject = subject.substring(0, 140);

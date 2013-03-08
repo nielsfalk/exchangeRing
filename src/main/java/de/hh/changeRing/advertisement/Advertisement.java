@@ -69,14 +69,14 @@ public class Advertisement extends BaseEntity {
     @Temporal(DATE)
     private Date creationDate = new Date();
 
-    static List<Advertisement> findAdvertisement(AdvertisementType type, Category category, EntityManager entityManager) {
+    public static List<Advertisement> findAdvertisement(AdvertisementType type, Category category, EntityManager entityManager) {
         return entityManager.createNamedQuery("advertisementWithCategoryAndType", Advertisement.class)
                 .setParameter("type", type)
                 .setParameter("categorieAndChildren", category.getThisWithChildren())
                 .getResultList();
     }
 
-    static List<Advertisement> getNewestAdvertisements(int count, AdvertisementType type, EntityManager entityManager) {
+    public static List<Advertisement> getNewestAdvertisements(int count, AdvertisementType type, EntityManager entityManager) {
         return entityManager.createNamedQuery("advertisementNewestByType", Advertisement.class)
                 .setParameter("type", type)
                 .setMaxResults(count)

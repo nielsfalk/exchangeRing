@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 public class BaseEntity {
     private static final Logger log = Logger.getLogger(BaseEntity.class.getName());
     @Id
-    @GeneratedValue // TODO fix tests
+    @GeneratedValue
     @XmlElement
     protected Long id;
 

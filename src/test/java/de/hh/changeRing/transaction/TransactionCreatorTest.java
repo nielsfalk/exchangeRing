@@ -145,5 +145,4 @@ public class TransactionCreatorTest extends FunctionalTest {
             entityManager.persist(receiver);
         }
     }
-
 }

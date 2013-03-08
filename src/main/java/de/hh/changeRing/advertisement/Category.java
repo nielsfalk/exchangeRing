@@ -1,5 +1,6 @@
 package de.hh.changeRing.advertisement;
 
+import com.google.common.collect.Lists;
 import de.hh.changeRing.Context;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.model.DefaultMenuModel;
@@ -7,8 +8,8 @@ import org.primefaces.model.DefaultMenuModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import static de.hh.changeRing.advertisement.AdvertisementModel.ADVERTISEMENTS_BROWSE_URL;
 import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType;
+import static de.hh.changeRing.advertisement.AdvertisementModel.ADVERTISEMENTS_BROWSE_URL;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -74,6 +75,8 @@ public enum Category {
     private final List<Category> children = new ArrayList<Category>();
     private static List<Category> endPoints;
     public final ArrayList<Category> thisWithParents;
+    private ArrayList<Category> thisWithChildren;
+
 
     Category(Category parent, String name) {
         this.parent = parent;
@@ -84,8 +87,16 @@ public enum Category {
         thisWithParents = createThisWithParents();
     }
 
+    public ArrayList<Category> getThisWithChildren() {
+        thisWithChildren = Lists.newArrayList(this);
+        for (Category child : children) {
+            thisWithChildren.addAll(child.getThisWithChildren());
+        }
+        return thisWithChildren;
+    }
+
     private ArrayList<Category> createThisWithParents() {
-        ArrayList<Category> result = new ArrayList<Category>();
+        ArrayList<Category> result = Lists.newArrayList();
         Category thisOrParent = this;
         do {
             result.add(thisOrParent);

@@ -7,6 +7,7 @@ import org.primefaces.model.DefaultMenuModel;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 import static de.hh.changeRing.Context.formatGermanDate;
 import static de.hh.changeRing.advertisement.AdvertisementModel.ADVERTISEMENTS_BROWSE_URL;
@@ -37,6 +38,10 @@ import static javax.persistence.TemporalType.DATE;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "advertisementWithCategoryAndType", query = "select advertisement from Advertisement advertisement where advertisement.type = :type and advertisement.category in :categorieAndChildren order by advertisement.creationDate desc"),
+        @NamedQuery(name = "advertisementNewestByType", query = "select advertisement from Advertisement advertisement where advertisement.type = :type order by advertisement.creationDate desc")}
+)
 public class Advertisement extends BaseEntity {
 
     @SuppressWarnings("JpaDataSourceORMInspection")
@@ -63,6 +68,13 @@ public class Advertisement extends BaseEntity {
 
     @Temporal(DATE)
     private Date creationDate = new Date();
+
+    static List findAdvertisement(AdvertisementType type, Category category, EntityManager entityManager) {
+        return entityManager.createNamedQuery("advertisementWithCategoryAndType")
+                .setParameter("type", type)
+                .setParameter("categorieAndChildren", category.getThisWithChildren())
+                .getResultList();
+    }
 
     public Date getCreationDate() {
         return creationDate;

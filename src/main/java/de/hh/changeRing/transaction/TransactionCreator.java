@@ -83,7 +83,7 @@ public class TransactionCreator implements Serializable {
     }
 
     public List<User> getOtherUsers() {
-        return entityManager.createNamedQuery("findOthers").setParameter("me", session.getUser()).getResultList();
+        return entityManager.createNamedQuery("findOthers", User.class).setParameter("me", session.getUser()).getResultList();
     }
 
     private void message(String message) {

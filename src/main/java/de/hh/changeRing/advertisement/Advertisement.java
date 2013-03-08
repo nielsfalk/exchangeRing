@@ -39,8 +39,8 @@ import static javax.persistence.TemporalType.DATE;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "advertisementWithCategoryAndType", query = "select advertisement from Advertisement advertisement where advertisement.type = :type and advertisement.category in :categorieAndChildren order by advertisement.creationDate desc"),
-        @NamedQuery(name = "advertisementNewestByType", query = "select advertisement from Advertisement advertisement where advertisement.type = :type order by advertisement.creationDate desc")}
+        @NamedQuery(name = "advertisementWithCategoryAndType", query = "select advertisement from Advertisement advertisement where advertisement.type = :type and advertisement.category in :categorieAndChildren order by advertisement.id desc"),
+        @NamedQuery(name = "advertisementNewestByType", query = "select advertisement from Advertisement advertisement where advertisement.type = :type order by advertisement.id desc")}
 )
 public class Advertisement extends BaseEntity {
 
@@ -69,10 +69,17 @@ public class Advertisement extends BaseEntity {
     @Temporal(DATE)
     private Date creationDate = new Date();
 
-    static List findAdvertisement(AdvertisementType type, Category category, EntityManager entityManager) {
-        return entityManager.createNamedQuery("advertisementWithCategoryAndType")
+    static List<Advertisement> findAdvertisement(AdvertisementType type, Category category, EntityManager entityManager) {
+        return entityManager.createNamedQuery("advertisementWithCategoryAndType", Advertisement.class)
                 .setParameter("type", type)
                 .setParameter("categorieAndChildren", category.getThisWithChildren())
+                .getResultList();
+    }
+
+    static List<Advertisement> getNewestAdvertisements(int count, AdvertisementType type, EntityManager entityManager) {
+        return entityManager.createNamedQuery("advertisementNewestByType", Advertisement.class)
+                .setParameter("type", type)
+                .setMaxResults(count)
                 .getResultList();
     }
 

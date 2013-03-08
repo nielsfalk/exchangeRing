@@ -122,7 +122,7 @@ public class UserSession implements Serializable {
 
     public List<User> getMembers() {
         if (members == null) {
-            members = Lists.newArrayList(entityManager.createNamedQuery("allUsers").getResultList());
+            members = Lists.newArrayList(entityManager.createNamedQuery("allUsers", User.class).getResultList());
         }
         return members;
     }

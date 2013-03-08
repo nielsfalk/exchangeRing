@@ -32,6 +32,7 @@ public class AdvertisementTest extends FunctionalTest {
     private static final Advertisement offer3 = createAdvertisement(internet, user1, offer);
     private static final Advertisement offer4 = createAdvertisement(bike, user1, offer);
     private static final Advertisement request1 = createAdvertisement(esoteric, user1, request);
+    private List<Advertisement> resultList;
 
     @Deployment
     public static Archive<?> createDeployment() {
@@ -43,55 +44,58 @@ public class AdvertisementTest extends FunctionalTest {
 
     @Test
     public void offersInRootCategorie() {
-        Advertisement.AdvertisementType type = offer;
-        Category category = root;
-        List resultList = findAdvertisement(type, category);
-        expectFoundOffers(resultList, offer1, offer2, offer3, offer4);
+        findAdvertisement(offer, root).expectFoundOffers(offer1, offer2, offer3, offer4);
     }
 
 
     @Test
     public void offersInSuperCategory() {
-        List resultList = findAdvertisement(offer, engineering);
-        expectFoundOffers(resultList, offer1, offer2, offer3);
+        findAdvertisement(offer, engineering).expectFoundOffers(offer1, offer2, offer3);
     }
 
     @Test
     public void offersInSpecialCategory() {
-        List resultList = findAdvertisement(offer, computer);
-        expectFoundOffers(resultList, offer2);
+        findAdvertisement(offer, computer).expectFoundOffers(offer2);
     }
 
     @Test
     public void offersInEmptySpecialCategory() {
-        List resultList = findAdvertisement(offer, beauty);
-        expectFoundOffers(resultList);
+        findAdvertisement(offer, beauty).expectFoundOffers();
     }
 
     @Test
     public void requestsInRootCategory() {
-        List resultList = findAdvertisement(request, root);
-        expectFoundOffers(resultList, request1);
+        findAdvertisement(request, root).expectFoundOffers(request1);
     }
 
     @Test
     public void requestsInSpecialCategory() {
-        List resultList = findAdvertisement(request, esoteric);
-        expectFoundOffers(resultList, request1);
+        findAdvertisement(request, esoteric).expectFoundOffers(request1);
     }
 
     @Test
     public void requestsInEmptySpecialCategory() {
-        List resultList = findAdvertisement(request, home);
-        expectFoundOffers(resultList);
+        findAdvertisement(request, home).expectFoundOffers();
+    }
+
+    @Test
+    public void newest3Offers() {
+        getNewestAdvertisements(3, offer).expectFoundOffers(offer1, offer2, offer3);
+
+    }
+
+    private AdvertisementTest getNewestAdvertisements(int count, Advertisement.AdvertisementType type) {
+        resultList = Advertisement.getNewestAdvertisements(count, type, entityManager);
+        return this;
     }
 
 
-    private List findAdvertisement(Advertisement.AdvertisementType type, Category category) {
-        return Advertisement.findAdvertisement(type, category, entityManager);
+    private AdvertisementTest findAdvertisement(Advertisement.AdvertisementType type, Category category) {
+        resultList = Advertisement.findAdvertisement(type, category, entityManager);
+        return this;
     }
 
-    private void expectFoundOffers(List resultList, Advertisement... offers) {
+    private void expectFoundOffers(Advertisement... offers) {
         assertThat(resultList.size(), is(offers.length));
     }
 

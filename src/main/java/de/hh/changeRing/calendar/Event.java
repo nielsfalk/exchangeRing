@@ -4,16 +4,7 @@ import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.Context;
 import de.hh.changeRing.user.User;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Query;
-import javax.persistence.Temporal;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -162,10 +153,10 @@ public class Event extends BaseEntity {
         return queryEvents(entityManager, timeFilter, typeFilter).getResultList();
     }
 
-    private static Query queryEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> typeFilter) {
+    private static TypedQuery<Event> queryEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> typeFilter) {
         return (timeFilter.equals(future)
-                ? entityManager.createNamedQuery("findFilteredAndOrderedFutureEvents")
-                : entityManager.createNamedQuery("findFilteredAndOrderedPastEvents"))
+                ? entityManager.createNamedQuery("findFilteredAndOrderedFutureEvents", Event.class)
+                : entityManager.createNamedQuery("findFilteredAndOrderedPastEvents", Event.class))
                 .setParameter("relevant", timeFilter.relevant(), TIMESTAMP)
                 .setParameter("filter", typeFilter);
     }

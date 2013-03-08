@@ -19,7 +19,7 @@ public class TestPersistence {
 
     @PostConstruct
     public void testPersistence() {
-        if (entityManager.createNamedQuery("allUsers").setMaxResults(1).getResultList().isEmpty()) {
+        if (entityManager.createNamedQuery("allUsers", User.class).setMaxResults(1).getResultList().isEmpty()) {
             for (User user : InitTestData.getUsers()) {
                 user.initialStuffAfterParsing();
                 entityManager.persist(user);

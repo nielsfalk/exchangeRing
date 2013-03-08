@@ -22,34 +22,22 @@ public class GlobalData {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<Event> getNextEventsInternal(int count) {
-        return Event.findEvents(entityManager, EventModel.TimeFilter.future, EventType.allButInfo(), count);
-    }
-
-    public List<Event> getNextEventsPublic(int count) {
-        return Event.findEvents(entityManager, EventModel.TimeFilter.future, EventType.publicTypes(), count);
-    }
-
-    private List<User> getNewestMembers(int count) {
-        return entityManager.createNamedQuery("newestUser").setMaxResults(count).getResultList();
-    }
-
     @Named
     @Produces
     public List<Event> getNext3EventsInternal() {
-        return getNextEventsInternal(3);
+        return Event.findEvents(entityManager, EventModel.TimeFilter.future, EventType.allButInfo(), 3);
     }
 
     @Named
     @Produces
     public List<Event> getNext3EventsPublic() {
-        return getNextEventsPublic(3);
+        return Event.findEvents(entityManager, EventModel.TimeFilter.future, EventType.publicTypes(), 3);
     }
 
     @Named
     @Produces
     public List<User> getNewestMembers8() {
-        return getNewestMembers(8);
+        return entityManager.createNamedQuery("newestUser").setMaxResults(8).getResultList();
     }
 
     @Named

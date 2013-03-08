@@ -34,7 +34,7 @@ import static com.google.common.base.Charsets.UTF_8;
 public class ParseDumpFile {
     private String content;
 
-    public ParseDumpFile(File from, File toFolder) {
+    private ParseDumpFile(File from, File toFolder) {
         try {
             this.content = Files.toString(from, UTF_8);
             replace("`", "");
@@ -58,7 +58,7 @@ public class ParseDumpFile {
                     File file = new File(toFolder, tableName + ".sql");
                     file.delete();
                     Files.write("DROP TABLE IF EXISTS " + contentPart, file, UTF_8);
-                    log(tableName, file,contentPart);
+                    log(tableName, file, contentPart);
                 }
             }
 
@@ -69,12 +69,12 @@ public class ParseDumpFile {
 
     private void log(String tableName, File file, String contentPart) {
         String msg = tableName;
-        while (msg.length()<15){
-            msg+=" ";
+        while (msg.length() < 15) {
+            msg += " ";
         }
         msg += ((file.length() / 1024)) + " KB";
-        while (msg.length()<25){
-            msg+=" ";
+        while (msg.length() < 25) {
+            msg += " ";
         }
         msg += contentPart.split("\n").length + " rows";
         System.out.println(msg);

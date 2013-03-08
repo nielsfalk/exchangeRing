@@ -56,7 +56,7 @@ public class BaseEntity {
         }
         BaseEntity that = (BaseEntity) other;
         if (id == null) {
-            return that.id == null ? super.equals(other) : false;
+            return that.id == null && super.equals(other);
         }
         return id.equals(that.id);
     }

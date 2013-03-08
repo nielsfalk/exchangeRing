@@ -279,13 +279,4 @@ public class Context {
         return new Context().getViewId().substring(1).startsWith(viewIdPrefix)
                 ? ACTIVE_CSS_CLASS : "";
     }
-
-    public static String eventRedirectIdLoggedIn() {
-        Context context = new Context();
-        UserSession session = context.getNamedBean(UserSession.class);
-        if (session.isLoggedIn()) {
-            context.redirect("/internal/events/browse.xhtml");
-        }
-        return "";
-    }
 }

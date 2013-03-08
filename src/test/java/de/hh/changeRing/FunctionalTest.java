@@ -12,7 +12,7 @@ import org.junit.After;
 import org.junit.Before;
 
 public class FunctionalTest {
-    public static final String PASSWORD = "321";
+    protected static final String PASSWORD = "321";
 
 
     protected static User createTestUser() {

@@ -66,11 +66,12 @@ public class UserSession implements Serializable {
         //return isLoggedIn()?"/internal/events/browse.xhtml":"";
     }
 
-    protected void message(String message) {
+    private void message(String message) {
         context().addMessage(message);
     }
 
-    public void updateUser() {}
+    public void updateUser() {
+    }
 
     @Named
     @Produces

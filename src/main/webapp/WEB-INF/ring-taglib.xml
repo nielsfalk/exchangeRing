@@ -48,11 +48,6 @@
         <function-class>de.hh.changeRing.Context</function-class>
         <function-signature>java.lang.String activeMenu(java.lang.String)</function-signature>
     </function>
-    <function>
-        <function-name>eventRedirectIfLoggedIn</function-name>
-        <function-class>de.hh.changeRing.Context</function-class>
-        <function-signature>java.lang.String eventRedirectIdLoggedIn()</function-signature>
-    </function>
     <tag>
         <tag-name>gravatar</tag-name>
         <component>

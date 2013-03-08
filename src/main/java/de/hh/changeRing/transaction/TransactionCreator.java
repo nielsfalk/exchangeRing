@@ -14,7 +14,6 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -58,6 +57,7 @@ public class TransactionCreator implements Serializable {
     private UserSession session;
 
     @PersistenceContext
+    private
     EntityManager entityManager;
 
     private Advertisement advertisement;
@@ -86,7 +86,7 @@ public class TransactionCreator implements Serializable {
         return entityManager.createNamedQuery("findOthers").setParameter("me", session.getUser()).getResultList();
     }
 
-    protected void message(String message) {
+    private void message(String message) {
         context().addMessage(message);
     }
 

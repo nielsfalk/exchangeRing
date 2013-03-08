@@ -50,7 +50,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(Arquillian.class)
 public class EventTest extends FunctionalTest {
-    public static final User USER = createTestUser();
+    private static final User USER = createTestUser();
     private static final List<Event> EVENTS = newArrayList();
 
     private static final Event PRESENT_EVENT = createEvent(0, fleaMarket);

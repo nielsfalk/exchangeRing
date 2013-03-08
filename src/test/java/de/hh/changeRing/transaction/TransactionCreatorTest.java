@@ -49,9 +49,8 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(Arquillian.class)
 public class TransactionCreatorTest extends FunctionalTest {
-    public static final String SUBJECT = TransactionCreatorTest.class.getName();
+    private static final String SUBJECT = TransactionCreatorTest.class.getName();
     private static User owner = createTestUser();
-    ;
     private static User receiver = createTestUser();
 
     @Deployment
@@ -66,6 +65,7 @@ public class TransactionCreatorTest extends FunctionalTest {
     TransactionCreator transactionCreator;
 
     @PersistenceContext
+    private
     EntityManager entityManager;
 
     @Before
@@ -87,7 +87,7 @@ public class TransactionCreatorTest extends FunctionalTest {
     @Test
     public void findOthers() {
         List<User> otherUsers = transactionCreator.getOtherUsers();
-        assertThat(otherUsers.size(),is(1));
+        assertThat(otherUsers.size(), is(1));
         assertThat(otherUsers.get(0), is(receiver));
 
     }

@@ -137,7 +137,7 @@ public class User extends BaseEntity {
     @SuppressWarnings("JpaDataSourceORMInspection")
     @OneToMany(cascade = PERSIST)
     @JoinColumn(name = "user_id")
-    @OrderBy("transaction.date desc")
+    @OrderBy("id desc")
     private List<DepotItem> depotItems = new ArrayList<DepotItem>();
 
     private long balance;

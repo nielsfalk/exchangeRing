@@ -52,8 +52,8 @@ import static javax.persistence.TemporalType.DATE;
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @NamedQueries({
         @NamedQuery(name = "loginWithEmail", query = "select user from tr_user user where user.email =:email"),
-        @NamedQuery(name = "findOthers", query = "select user from tr_user user where user <> :me"),
-        @NamedQuery(name = "allUsers", query = "select user from tr_user user"),
+        @NamedQuery(name = "findOthers", query = "select user from tr_user user where user <> :me order by user.id"),
+        @NamedQuery(name = "allUsers", query = "select user from tr_user user order by user.id"),
         @NamedQuery(name = "newestUser", query = "select user from tr_user user order by user.activated desc")
 })
 public class User extends BaseEntity {

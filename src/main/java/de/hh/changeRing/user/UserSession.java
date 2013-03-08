@@ -1,5 +1,7 @@
 package de.hh.changeRing.user;
 
+import com.google.common.collect.Lists;
+
 import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
@@ -8,6 +10,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -43,6 +46,7 @@ public class UserSession implements Serializable {
     @PersistenceContext
     private
     EntityManager entityManager;
+    private ArrayList members;
 
     public void login() {
         User user;
@@ -113,5 +117,13 @@ public class UserSession implements Serializable {
         if (event.regards(user)) {
             user = entityManager.find(User.class, user.getId());
         }
+        members = null;
+    }
+
+    public List<User> getMembers() {
+        if (members == null) {
+            members = Lists.newArrayList(entityManager.createNamedQuery("allUsers").getResultList());
+        }
+        return members;
     }
 }

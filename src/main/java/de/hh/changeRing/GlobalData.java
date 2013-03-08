@@ -57,8 +57,4 @@ public class GlobalData {
     public List<Event> getEventsToDisplay() {
         return Event.findEvents(entityManager, future, EventType.publicTypes());
     }
-
-    public List<User> getMembers() {
-        return entityManager.createNamedQuery("allUsers").getResultList();
-    }
 }

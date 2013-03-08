@@ -1,4 +1,4 @@
-package de.hh.changeRing;
+package de.hh.changeRing.initialData;
 
 import com.google.common.collect.Ordering;
 import de.hh.changeRing.advertisement.Advertisement;

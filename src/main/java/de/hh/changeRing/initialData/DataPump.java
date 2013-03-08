@@ -1,6 +1,5 @@
-package de.hh.changeRing.testPersistence;
+package de.hh.changeRing.initialData;
 
-import de.hh.changeRing.InitTestData;
 import de.hh.changeRing.user.User;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +12,7 @@ import javax.persistence.PersistenceContext;
 @SuppressWarnings("UnusedDeclaration")
 @Singleton
 @Startup
-public class TestPersistence {
+public class DataPump {
     @PersistenceContext
     EntityManager entityManager;
 
@@ -24,8 +23,6 @@ public class TestPersistence {
                 user.initialStuffAfterParsing();
                 entityManager.persist(user);
             }
-            System.out.println(entityManager.createQuery("select user from tr_user user").getResultList().size());
         }
-        System.out.println("bla persistence");
     }
 }

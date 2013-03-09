@@ -38,7 +38,8 @@ public class RingResourceHandler extends javax.faces.application.ResourceHandler
 
     @Override
     public Resource createResource(String resourceName, String libraryName) {
-        return new RingResource(super.createResource(resourceName, libraryName));
+        Resource resource = super.createResource(resourceName, libraryName);
+        return resource == null ? null : new RingResource(resource);
     }
 
     public static class RingResource extends javax.faces.application.ResourceWrapper {

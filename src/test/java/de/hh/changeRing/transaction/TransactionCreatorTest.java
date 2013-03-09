@@ -70,7 +70,7 @@ public class TransactionCreatorTest extends FunctionalTest {
 
     @Before
     public void login() {
-        userSession.setId(owner.getId().toString());
+        userSession.setIdOrEmail(owner.getId().toString());
         userSession.setPassword(PASSWORD);
         userSession.login();
     }

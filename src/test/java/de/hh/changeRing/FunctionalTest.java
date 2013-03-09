@@ -11,11 +11,12 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
 import org.junit.Before;
 
-public class FunctionalTest {
-    protected static final String PASSWORD = "321";
+public abstract class FunctionalTest {
+    public static final String PASSWORD = "321";
+    public static final Class<?>[] ENTITY_CLASSES = new Class<?>[]{User.class, Advertisement.class, BaseEntity.class, DepotItem.class, Event.class, Transaction.class};
 
 
-    protected static User createTestUser() {
+    public static User createTestUser() {
         User result = new User();
         result.setNickName("nick");
         result.setEmail("hans@meiser.de");
@@ -27,7 +28,7 @@ public class FunctionalTest {
         return ShrinkWrap.create(JavaArchive.class, "test.jar")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
-                .addClasses(User.class, Advertisement.class, BaseEntity.class, DepotItem.class, Event.class, Transaction.class);
+                .addClasses(ENTITY_CLASSES);
     }
 
     @Before

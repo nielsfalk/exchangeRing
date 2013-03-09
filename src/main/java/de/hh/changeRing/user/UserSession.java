@@ -40,20 +40,20 @@ import static de.hh.changeRing.Context.context;
 public class UserSession implements Serializable {
     private static final Logger LOGGER = Logger.getLogger(UserSession.class.getName());
 
-    private String id, password;
+    private String idOrEmail, password;
     private User user;
 
     @PersistenceContext
     private
     EntityManager entityManager;
-    private ArrayList members;
+    private ArrayList<User> members;
 
     public void login() {
         User user;
         try {
-            user = entityManager.find(User.class, Long.parseLong(this.id));
+            user = entityManager.find(User.class, Long.parseLong(this.idOrEmail));
         } catch (NumberFormatException e) {
-            List<User> resultList = entityManager.createNamedQuery("loginWithEmail", User.class).setParameter("email", id).getResultList();
+            List<User> resultList = entityManager.createNamedQuery("loginWithEmail", User.class).setParameter("email", idOrEmail).getResultList();
             user = resultList.isEmpty() ? null : resultList.get(0);
         }
 
@@ -62,8 +62,8 @@ public class UserSession implements Serializable {
             this.user = user;
             context().leavePublicEvents();
         }
-        LOGGER.info(isLoggedIn() ? id + " logged in" : "tried to login " + id);
-        id = null;
+        LOGGER.info(isLoggedIn() ? idOrEmail + " logged in" : "tried to login " + idOrEmail);
+        idOrEmail = null;
         password = null;
         //noinspection ConstantConditions
         message(isLoggedIn() ? ("Wilkommen " + user.getDisplayName() + "!") : "Id oder Passwort falsch");
@@ -89,12 +89,12 @@ public class UserSession implements Serializable {
         return user != null;
     }
 
-    public String getId() {
-        return id;
+    public String getIdOrEmail() {
+        return idOrEmail;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdOrEmail(String idOrEmail) {
+        this.idOrEmail = idOrEmail;
     }
 
     public String getPassword() {

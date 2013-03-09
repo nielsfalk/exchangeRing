@@ -51,7 +51,7 @@ public class UserSessionTest extends FunctionalTest {
 
     @Test
     public void loginWithId() {
-        userSession.setId(USER.getId().toString());
+        userSession.setIdOrEmail(USER.getId().toString());
         userSession.setPassword(PASSWORD);
         userSession.login();
         assertThat(userSession.isLoggedIn(), is(true));
@@ -59,7 +59,7 @@ public class UserSessionTest extends FunctionalTest {
 
     @Test
     public void loginWithIdWrong() {
-        userSession.setId(USER.getId().toString());
+        userSession.setIdOrEmail(USER.getId().toString());
         userSession.setPassword("wrong");
         userSession.login();
         assertThat(userSession.isNotLoggedIn(), is(true));
@@ -67,7 +67,7 @@ public class UserSessionTest extends FunctionalTest {
 
     @Test
     public void loginWithEmail() {
-        userSession.setId(USER.getEmail());
+        userSession.setIdOrEmail(USER.getEmail());
         userSession.setPassword(PASSWORD);
         userSession.login();
         assertThat(userSession.isLoggedIn(), is(true));

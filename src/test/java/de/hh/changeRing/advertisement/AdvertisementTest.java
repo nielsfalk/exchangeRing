@@ -19,8 +19,6 @@ import static com.google.common.collect.Lists.newArrayList;
 import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType.offer;
 import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType.request;
 import static de.hh.changeRing.advertisement.Category.*;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -62,43 +60,43 @@ public class AdvertisementTest extends FunctionalTest {
 
     @Test
     public void offersInRootCategorie() {
-        findAdvertisement(offer, root).expectFoundOffers(offer1, offer2, offer3, offer4);
+        findAdvertisement(offer, root).expectAdvertisements(offer4, offer3, offer2, offer1);
     }
 
 
     @Test
     public void offersInSuperCategory() {
-        findAdvertisement(offer, engineering).expectFoundOffers(offer1, offer2, offer3);
+        findAdvertisement(offer, engineering).expectAdvertisements(offer3, offer2, offer1);
     }
 
     @Test
     public void offersInSpecialCategory() {
-        findAdvertisement(offer, computer).expectFoundOffers(offer2);
+        findAdvertisement(offer, computer).expectAdvertisements(offer2);
     }
 
     @Test
     public void offersInEmptySpecialCategory() {
-        findAdvertisement(offer, beauty).expectFoundOffers();
+        findAdvertisement(offer, beauty).expectAdvertisements();
     }
 
     @Test
     public void requestsInRootCategory() {
-        findAdvertisement(request, root).expectFoundOffers(request1);
+        findAdvertisement(request, root).expectAdvertisements(request1);
     }
 
     @Test
     public void requestsInSpecialCategory() {
-        findAdvertisement(request, esoteric).expectFoundOffers(request1);
+        findAdvertisement(request, esoteric).expectAdvertisements(request1);
     }
 
     @Test
     public void requestsInEmptySpecialCategory() {
-        findAdvertisement(request, home).expectFoundOffers();
+        findAdvertisement(request, home).expectAdvertisements();
     }
 
     @Test
     public void newest3Offers() {
-        getNewestAdvertisements(3, offer).expectFoundOffers(offer1, offer2, offer3);
+        getNewestAdvertisements(3, offer).expectAdvertisements(offer4, offer3, offer2);
 
     }
 
@@ -113,8 +111,8 @@ public class AdvertisementTest extends FunctionalTest {
         return this;
     }
 
-    private void expectFoundOffers(Advertisement... offers) {
-        assertThat(resultList.size(), is(offers.length));
+    private void expectAdvertisements(Advertisement... advertisements) {
+        expectResultList(resultList, advertisements);
     }
 
     private static Advertisement createAdvertisement(Category category, User user1, Advertisement.AdvertisementType offer) {
@@ -135,11 +133,11 @@ public class AdvertisementTest extends FunctionalTest {
 
         @PostConstruct
         public void createUser() {
-            entityManager.persist(user1);
-            entityManager.persist(user2);
             for (Advertisement advertisement : ADVERTISEMENTS) {
                 entityManager.persist(advertisement);
             }
+            entityManager.persist(user1);
+            entityManager.persist(user2);
         }
     }
 }

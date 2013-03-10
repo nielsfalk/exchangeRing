@@ -11,6 +11,11 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
 import org.junit.Before;
 
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 public abstract class FunctionalTest {
     public static final String PASSWORD = "321";
     public static final Class<?>[] ENTITY_CLASSES = new Class<?>[]{User.class, Advertisement.class, BaseEntity.class, DepotItem.class, Event.class, Transaction.class};
@@ -39,6 +44,13 @@ public abstract class FunctionalTest {
     @After
     public void resetContext() {
         TestContext.reset();
+    }
+
+    protected void expectResultList(List<? extends BaseEntity> resultList, BaseEntity... expectedEvents) {
+        assertThat(resultList.size(), is(expectedEvents.length));
+        for (int i = 0; i < expectedEvents.length; i++) {
+            assertThat(resultList.get(i), is(expectedEvents[i]));
+        }
     }
 
     public static class TestContext extends Context {

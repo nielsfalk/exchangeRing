@@ -13,21 +13,13 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
 import static de.hh.changeRing.calendar.EventModel.TimeFilter.past;
-import static de.hh.changeRing.calendar.EventType.fleaMarket;
-import static de.hh.changeRing.calendar.EventType.individual;
-import static de.hh.changeRing.calendar.EventType.info;
+import static de.hh.changeRing.calendar.EventType.*;
 import static java.util.Calendar.DAY_OF_MONTH;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -60,6 +52,7 @@ public class EventTest extends FunctionalTest {
     private static final Event FUTURE_EVENT1 = createEvent(1, fleaMarket);
     private static final Event FUTURE_EVENT2 = createEvent(2, individual);
     private static final Event FUTURE_EVENT3 = createEvent(3, info);
+    private List<Event> resultList;
 
     @Deployment
     public static Archive<?> createDeployment() {
@@ -71,44 +64,45 @@ public class EventTest extends FunctionalTest {
 
     @Test
     public void findFilteredFutureEvents() {
-        List<Event> events = Event.findEvents(entityManager, future, newArrayList(individual));
-        expectEventsContainInCorrectOrder(events, FUTURE_EVENT2);
+        findEvents(future, newArrayList(individual)).expectEventsContainInCorrectOrder(FUTURE_EVENT2);
     }
 
     @Test
     public void findAllFutureEvents() {
-        List<Event> events = Event.findEvents(entityManager, future, allEvents());
-        expectEventsContainInCorrectOrder(events, PRESENT_EVENT, FUTURE_EVENT1, FUTURE_EVENT2, FUTURE_EVENT3);
+        findEvents(future, allEvents()).expectEventsContainInCorrectOrder(PRESENT_EVENT, FUTURE_EVENT1, FUTURE_EVENT2, FUTURE_EVENT3);
+    }
+
+    @Test
+    public void find2FutureEvents() {
+        findEvents(future, allEvents(), 2).expectEventsContainInCorrectOrder(PRESENT_EVENT, FUTURE_EVENT1);
+    }
+
+    @Test
+    public void findAllPastEvents() {
+        findEvents(past, allEvents()).expectEventsContainInCorrectOrder(PRESENT_EVENT, PAST_EVENT1, PAST_EVENT2, PAST_EVENT3);
+    }
+
+    @Test
+    public void find2PastEvents() {
+        findEvents(past, allEvents(), 2).expectEventsContainInCorrectOrder(PRESENT_EVENT, PAST_EVENT1);
+    }
+
+    private EventTest findEvents(EventModel.TimeFilter timeFilter, ArrayList<EventType> typeFilter, int count) {
+        resultList = Event.findEvents(entityManager, timeFilter, typeFilter, count);
+        return this;
+    }
+
+    private EventTest findEvents(EventModel.TimeFilter filter, ArrayList<EventType> typeFilter) {
+        resultList = Event.findEvents(entityManager, filter, typeFilter);
+        return this;
     }
 
     private ArrayList<EventType> allEvents() {
         return newArrayList(EventType.values());
     }
 
-    @Test
-    public void find2FutureEvents() {
-        List<Event> events = Event.findEvents(entityManager, future, allEvents(), 2);
-        expectEventsContainInCorrectOrder(events, PRESENT_EVENT, FUTURE_EVENT1);
-    }
-
-    @Test
-    public void findAllPastEvents() {
-        List<Event> events = Event.findEvents(entityManager, past, allEvents());
-        expectEventsContainInCorrectOrder(events, PRESENT_EVENT, PAST_EVENT1, PAST_EVENT2, PAST_EVENT3);
-    }
-
-    @Test
-    public void find2PastEvents() {
-        List<Event> events = Event.findEvents(entityManager, past, allEvents(), 2);
-        expectEventsContainInCorrectOrder(events, PRESENT_EVENT, PAST_EVENT1);
-    }
-
-    private void expectEventsContainInCorrectOrder(List<Event> events, Event... expectedEvents) {
-        assertThat(events.size(), is(expectedEvents.length));
-        for (int i = 0; i < expectedEvents.length; i++) {
-            Event expectedEvent = expectedEvents[i];
-            assertThat(events.get(i), is(expectedEvent));
-        }
+    private void expectEventsContainInCorrectOrder(Event... expectedEvents) {
+        expectResultList(resultList, expectedEvents);
     }
 
     private static Date date(int daysToAdd) {

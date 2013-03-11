@@ -1,5 +1,6 @@
 package de.hh.changeRing.calendar;
 
+import com.google.common.collect.Lists;
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.Context;
 import de.hh.changeRing.user.User;
@@ -146,10 +147,16 @@ public class Event extends BaseEntity {
     }
 
     public static List<Event> findEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> typeFilter, int count) {
+        if (typeFilter.isEmpty()) {
+            return Lists.newArrayList();
+        }
         return queryEvents(entityManager, timeFilter, typeFilter).setMaxResults(count).getResultList();
     }
 
     public static List<Event> findEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> typeFilter) {
+        if (typeFilter.isEmpty()) {
+            return Lists.newArrayList();
+        }
         return queryEvents(entityManager, timeFilter, typeFilter).getResultList();
     }
 

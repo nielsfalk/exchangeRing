@@ -64,8 +64,7 @@ Agenda
     - transfer templates
     - standing order
 - encrypted passwords (maybe some other encryption stuff)
-- JPA with database or mongoDB
-- stateful theme switcher
+- Data migration or using old Database
 - Full functionality of the old solution
 - ensure https
 - Maybe replace old software

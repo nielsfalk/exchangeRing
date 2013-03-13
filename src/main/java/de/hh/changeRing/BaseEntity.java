@@ -3,6 +3,7 @@ package de.hh.changeRing;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
 import javax.xml.bind.annotation.XmlElement;
 import java.util.logging.Logger;
 
@@ -35,6 +36,10 @@ public class BaseEntity {
     @GeneratedValue
     @XmlElement
     protected Long id;
+
+    @SuppressWarnings("UnusedDeclaration")
+    @Version
+    private int version;
 
     private static long idCounter = -1;
 

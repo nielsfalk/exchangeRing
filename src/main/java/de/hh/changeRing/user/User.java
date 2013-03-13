@@ -58,7 +58,7 @@ import static javax.persistence.TemporalType.DATE;
 })
 public class User extends BaseEntity {
 
-	private int group; // gruppe
+	private int userGroup; // gruppe
 	
 	// TODO mhoennig: use enum
 	private char type; // art
@@ -119,10 +119,6 @@ public class User extends BaseEntity {
 
     private String urlDescription;
 
-    @SuppressWarnings("JpaDataSourceORMInspection")
-    @Column(name = "user_limit")
-    private long limit = 0;
-
     @Column(scale = 2, precision = 7)
     private BigDecimal euroBalance = new BigDecimal("0.00");
 
@@ -131,7 +127,19 @@ public class User extends BaseEntity {
 
     @Column(scale = 2, precision = 7)
     private BigDecimal euroFee = new BigDecimal("6.00");
-
+    
+    // TODO mhoennig: Boolean mapping to 0/X
+    private char noFee;
+    
+    // TODO mhoennig: proper name as soon as we know what this is
+    private long umlauf; // ?!? 0/10/20
+    
+    private long fee;
+    
+    private BigDecimal minBalance;
+    
+    private BigDecimal maxBalance;
+    
     @Column(length = 512)
     private String profile;
 
@@ -146,6 +154,12 @@ public class User extends BaseEntity {
 
     @Temporal(DATE)
     private Date deActivated;
+    
+    @Temporal(DATE)
+    private Date lastLogin;
+
+    @Temporal(DATE)
+    private Date lastWork;
 
     @SuppressWarnings("JpaDataSourceORMInspection")
     @OneToMany(cascade = PERSIST)
@@ -155,7 +169,7 @@ public class User extends BaseEntity {
 
     private BigDecimal initialBalance; // startKapital 
 
-    private BigDecimal balance;
+    private BigDecimal balance = new BigDecimal("0.00");
 
     private String facebook;
 
@@ -546,10 +560,6 @@ public class User extends BaseEntity {
         this.deActivated = deActivated;
     }
 
-    public void setLimit(long limit) {
-        this.limit = limit;
-    }
-
     @XmlElement
     public Date getActivated() {
         return activated;
@@ -566,11 +576,6 @@ public class User extends BaseEntity {
 
     public String getFormattedDeActivated() {
         return formatGermanDate(deActivated);
-    }
-
-    @XmlElement
-    public long getLimit() {
-        return limit;
     }
 
     @XmlElement

@@ -3,6 +3,9 @@ target
 *.iml
 *.patch
 ~/.gitignore
+~/.classes
+~/.project
+~/.setting
 classes/
 parsedDump/
 parsedDump.sql

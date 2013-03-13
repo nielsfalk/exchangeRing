@@ -57,8 +57,16 @@ import static javax.persistence.TemporalType.DATE;
         @NamedQuery(name = "newestUser", query = "select user from tr_user user order by user.activated desc")
 })
 public class User extends BaseEntity {
-    private String nickName;
 
+	private int group; // gruppe
+	
+	// TODO mhoennig: use enum
+	private char type; // art
+	
+	// TODO mhoennig: converter from Boolean
+	private char payd; // bezahlt -- was auch immer, wann auch immer?!?
+	
+	
     @XmlElement
     private String firstName;
 
@@ -101,7 +109,11 @@ public class User extends BaseEntity {
 
     private String phone;
 
+    private String phoneJob;
+
     private String phoneMobile;
+
+    private String fax;
 
     private String url;
 
@@ -126,6 +138,7 @@ public class User extends BaseEntity {
     private String accessibility;
 
     @Enumerated(STRING)
+    // TODO mhoennig: converter to use single char like in tron database
     private Status status = active;
 
     @Temporal(DATE)
@@ -140,8 +153,9 @@ public class User extends BaseEntity {
     @OrderBy("id desc")
     private List<DepotItem> depotItems = new ArrayList<DepotItem>();
 
-    //TODO Niels BigDecimal
-    private long balance;
+    private BigDecimal initialBalance; // startKapital 
+
+    private BigDecimal balance;
 
     private String facebook;
 
@@ -157,15 +171,6 @@ public class User extends BaseEntity {
     @JoinColumn(name = "user_id")
     private List<Event> events = new ArrayList<Event>();
 
-
-    @XmlElement
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
 
     public String getFirstName() {
         return firstName;
@@ -227,13 +232,13 @@ public class User extends BaseEntity {
     }
 
     public long getBalance() {
-        return balance;
+        return balance.longValue();
     }
 
     public void execute(Transaction transaction) {
         DepotItem depotItem = DepotItem.create(transaction, this);
         depotItems.add(depotItem);
-        balance = depotItem.getNewBalance();
+        balance = new BigDecimal(depotItem.getNewBalance()).setScale(2);
         sortDepot();
     }
 
@@ -242,7 +247,6 @@ public class User extends BaseEntity {
         user.id = i;
         user.email = "email" + i + "@sonst-was.de";
         user.password = "bll" + "lll";
-        user.nickName = randomName();
         user.firstName = randomName();
         user.lastName = randomName();
         user.firstNameVisible = new Random().nextBoolean();
@@ -311,7 +315,7 @@ public class User extends BaseEntity {
     }
 
     public String getDisplayName() {
-        return isEmpty(nickName) ? getName() : nickName;
+        return getName();
     }
 
     public static boolean isEmpty(Object string) {
@@ -370,8 +374,7 @@ public class User extends BaseEntity {
     @Override
     public String toString() {
         return "User{" +
-                "nickName='" + nickName + '\'' +
-                ", id=" + getId() +
+                "  id=" + getId() +
                 ", firstName='" + firstName + '\'' +
                 ", firstNameVisible=" + firstNameVisible +
                 ", lastName='" + lastName + '\'' +

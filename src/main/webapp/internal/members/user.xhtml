@@ -49,11 +49,6 @@ Environmental damage caused by the use must be kept as small as possible.
             <h:outputText value="ID:"/>
             <h:outputText value="#{userModel.selectedUser.id}"/>
 
-            <h:outputText value="Nickname:" rendered="#{userModel.meOrFilled(userModel.selectedUser.nickName)}"/>
-            <h:outputText value="#{userModel.selectedUser.nickName}"
-                          rendered="#{userModel.otherAndFilled(userModel.selectedUser.nickName)}"/>
-            <p:inputText value="#{userModel.selectedUser.nickName}" rendered="#{userModel.me}"/>
-
             <h:outputText value="#{userModel.me?'Vorname, sichtbar':'Vorname'}:"
                           rendered="#{userModel.meOrFilled(userModel.selectedUser.visibleFirstName)}"/>
             <h:panelGroup rendered="#{userModel.meOrFilled(userModel.selectedUser.visibleFirstName)}">

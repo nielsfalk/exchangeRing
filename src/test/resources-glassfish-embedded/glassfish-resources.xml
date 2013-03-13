@@ -12,6 +12,6 @@
                           datasource-classname="org.h2.jdbcx.JdbcDataSource">
         <property name="user" value="sa"/>
         <property name="password" value=""/>
-        <property name="url" value="jdbc:h2:file:target/databases/h2/db"/>
+        <property name="url" value="jdbc:h2:file:target/databases/h2/db;MODE=MySQL"/>
     </jdbc-connection-pool>
 </resources>

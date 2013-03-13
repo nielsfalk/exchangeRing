@@ -5,6 +5,7 @@ import de.hh.changeRing.calendar.Event;
 import de.hh.changeRing.transaction.Transaction;
 import de.hh.changeRing.user.DepotItem;
 import de.hh.changeRing.user.User;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -87,5 +88,10 @@ public abstract class FunctionalTest {
         @Override
         public void leavePublicEvents() {
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(DigestUtils.md5Hex("577tla2c5en")
+        );
     }
 }

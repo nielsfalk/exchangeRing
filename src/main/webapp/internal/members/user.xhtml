@@ -125,10 +125,10 @@ Environmental damage caused by the use must be kept as small as possible.
             <h:outputText value="#{userModel.selectedUser.limit}"/>
 
             <h:outputText value="Ausstehende Gebühr:"/>
-            <h:outputText value="#{userModel.selectedUser.missingFee} €"/>
+            <h:outputText value="#{userModel.selectedUser.euroBalance} €"/>
 
             <h:outputText value="Gebühr:"/>
-            <h:outputText value="#{userModel.selectedUser.fee} €"/>
+            <h:outputText value="#{userModel.selectedUser.euroFee} €"/>
 
             <h:outputText value="Adresse:" rendered="#{userModel.other and userModel.selectedUser.addressVisible}"/>
             <h:panelGroup rendered="#{userModel.other and userModel.selectedUser.addressVisible}">

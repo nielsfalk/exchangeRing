@@ -112,13 +112,13 @@ public class User extends BaseEntity {
     private long limit = 0;
 
     @Column(scale = 2, precision = 7)
-    private BigDecimal missingFee = new BigDecimal("0.00");
+    private BigDecimal euroBalance = new BigDecimal("0.00");
 
     @Temporal(DATE)
     private Date birthDay;
 
     @Column(scale = 2, precision = 7)
-    private BigDecimal fee = new BigDecimal("6.00");
+    private BigDecimal euroFee = new BigDecimal("6.00");
 
     @Column(length = 512)
     private String profile;
@@ -140,6 +140,7 @@ public class User extends BaseEntity {
     @OrderBy("id desc")
     private List<DepotItem> depotItems = new ArrayList<DepotItem>();
 
+    //TODO Niels BigDecimal
     private long balance;
 
     private String facebook;
@@ -516,13 +517,13 @@ public class User extends BaseEntity {
     }
 
     @XmlElement
-    public BigDecimal getMissingFee() {
-        return missingFee;
+    public BigDecimal getEuroBalance() {
+        return euroBalance;
     }
 
     @XmlElement
-    public BigDecimal getFee() {
-        return fee;
+    public BigDecimal getEuroFee() {
+        return euroFee;
     }
 
     @XmlElement

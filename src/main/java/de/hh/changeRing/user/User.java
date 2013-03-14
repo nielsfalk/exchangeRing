@@ -8,8 +8,10 @@ import de.bripkens.gravatar.Rating;
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.calendar.Event;
+import de.hh.changeRing.eclipselink.MappingCustomizer;
 import de.hh.changeRing.transaction.Transaction;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.eclipse.persistence.annotations.Customizer;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -50,6 +52,7 @@ import static javax.persistence.TemporalType.DATE;
  */
 
 @Entity(name = "tr_user")
+@Customizer(MappingCustomizer.class)
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @NamedQueries({
         @NamedQuery(name = "loginWithEmail", query = "select user from tr_user user where user.email =:email"),

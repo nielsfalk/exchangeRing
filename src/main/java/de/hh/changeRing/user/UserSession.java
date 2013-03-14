@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import static de.hh.changeRing.Context.context;
+import static de.hh.changeRing.user.User.hashPassword;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -57,8 +58,9 @@ public class UserSession implements Serializable {
             user = resultList.isEmpty() ? null : resultList.get(0);
         }
 
-        // User user = InitTestData.findUser(id);
-        if (user != null && user.getPassword().equals(password)) {
+        //don't inline to prevent timing attacs
+        String passwordHash = hashPassword(user.getId(), password);
+        if (user != null && user.getPasswordHash().equals(passwordHash)) {
             this.user = user;
             context().leavePublicEvents();
         }

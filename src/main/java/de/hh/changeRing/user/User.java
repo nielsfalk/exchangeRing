@@ -9,6 +9,7 @@ import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.calendar.Event;
 import de.hh.changeRing.transaction.Transaction;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -57,16 +58,17 @@ import static javax.persistence.TemporalType.DATE;
         @NamedQuery(name = "newestUser", query = "select user from tr_user user order by user.activated desc")
 })
 public class User extends BaseEntity {
+    private String nickName;
 
-	private int userGroup; // gruppe
-	
-	// TODO mhoennig: use enum
-	private char type; // art
-	
-	// TODO mhoennig: converter from Boolean
-	private char payd; // bezahlt -- was auch immer, wann auch immer?!?
-	
-	
+    private int userGroup; // gruppe
+
+    // TODO mhoennig: use enum
+    private char type; // art
+
+    // TODO mhoennig: converter from Boolean
+    private char payd; // bezahlt -- was auch immer, wann auch immer?!?
+
+
     @XmlElement
     private String firstName;
 
@@ -77,7 +79,8 @@ public class User extends BaseEntity {
 
     private boolean lastNameVisible = true;
 
-    private String password;
+    //Legacy = md5
+    private String passwordHash;
 
     private String email;
 
@@ -127,19 +130,19 @@ public class User extends BaseEntity {
 
     @Column(scale = 2, precision = 7)
     private BigDecimal euroFee = new BigDecimal("6.00");
-    
+
     // TODO mhoennig: Boolean mapping to 0/X
     private char noFee;
-    
+
     // TODO mhoennig: proper name as soon as we know what this is
     private long umlauf; // ?!? 0/10/20
-    
+
     private long fee;
-    
+
     private BigDecimal minBalance;
-    
+
     private BigDecimal maxBalance;
-    
+
     @Column(length = 512)
     private String profile;
 
@@ -154,7 +157,7 @@ public class User extends BaseEntity {
 
     @Temporal(DATE)
     private Date deActivated;
-    
+
     @Temporal(DATE)
     private Date lastLogin;
 
@@ -214,7 +217,7 @@ public class User extends BaseEntity {
 
     @XmlElement
     public String getPassword() {
-        return password;
+        throw new IllegalAccessError("password not readable, UserId:" + id);
     }
 
     @XmlElement
@@ -260,7 +263,7 @@ public class User extends BaseEntity {
         User user = new User();
         user.id = i;
         user.email = "email" + i + "@sonst-was.de";
-        user.password = "bll" + "lll";
+        user.setPassword("bll" + "lll");
         user.firstName = randomName();
         user.lastName = randomName();
         user.firstNameVisible = new Random().nextBoolean();
@@ -393,7 +396,7 @@ public class User extends BaseEntity {
                 ", firstNameVisible=" + firstNameVisible +
                 ", lastName='" + lastName + '\'' +
                 ", lastNameVisible=" + lastNameVisible +
-                ", password='" + password + '\'' +
+                ", passwordHash='" + passwordHash + '\'' +
                 ", email='" + email + '\'' +
                 ", emailVisible=" + emailVisible +
                 ", addressVisible=" + addressVisible +
@@ -560,6 +563,7 @@ public class User extends BaseEntity {
         this.deActivated = deActivated;
     }
 
+
     @XmlElement
     public Date getActivated() {
         return activated;
@@ -615,6 +619,14 @@ public class User extends BaseEntity {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.passwordHash = hashPassword(id, password);
+    }
+
+    static String hashPassword(Long id, String password) {
+        return DigestUtils.md5Hex(id + password);
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
     }
 }

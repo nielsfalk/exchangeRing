@@ -42,6 +42,7 @@ public abstract class FunctionalTest {
 
     public static User createTestUser() {
         User result = new User();
+        result.getId();
         result.setEmail("hans@meiser.de");
         result.setPassword(PASSWORD);
         return result;

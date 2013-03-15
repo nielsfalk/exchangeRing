@@ -31,8 +31,8 @@ import org.joda.time.LocalTime;
  * @author mhoennig
  */
 public class JodaLocalTimeConverter extends AbstractEclipseLinkConverter<LocalTime, java.util.Date> {
-    private static final long serialVersionUID = -5357838659653049340L;
-    private static JodaLocalTimeConverter instance;
+    private static final long
+            serialVersionUID = -5357838659653049340L;
 
     @Override
     public org.joda.time.LocalTime toBusinessLayerType(java.util.Date dataValue) {

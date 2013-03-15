@@ -155,19 +155,6 @@ public class Context {
         LOGGER.info(getUrl());
     }
 
-    public MethodExpressionActionListener createElActionListener(String elExpression,
-                                                                 Class<?>... paramTypes) {
-        List<Class<?>> paramTypesList = new ArrayList<Class<?>>();
-        paramTypesList.add(ActionEvent.class);
-        Collections.addAll(paramTypesList, paramTypes);
-        return new MethodExpressionActionListener(
-                getExpressionFactory().createMethodExpression(
-                        getElContext(),
-                        elExpression,
-                        Void.class,
-                        paramTypesList.toArray(new Class<?>[paramTypesList.size()])));
-    }
-
     public void handleLogout() {
         if (getRequestedURI().startsWith(LOGOUT_PREFIX)) {
             transientSessionInvalidation();

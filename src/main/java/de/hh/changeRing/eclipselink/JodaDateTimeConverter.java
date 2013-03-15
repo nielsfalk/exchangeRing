@@ -34,7 +34,6 @@ import java.util.Date;
  */
 public class JodaDateTimeConverter extends AbstractEclipseLinkConverter<DateTime, Date> {
     private static final long serialVersionUID = -5357838659653049340L;
-    private static JodaDateTimeConverter instance;
 
     @Override
     public DateTime toBusinessLayerType(Date dataValue) {
@@ -43,7 +42,7 @@ public class JodaDateTimeConverter extends AbstractEclipseLinkConverter<DateTime
 
     @Override
     public Date toDatabaseLayerType(DateTime objectValue) {
-        return ((DateTime) objectValue).toDate();
+        return objectValue.toDate();
     }
 
 }

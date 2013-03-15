@@ -26,7 +26,7 @@ import org.junit.Test;
 
 public class ReflectionTest {
 
-	private Reflection reflection = Reflection.forClass(TestClassToReflect.class);
+	private final Reflection reflection = Reflection.forClass(TestClassToReflect.class);
 
 	@Test
 	public void findFieldTest() {
@@ -51,7 +51,9 @@ class TestClassToReflect extends TestSuperclassToReflect<String, BigDecimal> {
 class TestSuperclassToReflect<T1, T2> {
 	@SuppressWarnings("unused")
 	private long indirectField;
-	
-	public T1 genericField1;
-	public T2 genericField2;
+
+    @SuppressWarnings("UnusedDeclaration")
+    public T1 genericField1;
+	@SuppressWarnings("UnusedDeclaration")
+    public T2 genericField2;
 }

@@ -88,9 +88,11 @@ public enum Category {
     }
 
     public ArrayList<Category> getThisWithChildren() {
-        thisWithChildren = Lists.newArrayList(this);
-        for (Category child : children) {
-            thisWithChildren.addAll(child.getThisWithChildren());
+        if (thisWithChildren == null) {
+            thisWithChildren = Lists.newArrayList(this);
+            for (Category child : children) {
+                thisWithChildren.addAll(child.getThisWithChildren());
+            }
         }
         return thisWithChildren;
     }
@@ -103,10 +105,6 @@ public enum Category {
             thisOrParent = thisOrParent.parent;
         } while (thisOrParent != null);
         return result;
-    }
-
-    public static List<Category> rootItems() {
-        return root.getChildren();
     }
 
     public static List<Category> endPointItems() {

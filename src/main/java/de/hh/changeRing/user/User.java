@@ -126,13 +126,13 @@ public class User extends BaseEntity {
     private String urlDescription;
 
     @Column(scale = 2, precision = 7)
-    private BigDecimal euroBalance = new BigDecimal("0.00");
+    private final BigDecimal euroBalance = new BigDecimal("0.00");
 
     @Temporal(DATE)
     private Date birthDay;
 
     @Column(scale = 2, precision = 7)
-    private BigDecimal euroFee = new BigDecimal("6.00");
+    private final BigDecimal euroFee = new BigDecimal("6.00");
 
     // TODO mhoennig: Boolean mapping to 0/X
     private char noFee;
@@ -184,7 +184,7 @@ public class User extends BaseEntity {
     @SuppressWarnings("JpaDataSourceORMInspection")
     @OneToMany(cascade = PERSIST)
     @JoinColumn(name = "owner_user_id")
-    private List<Advertisement> advertisements = new ArrayList<Advertisement>();
+    private final List<Advertisement> advertisements = new ArrayList<Advertisement>();
 
     @SuppressWarnings("JpaDataSourceORMInspection")
     @OneToMany(cascade = PERSIST)

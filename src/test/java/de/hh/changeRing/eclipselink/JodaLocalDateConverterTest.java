@@ -30,7 +30,7 @@ import java.util.Date;
 import static org.fest.assertions.Assertions.assertThat;
 
 public class JodaLocalDateConverterTest {
-    private Converter testConverter = new JodaLocalDateConverter();
+    private final Converter testConverter = new JodaLocalDateConverter();
     private Date someDate;
     private LocalDate someDateTime;
 

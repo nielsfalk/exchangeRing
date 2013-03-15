@@ -43,9 +43,9 @@ import java.util.logging.Logger;
  */
 public class MappingCustomizer implements DescriptorCustomizer {
     private static final Logger LOGGER = Logger.getLogger(Context.class.getName());
-    private static final Map<Class<?>, Converter> converters = initilizeConverters();
+    private static final Map<Class<?>, Converter> converters = initializeConverters();
 
-    private static Map<Class<?>, Converter> initilizeConverters() {
+    private static Map<Class<?>, Converter> initializeConverters() {
         ConcurrentMap<Class<?>, Converter> result = Maps.newConcurrentMap();
         result.put(DateTime.class, new JodaDateTimeConverter());
         result.put(LocalDate.class, new JodaLocalDateConverter());
@@ -66,14 +66,11 @@ public class MappingCustomizer implements DescriptorCustomizer {
         customizeJodaMappings(descriptor, mapping);
     }
 
-    private final void customizeJodaMappings(ClassDescriptor descriptor, DatabaseMapping mapping) {
-        Class<?> clazz = descriptor.getJavaClass();
-        String attribName = mapping.getAttributeName();
-
+    private void customizeJodaMappings(ClassDescriptor descriptor, DatabaseMapping mapping) {
         if (mapping instanceof DirectToFieldMapping) {
-            DirectToFieldMapping dtfMapping = (DirectToFieldMapping) mapping;
-            Field field = Reflection.forClass(clazz).findField(attribName);
+            Field field = Reflection.forClass(descriptor.getJavaClass()).findField(mapping.getAttributeName());
             if (converters.containsKey(field.getType())) {
+                DirectToFieldMapping dtfMapping = (DirectToFieldMapping) mapping;
                 dtfMapping.setConverter(converters.get(field.getType()));
             }
         }

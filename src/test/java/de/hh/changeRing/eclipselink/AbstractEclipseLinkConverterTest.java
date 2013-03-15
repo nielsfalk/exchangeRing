@@ -25,7 +25,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class AbstractEclipseLinkConverterTest {
 
-	private AbstractEclipseLinkConverter<Integer, String> testConverter = new TestEclipseLinkConverter();
+	private final AbstractEclipseLinkConverter<Integer, String> testConverter = new TestEclipseLinkConverter();
 
 	@Test
 	public void convertDataValueToObjectValueTest() {

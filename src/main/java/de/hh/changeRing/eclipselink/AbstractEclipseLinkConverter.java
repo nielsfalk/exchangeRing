@@ -42,9 +42,6 @@ public abstract class AbstractEclipseLinkConverter<B, D> implements Converter {
 	private Class<B> businessLayerType;
 	private Class<D> databaseLayerType;
 
-	public AbstractEclipseLinkConverter() {
-	}
-
 	@Override
 	public void initialize(DatabaseMapping dbMapping, Session session) {
 		Reflection reflection = Reflection.forClass(getClass());
@@ -85,8 +82,8 @@ public abstract class AbstractEclipseLinkConverter<B, D> implements Converter {
 		return false;
 	}
 
-	public abstract B toBusinessLayerType(D dataValue);
+	protected abstract B toBusinessLayerType(D dataValue);
 
-	public abstract D toDatabaseLayerType(B dataValue);
+	protected abstract D toDatabaseLayerType(B dataValue);
 
 }

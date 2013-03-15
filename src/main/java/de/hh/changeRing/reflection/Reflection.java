@@ -29,7 +29,7 @@ import java.lang.reflect.Type;
  */
 public class Reflection {
 
-	private Class<?> clazz;
+	private final Class<?> clazz;
 
 	/**
 	 * Creates a reflection instance for the given class.
@@ -70,10 +70,7 @@ public class Reflection {
 	 */
 	public <C> Class<C> getGenericTypeArgument(int argNo) {	
 		ParameterizedType genericSuperclass = ((ParameterizedType) clazz.getGenericSuperclass());
-		Type parameterType = genericSuperclass.getActualTypeArguments()[argNo];
-		@SuppressWarnings("unchecked")
-		Class<C> parameterClass = (Class<C>) parameterType;
-		return parameterClass;
+        return (Class<C>) genericSuperclass.getActualTypeArguments()[argNo];
 	}
 
 }

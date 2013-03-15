@@ -59,7 +59,7 @@ public class UserSession implements Serializable {
         }
 
         //don't inline to prevent timing attacs
-        String passwordHash = hashPassword(user.getId(), password);
+        String passwordHash = hashPassword(user==null?14:user.getId(), password);
         if (user != null && user.getPasswordHash().equals(passwordHash)) {
             this.user = user;
             context().leavePublicEvents();

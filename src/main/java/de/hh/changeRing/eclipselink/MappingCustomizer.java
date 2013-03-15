@@ -47,10 +47,10 @@ public class MappingCustomizer implements DescriptorCustomizer {
 
     private static Map<Class<?>, Converter> initializeConverters() {
         ConcurrentMap<Class<?>, Converter> result = Maps.newConcurrentMap();
-        result.put(DateTime.class, new JodaDateTimeConverter());
-        result.put(LocalDate.class, new JodaLocalDateConverter());
-        result.put(LocalTime.class, new JodaLocalTimeConverter());
-        result.put(LocalDateTime.class, new JodaLocalDateTimeConverter());
+        result.put(DateTime.class, JodaDateTimeConverter.instance());
+        result.put(LocalDate.class, JodaLocalDateConverter.instance());
+        result.put(LocalTime.class, JodaLocalTimeConverter.instance());
+        result.put(LocalDateTime.class, JodaLocalDateTimeConverter.instance());
         return result;
     }
 

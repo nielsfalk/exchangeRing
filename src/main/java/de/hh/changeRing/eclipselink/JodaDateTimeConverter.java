@@ -18,6 +18,7 @@ package de.hh.changeRing.eclipselink;
  * <p/>
  */
 
+import org.eclipse.persistence.mappings.converters.Converter;
 import org.joda.time.DateTime;
 
 import java.util.Date;
@@ -34,6 +35,7 @@ import java.util.Date;
  */
 public class JodaDateTimeConverter extends AbstractEclipseLinkConverter<DateTime, Date> {
     private static final long serialVersionUID = -5357838659653049340L;
+    private static JodaDateTimeConverter instance;
 
     @Override
     public DateTime toBusinessLayerType(Date dataValue) {
@@ -43,6 +45,16 @@ public class JodaDateTimeConverter extends AbstractEclipseLinkConverter<DateTime
     @Override
     public Date toDatabaseLayerType(DateTime objectValue) {
         return objectValue.toDate();
+    }
+
+    /**
+     * @return the singleton of this converter
+     */
+    public static Converter instance() {
+        if (instance == null) {
+            instance = new JodaDateTimeConverter();
+        }
+        return instance;
     }
 
 }

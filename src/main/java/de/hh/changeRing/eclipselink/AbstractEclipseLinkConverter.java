@@ -42,12 +42,23 @@ public abstract class AbstractEclipseLinkConverter<B, D> implements Converter {
 	private Class<B> businessLayerType;
 	private Class<D> databaseLayerType;
 
+	protected void initialize(DatabaseMapping dbMapping, Session session, Class<B> businessLayerType, Class<D> databaseLayerType ) {
+		this.businessLayerType = businessLayerType;
+		this.databaseLayerType = databaseLayerType;
+		initializeImpl(dbMapping, session);
+	}
+	
 	@Override
 	public void initialize(DatabaseMapping dbMapping, Session session) {
+		initializeImpl(dbMapping, session);
+	}
+	
+	private void initializeImpl(DatabaseMapping dbMapping, Session session) {
 		Reflection reflection = Reflection.forClass(getClass());
-		businessLayerType = reflection.getGenericTypeArgument(0);
-		databaseLayerType = reflection.getGenericTypeArgument(1);
-		reflection.getGenericTypeArgument(1);
+		if ( businessLayerType == null || databaseLayerType == null ) {
+			businessLayerType = reflection.getGenericTypeArgument(0);
+			databaseLayerType = reflection.getGenericTypeArgument(1);
+		}
 	}
 
     @Override

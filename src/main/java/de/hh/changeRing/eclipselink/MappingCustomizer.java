@@ -20,6 +20,7 @@ package de.hh.changeRing.eclipselink;
 
 import com.google.common.collect.Maps;
 import de.hh.changeRing.Context;
+import de.hh.changeRing.DatabaseMappableEnum;
 import de.hh.changeRing.reflection.Reflection;
 import org.eclipse.persistence.config.DescriptorCustomizer;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
@@ -43,9 +44,9 @@ import java.util.logging.Logger;
  */
 public class MappingCustomizer implements DescriptorCustomizer {
     private static final Logger LOGGER = Logger.getLogger(Context.class.getName());
-    private static final Map<Class<?>, Converter> converters = initializeConverters();
+    private static final Map<Class<?>, Converter> converters = initilizeConverters();
 
-    private static Map<Class<?>, Converter> initializeConverters() {
+    private static Map<Class<?>, Converter> initilizeConverters() {
         ConcurrentMap<Class<?>, Converter> result = Maps.newConcurrentMap();
         result.put(DateTime.class, JodaDateTimeConverter.instance());
         result.put(LocalDate.class, JodaLocalDateConverter.instance());
@@ -64,14 +65,33 @@ public class MappingCustomizer implements DescriptorCustomizer {
 
     private void customize(ClassDescriptor descriptor, DatabaseMapping mapping) {
         customizeJodaMappings(descriptor, mapping);
+        customizeEnumMappings(descriptor, mapping);
     }
 
-    private void customizeJodaMappings(ClassDescriptor descriptor, DatabaseMapping mapping) {
+    private final void customizeJodaMappings(ClassDescriptor descriptor, DatabaseMapping mapping) {
+        Class<?> clazz = descriptor.getJavaClass();
+        String attribName = mapping.getAttributeName();
+
         if (mapping instanceof DirectToFieldMapping) {
-            Field field = Reflection.forClass(descriptor.getJavaClass()).findField(mapping.getAttributeName());
+            DirectToFieldMapping dtfMapping = (DirectToFieldMapping) mapping;
+            Field field = Reflection.forClass(clazz).findField(attribName);
             if (converters.containsKey(field.getType())) {
-                DirectToFieldMapping dtfMapping = (DirectToFieldMapping) mapping;
                 dtfMapping.setConverter(converters.get(field.getType()));
+            }
+        }
+    }
+    
+    private final void customizeEnumMappings(ClassDescriptor descriptor, DatabaseMapping mapping) {
+        Class<?> clazz = descriptor.getJavaClass();
+        String attribName = mapping.getAttributeName();
+
+        if (mapping instanceof DirectToFieldMapping) {
+            DirectToFieldMapping dtfMapping = (DirectToFieldMapping) mapping;
+            Field field = Reflection.forClass(clazz).findField(attribName);
+            if ( DatabaseMappableEnum.class.isAssignableFrom(field.getType())) {
+                @SuppressWarnings({ "unchecked", "rawtypes" })
+				Converter enumConverter = new EnumConverter(field.getType());
+				dtfMapping.setConverter(enumConverter);
             }
         }
     }

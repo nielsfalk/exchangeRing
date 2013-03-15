@@ -18,60 +18,64 @@ package de.hh.changeRing.eclipselink;
  * <p/>
  */
 
-import java.lang.reflect.Field;
-import java.util.logging.Logger;
-
+import com.google.common.collect.Maps;
+import de.hh.changeRing.Context;
+import de.hh.changeRing.reflection.Reflection;
 import org.eclipse.persistence.config.DescriptorCustomizer;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.mappings.DatabaseMapping;
 import org.eclipse.persistence.mappings.DirectToFieldMapping;
+import org.eclipse.persistence.mappings.converters.Converter;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 
-import de.hh.changeRing.Context;
-import de.hh.changeRing.reflection.Reflection;
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
+import java.util.logging.Logger;
 
 /**
  * User this class on entity classes with the annotation @Customizer(MappingCustomizer) to apply some type conversion between database and business layer.
- * 
- * @author mhoennig
  *
+ * @author mhoennig
  */
 public class MappingCustomizer implements DescriptorCustomizer {
-	private static final Logger LOGGER = Logger.getLogger(Context.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(Context.class.getName());
+    private static final Map<Class<?>, Converter> converters = initilizeConverters();
 
-	@Override
-	public void customize(ClassDescriptor descriptor) throws Exception {
-		LOGGER.fine("customize mapping for " + descriptor.getJavaClassName());
-		for (DatabaseMapping mapping : descriptor.getMappings()) {
-             customize(descriptor, mapping);
+    private static Map<Class<?>, Converter> initilizeConverters() {
+        ConcurrentMap<Class<?>, Converter> result = Maps.newConcurrentMap();
+        result.put(DateTime.class, new JodaDateTimeConverter());
+        result.put(LocalDate.class, new JodaLocalDateConverter());
+        result.put(LocalTime.class, new JodaLocalTimeConverter());
+        result.put(LocalDateTime.class, new JodaLocalDateTimeConverter());
+        return result;
+    }
+
+    @Override
+    public void customize(ClassDescriptor descriptor) throws Exception {
+        LOGGER.fine("customize mapping for " + descriptor.getJavaClassName());
+        for (DatabaseMapping mapping : descriptor.getMappings()) {
+            customize(descriptor, mapping);
         }
     }
-	
-	private void customize(ClassDescriptor descriptor, DatabaseMapping mapping) {
-		customizeJodaMappings(descriptor, mapping);
-	}
 
-	private final void customizeJodaMappings(ClassDescriptor descriptor, DatabaseMapping mapping) {
-         Class<?> clazz = descriptor.getJavaClass();
-         String attribName = mapping.getAttributeName();
+    private void customize(ClassDescriptor descriptor, DatabaseMapping mapping) {
+        customizeJodaMappings(descriptor, mapping);
+    }
 
-         if (mapping instanceof DirectToFieldMapping) {
-             DirectToFieldMapping dtfMapping = (DirectToFieldMapping) mapping;
-             Field field = Reflection.forClass(clazz).findField(attribName);
-             if (field != null) {
-                 if (DateTime.class == field.getType()) {
-                     dtfMapping.setConverter(JodaDateTimeConverter.instance());
-                 } else if (LocalDate.class == field.getType()) {
-                     dtfMapping.setConverter(JodaLocalDateConverter.instance());
-                 } else if (LocalTime.class == field.getType()) {
-                     dtfMapping.setConverter(JodaLocalTimeConverter.instance());
-                 } else if (LocalDateTime.class == field.getType()) {
-                     dtfMapping.setConverter(JodaLocalDateTimeConverter.instance());
-                 }
-             }
-         }
-     }
+    private final void customizeJodaMappings(ClassDescriptor descriptor, DatabaseMapping mapping) {
+        Class<?> clazz = descriptor.getJavaClass();
+        String attribName = mapping.getAttributeName();
+
+        if (mapping instanceof DirectToFieldMapping) {
+            DirectToFieldMapping dtfMapping = (DirectToFieldMapping) mapping;
+            Field field = Reflection.forClass(clazz).findField(attribName);
+            if (converters.containsKey(field.getType())) {
+                dtfMapping.setConverter(converters.get(field.getType()));
+            }
+        }
+    }
 }

@@ -18,42 +18,32 @@ package de.hh.changeRing.eclipselink;
  * <p/>
  */
 
-import java.util.Date;
-
-import org.eclipse.persistence.mappings.converters.Converter;
 import org.joda.time.DateTime;
 
+import java.util.Date;
+
 /**
- * Converts Joda DateTime instances (business layer) to Date instances (database layer). 
- * 
+ * Converts Joda DateTime instances (business layer) to Date instances (database layer).
+ * <p/>
  * <p>
  * Use @Customizer(MappingCustomizer.class) at entity classes which need this converter,
  * do NOT use @Converter/@Convert on the fields.
  * </p>
- * 
+ *
  * @author mhoennig
  */
 public class JodaDateTimeConverter extends AbstractEclipseLinkConverter<DateTime, Date> {
-	private static final long serialVersionUID = -5357838659653049340L;
-	private static JodaDateTimeConverter instance;
+    private static final long serialVersionUID = -5357838659653049340L;
+    private static JodaDateTimeConverter instance;
 
-	@Override
+    @Override
     public DateTime toBusinessLayerType(Date dataValue) {
         return new DateTime(dataValue);
     }
 
-	@Override
+    @Override
     public Date toDatabaseLayerType(DateTime objectValue) {
         return ((DateTime) objectValue).toDate();
     }
 
-    /**
-     * @return the singleton of this converter
-     */
-    public static Converter instance() {
-        if (instance == null) {
-            instance = new JodaDateTimeConverter();
-        }
-        return instance;
-    }
 }

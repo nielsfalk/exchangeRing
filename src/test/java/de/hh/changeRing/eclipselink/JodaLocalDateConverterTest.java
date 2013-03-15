@@ -18,36 +18,36 @@ package de.hh.changeRing.eclipselink;
  * <p/>
  */
 
-import static org.fest.assertions.Assertions.assertThat;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.eclipse.persistence.mappings.converters.Converter;
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
-public class JodaLocalDateConverterTest {
-	private Converter testConverter = JodaLocalDateConverter.instance();
-	private Date someDate;
-	private LocalDate someDateTime;
-	
-	@Test
-	public void convertDataValueToObjectValueTest() {		
-		assertThat( testConverter.convertDataValueToObjectValue(someDate, null) ).isEqualTo(someDateTime);
-	}
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-	@Test
-	public void convertObjectValueToDataValueTest() {
-		assertThat( testConverter.convertObjectValueToDataValue(someDateTime, null) ).isEqualTo(someDate);
-	}
-	
-	@Before
-	public void init() throws ParseException {
-		testConverter.initialize(null, null);
-		someDate = new SimpleDateFormat("dd.MM.yyyy").parse("26.12.1996");
-		someDateTime = new LocalDate(1996, 12, 26);
-	}
+import static org.fest.assertions.Assertions.assertThat;
+
+public class JodaLocalDateConverterTest {
+    private Converter testConverter = new JodaLocalDateConverter();
+    private Date someDate;
+    private LocalDate someDateTime;
+
+    @Test
+    public void convertDataValueToObjectValueTest() {
+        assertThat(testConverter.convertDataValueToObjectValue(someDate, null)).isEqualTo(someDateTime);
+    }
+
+    @Test
+    public void convertObjectValueToDataValueTest() {
+        assertThat(testConverter.convertObjectValueToDataValue(someDateTime, null)).isEqualTo(someDate);
+    }
+
+    @Before
+    public void init() throws ParseException {
+        testConverter.initialize(null, null);
+        someDate = new SimpleDateFormat("dd.MM.yyyy").parse("26.12.1996");
+        someDateTime = new LocalDate(1996, 12, 26);
+    }
 }

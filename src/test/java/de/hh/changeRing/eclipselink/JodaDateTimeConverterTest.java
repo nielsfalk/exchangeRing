@@ -18,36 +18,36 @@ package de.hh.changeRing.eclipselink;
  * <p/>
  */
 
-import static org.fest.assertions.Assertions.assertThat;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.eclipse.persistence.mappings.converters.Converter;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
-public class JodaDateTimeConverterTest {
-	private Converter testConverter = JodaDateTimeConverter.instance();
-	private DateTime someDateTime;
-	private Date someDate;
-	
-	@Test
-	public void convertDataValueToObjectValueTest() {		
-		assertThat( testConverter.convertDataValueToObjectValue(someDate, null) ).isEqualTo(someDateTime);
-	}
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-	@Test
-	public void convertObjectValueToDataValueTest() {
-		assertThat( testConverter.convertObjectValueToDataValue(someDateTime, null) ).isEqualTo(someDate);
-	}
-	
-	@Before
-	public void init() throws ParseException {
-		testConverter.initialize(null, null);
-		someDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse("26.12.1996 12:50:00");
-		someDateTime = new DateTime(1996, 12, 26, 12, 50, 0, 0);
-	}
+import static org.fest.assertions.Assertions.assertThat;
+
+public class JodaDateTimeConverterTest {
+    private Converter testConverter = new JodaDateTimeConverter();
+    private DateTime someDateTime;
+    private Date someDate;
+
+    @Test
+    public void convertDataValueToObjectValueTest() {
+        assertThat(testConverter.convertDataValueToObjectValue(someDate, null)).isEqualTo(someDateTime);
+    }
+
+    @Test
+    public void convertObjectValueToDataValueTest() {
+        assertThat(testConverter.convertObjectValueToDataValue(someDateTime, null)).isEqualTo(someDate);
+    }
+
+    @Before
+    public void init() throws ParseException {
+        testConverter.initialize(null, null);
+        someDate = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse("26.12.1996 12:50:00");
+        someDateTime = new DateTime(1996, 12, 26, 12, 50, 0, 0);
+    }
 }

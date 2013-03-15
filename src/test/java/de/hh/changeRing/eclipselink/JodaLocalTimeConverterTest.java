@@ -18,36 +18,36 @@ package de.hh.changeRing.eclipselink;
  * <p/>
  */
 
-import static org.fest.assertions.Assertions.assertThat;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.eclipse.persistence.mappings.converters.Converter;
 import org.joda.time.LocalTime;
 import org.junit.Before;
 import org.junit.Test;
 
-public class JodaLocalTimeConverterTest {
-	private Converter testConverter = JodaLocalTimeConverter.instance();
-	private Date someDate;
-	private LocalTime someDateTime;
-	
-	@Test
-	public void convertDataValueToObjectValueTest() {		
-		assertThat( testConverter.convertDataValueToObjectValue(someDate, null) ).isEqualTo(someDateTime);
-	}
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-	@Test
-	public void convertObjectValueToDataValueTest() {
-		assertThat( testConverter.convertObjectValueToDataValue(someDateTime, null) ).isEqualTo(someDate);
-	}
-	
-	@Before
-	public void init() throws ParseException {
-		testConverter.initialize(null, null);
-		someDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("1970-01-01 12:50:42");
-		someDateTime = new LocalTime(12, 50, 42);
-	}
+import static org.fest.assertions.Assertions.assertThat;
+
+public class JodaLocalTimeConverterTest {
+    private Converter testConverter = new JodaLocalTimeConverter();
+    private Date someDate;
+    private LocalTime someDateTime;
+
+    @Test
+    public void convertDataValueToObjectValueTest() {
+        assertThat(testConverter.convertDataValueToObjectValue(someDate, null)).isEqualTo(someDateTime);
+    }
+
+    @Test
+    public void convertObjectValueToDataValueTest() {
+        assertThat(testConverter.convertObjectValueToDataValue(someDateTime, null)).isEqualTo(someDate);
+    }
+
+    @Before
+    public void init() throws ParseException {
+        testConverter.initialize(null, null);
+        someDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("1970-01-01 12:50:42");
+        someDateTime = new LocalTime(12, 50, 42);
+    }
 }

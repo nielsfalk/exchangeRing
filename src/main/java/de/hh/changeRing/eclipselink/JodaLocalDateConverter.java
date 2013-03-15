@@ -18,40 +18,30 @@ package de.hh.changeRing.eclipselink;
  * <p/>
  */
 
-import org.eclipse.persistence.mappings.converters.Converter;
 import org.joda.time.LocalDate;
 
 /**
-  * Converts Joda LocalDate instances (business layer) to Date instances (database layer). 
- * 
+ * Converts Joda LocalDate instances (business layer) to Date instances (database layer).
+ * <p/>
  * <p>
  * Use @Customizer(MappingCustomizer.class) at entity classes which need this converter,
  * do NOT use @Converter/@Convert on the fields.
  * </p>
- * 
+ *
  * @author mhoennig
-*/
+ */
 public class JodaLocalDateConverter extends AbstractEclipseLinkConverter<LocalDate, java.util.Date> {
-	private static final long serialVersionUID = -5357838659653049340L;
-	private static JodaLocalDateConverter instance;
+    private static final long serialVersionUID = -5357838659653049340L;
+    private static JodaLocalDateConverter instance;
 
-	@Override
+    @Override
     public org.joda.time.LocalDate toBusinessLayerType(java.util.Date dataValue) {
         return new org.joda.time.LocalDate(dataValue);
     }
 
-	@Override
+    @Override
     public java.util.Date toDatabaseLayerType(org.joda.time.LocalDate objectValue) {
         return objectValue.toDateMidnight().toDate();
     }
 
-    /**
-     * @return the singleton of this converter
-     */
-    public static Converter instance() {
-        if (instance == null) {
-            instance = new JodaLocalDateConverter();
-        }
-        return instance;
-    }
 }

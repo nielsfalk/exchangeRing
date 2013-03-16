@@ -56,7 +56,7 @@ public class EnumConverter<D> extends AbstractEclipseLinkConverter<DatabaseMappa
         if (enumClass == null) {
             throw new IllegalArgumentException("enumClass == null");
         }
-        this.enumClass = (Class<DatabaseMappableEnum<D>>) enumClass;
+        this.enumClass = asDatabaseMappableEnumClass(enumClass);
         try {
             this.valuesMethod = enumClass.getMethod("values");
         } catch (final SecurityException ex) {
@@ -66,11 +66,17 @@ public class EnumConverter<D> extends AbstractEclipseLinkConverter<DatabaseMappa
         }
     }
     
-    @Override
+	@Override
     public void initialize(DatabaseMapping dbMapping, Session session) {    	
     	super.initialize(dbMapping, session, enumClass, (Class<D>) getDatabaseMappableEnumGenericTypeArg(enumClass));
     }
     
+
+	// because in Java, class X<? extends D> is not a subclass of X<D> 
+    @SuppressWarnings("unchecked")
+	private Class<DatabaseMappableEnum<D>> asDatabaseMappableEnumClass(Class<? extends DatabaseMappableEnum<D>> enumClass) {
+    	return (Class<DatabaseMappableEnum<D>>) enumClass; 
+    }
 
 	private DatabaseMappableEnum<D>[] enumValues() {
         try {

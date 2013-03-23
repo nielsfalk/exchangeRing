@@ -173,6 +173,18 @@ public class User extends BaseEntity {
     @OrderBy("id desc")
     private List<DepotItem> depotItems = new ArrayList<DepotItem>();
 
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @OneToMany(cascade = PERSIST)
+    @JoinColumn(name = "to_user_id")
+    @OrderBy("id desc")
+    private List<Transaction> receivedTransactions = new ArrayList<Transaction>();
+
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @OneToMany(cascade = PERSIST)
+    @JoinColumn(name = "from_user_id")
+    @OrderBy("id desc")
+    private List<Transaction> sentTransactions = new ArrayList<Transaction>();
+
     private BigDecimal initialBalance; // startKapital 
 
     private BigDecimal balance = new BigDecimal("0.00");

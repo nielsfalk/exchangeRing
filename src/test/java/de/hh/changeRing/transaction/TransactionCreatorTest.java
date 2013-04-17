@@ -5,6 +5,7 @@ import de.hh.changeRing.user.DepotItem;
 import de.hh.changeRing.user.DepotItemType;
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
+import de.hh.changeRing.user.UserUpdateEvent;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -16,6 +17,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -52,6 +54,7 @@ public class TransactionCreatorTest extends FunctionalTest {
     private static final String SUBJECT = TransactionCreatorTest.class.getName();
     private static User owner = createTestUser();
     private static User receiver = createTestUser();
+    private static boolean refresheEventWasFired;
 
     @Deployment
     public static Archive<?> createDeployment() {
@@ -64,6 +67,9 @@ public class TransactionCreatorTest extends FunctionalTest {
     @EJB
     TransactionCreator transactionCreator;
 
+
+
+
     @PersistenceContext
     private
     EntityManager entityManager;
@@ -73,6 +79,7 @@ public class TransactionCreatorTest extends FunctionalTest {
         userSession.setIdOrEmail(owner.getId().toString());
         userSession.setPassword(PASSWORD);
         userSession.login();
+        refresheEventWasFired=false;
     }
 
     @Test
@@ -92,8 +99,14 @@ public class TransactionCreatorTest extends FunctionalTest {
 
     }
 
+
+    public void eventListener(@Observes UserUpdateEvent event) {
+        refresheEventWasFired = true;
+    }
+
     private void expectTransactionProcessed() {
         assertThat(userSession.getUser().getBalance(), is(-30l));
+        assertThat(refresheEventWasFired, is(true));
         owner = refresh(owner);
         receiver = refresh(receiver);
         assertThat(owner.getBalance(), is(-30l));

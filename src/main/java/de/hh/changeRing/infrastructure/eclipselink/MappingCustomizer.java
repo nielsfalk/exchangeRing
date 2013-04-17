@@ -1,4 +1,4 @@
-package de.hh.changeRing.eclipselink;
+package de.hh.changeRing.infrastructure.eclipselink;
 
 /*
  * ----------------GNU General Public License--------------------------------
@@ -21,7 +21,7 @@ package de.hh.changeRing.eclipselink;
 import com.google.common.collect.Maps;
 import de.hh.changeRing.Context;
 import de.hh.changeRing.DatabaseMappableEnum;
-import de.hh.changeRing.reflection.Reflection;
+import de.hh.changeRing.infrastructure.reflection.Reflection;
 import org.eclipse.persistence.config.DescriptorCustomizer;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.mappings.DatabaseMapping;

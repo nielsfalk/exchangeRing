@@ -1,4 +1,4 @@
-package de.hh.changeRing.reflection;
+package de.hh.changeRing.infrastructure.reflection;
 
 /*
  * ----------------GNU General Public License--------------------------------

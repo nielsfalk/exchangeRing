@@ -1,4 +1,4 @@
-package de.hh.changeRing.eclipselink;
+package de.hh.changeRing.infrastructure.eclipselink;
 
 /*
  * ----------------GNU General Public License--------------------------------
@@ -19,7 +19,7 @@ package de.hh.changeRing.eclipselink;
  */
 
 import org.eclipse.persistence.mappings.converters.Converter;
-import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,10 +29,10 @@ import java.util.Date;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-public class JodaLocalDateConverterTest {
-    private final Converter testConverter = JodaLocalDateConverter.instance();
+public class JodaLocalTimeConverterTest {
+    private final Converter testConverter = JodaLocalTimeConverter.instance();
     private Date someDate;
-    private LocalDate someDateTime;
+    private LocalTime someDateTime;
 
     @Test
     public void convertDataValueToObjectValueTest() {
@@ -47,7 +47,7 @@ public class JodaLocalDateConverterTest {
     @Before
     public void init() throws ParseException {
         testConverter.initialize(null, null);
-        someDate = new SimpleDateFormat("dd.MM.yyyy").parse("26.12.1996");
-        someDateTime = new LocalDate(1996, 12, 26);
+        someDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("1970-01-01 12:50:42");
+        someDateTime = new LocalTime(12, 50, 42);
     }
 }

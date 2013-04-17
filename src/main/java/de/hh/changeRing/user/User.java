@@ -1,7 +1,6 @@
 package de.hh.changeRing.user;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import de.bripkens.gravatar.DefaultImage;
@@ -10,7 +9,7 @@ import de.bripkens.gravatar.Rating;
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.calendar.Event;
-import de.hh.changeRing.eclipselink.MappingCustomizer;
+import de.hh.changeRing.infrastructure.eclipselink.MappingCustomizer;
 import de.hh.changeRing.transaction.Transaction;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.eclipse.persistence.annotations.Customizer;

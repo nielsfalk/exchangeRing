@@ -1,4 +1,4 @@
-package de.hh.changeRing.jaxB;
+package de.hh.changeRing.infrastructure.jaxB;
 
 import org.joda.time.DateTime;
 

@@ -1,4 +1,4 @@
-package de.hh.changeRing.eclipselink;
+package de.hh.changeRing.infrastructure.eclipselink;
 
 /*
  * ----------------GNU General Public License--------------------------------
@@ -30,7 +30,6 @@ import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 
 import com.sun.xml.ws.api.tx.at.Transactional;
-import de.hh.changeRing.advertisement.Advertisement;
 import org.eclipse.persistence.annotations.Customizer;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.mappings.DirectToFieldMapping;

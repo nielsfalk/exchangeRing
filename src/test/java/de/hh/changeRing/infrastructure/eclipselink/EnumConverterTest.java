@@ -1,4 +1,4 @@
-package de.hh.changeRing.eclipselink;
+package de.hh.changeRing.infrastructure.eclipselink;
 
 /*
  * ----------------GNU General Public License--------------------------------
@@ -18,36 +18,50 @@ package de.hh.changeRing.eclipselink;
  * <p/>
  */
 
+import static org.fest.assertions.Assertions.assertThat;
+
+import java.text.ParseException;
+
 import org.eclipse.persistence.mappings.converters.Converter;
-import org.joda.time.LocalTime;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import de.hh.changeRing.DatabaseMappableEnum;
 
-import static org.fest.assertions.Assertions.assertThat;
 
-public class JodaLocalTimeConverterTest {
-    private final Converter testConverter = JodaLocalTimeConverter.instance();
-    private Date someDate;
-    private LocalTime someDateTime;
+public class EnumConverterTest {
+
+	private final Converter testConverter = new EnumConverter<Character>(TestCharEnum.class);
 
     @Test
     public void convertDataValueToObjectValueTest() {
-        assertThat(testConverter.convertDataValueToObjectValue(someDate, null)).isEqualTo(someDateTime);
+        assertThat(testConverter.convertDataValueToObjectValue('B', null)).isEqualTo(TestCharEnum.BLUE);
     }
 
     @Test
     public void convertObjectValueToDataValueTest() {
-        assertThat(testConverter.convertObjectValueToDataValue(someDateTime, null)).isEqualTo(someDate);
+        assertThat(testConverter.convertObjectValueToDataValue(TestCharEnum.GREEN, null)).isEqualTo('G');
     }
 
     @Before
     public void init() throws ParseException {
         testConverter.initialize(null, null);
-        someDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("1970-01-01 12:50:42");
-        someDateTime = new LocalTime(12, 50, 42);
     }
+}
+
+enum TestCharEnum implements DatabaseMappableEnum<Character> {
+	RED('R'), GREEN('G'), BLUE('B');
+
+	private Character dbValue;
+
+	TestCharEnum(Character dbValue) {
+		this.dbValue = dbValue;
+	}
+	
+	@Override
+	public Character getDatabaseValue() {
+		return dbValue;
+	}
+	
+
 }

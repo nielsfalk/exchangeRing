@@ -1,4 +1,4 @@
-package de.hh.changeRing.eclipselink;
+package de.hh.changeRing.infrastructure.eclipselink;
 
 /*
  * ----------------GNU General Public License--------------------------------
@@ -22,7 +22,7 @@ import org.eclipse.persistence.mappings.DatabaseMapping;
 import org.eclipse.persistence.mappings.converters.Converter;
 import org.eclipse.persistence.sessions.Session;
 
-import de.hh.changeRing.reflection.Reflection;
+import de.hh.changeRing.infrastructure.reflection.Reflection;
 
 /** Represents a base class for EclipseLink type converters.
  * 

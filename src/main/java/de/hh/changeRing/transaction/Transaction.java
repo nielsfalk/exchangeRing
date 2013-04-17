@@ -1,11 +1,10 @@
 package de.hh.changeRing.transaction;
 
 import de.hh.changeRing.BaseEntity;
-import de.hh.changeRing.eclipselink.MappingCustomizer;
+import de.hh.changeRing.infrastructure.eclipselink.MappingCustomizer;
 import de.hh.changeRing.initialData.InitTestData;
-import de.hh.changeRing.jaxB.DateTimeAdapter;
+import de.hh.changeRing.infrastructure.jaxB.DateTimeAdapter;
 import de.hh.changeRing.user.DepotItem;
-import de.hh.changeRing.user.DepotItemType;
 import de.hh.changeRing.user.User;
 import org.eclipse.persistence.annotations.Customizer;
 import org.joda.time.DateTime;
@@ -19,7 +18,6 @@ import java.math.BigDecimal;
 
 import static de.hh.changeRing.user.DepotItemType.in;
 import static de.hh.changeRing.user.DepotItemType.out;
-import static javax.persistence.TemporalType.DATE;
 
 /**
  * ----------------GNU General Public License--------------------------------

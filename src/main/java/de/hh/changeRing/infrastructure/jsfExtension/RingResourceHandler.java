@@ -1,4 +1,4 @@
-package de.hh.changeRing.jsfExtension;
+package de.hh.changeRing.infrastructure.jsfExtension;
 
 import javax.faces.application.Resource;
 import javax.faces.application.ResourceHandler;

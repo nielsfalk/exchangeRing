@@ -1,4 +1,4 @@
-package de.hh.changeRing.jsfExtension;
+package de.hh.changeRing.infrastructure.jsfExtension;
 
 import de.hh.changeRing.Context;
 

@@ -4,7 +4,7 @@ import com.thoughtworks.selenium.DefaultSelenium;
 import de.hh.changeRing.Context;
 import de.hh.changeRing.FunctionalTest;
 import de.hh.changeRing.ThemeSwitcher;
-import de.hh.changeRing.jsfExtension.SecurityFilter;
+import de.hh.changeRing.infrastructure.jsfExtension.SecurityFilter;
 import de.hh.changeRing.user.UserSession;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.test.api.ArquillianResource;

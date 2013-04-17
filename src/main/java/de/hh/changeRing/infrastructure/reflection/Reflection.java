@@ -1,4 +1,4 @@
-package de.hh.changeRing.reflection;
+package de.hh.changeRing.infrastructure.reflection;
 
 /*
  * ----------------GNU General Public License--------------------------------
@@ -20,7 +20,6 @@ package de.hh.changeRing.reflection;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 
 /**
  * Eases using Java reflection.  Implemntation so far is pretty simple, caching could be introduced if necessary.

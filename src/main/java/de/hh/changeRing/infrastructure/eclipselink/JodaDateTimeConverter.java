@@ -1,4 +1,4 @@
-package de.hh.changeRing.eclipselink;
+package de.hh.changeRing.infrastructure.eclipselink;
 
 /*
  * ----------------GNU General Public License--------------------------------
@@ -19,10 +19,12 @@ package de.hh.changeRing.eclipselink;
  */
 
 import org.eclipse.persistence.mappings.converters.Converter;
-import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
+
+import java.util.Date;
 
 /**
- * Converts Joda LocalDate instances (business layer) to Date instances (database layer).
+ * Converts Joda DateTime instances (business layer) to Date instances (database layer).
  * <p/>
  * <p>
  * Use @Customizer(MappingCustomizer.class) at entity classes which need this converter,
@@ -31,18 +33,18 @@ import org.joda.time.LocalDate;
  *
  * @author mhoennig
  */
-public class JodaLocalDateConverter extends AbstractEclipseLinkConverter<LocalDate, java.util.Date> {
+public class JodaDateTimeConverter extends AbstractEclipseLinkConverter<DateTime, Date> {
     private static final long serialVersionUID = -5357838659653049340L;
-    private static JodaLocalDateConverter instance;
+    private static JodaDateTimeConverter instance;
 
     @Override
-    public org.joda.time.LocalDate toBusinessLayerType(java.util.Date dataValue) {
-        return new org.joda.time.LocalDate(dataValue);
+    public DateTime toBusinessLayerType(Date dataValue) {
+        return new DateTime(dataValue);
     }
 
     @Override
-    public java.util.Date toDatabaseLayerType(org.joda.time.LocalDate objectValue) {
-        return objectValue.toDateMidnight().toDate();
+    public Date toDatabaseLayerType(DateTime objectValue) {
+        return objectValue.toDate();
     }
 
     /**
@@ -50,7 +52,7 @@ public class JodaLocalDateConverter extends AbstractEclipseLinkConverter<LocalDa
      */
     public static Converter instance() {
         if (instance == null) {
-            instance = new JodaLocalDateConverter();
+            instance = new JodaDateTimeConverter();
         }
         return instance;
     }

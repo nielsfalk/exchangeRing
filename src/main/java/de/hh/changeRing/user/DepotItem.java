@@ -36,28 +36,15 @@ import static javax.persistence.EnumType.STRING;
  * excluded.
  * Environmental damage caused by the use must be kept as small as possible.
  */
-@Entity
-public class DepotItem extends BaseEntity{
-    @SuppressWarnings("JpaDataSourceORMInspection")
-    @ManyToOne(cascade = PERSIST)
-    @JoinColumn(name = "transaction_id", nullable = false)
+public class DepotItem{
     private Transaction transaction;
 
-    @SuppressWarnings({"JpaDataSourceORMInspection", "UnusedDeclaration"})
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     private long amount;
 
-
-
-    @SuppressWarnings("JpaDataSourceORMInspection")
-    @ManyToOne
-    @JoinColumn(name = "other_user_id", nullable = false)
     private User other;
 
-    @Enumerated(STRING)
     private DepotItemType type;
 
     public DepotItem(Transaction transaction, User user, long amount, User other, DepotItemType type) {
@@ -68,29 +55,12 @@ public class DepotItem extends BaseEntity{
         this.type = type;
     }
 
-    public DepotItem() {
-    }
-
     public String getFormattedDate() {
         return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(transaction.getDate());
     }
 
     public String getShortFormattedDate() {
         return new SimpleDateFormat("dd.MM.yy").format(transaction.getDate());
-    }
-
-    public static DepotItem create(Transaction transaction, User user) {
-        if (transaction.getFrom() == transaction.getTo()) {
-            throw new RuntimeException("invalid transaction from == to" + transaction);
-        }
-        if (transaction.getFrom() == user) {
-            return new DepotItem(transaction, user, -transaction.getAmount(), transaction.getTo(), out);
-
-        }
-        if (transaction.getTo() == user) {
-            return new DepotItem(transaction, user, transaction.getAmount(), transaction.getFrom(), in);
-        }
-        throw new RuntimeException("not for this user");
     }
 
     public long getOldBalance() {
@@ -131,9 +101,6 @@ public class DepotItem extends BaseEntity{
             subject = subject.substring(35);
         }
         splitted.add(subject);
-
         return Joiner.on('\n').join(splitted);
-
     }
-
 }

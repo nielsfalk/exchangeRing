@@ -1,6 +1,7 @@
 package de.hh.changeRing.user;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import de.bripkens.gravatar.DefaultImage;
 import de.bripkens.gravatar.Gravatar;
@@ -167,11 +168,8 @@ public class User extends BaseEntity {
     @Temporal(DATE)
     private Date lastWork;
 
-    @SuppressWarnings("JpaDataSourceORMInspection")
-    @OneToMany(cascade = PERSIST)
-    @JoinColumn(name = "user_id")
-    @OrderBy("id desc")
-    private List<DepotItem> depotItems = new ArrayList<DepotItem>();
+    @Transient
+    private List<DepotItem> depotItems;
 
     @SuppressWarnings("JpaDataSourceORMInspection")
     @OneToMany(cascade = PERSIST)
@@ -268,9 +266,7 @@ public class User extends BaseEntity {
     }
 
     public void execute(Transaction transaction) {
-        DepotItem depotItem = DepotItem.create(transaction, this);
-        depotItems.add(depotItem);
-        sortDepot();
+        depotItems = null;
     }
 
     public static User dummyUser(Long i) {
@@ -323,6 +319,17 @@ public class User extends BaseEntity {
             "Oioaoednht,Fnmss,Chlndleeui,Uioeeaisbsf,Uiayaieynmqll,Cllnnieiey,Znthloeiay").split(",");
 
     public List<DepotItem> getDepotItems() {
+        if (depotItems == null) {
+            depotItems = Lists.newArrayList();
+            for (Transaction receivedTransaction : receivedTransactions) {
+                depotItems.add(receivedTransaction.toReceivedDepotItem());
+            }
+            for (Transaction sentTransaction : sentTransactions) {
+                depotItems.add(sentTransaction.toSentDepotItem());
+            }
+
+            sortDepot();
+        }
         return depotItems;
     }
 
@@ -646,5 +653,13 @@ public class User extends BaseEntity {
 
     public String getPasswordHash() {
         return passwordHash;
+    }
+
+    public List<Transaction> getReceivedTransactions() {
+        return receivedTransactions;
+    }
+
+    public List<Transaction> getSentTransactions() {
+        return sentTransactions;
     }
 }

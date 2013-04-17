@@ -2,6 +2,8 @@ package de.hh.changeRing.transaction;
 
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.initialData.InitTestData;
+import de.hh.changeRing.user.DepotItem;
+import de.hh.changeRing.user.DepotItemType;
 import de.hh.changeRing.user.User;
 
 import javax.persistence.*;
@@ -109,6 +111,8 @@ public class Transaction extends BaseEntity {
         toNewBalance = to.getBalance() + amount;
         from.setBalance(new BigDecimal(fromNewBalance).setScale(2));
         to.setBalance(new BigDecimal(toNewBalance).setScale(2));
+        from.getSentTransactions().add(this);
+        to.getReceivedTransactions().add(this);
     }
 
     public void wire() {
@@ -133,5 +137,13 @@ public class Transaction extends BaseEntity {
 
     public long getToNewBalance() {
         return toNewBalance;
+    }
+
+    public DepotItem toReceivedDepotItem() {
+        return new DepotItem(this, to,amount,from, DepotItemType.in);
+    }
+
+    public DepotItem toSentDepotItem() {
+        return new DepotItem(this, from, -amount, to, DepotItemType.out);
     }
 }

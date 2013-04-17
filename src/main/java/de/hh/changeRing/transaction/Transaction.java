@@ -47,7 +47,6 @@ import static de.hh.changeRing.user.DepotItemType.out;
 public class Transaction extends BaseEntity {
     @XmlElement
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
-    @Column(columnDefinition = "TIMESTAMP")
     private DateTime date;
 
     @XmlElement

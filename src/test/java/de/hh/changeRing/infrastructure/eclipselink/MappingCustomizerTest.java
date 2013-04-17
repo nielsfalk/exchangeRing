@@ -100,13 +100,9 @@ public class MappingCustomizerTest extends FunctionalTest {
         @Id
         public int id;
 
-        @Column(columnDefinition = "TIMESTAMP")
         public DateTime someDateTimeField;
-        @Column(columnDefinition = "TIMESTAMP")
         public LocalDate someLocalDateField;
-        @Column(columnDefinition = "TIMESTAMP")
         public LocalTime someLocalTimeField;
-        @Column(columnDefinition = "TIMESTAMP")
         public LocalDateTime someLocalDateTimeField;
 
         public TestEnum someEnumField;

@@ -77,6 +77,7 @@ public class MappingCustomizer implements DescriptorCustomizer {
             Field field = Reflection.forClass(clazz).findField(attribName);
             if (converters.containsKey(field.getType())) {
                 dtfMapping.setConverter(converters.get(field.getType()));
+                dtfMapping.getField().setColumnDefinition("TIMESTAMP");
             }
         }
     }

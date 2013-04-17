@@ -13,6 +13,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -71,7 +72,7 @@ public class TransactionCreator implements Serializable {
         LOGGER.info(session.getUser().getId() + " created transaction");
         User owner = entityManager.find(User.class, session.getUser().getId());
         User receiver = entityManager.find(User.class, this.receiver.getId());
-        Transaction transaction = Transaction.create(owner, receiver, amount, subject);
+        Transaction transaction = Transaction.create(owner, receiver, new BigDecimal(amount).setScale(2), subject);
         events.fire(new UserUpdateEvent(owner, receiver));
 
         setClear("clear");

@@ -63,14 +63,17 @@ public class Transaction extends BaseEntity {
     private User to;
 
     @XmlElement
-    private long amount;
+    @Column(scale = 2, precision = 7)
+    private BigDecimal amount;
 
     private static long idCounter = 0;
 
     @XmlElement
     private String subject;
-    private long fromNewBalance;
-    private long toNewBalance;
+    @Column(scale = 2, precision = 7)
+    private BigDecimal fromNewBalance;
+    @Column(scale = 2, precision = 7)
+    private BigDecimal toNewBalance;
 
     public User getFrom() {
         return from;
@@ -84,7 +87,7 @@ public class Transaction extends BaseEntity {
         return to;
     }
 
-    public long getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
@@ -95,7 +98,7 @@ public class Transaction extends BaseEntity {
         return id;
     }
 
-    public static Transaction create(User from, User to, long amount, String subject) {
+    public static Transaction create(User from, User to, BigDecimal amount, String subject) {
         Transaction transaction = new Transaction();
         transaction.from = from;
         transaction.to = to;
@@ -107,10 +110,10 @@ public class Transaction extends BaseEntity {
     }
 
     private void execute() {
-        fromNewBalance = from.getBalance() - amount;
-        toNewBalance = to.getBalance() + amount;
-        from.setBalance(new BigDecimal(fromNewBalance).setScale(2));
-        to.setBalance(new BigDecimal(toNewBalance).setScale(2));
+        fromNewBalance = from.getBalance().subtract(amount);
+        toNewBalance = to.getBalance().add(amount);
+        from.setBalance(fromNewBalance);
+        to.setBalance(toNewBalance);
         from.getSentTransactions().add(this);
         to.getReceivedTransactions().add(this);
     }
@@ -129,11 +132,11 @@ public class Transaction extends BaseEntity {
         return subject;
     }
 
-    public long getFromNewBalance() {
+    public BigDecimal getFromNewBalance() {
         return fromNewBalance;
     }
 
-    public long getToNewBalance() {
+    public BigDecimal getToNewBalance() {
         return toNewBalance;
     }
 
@@ -142,6 +145,6 @@ public class Transaction extends BaseEntity {
     }
 
     public DepotItem toSentDepotItem() {
-        return new DepotItem(this, from, -amount, to, DepotItemType.out);
+        return new DepotItem(this, from, amount.negate(), to, DepotItemType.out);
     }
 }

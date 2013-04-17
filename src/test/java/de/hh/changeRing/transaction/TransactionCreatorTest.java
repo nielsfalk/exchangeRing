@@ -21,6 +21,7 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigDecimal;
 import java.util.List;
 
 import static de.hh.changeRing.user.DepotItemType.in;
@@ -105,17 +106,17 @@ public class TransactionCreatorTest extends FunctionalTest {
     }
 
     private void expectTransactionProcessed() {
-        assertThat(userSession.getUser().getBalance(), is(-30l));
+        assertThat(userSession.getUser().getBalance(), is(new BigDecimal("-30.00")));
         assertThat(refresheEventWasFired, is(true));
         owner = refresh(owner);
         receiver = refresh(receiver);
-        assertThat(owner.getBalance(), is(-30l));
+        assertThat(owner.getBalance(), is(new BigDecimal("-30.00")));
 
-        assertThat(receiver.getBalance(), is(30l));
-        expectBalance(owner, -30l);
-        expectDepotItem(owner, -30l, receiver, out);
-        expectBalance(receiver, 30l);
-        expectDepotItem(receiver, 30l, owner, in);
+        assertThat(receiver.getBalance(), is(new BigDecimal("30.00")));
+        expectBalance(owner, new BigDecimal("-30.00"));
+        expectDepotItem(owner, new BigDecimal("-30.00"), receiver, out);
+        expectBalance(receiver, new BigDecimal("30.00"));
+        expectDepotItem(receiver, new BigDecimal("30.00"), owner, in);
         expectSameTransAction(owner, receiver);
     }
 
@@ -124,18 +125,18 @@ public class TransactionCreatorTest extends FunctionalTest {
                 is(receiver.getDepotItems().get(0).getTransaction()));
     }
 
-    private void expectBalance(User user, long amount) {
+    private void expectBalance(User user, BigDecimal amount) {
         assertThat(user.getBalance(), is(amount));
     }
 
-    private void expectDepotItem(User user, long amount, User other, DepotItemType type) {
+    private void expectDepotItem(User user, BigDecimal amount, User other, DepotItemType type) {
         List<DepotItem> depotItems = user.getDepotItems();
         assertThat(depotItems.size(), is(1));
 
         DepotItem depotItem = depotItems.get(0);
         assertThat(depotItem.getAmount(), is(amount));
         assertThat(depotItem.getFormattedDate(), is(not(nullValue())));
-        assertThat(depotItem.getOldBalance(), is(0l));
+        assertThat(depotItem.getOldBalance(), is(new BigDecimal("0.00")));
         assertThat(depotItem.getNewBalance(), is(amount));
         assertThat(depotItem.getOther(), is(other));
         assertThat(depotItem.getTransaction().getSubject(), is(SUBJECT));

@@ -143,8 +143,10 @@ public class User extends BaseEntity {
 
     private long fee;
 
+    @Column(scale = 2, precision = 7)
     private BigDecimal minBalance;
 
+    @Column(scale = 2, precision = 7)
     private BigDecimal maxBalance;
 
     @Column(length = 512)
@@ -183,8 +185,10 @@ public class User extends BaseEntity {
     @OrderBy("id desc")
     private List<Transaction> sentTransactions = new ArrayList<Transaction>();
 
+    @Column(scale = 2, precision = 7)
     private BigDecimal initialBalance; // startKapital 
 
+    @Column(scale = 2, precision = 7)
     private BigDecimal balance = new BigDecimal("0.00");
 
     private String facebook;
@@ -261,8 +265,8 @@ public class User extends BaseEntity {
         return addressVisible ? String.format("%s %s\n%s %s", street, houseNumber, plz, city) : "";
     }
 
-    public long getBalance() {
-        return balance.longValue();
+    public BigDecimal getBalance() {
+        return balance;
     }
 
     public static User dummyUser(Long i) {

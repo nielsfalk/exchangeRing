@@ -5,6 +5,7 @@ import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.transaction.Transaction;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -41,13 +42,13 @@ public class DepotItem{
 
     private User user;
 
-    private long amount;
+    private BigDecimal amount;
 
     private User other;
 
     private DepotItemType type;
 
-    public DepotItem(Transaction transaction, User user, long amount, User other, DepotItemType type) {
+    public DepotItem(Transaction transaction, User user, BigDecimal amount, User other, DepotItemType type) {
         this.transaction = transaction;
         this.user = user;
         this.amount = amount;
@@ -63,11 +64,11 @@ public class DepotItem{
         return new SimpleDateFormat("dd.MM.yy").format(transaction.getDate());
     }
 
-    public long getOldBalance() {
-        return getNewBalance()-amount;
+    public BigDecimal getOldBalance() {
+        return getNewBalance().subtract(amount);
     }
 
-    public long getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
@@ -75,7 +76,7 @@ public class DepotItem{
         return type;
     }
 
-    public long getNewBalance() {
+    public BigDecimal getNewBalance() {
         return user == transaction.getFrom()?transaction.getFromNewBalance():transaction.getToNewBalance();
     }
 

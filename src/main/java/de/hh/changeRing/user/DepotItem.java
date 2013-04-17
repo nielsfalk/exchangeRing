@@ -50,7 +50,7 @@ public class DepotItem extends BaseEntity{
 
     private long amount;
 
-    private long newBalance;
+
 
     @SuppressWarnings("JpaDataSourceORMInspection")
     @ManyToOne
@@ -65,7 +65,6 @@ public class DepotItem extends BaseEntity{
         this.transaction = transaction;
         this.user = user;
         this.amount = amount;
-        this.newBalance = user.getBalance() + amount;
         this.other = other;
         this.type = type;
         this.oldBalance = user.getBalance();
@@ -109,7 +108,7 @@ public class DepotItem extends BaseEntity{
     }
 
     public long getNewBalance() {
-        return newBalance;
+        return user == transaction.getFrom()?transaction.getFromNewBalance():transaction.getToNewBalance();
     }
 
     public Transaction getTransaction() {

@@ -66,6 +66,8 @@ public class Transaction extends BaseEntity {
 
     @XmlElement
     private String subject;
+    private long fromNewBalance;
+    private long toNewBalance;
 
     public User getFrom() {
         return from;
@@ -97,7 +99,13 @@ public class Transaction extends BaseEntity {
         transaction.amount = amount;
         transaction.subject = subject;
         transaction.date = new Date();
+        transaction.execute();
         return transaction;
+    }
+
+    private void execute() {
+        fromNewBalance = from.getBalance() - amount;
+        toNewBalance = to.getBalance() + amount;
     }
 
     public void wire() {
@@ -107,11 +115,20 @@ public class Transaction extends BaseEntity {
         if (to == null) {
             to = InitTestData.findUser(toId);
         }
+        execute();
         from.execute(this);
         to.execute(this);
     }
 
     public String getSubject() {
         return subject;
+    }
+
+    public long getFromNewBalance() {
+        return fromNewBalance;
+    }
+
+    public long getToNewBalance() {
+        return toNewBalance;
     }
 }

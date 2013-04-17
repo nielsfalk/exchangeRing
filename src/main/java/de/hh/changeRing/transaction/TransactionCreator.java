@@ -72,8 +72,8 @@ public class TransactionCreator implements Serializable {
         User owner = entityManager.find(User.class, session.getUser().getId());
         User receiver = entityManager.find(User.class, this.receiver.getId());
         Transaction transaction = Transaction.create(owner, receiver, amount, subject);
-        owner.execute(transaction);
-        receiver.execute(transaction);
+        owner.clearDepotItemCache(transaction);
+        receiver.clearDepotItemCache(transaction);
         events.fire(new UserUpdateEvent(owner, receiver));
 
         setClear("clear");

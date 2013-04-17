@@ -265,7 +265,7 @@ public class User extends BaseEntity {
         return balance.longValue();
     }
 
-    public void execute(Transaction transaction) {
+    public void clearDepotItemCache(Transaction transaction) {
         depotItems = null;
     }
 

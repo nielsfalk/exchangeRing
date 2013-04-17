@@ -59,7 +59,6 @@ public class DepotItem extends BaseEntity{
 
     @Enumerated(STRING)
     private DepotItemType type;
-    private long oldBalance;
 
     public DepotItem(Transaction transaction, User user, long amount, User other, DepotItemType type) {
         this.transaction = transaction;
@@ -67,7 +66,6 @@ public class DepotItem extends BaseEntity{
         this.amount = amount;
         this.other = other;
         this.type = type;
-        this.oldBalance = user.getBalance();
     }
 
     public DepotItem() {
@@ -96,7 +94,7 @@ public class DepotItem extends BaseEntity{
     }
 
     public long getOldBalance() {
-        return oldBalance;
+        return getNewBalance()-amount;
     }
 
     public long getAmount() {

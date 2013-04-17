@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import static javax.persistence.TemporalType.DATE;
@@ -106,6 +107,8 @@ public class Transaction extends BaseEntity {
     private void execute() {
         fromNewBalance = from.getBalance() - amount;
         toNewBalance = to.getBalance() + amount;
+        from.setBalance(new BigDecimal(fromNewBalance).setScale(2));
+        to.setBalance(new BigDecimal(toNewBalance).setScale(2));
     }
 
     public void wire() {

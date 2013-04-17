@@ -270,7 +270,6 @@ public class User extends BaseEntity {
     public void execute(Transaction transaction) {
         DepotItem depotItem = DepotItem.create(transaction, this);
         depotItems.add(depotItem);
-        balance = new BigDecimal(depotItem.getNewBalance()).setScale(2);
         sortDepot();
     }
 
@@ -384,6 +383,10 @@ public class User extends BaseEntity {
         getEmail();
         getFacebook();
         getSkype();
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 
     @SuppressWarnings("CanBeFinal")

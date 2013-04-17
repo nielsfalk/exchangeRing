@@ -1,6 +1,7 @@
 package de.hh.changeRing.user;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import de.bripkens.gravatar.DefaultImage;
@@ -21,6 +22,7 @@ import javax.xml.bind.annotation.XmlElement;
 import java.math.BigDecimal;
 import java.util.*;
 
+import static com.google.common.collect.Iterables.concat;
 import static de.hh.changeRing.Context.formatGermanDate;
 import static de.hh.changeRing.user.User.Status.active;
 import static java.util.Calendar.DAY_OF_MONTH;
@@ -321,13 +323,9 @@ public class User extends BaseEntity {
     public List<DepotItem> getDepotItems() {
         if (depotItems == null) {
             depotItems = Lists.newArrayList();
-            for (Transaction receivedTransaction : receivedTransactions) {
-                depotItems.add(receivedTransaction.toReceivedDepotItem());
+            for (Transaction transaction : concat(receivedTransactions, sentTransactions)) {
+                depotItems.add(transaction.toDepotItem(this));
             }
-            for (Transaction sentTransaction : sentTransactions) {
-                depotItems.add(sentTransaction.toSentDepotItem());
-            }
-
             sortDepot();
         }
         return depotItems;

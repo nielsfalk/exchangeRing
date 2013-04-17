@@ -40,21 +40,12 @@ import static javax.persistence.EnumType.STRING;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 public class DepotItem{
-    private Transaction transaction;
+    private final Transaction transaction;
 
-    private User user;
+    private final DepotItemType type;
 
-    private BigDecimal amount;
-
-    private User other;
-
-    private DepotItemType type;
-
-    public DepotItem(Transaction transaction, User user, BigDecimal amount, User other, DepotItemType type) {
+    public DepotItem(Transaction transaction, DepotItemType type) {
         this.transaction = transaction;
-        this.user = user;
-        this.amount = amount;
-        this.other = other;
         this.type = type;
     }
 
@@ -67,11 +58,12 @@ public class DepotItem{
     }
 
     public BigDecimal getOldBalance() {
-        return getNewBalance().subtract(amount);
+        return getNewBalance().subtract(getAmount());
     }
 
     public BigDecimal getAmount() {
-        return amount;
+        BigDecimal amount = transaction.getAmount();
+        return type.equals(in)?amount:amount.negate();
     }
 
     public DepotItemType getType() {
@@ -79,7 +71,7 @@ public class DepotItem{
     }
 
     public BigDecimal getNewBalance() {
-        return user == transaction.getFrom()?transaction.getFromNewBalance():transaction.getToNewBalance();
+        return type.equals(in) ? transaction.getToNewBalance() : transaction.getFromNewBalance();
     }
 
     public Transaction getTransaction() {
@@ -87,7 +79,7 @@ public class DepotItem{
     }
 
     public User getOther() {
-        return other;
+        return type.equals(in)?transaction.getFrom():transaction.getTo();
     }
 
     public String getSubject() {

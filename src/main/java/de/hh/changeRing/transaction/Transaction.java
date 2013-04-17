@@ -14,9 +14,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import java.math.BigDecimal;
-import java.util.Date;
 
-import static javax.persistence.TemporalType.DATE;
+import static de.hh.changeRing.user.DepotItemType.in;
+import static de.hh.changeRing.user.DepotItemType.out;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -143,11 +143,7 @@ public class Transaction extends BaseEntity {
         return toNewBalance;
     }
 
-    public DepotItem toReceivedDepotItem() {
-        return new DepotItem(this, to,amount,from, DepotItemType.in);
-    }
-
-    public DepotItem toSentDepotItem() {
-        return new DepotItem(this, from, amount.negate(), to, DepotItemType.out);
+    public DepotItem toDepotItem(User user) {
+        return new DepotItem(this, user.equals(getTo())? in: out);
     }
 }

@@ -1,10 +1,13 @@
 package de.hh.changeRing.transaction;
 
 import de.hh.changeRing.BaseEntity;
+import de.hh.changeRing.eclipselink.MappingCustomizer;
 import de.hh.changeRing.initialData.InitTestData;
 import de.hh.changeRing.user.DepotItem;
 import de.hh.changeRing.user.DepotItemType;
 import de.hh.changeRing.user.User;
+import org.eclipse.persistence.annotations.Customizer;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -39,10 +42,10 @@ import static javax.persistence.TemporalType.DATE;
  */
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @Entity
+@Customizer(MappingCustomizer.class)
 public class Transaction extends BaseEntity {
     @XmlElement
-    @Temporal(DATE)
-    private Date date;
+    private DateTime date;
 
     @XmlElement
     @Transient
@@ -79,7 +82,7 @@ public class Transaction extends BaseEntity {
         return from;
     }
 
-    public Date getDate() {
+    public DateTime getDate() {
         return date;
     }
 
@@ -104,7 +107,7 @@ public class Transaction extends BaseEntity {
         transaction.to = to;
         transaction.amount = amount;
         transaction.subject = subject;
-        transaction.date = new Date();
+        transaction.date = new DateTime();
         transaction.execute();
         return transaction;
     }

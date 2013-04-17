@@ -8,9 +8,11 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import static de.hh.changeRing.user.DepotItemType.in;
 import static de.hh.changeRing.user.DepotItemType.out;
+import static java.util.Locale.GERMANY;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.EnumType.STRING;
 
@@ -57,11 +59,11 @@ public class DepotItem{
     }
 
     public String getFormattedDate() {
-        return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(transaction.getDate());
+        return new SimpleDateFormat("dd.MM.yyyy HH:mm", GERMANY).format(transaction.getDate().getMillis());
     }
 
     public String getShortFormattedDate() {
-        return new SimpleDateFormat("dd.MM.yy").format(transaction.getDate());
+        return new SimpleDateFormat("dd.MM.yy", GERMANY).format(transaction.getDate().getMillis());
     }
 
     public BigDecimal getOldBalance() {

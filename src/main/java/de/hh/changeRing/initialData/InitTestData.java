@@ -207,7 +207,6 @@ public class InitTestData {
 
     private static Event createEvent(int daysToAdd, long userId, EventType eventType) {
         Event result = new Event();
-        result.getId();
         result.setEventType(eventType);
         GregorianCalendar from = new GregorianCalendar();
         from.set(Calendar.HOUR_OF_DAY, 19);

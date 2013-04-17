@@ -20,11 +20,17 @@ package de.hh.changeRing.eclipselink;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+import javax.annotation.PostConstruct;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 
+import com.sun.xml.ws.api.tx.at.Transactional;
+import de.hh.changeRing.advertisement.Advertisement;
 import org.eclipse.persistence.annotations.Customizer;
 import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.mappings.DirectToFieldMapping;
@@ -48,7 +54,7 @@ public class MappingCustomizerTest extends FunctionalTest {
 
 	@Deployment
     public static Archive<?> createDeployment() {
-        return functionalJarWithEntities().addClasses(TestEntity.class);
+        return functionalJarWithEntities().addClasses(TestEntity.class, DataPump.class);
     }
 
     @PersistenceContext
@@ -68,6 +74,13 @@ public class MappingCustomizerTest extends FunctionalTest {
 		assertConverter(EnumConverter.class, TestEntity.class, "someEnumField");		
 	}
 
+    @Test
+    @Transactional
+    public void readFromDb() {
+        entityManager.getEntityManagerFactory().getCache().evictAll();
+        entityManager.find(TestEntity.class, 1);
+    }
+
 	private void assertConverter(Class<? extends Converter> expectedConverterClass, Class<?> entityClass, String attributeName) {
 		ClassDescriptor descriptor = getDescriptor(entityClass);
 		DirectToFieldMapping dtf = (DirectToFieldMapping) descriptor.getMappingForAttributeName(attributeName);
@@ -82,33 +95,55 @@ public class MappingCustomizerTest extends FunctionalTest {
 		ClassDescriptor descriptor = session.getDescriptor(entityClass);
 		return descriptor;
 	}
+    @Entity
+     @Customizer(MappingCustomizer.class)
+     public static class TestEntity {
+        @Id
+        public int id;
+
+        @Column(columnDefinition = "TIMESTAMP")
+        public DateTime someDateTimeField;
+        @Column(columnDefinition = "TIMESTAMP")
+        public LocalDate someLocalDateField;
+        @Column(columnDefinition = "TIMESTAMP")
+        public LocalTime someLocalTimeField;
+        @Column(columnDefinition = "TIMESTAMP")
+        public LocalDateTime someLocalDateTimeField;
+
+        public TestEnum someEnumField;
+    }
+
+    public static enum TestEnum implements DatabaseMappableEnum<String> {
+        X("ixx"), Y("yps"), Z("zet");
+
+        private String dbValue;
+
+        TestEnum(String dbValue) {
+            this.dbValue = dbValue;
+        }
+
+        @Override
+        public String getDatabaseValue() {
+            return dbValue;
+        }
+    }
+
+    @Singleton
+    @Startup
+    public static class DataPump {
+        @PersistenceContext
+        EntityManager entityManager;
+
+        @PostConstruct
+        public void create() {
+            TestEntity testEntity = new TestEntity();
+            testEntity.id = 1;
+            testEntity.someDateTimeField = new DateTime();
+            testEntity.someLocalTimeField = new LocalTime();
+            testEntity.someLocalDateField = new LocalDate();
+            testEntity.someEnumField = TestEnum.Y;
+            entityManager.persist(testEntity);
+        }
+    }
 }
 
-@Entity
-@Customizer(MappingCustomizer.class)
-class TestEntity {
-	@Id
-	public int id;
-
-	public DateTime someDateTimeField;
-	public LocalDate someLocalDateField;
-	public LocalTime someLocalTimeField;
-	public LocalDateTime someLocalDateTimeField;
-	
-	public TestEnum someEnumField;
-}
-
-enum TestEnum implements DatabaseMappableEnum<String> {
-	X("ixx"), Y("yps"), Z("zet");
-	
-	private String dbValue;
-
-	TestEnum(String dbValue) {
-		this.dbValue = dbValue;
-	}
-
-	@Override
-	public String getDatabaseValue() {
-		return dbValue;
-	}
-}

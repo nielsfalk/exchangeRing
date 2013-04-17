@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 
 import static de.hh.changeRing.user.DepotItemType.in;
 import static de.hh.changeRing.user.DepotItemType.out;
+import static javax.persistence.TemporalType.DATE;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -48,6 +49,7 @@ import static de.hh.changeRing.user.DepotItemType.out;
 public class Transaction extends BaseEntity {
     @XmlElement
     @XmlJavaTypeAdapter(DateTimeAdapter.class)
+    @Column(columnDefinition = "TIMESTAMP")
     private DateTime date;
 
     @XmlElement

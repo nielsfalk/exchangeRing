@@ -265,10 +265,6 @@ public class User extends BaseEntity {
         return balance.longValue();
     }
 
-    public void clearDepotItemCache(Transaction transaction) {
-        depotItems = null;
-    }
-
     public static User dummyUser(Long i) {
         User user = new User();
         user.id = i;

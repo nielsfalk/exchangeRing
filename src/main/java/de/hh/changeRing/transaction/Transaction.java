@@ -123,8 +123,6 @@ public class Transaction extends BaseEntity {
             to = InitTestData.findUser(toId);
         }
         execute();
-        from.clearDepotItemCache(this);
-        to.clearDepotItemCache(this);
     }
 
     public String getSubject() {

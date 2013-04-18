@@ -3,8 +3,10 @@ package de.hh.changeRing;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.calendar.Event;
 import de.hh.changeRing.transaction.Transaction;
+import de.hh.changeRing.user.Administrator;
 import de.hh.changeRing.user.DepotItem;
 import de.hh.changeRing.user.Member;
+import de.hh.changeRing.user.SystemAccount;
 import de.hh.changeRing.user.User;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -12,6 +14,7 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.After;
 import org.junit.Before;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -37,15 +40,37 @@ import static org.junit.Assert.assertThat;
  */
 public abstract class FunctionalTest {
     public static final String PASSWORD = "321";
-    public static final Class<?>[] ENTITY_CLASSES = new Class<?>[]{Member.class, User.class, Advertisement.class, BaseEntity.class, DepotItem.class, Event.class, Transaction.class};
+    public static final Class<?>[] ENTITY_CLASSES = new Class<?>[]{Member.class, Administrator.class, SystemAccount.class, User.class, Advertisement.class, BaseEntity.class, DepotItem.class, Event.class, Transaction.class};
 
 
-    public static User createTestUser() {
-        User result = new Member();
-        result.getId();
-        result.setEmail("hans@meiser.de");
-        result.setPassword(PASSWORD);
+    public static User createNoFeeTestMember(BigDecimal bigDecimal) {
+        Member result = createTestMember(bigDecimal);
+        result.setFee(false);
         return result;
+    }
+    public static Member createTestMember(BigDecimal balance) {
+        Member result = createTestMember();
+        result.setBalance(balance);
+        return result;
+    }
+
+    public static Member createTestMember() {
+        return (Member) init(new Member());
+    }
+
+    public static Administrator createAdministrator(){
+        return (Administrator) init(new Administrator());
+    }
+
+    public static SystemAccount createSystemAccount(){
+        return (SystemAccount) init(new SystemAccount());
+    }
+
+    private static User init(User user) {
+        user.getId();
+        user.setEmail("hans@meiser.de");
+        user.setPassword(PASSWORD);
+        return user;
     }
 
     protected static JavaArchive functionalJarWithEntities() {

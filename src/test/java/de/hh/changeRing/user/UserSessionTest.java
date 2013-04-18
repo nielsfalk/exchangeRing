@@ -39,7 +39,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(Arquillian.class)
 public class UserSessionTest extends FunctionalTest {
-    private static final User USER = createTestUser();
+    private static final User USER = createTestMember();
 
     @Deployment
     public static Archive<?> createDeployment() {

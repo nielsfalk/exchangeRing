@@ -40,8 +40,8 @@ import static de.hh.changeRing.advertisement.Category.*;
  */
 @RunWith(Arquillian.class)
 public class AdvertisementTest extends FunctionalTest {
-    private static final User user1 = createTestUser();
-    private static final User user2 = createTestUser();
+    private static final User user1 = createTestMember();
+    private static final User user2 = createTestMember();
     private static final List<Advertisement> ADVERTISEMENTS = newArrayList();
     private static final Advertisement offer1 = createAdvertisement(office, user1, offer);
     private static final Advertisement offer2 = createAdvertisement(computer, user2, offer);

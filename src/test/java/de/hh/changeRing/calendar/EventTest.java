@@ -42,7 +42,7 @@ import static java.util.Calendar.DAY_OF_MONTH;
 
 @RunWith(Arquillian.class)
 public class EventTest extends FunctionalTest {
-    private static final User USER = createTestUser();
+    private static final User USER = createTestMember();
     private static final List<Event> EVENTS = newArrayList();
 
     private static final Event PRESENT_EVENT = createEvent(0, fleaMarket);

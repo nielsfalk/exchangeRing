@@ -1,15 +1,16 @@
 package de.hh.changeRing.transaction;
 
-import de.hh.changeRing.FunctionalTest;
-import de.hh.changeRing.user.DepotItem;
-import de.hh.changeRing.user.DepotItemType;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.sun.xml.ws.developer.Stateful;
+import de.hh.changeRing.user.Administrator;
+import de.hh.changeRing.user.Member;
+import de.hh.changeRing.user.SystemAccount;
 import de.hh.changeRing.user.User;
-import de.hh.changeRing.user.UserSession;
-import de.hh.changeRing.user.UserUpdateEvent;
+import org.hamcrest.Matchers;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,15 +18,19 @@ import org.junit.runner.RunWith;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.enterprise.event.Observes;
+import javax.ejb.Stateless;
+import javax.enterprise.inject.Model;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
-import static de.hh.changeRing.user.DepotItemType.in;
-import static de.hh.changeRing.user.DepotItemType.out;
+import static de.hh.changeRing.transaction.FeeCreatorTest.FeeCreator.FeeCalculationResult;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
@@ -52,40 +57,93 @@ import static org.junit.Assert.assertThat;
 @RunWith(Arquillian.class)
 @Ignore("Work in Progres - depends on pending account hirachie")
 public class FeeCreatorTest extends MoneyTest {
-    private static User userWithNegativeBalance = createTestUser();
-    private static User userWithPositiveBalance = createTestUser();
+    private static User userWithNegativeBalance = createTestMember(new BigDecimal("-30.00"));
+    private static User userWithPositiveBalance = createTestMember(new BigDecimal("30.00"));
+    private static User noFee = createNoFeeTestMember(new BigDecimal("30.00"));
+    private static SystemAccount system = createSystemAccount();
+    private static Administrator administrator = createAdministrator();
+
 
     @Deployment
     public static Archive<?> createDeployment() {
-        return functionalJarWithEntities().addClasses(DataPump.class);
+        return functionalJarWithEntities().addClasses(DataPump.class, FeeCreator.class);
     }
 
     @PersistenceContext
-    private
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
+    @Inject
+    private FeeCreator feeCreator;
 
     @Test
-    public void transaction() {
-        expectTransactionProcessed();
+    public void feeAplicable() {
+        for (User user : new User[]{userWithPositiveBalance, userWithNegativeBalance}) {
+            assertThat(user.isFeeApplicable(), is(true));
+        }
+        for (User user : new User[]{noFee, system, administrator}) {
+            assertThat(user.isFeeApplicable(), is(false));
+        }
     }
 
+    @Test
+    public void previewTax() {
+        FeeCalculationResult calculationResult = feeCreator.previewTax();
+        for (User user : new User[]{noFee, system, administrator}) {
+            assertThat(calculationResult.userAmounts.keySet(), not(hasItem(user)));
+        }
+        assertThat(calculationResult.userAmounts.get(userWithNegativeBalance), is(new BigDecimal("2.00")));
+
+
+    }
 
     private void expectTransactionProcessed() {
         super.expectTransactionProcessed(userWithPositiveBalance, userWithNegativeBalance);
+    }
+
+
+    @Model
+    @Stateful
+    public static class FeeCreator {
+        public static final BigDecimal TAX_AMOUNT = new BigDecimal("2.00");
+        @PersistenceContext
+        private EntityManager entityManager;
+
+        //Demurrage
+
+        public FeeCalculationResult previewTax() {
+            FeeCalculationResult calculationResult = new FeeCalculationResult();
+            List<Member> relevantMemebers = entityManager.createNamedQuery("membersWithFee", Member.class).setParameter("fee",1L).getResultList();
+            for (Member member : relevantMemebers) {
+                calculationResult.userAmounts.put(member, TAX_AMOUNT);
+            }
+            return calculationResult;
+        }
+
+        public static class FeeCalculationResult {
+            private Map<User, BigDecimal> userAmounts = Maps.newHashMap();
+
+            public BigDecimal getTotalAmount() {
+                BigDecimal result = new BigDecimal("0.00");
+                for (User user : userAmounts.keySet()) {
+                    result = result.add(userAmounts.get(user));
+                }
+                return result;
+            }
+        }
+
     }
 
     @Singleton
     @Startup
     public static class DataPump {
         @PersistenceContext
-        EntityManager entityManager;
+        private EntityManager entityManager;
 
         @PostConstruct
         public void createUser() {
-            entityManager.persist(userWithNegativeBalance);
-            entityManager.persist(userWithPositiveBalance);
-            Transaction transaction = Transaction.create(userWithNegativeBalance, userWithPositiveBalance, new BigDecimal("30.00"), SUBJECT);
+            for (User user : new User[]{userWithPositiveBalance, userWithNegativeBalance, noFee, system, administrator}) {
+                entityManager.persist(user);
+            }
         }
     }
 }

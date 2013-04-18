@@ -1,8 +1,5 @@
 package de.hh.changeRing.transaction;
 
-import de.hh.changeRing.FunctionalTest;
-import de.hh.changeRing.user.DepotItem;
-import de.hh.changeRing.user.DepotItemType;
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
 import de.hh.changeRing.user.UserUpdateEvent;
@@ -24,8 +21,6 @@ import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static de.hh.changeRing.user.DepotItemType.in;
-import static de.hh.changeRing.user.DepotItemType.out;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
@@ -52,8 +47,8 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(Arquillian.class)
 public class TransactionCreatorTest extends MoneyTest {
-    private static User owner = createTestUser();
-    private static User receiver = createTestUser();
+    private static User owner = createTestMember();
+    private static User receiver = createTestMember();
     private static boolean refresheEventWasFired;
 
     @Deployment

@@ -42,7 +42,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(Arquillian.class)
 @RunAsClient
 public class AuthenticationTest extends SeleniumTest {
-    private static final User USER = FunctionalTest.createTestUser();
+    private static final User USER = FunctionalTest.createTestMember();
     public static final String MEMBERS_XHTML = "internal/members/members.xhtml";
 
     @Deployment

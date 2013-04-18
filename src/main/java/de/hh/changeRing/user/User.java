@@ -134,9 +134,6 @@ public abstract class User extends BaseEntity {
     @Column(scale = 2, precision = 7)
     private final BigDecimal euroFee = new BigDecimal("6.00");
 
-    // TODO mhoennig: Boolean mapping to 0/X
-    private char noFee;
-
     // TODO mhoennig: proper name as soon as we know what this is
     private long umlauf; // ?!? 0/10/20
 
@@ -389,6 +386,10 @@ public abstract class User extends BaseEntity {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    public boolean isFeeApplicable() {
+        return false;
     }
 
     @SuppressWarnings("CanBeFinal")

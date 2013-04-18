@@ -5,5 +5,5 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("system")
-public class SystemAccount {
+public class SystemAccount extends User{
 }

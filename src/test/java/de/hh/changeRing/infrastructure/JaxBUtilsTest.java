@@ -19,24 +19,30 @@ import static org.junit.Assert.assertThat;
 import static org.junit.matchers.JUnitMatchers.containsString;
 
 public class JaxBUtilsTest {
+
+    private static final String MIDNIGHT_IN_XML = "2013-02-02T00:00:00+01:00";
+    private static final DateMidnight MIDNIGHT = new DateMidnight(2013, 2, 2);
+    private static final DateTime DATE_TIME = new DateTime(2013, 2, 2, 23, 1, 2, 59);
+    private static final String DATE_TIME_IN_XML = "2013-02-02T23:01:02.059+01:00";
+
     @Test
     public void dateMidnightToXml() {
-        assertThat(toXml(MidnightValue.midnightValue(new DateMidnight(2013, 2, 2))), containsString("2013-02-02T00:00:00+01:00"));
+        assertThat(toXml(MidnightValue.midnightValue()), containsString(MIDNIGHT_IN_XML));
     }
 
     @Test
     public void dateMidnightFromXml() {
-        assertThat(fromXml(xml("2013-02-02T00:00:00+01:00"), MidnightValue.class).toTest, is(new DateMidnight(2013, 2, 2)));
+        assertThat(fromXml(xml(MIDNIGHT_IN_XML), MidnightValue.class).toTest, is(MIDNIGHT));
     }
 
     @Test
     public void dateTimeToXml() {
-        assertThat(toXml(DateTimeValue.dateTimeValue(new DateTime(2013, 2, 2, 23, 1, 2, 59))), containsString("2013-02-02T23:01:02.059+01:00"));
+        assertThat(toXml(DateTimeValue.dateTimeValue()), containsString(DATE_TIME_IN_XML));
     }
 
     @Test
     public void dateTimeFromXml() {
-        assertThat(fromXml(xml("2013-02-02T23:01:02.059+01:00"), DateTimeValue.class).toTest, is(new DateTime(2013, 2, 2,23,1,2,59)));
+        assertThat(fromXml(xml(DATE_TIME_IN_XML), DateTimeValue.class).toTest, is(DATE_TIME));
     }
 
 
@@ -51,9 +57,9 @@ public class JaxBUtilsTest {
         @XmlJavaTypeAdapter(DateMidnightAdapter.class)
         public DateMidnight toTest;
 
-        private static MidnightValue midnightValue(DateMidnight dateMidnight) {
+        private static MidnightValue midnightValue() {
             MidnightValue midnightValue = new MidnightValue();
-            midnightValue.toTest = dateMidnight;
+            midnightValue.toTest = JaxBUtilsTest.MIDNIGHT;
             return midnightValue;
         }
     }
@@ -65,9 +71,9 @@ public class JaxBUtilsTest {
         @XmlJavaTypeAdapter(DateTimeAdapter.class)
         public DateTime toTest;
 
-        private static DateTimeValue dateTimeValue(DateTime dateTime) {
+        private static DateTimeValue dateTimeValue() {
             DateTimeValue midnightValue = new DateTimeValue();
-            midnightValue.toTest = dateTime;
+            midnightValue.toTest = JaxBUtilsTest.DATE_TIME;
             return midnightValue;
         }
     }

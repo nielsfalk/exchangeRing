@@ -10,15 +10,14 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
@@ -51,51 +50,29 @@ import static org.junit.Assert.assertThat;
  */
 
 @RunWith(Arquillian.class)
-public class TransactionCreatorTest extends MoneyTest {
-    private static User owner = createTestUser();
-    private static User receiver = createTestUser();
-    private static boolean refresheEventWasFired;
+@Ignore("Work in Progres - depends on pending account hirachie")
+public class FeeCreatorTest extends MoneyTest {
+    private static User userWithNegativeBalance = createTestUser();
+    private static User userWithPositiveBalance = createTestUser();
 
     @Deployment
     public static Archive<?> createDeployment() {
-        return functionalJarWithEntities().addClasses(UserSession.class, TransactionCreator.class, DataPump.class);
+        return functionalJarWithEntities().addClasses(DataPump.class);
     }
 
-    @Inject
-    UserSession userSession;
+    @PersistenceContext
+    private
+    EntityManager entityManager;
 
-    @EJB
-    TransactionCreator transactionCreator;
-
-
-    @Before
-    public void login() {
-        userSession.setIdOrEmail(owner.getId().toString());
-        userSession.setPassword(PASSWORD);
-        userSession.login();
-        refresheEventWasFired=false;
-    }
 
     @Test
     public void transaction() {
-        transactionCreator.setReceiver(receiver);
-        transactionCreator.setAmount(30l);
-        transactionCreator.setSubject(SUBJECT);
-        transactionCreator.submit();
         expectTransactionProcessed();
     }
 
-    @Test
-    public void findOthers() {
-        List<User> otherUsers = transactionCreator.getOtherUsers();
-        assertThat(otherUsers.size(), is(1));
-        assertThat(otherUsers.get(0), is(receiver));
 
-    }
-
-
-    public void eventListener(@Observes UserUpdateEvent event) {
-        refresheEventWasFired = true;
+    private void expectTransactionProcessed() {
+        super.expectTransactionProcessed(userWithPositiveBalance, userWithNegativeBalance);
     }
 
     @Singleton
@@ -106,14 +83,9 @@ public class TransactionCreatorTest extends MoneyTest {
 
         @PostConstruct
         public void createUser() {
-            entityManager.persist(owner);
-            entityManager.persist(receiver);
+            entityManager.persist(userWithNegativeBalance);
+            entityManager.persist(userWithPositiveBalance);
+            Transaction transaction = Transaction.create(userWithNegativeBalance, userWithPositiveBalance, new BigDecimal("30.00"), SUBJECT);
         }
-    }
-
-    protected void expectTransactionProcessed() {
-        assertThat(userSession.getUser().getBalance(), is(new BigDecimal("-30.00")));
-        assertThat(TransactionCreatorTest.refresheEventWasFired, is(true));
-        super.expectTransactionProcessed(owner, receiver);
     }
 }

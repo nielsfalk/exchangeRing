@@ -4,6 +4,7 @@ import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.calendar.Event;
 import de.hh.changeRing.transaction.Transaction;
 import de.hh.changeRing.user.DepotItem;
+import de.hh.changeRing.user.Member;
 import de.hh.changeRing.user.User;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
@@ -36,11 +37,11 @@ import static org.junit.Assert.assertThat;
  */
 public abstract class FunctionalTest {
     public static final String PASSWORD = "321";
-    public static final Class<?>[] ENTITY_CLASSES = new Class<?>[]{User.class, Advertisement.class, BaseEntity.class, DepotItem.class, Event.class, Transaction.class};
+    public static final Class<?>[] ENTITY_CLASSES = new Class<?>[]{Member.class, User.class, Advertisement.class, BaseEntity.class, DepotItem.class, Event.class, Transaction.class};
 
 
     public static User createTestUser() {
-        User result = new User();
+        User result = new Member();
         result.getId();
         result.setEmail("hans@meiser.de");
         result.setPassword(PASSWORD);

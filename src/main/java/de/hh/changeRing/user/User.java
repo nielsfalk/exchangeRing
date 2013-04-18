@@ -56,19 +56,17 @@ import static javax.persistence.TemporalType.DATE;
 @Entity(name = "tr_user")
 @Customizer(MappingCustomizer.class)
 @XmlAccessorType(XmlAccessType.PROPERTY)
+@DiscriminatorColumn(name = "type") //art
 @NamedQueries({
         @NamedQuery(name = "loginWithEmail", query = "select user from tr_user user where user.email =:email"),
         @NamedQuery(name = "findOthers", query = "select user from tr_user user where user <> :me order by user.id"),
         @NamedQuery(name = "allUsers", query = "select user from tr_user user order by user.id"),
         @NamedQuery(name = "newestUser", query = "select user from tr_user user order by user.activated desc")
 })
-public class User extends BaseEntity {
+public abstract class User extends BaseEntity {
     private String nickName;
 
     private int userGroup; // gruppe
-
-    // TODO mhoennig: use enum
-    private char type; // art
 
     // TODO mhoennig: converter from Boolean
     private char payd; // bezahlt -- was auch immer, wann auch immer?!?
@@ -271,7 +269,7 @@ public class User extends BaseEntity {
     }
 
     public static User dummyUser(Long i) {
-        User user = new User();
+        User user = new Member();
         user.id = i;
         user.email = "email" + i + "@sonst-was.de";
         user.setPassword("bll" + "lll");

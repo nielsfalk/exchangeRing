@@ -6,6 +6,7 @@ import de.hh.changeRing.advertisement.Category;
 import de.hh.changeRing.calendar.Event;
 import de.hh.changeRing.calendar.EventType;
 import de.hh.changeRing.transaction.Transaction;
+import de.hh.changeRing.user.Member;
 import de.hh.changeRing.user.User;
 
 import javax.xml.bind.JAXBContext;
@@ -56,9 +57,9 @@ public class InitTestData {
 
     private static void init() {
         try {
-            List<User> dummies = new ArrayList<User>();
+            List<Member> dummies = new ArrayList<Member>();
             for (Long i = 1000L; i < 2000; i++) {
-                dummies.add(User.dummyUser(i));
+                dummies.add((Member) User.dummyUser(i));
             }
             JAXBContext context = JAXBContext.newInstance(InitialData.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -66,7 +67,7 @@ public class InitTestData {
 
             data = (InitialData) unmarshaller.unmarshal(is);
 
-            List<User> users = InitTestData.getUsers();
+            List<Member> users = InitTestData.getUsers();
             users.addAll(dummies);
             initAds();
         } catch (JAXBException e) {
@@ -120,7 +121,7 @@ public class InitTestData {
     }
 
 
-    public static List<User> getUsers() {
+    public static List<Member> getUsers() {
         return data.users;
     }
 
@@ -225,7 +226,7 @@ public class InitTestData {
     @XmlAccessorType(XmlAccessType.PROPERTY)
     public static class InitialData {
         @XmlElement(name = "user")
-        List<User> users;
+        List<Member> users;
 
         @XmlElement(name = "transaction")
         List<Transaction> transactions;

@@ -3,7 +3,12 @@ package de.hh.changeRing.infrastructure;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+import java.io.ByteArrayInputStream;
+import java.io.StringWriter;
 import java.util.Date;
 
 
@@ -26,7 +31,27 @@ import java.util.Date;
  * use must be kept as small as possible.
  */
 
-public class JaxBAdapters {
+public class JaxBUtils {
+    static <T> String toXml(T element) {
+        try {
+            Marshaller marshaller = JAXBContext.newInstance(element.getClass()).createMarshaller();
+            StringWriter writer = new StringWriter();
+            marshaller.marshal(element, writer);
+            return writer.toString();
+        } catch (JAXBException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public static  <T> T fromXml(String xml, Class<T> type) {
+        try {
+            //noinspection unchecked
+            return (T)JAXBContext.newInstance(type).createUnmarshaller().unmarshal(new ByteArrayInputStream(xml.getBytes()));
+        } catch (JAXBException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static class DateTimeAdapter extends XmlAdapter<Date, DateTime> {
         @Override
         public DateTime unmarshal(Date date) throws Exception {

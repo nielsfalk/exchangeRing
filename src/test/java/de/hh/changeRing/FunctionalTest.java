@@ -3,11 +3,7 @@ package de.hh.changeRing;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.calendar.Event;
 import de.hh.changeRing.transaction.Transaction;
-import de.hh.changeRing.user.Administrator;
-import de.hh.changeRing.user.DepotItem;
-import de.hh.changeRing.user.Member;
-import de.hh.changeRing.user.SystemAccount;
-import de.hh.changeRing.user.User;
+import de.hh.changeRing.user.*;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -45,9 +41,10 @@ public abstract class FunctionalTest {
 
     public static User createNoFeeTestMember(BigDecimal bigDecimal) {
         Member result = createTestMember(bigDecimal);
-        result.setFee(false);
+        result.setNoFee(true);
         return result;
     }
+
     public static Member createTestMember(BigDecimal balance) {
         Member result = createTestMember();
         result.setBalance(balance);
@@ -58,11 +55,11 @@ public abstract class FunctionalTest {
         return (Member) init(new Member());
     }
 
-    public static Administrator createAdministrator(){
+    public static Administrator createAdministrator() {
         return (Administrator) init(new Administrator());
     }
 
-    public static SystemAccount createSystemAccount(){
+    public static SystemAccount createSystemAccount() {
         return (SystemAccount) init(new SystemAccount());
     }
 

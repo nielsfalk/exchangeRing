@@ -71,7 +71,6 @@ public abstract class User extends BaseEntity {
     // TODO mhoennig: converter from Boolean
     private char payd; // bezahlt -- was auch immer, wann auch immer?!?
 
-
     @XmlElement
     private String firstName;
 

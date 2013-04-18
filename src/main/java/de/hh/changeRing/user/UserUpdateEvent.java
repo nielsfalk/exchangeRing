@@ -1,6 +1,6 @@
 package de.hh.changeRing.user;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -28,11 +28,16 @@ import static com.google.common.collect.Lists.newArrayList;
  */
 public class UserUpdateEvent {
 
-    private final ArrayList<User> users;
+    private final Collection<User> users;
 
     public UserUpdateEvent(User... users) {
-        this.users = newArrayList(users);
+        this(newArrayList(users));
     }
+
+    public UserUpdateEvent(Collection<User> users) {
+        this.users = users;
+    }
+
 
     public boolean regards(User user) {
         return users.contains(user);

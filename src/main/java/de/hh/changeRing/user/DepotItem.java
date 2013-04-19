@@ -83,7 +83,7 @@ public class DepotItem{
     }
 
     public String getSubject() {
-        String subject = transaction.getSubject();
+        /*String subject = transaction.getSubject();
         if (subject == null) {
             return "";
         }
@@ -96,6 +96,15 @@ public class DepotItem{
             subject = subject.substring(35);
         }
         splitted.add(subject);
-        return Joiner.on('\n').join(splitted);
+        return Joiner.on('\n').join(splitted);*/
+        return getTransaction().getSubject();
+    }
+
+    @Override
+    public String toString() {
+        return "DepotItem{" +
+                "transaction=" + transaction +
+                ", type=" + type +
+                '}';
     }
 }

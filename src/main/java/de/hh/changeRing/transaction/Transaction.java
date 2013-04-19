@@ -148,4 +148,17 @@ public class Transaction extends BaseEntity {
     public DepotItem toDepotItem(User user) {
         return new DepotItem(this, user.equals(getTo())? in: out);
     }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "date=" + date +
+                ", fromId=" + from.getId() +
+                ", toId=" + to.getId() +
+                ", amount=" + amount +
+                ", subject='" + subject + '\'' +
+                ", fromNewBalance=" + fromNewBalance +
+                ", toNewBalance=" + toNewBalance +
+                '}';
+    }
 }

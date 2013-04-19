@@ -1,31 +1,26 @@
 package de.hh.changeRing.transaction;
 
-import com.google.common.collect.Maps;
-import com.sun.xml.ws.developer.Stateful;
 import de.hh.changeRing.Context;
 import de.hh.changeRing.user.*;
+import org.hamcrest.Matcher;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.joda.time.DateMidnight;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.enterprise.event.Event;
-import javax.enterprise.inject.Model;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 
-import static de.hh.changeRing.transaction.FeeCreatorTest.FeeCreator.FeeCalculationResult;
-import static java.math.BigDecimal.ZERO;
-import static java.math.RoundingMode.HALF_UP;
+import static de.hh.changeRing.transaction.FeeCreator.FeeCalculationResult;
+import static de.hh.changeRing.user.DepotItemType.out;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.core.IsNot.not;
@@ -52,6 +47,7 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(Arquillian.class)
 public class FeeCreatorTest extends MoneyTest {
+    public static final String EXPECTED_TAX_SUBJECT = "Fixe Gebühr von 2.00 Motten für " + Context.formatGermanDate(new DateMidnight().toDate());
     private static User userWithNegativeBalance = createTestMember(new BigDecimal("-30.00"));
     private static User userWithPositiveBalance = createTestMember(new BigDecimal("34.56"));
     private static User noFee = createNoFeeTestMember(new BigDecimal("12.34"));
@@ -64,7 +60,7 @@ public class FeeCreatorTest extends MoneyTest {
         return functionalJarWithEntities().addClasses(DataPump.class, FeeCreator.class);
     }
 
-    @Inject
+    @EJB
     private FeeCreator feeCreator;
 
     @Test
@@ -101,85 +97,38 @@ public class FeeCreatorTest extends MoneyTest {
     }
 
     @Test
+    @Ignore("Work in progress")
     public void executeFees() {
         feeCreator.executeFees();
+        assertThat(refresheEventWasFired, is(true));
+        refreshUsers();
+        assertThat(administrator.getDepotItems().size(), is(0));
+        assertThat(noFee.getDepotItems().size(), is(0));
+        expectDepotItems(userWithNegativeBalance, 1,
+                withProperties(FeeCreator.TAX_AMOUNT.negate(), system, out, EXPECTED_TAX_SUBJECT, new BigDecimal("-30.00"), new BigDecimal("-32.00")));
+
+        expectDepotItems(userWithPositiveBalance, 2,
+                withProperties(FeeCreator.TAX_AMOUNT.negate(), system, out, EXPECTED_TAX_SUBJECT, new BigDecimal("34.56"), new BigDecimal("32.56")));
     }
 
-
-    @Model
-    @Stateful
-    public static class FeeCreator {
-        public static final BigDecimal TAX_AMOUNT = new BigDecimal("2.00");
-        public static final BigDecimal DEMURRAGE_PERCENT = new BigDecimal("0.02");
-        @PersistenceContext
-        private EntityManager entityManager;
-
-        @Inject
-        private Event<UserUpdateEvent> events;
-
-        public FeeCalculationResult previewTax() {
-            return calculateTax();
-        }
-
-        private FeeCalculationResult calculateTax() {
-            FeeCalculationResult calculationResult = new FeeCalculationResult();
-            List<Member> relevantMembers = entityManager.createNamedQuery("allMembers", Member.class).getResultList();
-            for (Member member : relevantMembers) {
-                calculationResult.userAmounts.put(member, TAX_AMOUNT);
-            }
-            return calculationResult;
-        }
-
-        public FeeCalculationResult previewDemurrage() {
-            return calculateDemurage();
-        }
-
-        private FeeCalculationResult calculateDemurage() {
-            FeeCalculationResult calculationResult = new FeeCalculationResult();
-            List<Member> relevantMembers = entityManager.createNamedQuery("allMembers", Member.class).getResultList();
-            for (Member member : relevantMembers) {
-                if (member.getBalance().compareTo(ZERO) > 0) {
-                    BigDecimal amount = member.getBalance().multiply(DEMURRAGE_PERCENT).setScale(2, HALF_UP);
-                    calculationResult.userAmounts.put(member, amount);
-                }
-            }
-            return calculationResult;
-        }
-
-        public void executeFees() {
-            executeDemurage();
-            executeTax();
-
-
-        }
-
-        private void executeTax() {
-            FeeCalculationResult tax = calculateTax();
-            for (Map.Entry<User, BigDecimal> entry : tax.userAmounts.entrySet()) {
-                Transaction.create(entry.getKey(), system, entry.getValue(), String.format("Fixe Gebühr von %s Motten für %s", entry.getValue(), Context.formatGermanDate(new DateMidnight().toDate())));
-            }
-            events.fire(new UserUpdateEvent(tax.userAmounts.keySet()));
-        }
-
-        private void executeDemurage() {
-            calculateDemurage();
-            //Umlaufsicherung für 04.2013, 20.00 Promille von 70.96ergibt: 1.4192Motten
-
-        }
-
-        public static class FeeCalculationResult {
-            private Map<User, BigDecimal> userAmounts = Maps.newHashMap();
-
-            public BigDecimal getTotalAmount() {
-                BigDecimal result = new BigDecimal("0.00");
-                for (User user : userAmounts.keySet()) {
-                    result = result.add(userAmounts.get(user));
-                }
-                return result;
-            }
-        }
-
+    private void expectDepotItems(User user, int count, Matcher<DepotItem> ... depotItemMatcher) {
+        assertThat(user.getDepotItems().size(),is(count));
+        assertThat(user.getDepotItems(), MoneyTest.hasItems(depotItemMatcher));
     }
+
+    private void refreshUsers() {
+        userWithPositiveBalance= refresh(userWithPositiveBalance);
+        userWithNegativeBalance= refresh(userWithNegativeBalance);
+        noFee = refresh(noFee);
+        system = (SystemAccount) refresh(system);
+        administrator = (Administrator) refresh(administrator);
+    }
+
+    @Override
+    protected User refresh(User user) {
+        return entityManager.find(User.class, user.getId());
+    }
+
 
     @Singleton
     @Startup

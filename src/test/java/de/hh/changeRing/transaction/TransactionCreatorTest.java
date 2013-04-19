@@ -2,7 +2,6 @@ package de.hh.changeRing.transaction;
 
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
-import de.hh.changeRing.user.UserUpdateEvent;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -14,7 +13,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -49,7 +47,6 @@ import static org.junit.Assert.assertThat;
 public class TransactionCreatorTest extends MoneyTest {
     private static User owner = createTestMember();
     private static User receiver = createTestMember();
-    private static boolean refresheEventWasFired;
 
     @Deployment
     public static Archive<?> createDeployment() {
@@ -89,10 +86,6 @@ public class TransactionCreatorTest extends MoneyTest {
     }
 
 
-    public void eventListener(@Observes UserUpdateEvent event) {
-        refresheEventWasFired = true;
-    }
-
     @Singleton
     @Startup
     public static class DataPump {
@@ -108,7 +101,7 @@ public class TransactionCreatorTest extends MoneyTest {
 
     protected void expectTransactionProcessed() {
         assertThat(userSession.getUser().getBalance(), is(new BigDecimal("-30.00")));
-        assertThat(TransactionCreatorTest.refresheEventWasFired, is(true));
+        assertThat(MoneyTest.refresheEventWasFired, is(true));
         super.expectTransactionProcessed(owner, receiver);
     }
 }

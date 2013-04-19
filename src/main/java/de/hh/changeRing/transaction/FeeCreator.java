@@ -64,33 +64,27 @@ public class FeeCreator {
         return calculationResult;
     }
 
-    public void executeFees() {
-        SystemAccount system = SystemAccount.getSystem(entityManager);
-        executeDemurage(system);
-        executeTax(system);
-
-
+    private SystemAccount getSystem() {
+        return SystemAccount.getSystem(entityManager);
     }
 
-    private void executeTax(SystemAccount system) {
+    public void executeTax() {
         FeeCalculationResult tax = calculateTax();
         for (Map.Entry<User, BigDecimal> entry : tax.userAmounts.entrySet()) {
-            Transaction.create(entry.getKey(), system, entry.getValue(), String.format("Fixe Gebühr von %s Motten für %s", entry.getValue(), Context.formatGermanDate(new DateMidnight().toDate())));
+            Transaction.create(entry.getKey(), getSystem(), entry.getValue(), String.format("Fixe Gebühr von %s Motten für %s", entry.getValue(), Context.formatGermanDate(new DateMidnight().toDate())));
         }
         events.fire(new UserUpdateEvent(tax.userAmounts.keySet()));
     }
 
-    private void executeDemurage(SystemAccount system) {
+    public void executeDemurage() {
         FeeCalculationResult demurage = calculateDemurage();
         for (Map.Entry<User, BigDecimal> entry : demurage.userAmounts.entrySet()) {
-            Transaction.create(entry.getKey(), system, entry.getValue(), String.format("Umlaufsicherung für %s, %s %% von %s ergibt: %s Motten",
+            Transaction.create(entry.getKey(), getSystem(), entry.getValue(), String.format("Umlaufsicherung für %s, %s %% von %s ergibt: %s Motten",
                     Context.formatGermanDate(new DateMidnight().toDate()),
                     DEMURRAGE_PERCENT.multiply(new BigDecimal("100")).setScale(0, HALF_UP),
                     entry.getKey().getBalance(),
                     entry.getValue()));
         }
-        //Umlaufsicherung für 04.2013, 20.00 Promille von 70.96ergibt: 1.4192Motten
-
     }
 
     public static class FeeCalculationResult {

@@ -103,8 +103,15 @@ public class DepotItem{
     @Override
     public String toString() {
         return "DepotItem{" +
-                "transaction=" + transaction +
-                ", type=" + type +
+                "type=" + type +
+                ", amount=" + getAmount() +
+                ", other=" + getOther().getId() +
+                ", subject=" + getSubject() +
+                ", newBalance=" + getNewBalance() +
+                ", oldBalance=" + getOldBalance() +
+                ", date=" + getFormattedDate() +
+                ", subject=" + getSubject() +
+                ", transactionId=" + getTransaction().getId() +
                 '}';
     }
 }

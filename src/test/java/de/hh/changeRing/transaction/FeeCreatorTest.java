@@ -7,7 +7,6 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.joda.time.DateMidnight;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -47,7 +46,8 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(Arquillian.class)
 public class FeeCreatorTest extends MoneyTest {
-    public static final String EXPECTED_TAX_SUBJECT = "Fixe Gebühr von 2.00 Motten für " + Context.formatGermanDate(new DateMidnight().toDate());
+    public static final String EXPECTED_TAX_SUBJECT = "Fixe Gebühr von 2.00 Motten für ";
+    public static final String DEMURRAGE_SUBJECT = "Umlaufsicherung für ";
     private static User userWithNegativeBalance = createTestMember(new BigDecimal("-30.00"));
     private static User userWithPositiveBalance = createTestMember(new BigDecimal("34.56"));
     private static User noFee = createNoFeeTestMember(new BigDecimal("12.34"));
@@ -97,9 +97,9 @@ public class FeeCreatorTest extends MoneyTest {
     }
 
     @Test
-    @Ignore("Work in progress")
     public void executeFees() {
-        feeCreator.executeFees();
+        feeCreator.executeDemurage();
+        feeCreator.executeTax();
         assertThat(refresheEventWasFired, is(true));
         refreshUsers();
         assertThat(administrator.getDepotItems().size(), is(0));
@@ -108,17 +108,21 @@ public class FeeCreatorTest extends MoneyTest {
                 withProperties(FeeCreator.TAX_AMOUNT.negate(), system, out, EXPECTED_TAX_SUBJECT, new BigDecimal("-30.00"), new BigDecimal("-32.00")));
 
         expectDepotItems(userWithPositiveBalance, 2,
-                withProperties(FeeCreator.TAX_AMOUNT.negate(), system, out, EXPECTED_TAX_SUBJECT, new BigDecimal("34.56"), new BigDecimal("32.56")));
+                withProperties(new BigDecimal("-0.69"), system, out, DEMURRAGE_SUBJECT, new BigDecimal("34.56"), new BigDecimal("33.87")),
+                withProperties(FeeCreator.TAX_AMOUNT.negate(), system, out, EXPECTED_TAX_SUBJECT, new BigDecimal("33.87"), new BigDecimal("31.87")));
+
+        assertThat(system.getDepotItems().size(), is(3));
+        assertThat(system.getBalance(), is(new BigDecimal("4.69")));
     }
 
-    private void expectDepotItems(User user, int count, Matcher<DepotItem> ... depotItemMatcher) {
-        assertThat(user.getDepotItems().size(),is(count));
+    private void expectDepotItems(User user, int count, Matcher<DepotItem>... depotItemMatcher) {
+        assertThat(user.getDepotItems().size(), is(count));
         assertThat(user.getDepotItems(), MoneyTest.hasItems(depotItemMatcher));
     }
 
     private void refreshUsers() {
-        userWithPositiveBalance= refresh(userWithPositiveBalance);
-        userWithNegativeBalance= refresh(userWithNegativeBalance);
+        userWithPositiveBalance = refresh(userWithPositiveBalance);
+        userWithNegativeBalance = refresh(userWithNegativeBalance);
         noFee = refresh(noFee);
         system = (SystemAccount) refresh(system);
         administrator = (Administrator) refresh(administrator);

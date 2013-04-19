@@ -171,13 +171,11 @@ public abstract class User extends BaseEntity {
     @SuppressWarnings("JpaDataSourceORMInspection")
     @OneToMany(cascade = PERSIST)
     @JoinColumn(name = "to_user_id")
-    @OrderBy("id desc")
     private List<Transaction> receivedTransactions = new ArrayList<Transaction>();
 
     @SuppressWarnings("JpaDataSourceORMInspection")
     @OneToMany(cascade = PERSIST)
     @JoinColumn(name = "from_user_id")
-    @OrderBy("id desc")
     private List<Transaction> sentTransactions = new ArrayList<Transaction>();
 
     @Column(scale = 2, precision = 7)

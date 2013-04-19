@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 @MappedSuperclass
-public class BaseEntity {
+public abstract class BaseEntity {
     private static final Logger log = Logger.getLogger(BaseEntity.class.getName());
     @Id
     @GeneratedValue

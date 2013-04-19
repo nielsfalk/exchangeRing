@@ -70,7 +70,7 @@ public class MoneyTest extends FunctionalTest {
                 return depotItem.getAmount().equals(amount)
                         && depotItem.getOther().equals(other)
                         && depotItem.getType().equals(type)
-                        && depotItem.getSubject().equals(subject)
+                        && depotItem.getSubject().contains(subject)
                         && depotItem.getFormattedDate() != null
                         && depotItem.getOldBalance().equals(oldBalance)
                         && depotItem.getNewBalance().equals(newBalance);
@@ -78,6 +78,7 @@ public class MoneyTest extends FunctionalTest {
 
             @Override
             public void describeTo(Description description) {
+                description.appendText("amount = ").appendText(amount.toString());
             }
         };
     }

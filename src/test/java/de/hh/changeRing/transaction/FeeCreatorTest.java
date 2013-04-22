@@ -98,8 +98,8 @@ public class FeeCreatorTest extends MoneyTest {
 
     @Test
     public void executeFees() {
-        feeCreator.executeDemurage();
-        feeCreator.executeTax();
+        feeCreator.executeFees();
+
         assertThat(refresheEventWasFired, is(true));
         refreshUsers();
         assertThat(administrator.getDepotItems().size(), is(0));

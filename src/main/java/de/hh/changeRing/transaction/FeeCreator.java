@@ -68,7 +68,7 @@ public class FeeCreator {
         return SystemAccount.getSystem(entityManager);
     }
 
-    public void executeTax() {
+    private void executeTax() {
         FeeCalculationResult tax = calculateTax();
         for (Map.Entry<User, BigDecimal> entry : tax.userAmounts.entrySet()) {
             Transaction.create(entry.getKey(), getSystem(), entry.getValue(), String.format("Fixe Gebühr von %s Motten für %s", entry.getValue(), Context.formatGermanDate(new DateMidnight().toDate())));
@@ -76,7 +76,7 @@ public class FeeCreator {
         events.fire(new UserUpdateEvent(tax.userAmounts.keySet()));
     }
 
-    public void executeDemurage() {
+    private void executeDemurage() {
         FeeCalculationResult demurage = calculateDemurage();
         for (Map.Entry<User, BigDecimal> entry : demurage.userAmounts.entrySet()) {
             Transaction.create(entry.getKey(), getSystem(), entry.getValue(), String.format("Umlaufsicherung für %s, %s %% von %s ergibt: %s Motten",
@@ -85,6 +85,11 @@ public class FeeCreator {
                     entry.getKey().getBalance(),
                     entry.getValue()));
         }
+    }
+
+    public void executeFees() {
+        executeDemurage();
+        executeTax();
     }
 
     public static class FeeCalculationResult {

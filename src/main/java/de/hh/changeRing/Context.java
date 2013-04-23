@@ -1,6 +1,11 @@
 package de.hh.changeRing;
 
 import de.hh.changeRing.user.UserSession;
+import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
+import org.joda.time.ReadableInstant;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import javax.el.ELContext;
 import javax.el.ELResolver;
@@ -21,7 +26,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Logger;
+
+import static java.util.Locale.GERMANY;
 
 
 /**
@@ -87,12 +95,20 @@ public class Context {
     }
 
     public static String formatGermanDate(Date date) {
-        return date == null ? "" : new SimpleDateFormat(GERMAN_DATE).format(date);
+        return date == null ? "" : formatGermanDate(new DateTime(date));
+    }
+
+    public static String formatGermanDate(ReadableInstant instance) {
+        return instance == null ? "" : DateTimeFormat.forPattern(GERMAN_DATE).print(instance);
     }
 
 
     public static String formatGermanTime(Date date) {
-        return date == null ? "" : new SimpleDateFormat(GERMAN_TIME).format(date);
+        return date == null ? "" : formatGermanTime(new DateTime(date));
+    }
+
+    public static String formatGermanTime(ReadableInstant instance) {
+        return instance == null ? "" : DateTimeFormat.forPattern(GERMAN_TIME).print(instance);
     }
 
     public void secureInternalArea() {
@@ -266,4 +282,6 @@ public class Context {
         return new Context().getViewId().substring(1).startsWith(viewIdPrefix)
                 ? ACTIVE_CSS_CLASS : "";
     }
+
+
 }

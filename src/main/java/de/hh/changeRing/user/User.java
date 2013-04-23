@@ -9,6 +9,7 @@ import de.bripkens.gravatar.Rating;
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.calendar.Event;
+import de.hh.changeRing.infrastructure.JaxBUtils;
 import de.hh.changeRing.infrastructure.eclipselink.MappingCustomizer;
 import de.hh.changeRing.transaction.Transaction;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -19,6 +20,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -128,8 +130,7 @@ public abstract class User extends BaseEntity {
     @Column(scale = 2, precision = 7)
     private final BigDecimal euroBalance = new BigDecimal("0.00");
 
-    @Temporal(DATE)
-    private Date birthDay;
+    private DateMidnight birthDay;
 
     @Column(scale = 2, precision = 7)
     private final BigDecimal euroFee = new BigDecimal("6.00");
@@ -525,8 +526,9 @@ public abstract class User extends BaseEntity {
     }
 
     @XmlElement
+    @XmlJavaTypeAdapter(JaxBUtils.DateMidnightAdapter.class)
     public DateMidnight getBirthDay() {
-        return new DateMidnight(birthDay);
+        return birthDay;
     }
 
     public String getFormattedBirthDay() {
@@ -534,7 +536,7 @@ public abstract class User extends BaseEntity {
     }
 
     public void setBirthDay(DateMidnight birthDay) {
-        this.birthDay = birthDay.toDate();
+        this.birthDay = birthDay;
     }
 
     @XmlElement

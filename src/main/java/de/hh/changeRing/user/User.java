@@ -181,7 +181,7 @@ public abstract class User extends BaseEntity {
     private List<Transaction> sentTransactions = new ArrayList<Transaction>();
 
     @Column(scale = 2, precision = 7)
-    private BigDecimal initialBalance; // startKapital 
+    private BigDecimal initialBalance = new BigDecimal("0.00"); // startKapital
 
     @Column(scale = 2, precision = 7)
     private BigDecimal balance = new BigDecimal("0.00");

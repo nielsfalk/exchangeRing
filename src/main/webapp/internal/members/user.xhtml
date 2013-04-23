@@ -186,8 +186,8 @@ Environmental damage caused by the use must be kept as small as possible.
             <h:outputText value="Geburtstag:" rendered="#{userModel.meOrFilled(userModel.selectedUser.birthDay)}"/>
             <h:outputText value="#{userModel.selectedUser.formattedBirthDay}"
                           rendered="#{userModel.otherAndFilled(userModel.selectedUser.birthDay)}"/>
-            <p:calendar locale="de" navigator="true" value="#{userModel.selectedUser.birthDay}" rendered=
-                    "#{userModel.me}"/>
+            <p:calendar locale="de" pattern="dd.MM.yyyy" navigator="true" value="#{userModel.selectedUser.birthDay}" rendered=
+                    "#{userModel.me}" converter="midnightConverter"/>
 
             <h:outputText value="Profil:" rendered="#{userModel.meOrFilled(userModel.selectedUser.profile)}"/>
             <h:outputText value="#{userModel.selectedUser.profile}"

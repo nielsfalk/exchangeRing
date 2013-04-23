@@ -20,6 +20,5 @@ public class DateFormatTest {
         assertThat(Context.formatGermanTime(DATE_TIME), is(EXPECTED_FORMATTED_TIME));
         assertThat(Context.formatGermanDate(DATE_TIME.toDate()), is(EXPECTED_FORMATTED_DATE));
         assertThat(Context.formatGermanDate(DATE_TIME), is(EXPECTED_FORMATTED_DATE));
-
     }
 }

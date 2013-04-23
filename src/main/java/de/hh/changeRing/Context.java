@@ -61,7 +61,7 @@ public class Context {
     public static final String WELCOME_PAGE = "/dashboard.xhtml";
     private static final String INTERNAL_PREFIX = "/internal";
     private static final String LOGOUT_PREFIX = "/logout";
-    private static final String GERMAN_DATE = "dd.MM.yyyy";
+    public static final String GERMAN_DATE = "dd.MM.yyyy";
     private static final String GERMAN_TIME = "HH:mm";
     private String url;
     private String requestURI;

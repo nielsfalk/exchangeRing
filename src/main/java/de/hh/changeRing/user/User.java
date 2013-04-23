@@ -13,6 +13,7 @@ import de.hh.changeRing.infrastructure.eclipselink.MappingCustomizer;
 import de.hh.changeRing.transaction.Transaction;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.eclipse.persistence.annotations.Customizer;
+import org.joda.time.DateMidnight;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -524,16 +525,16 @@ public abstract class User extends BaseEntity {
     }
 
     @XmlElement
-    public Date getBirthDay() {
-        return birthDay;
+    public DateMidnight getBirthDay() {
+        return new DateMidnight(birthDay);
     }
 
     public String getFormattedBirthDay() {
         return formatGermanDate(birthDay);
     }
 
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
+    public void setBirthDay(DateMidnight birthDay) {
+        this.birthDay = birthDay.toDate();
     }
 
     @XmlElement

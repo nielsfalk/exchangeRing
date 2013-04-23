@@ -77,6 +77,7 @@ public class UserSession implements Serializable {
     }
 
     public void updateUser() {
+	    entityManager.merge(user);
     }
 
     @Named

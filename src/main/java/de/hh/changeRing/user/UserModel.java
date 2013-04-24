@@ -87,7 +87,7 @@ public class UserModel implements Serializable {
     }
 
     public void setSelectedMe(@SuppressWarnings("UnusedParameters") String selectedMe) {
-        selectedUser = session.getUser();
+	    setSelectedUserId(session.getUser().getId());
     }
 
     @SuppressWarnings("SameReturnValue")

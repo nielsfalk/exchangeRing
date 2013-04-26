@@ -2,15 +2,19 @@ package de.hh.changeRing.advertisement;
 
 import de.hh.changeRing.FunctionalTest;
 import de.hh.changeRing.user.User;
+import de.hh.changeRing.user.UserSession;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -39,7 +43,7 @@ import static de.hh.changeRing.advertisement.Category.*;
  * use must be kept as small as possible.
  */
 @RunWith(Arquillian.class)
-public class AdvertisementTest extends FunctionalTest {
+public class AdvertisementModelTest extends FunctionalTest {
     private static final User user1 = createTestMember();
     private static final User user2 = createTestMember();
     private static final List<Advertisement> ADVERTISEMENTS = newArrayList();
@@ -52,11 +56,19 @@ public class AdvertisementTest extends FunctionalTest {
 
     @Deployment
     public static Archive<?> createDeployment() {
-        return functionalJarWithEntities().addClasses(DataPump.class);
+        return functionalJarWithEntities().addClasses(DataPump.class, AdvertisementModel.class, UserSession.class);
     }
 
     @PersistenceContext
     private EntityManager entityManager;
+
+	@Inject
+	private UserSession userSession;
+
+	@EJB
+	private AdvertisementModel advertisementModel;
+
+
 
     @Test
     public void offersInRootCategorie() {
@@ -97,17 +109,38 @@ public class AdvertisementTest extends FunctionalTest {
     @Test
     public void newest3Offers() {
         getNewestAdvertisements(3, offer).expectAdvertisements(offer4, offer3, offer2);
-
     }
 
-    private AdvertisementTest getNewestAdvertisements(int count, Advertisement.AdvertisementType type) {
+	@Test
+	@Ignore
+	public void newAdvertisement(){
+		login();
+		Advertisement newAdvertisement = advertisementModel.getNewAdvertisement();
+		newAdvertisement.setCategory(dog);
+		newAdvertisement.setType(request);
+		newAdvertisement.setContent("blubb");
+		advertisementModel.save();
+
+		findAdvertisement(request, dog).expectAdvertisements(newAdvertisement);
+
+	}
+
+	private void login() {
+		userSession.setIdOrEmail(user1.getId().toString());
+		userSession.setPassword(PASSWORD);
+		userSession.login();
+	}
+
+	private AdvertisementModelTest getNewestAdvertisements(int count, Advertisement.AdvertisementType type) {
         resultList = Advertisement.getNewestAdvertisements(count, type, entityManager);
         return this;
     }
 
 
-    private AdvertisementTest findAdvertisement(Advertisement.AdvertisementType type, Category category) {
-        resultList = Advertisement.findAdvertisement(type, category, entityManager);
+    private AdvertisementModelTest findAdvertisement(Advertisement.AdvertisementType type, Category category) {
+	    advertisementModel.setType(type);
+	    advertisementModel.setCategory(category);
+        resultList = advertisementModel.getAdvertisements();
         return this;
     }
 

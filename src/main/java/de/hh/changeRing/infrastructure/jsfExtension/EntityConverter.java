@@ -62,7 +62,7 @@ public abstract class EntityConverter<TYPE extends BaseEntity> implements Conver
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
         try {
-            return new Context(facesContext).getNamedBean(ConverterDataProvider.class).getData(clazz, parseLong(s));
+            return new Context(facesContext).getNamedBean(BaseEntityConversionHelper.class).getData(clazz, parseLong(s));
         } catch (NumberFormatException e) {
             return null;
         }
@@ -76,7 +76,7 @@ public abstract class EntityConverter<TYPE extends BaseEntity> implements Conver
     }
 
     @Model
-    public static class ConverterDataProvider {
+    public static class BaseEntityConversionHelper {
         @PersistenceContext
         private EntityManager entityManager;
 

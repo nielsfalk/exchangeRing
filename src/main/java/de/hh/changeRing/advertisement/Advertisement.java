@@ -2,6 +2,7 @@ package de.hh.changeRing.advertisement;
 
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.user.User;
+import org.joda.time.DateTime;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.model.DefaultMenuModel;
 
@@ -55,8 +56,7 @@ public class Advertisement extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @Temporal(DATE)
-    private Date validUntil;
+    private DateTime validUntil;
 
     private String title;
 
@@ -66,8 +66,7 @@ public class Advertisement extends BaseEntity {
     private String name;
     private boolean linkLocation;
 
-    @Temporal(DATE)
-    private Date creationDate = new Date();
+    private DateTime creationDate = new DateTime();
 
     public static List<Advertisement> findAdvertisement(AdvertisementType type, Category category, EntityManager entityManager) {
         return entityManager.createNamedQuery("advertisementWithCategoryAndType", Advertisement.class)
@@ -83,7 +82,7 @@ public class Advertisement extends BaseEntity {
                 .getResultList();
     }
 
-    public Date getCreationDate() {
+    public DateTime getCreationDate() {
         return creationDate;
     }
 
@@ -162,11 +161,11 @@ public class Advertisement extends BaseEntity {
         this.type = type;
     }
 
-    public Date getValidUntil() {
+    public DateTime getValidUntil() {
         return validUntil;
     }
 
-    public void setValidUntil(Date validUntil) {
+    public void setValidUntil(DateTime validUntil) {
         this.validUntil = validUntil;
     }
 
@@ -206,7 +205,7 @@ public class Advertisement extends BaseEntity {
         this.linkLocation = linkLocation;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(DateTime creationDate) {
         this.creationDate = creationDate;
     }
 }

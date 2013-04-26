@@ -15,6 +15,7 @@ import de.hh.changeRing.transaction.Transaction;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.eclipse.persistence.annotations.Customizer;
 import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -155,17 +156,13 @@ public abstract class User extends BaseEntity {
     // TODO mhoennig: converter to use single char like in tron database
     private Status status = active;
 
-    @Temporal(DATE)
-    private Date activated = new Date();
+    private DateTime activated = new DateTime();
 
-    @Temporal(DATE)
-    private Date deActivated;
+    private DateTime deActivated;
 
-    @Temporal(DATE)
-    private Date lastLogin;
+    private DateTime lastLogin;
 
-    @Temporal(DATE)
-    private Date lastWork;
+    private DateTime lastWork;
 
     @Transient
     private List<DepotItem> depotItems;
@@ -281,12 +278,7 @@ public abstract class User extends BaseEntity {
         user.city = randomName();
         user.district = randomName();
 
-        GregorianCalendar from = new GregorianCalendar();
-        from.set(Calendar.HOUR_OF_DAY, 19);
-        from.set(Calendar.MINUTE, 0);
-        from.add(DAY_OF_MONTH, -30);
-        from.add(SECOND, i.intValue());
-        user.activated = from.getTime();
+	    user.activated = new DateTime().secondOfMinute().withMinimumValue().plusSeconds(i.intValue()).minusDays(30);
 
         return user;
     }
@@ -576,22 +568,15 @@ public abstract class User extends BaseEntity {
         this.status = status;
     }
 
-    public void setActivated(Date activated) {
-        this.activated = activated;
-    }
-
-    public void setDeActivated(Date deActivated) {
-        this.deActivated = deActivated;
-    }
-
-
     @XmlElement
-    public Date getActivated() {
+    @XmlJavaTypeAdapter(JaxBUtils.DateTimeAdapter.class)
+    public DateTime getActivated() {
         return activated;
     }
 
     @XmlElement
-    public Date getDeActivated() {
+    @XmlJavaTypeAdapter(JaxBUtils.DateTimeAdapter.class)
+    public DateTime getDeActivated() {
         return deActivated;
     }
 

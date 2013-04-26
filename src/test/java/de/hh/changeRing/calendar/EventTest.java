@@ -5,6 +5,7 @@ import de.hh.changeRing.user.User;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -42,99 +43,95 @@ import static java.util.Calendar.DAY_OF_MONTH;
 
 @RunWith(Arquillian.class)
 public class EventTest extends FunctionalTest {
-    private static final User USER = createTestMember();
-    private static final List<Event> EVENTS = newArrayList();
+	private static final User USER = createTestMember();
+	private static final List<Event> EVENTS = newArrayList();
 
-    private static final Event PRESENT_EVENT = createEvent(0, fleaMarket);
-    private static final Event PAST_EVENT1 = createEvent(-1, fleaMarket);
-    private static final Event PAST_EVENT2 = createEvent(-2, individual);
-    private static final Event PAST_EVENT3 = createEvent(-3, info);
-    private static final Event FUTURE_EVENT1 = createEvent(1, fleaMarket);
-    private static final Event FUTURE_EVENT2 = createEvent(2, individual);
-    private static final Event FUTURE_EVENT3 = createEvent(3, info);
-    private List<Event> resultList;
+	private static final Event PRESENT_EVENT = createEvent(0, fleaMarket);
+	private static final Event PAST_EVENT1 = createEvent(-1, fleaMarket);
+	private static final Event PAST_EVENT2 = createEvent(-2, individual);
+	private static final Event PAST_EVENT3 = createEvent(-3, info);
+	private static final Event FUTURE_EVENT1 = createEvent(1, fleaMarket);
+	private static final Event FUTURE_EVENT2 = createEvent(2, individual);
+	private static final Event FUTURE_EVENT3 = createEvent(3, info);
+	private List<Event> resultList;
 
-    @Deployment
-    public static Archive<?> createDeployment() {
-        return functionalJarWithEntities().addClasses(DataPump.class);
-    }
+	@Deployment
+	public static Archive<?> createDeployment() {
+		return functionalJarWithEntities().addClasses(DataPump.class);
+	}
 
-    @PersistenceContext
-    private EntityManager entityManager;
+	@PersistenceContext
+	private EntityManager entityManager;
 
-    @Test
-    public void findFilteredFutureEvents() {
-        findEvents(future, newArrayList(individual)).expectEventsContainInCorrectOrder(FUTURE_EVENT2);
-    }
+	@Test
+	public void findFilteredFutureEvents() {
+		findEvents(future, newArrayList(individual)).expectEventsContainInCorrectOrder(FUTURE_EVENT2);
+	}
 
-    @Test
-    public void findAllFutureEvents() {
-        findEvents(future, allEvents()).expectEventsContainInCorrectOrder(PRESENT_EVENT, FUTURE_EVENT1, FUTURE_EVENT2, FUTURE_EVENT3);
-    }
+	@Test
+	public void findAllFutureEvents() {
+		findEvents(future, allEvents()).expectEventsContainInCorrectOrder(PRESENT_EVENT, FUTURE_EVENT1, FUTURE_EVENT2, FUTURE_EVENT3);
+	}
 
-    @Test
-    public void find2FutureEvents() {
-        findEvents(future, allEvents(), 2).expectEventsContainInCorrectOrder(PRESENT_EVENT, FUTURE_EVENT1);
-    }
+	@Test
+	public void find2FutureEvents() {
+		findEvents(future, allEvents(), 2).expectEventsContainInCorrectOrder(PRESENT_EVENT, FUTURE_EVENT1);
+	}
 
-    @Test
-    public void findAllPastEvents() {
-        findEvents(past, allEvents()).expectEventsContainInCorrectOrder(PRESENT_EVENT, PAST_EVENT1, PAST_EVENT2, PAST_EVENT3);
-    }
+	@Test
+	public void findAllPastEvents() {
+		findEvents(past, allEvents()).expectEventsContainInCorrectOrder(PRESENT_EVENT, PAST_EVENT1, PAST_EVENT2, PAST_EVENT3);
+	}
 
-    @Test
-    public void find2PastEvents() {
-        findEvents(past, allEvents(), 2).expectEventsContainInCorrectOrder(PRESENT_EVENT, PAST_EVENT1);
-    }
+	@Test
+	public void find2PastEvents() {
+		findEvents(past, allEvents(), 2).expectEventsContainInCorrectOrder(PRESENT_EVENT, PAST_EVENT1);
+	}
 
-    private EventTest findEvents(EventModel.TimeFilter timeFilter, ArrayList<EventType> typeFilter, int count) {
-        resultList = Event.findEvents(entityManager, timeFilter, typeFilter, count);
-        return this;
-    }
+	private EventTest findEvents(EventModel.TimeFilter timeFilter, ArrayList<EventType> typeFilter, int count) {
+		resultList = Event.findEvents(entityManager, timeFilter, typeFilter, count);
+		return this;
+	}
 
-    private EventTest findEvents(EventModel.TimeFilter filter, ArrayList<EventType> typeFilter) {
-        resultList = Event.findEvents(entityManager, filter, typeFilter);
-        return this;
-    }
+	private EventTest findEvents(EventModel.TimeFilter filter, ArrayList<EventType> typeFilter) {
+		resultList = Event.findEvents(entityManager, filter, typeFilter);
+		return this;
+	}
 
-    private ArrayList<EventType> allEvents() {
-        return newArrayList(EventType.values());
-    }
+	private ArrayList<EventType> allEvents() {
+		return newArrayList(EventType.values());
+	}
 
-    private void expectEventsContainInCorrectOrder(Event... expectedEvents) {
-        expectResultList(resultList, expectedEvents);
-    }
+	private void expectEventsContainInCorrectOrder(Event... expectedEvents) {
+		expectResultList(resultList, expectedEvents);
+	}
 
-    private static Date date(int daysToAdd) {
-        GregorianCalendar from = new GregorianCalendar();
-        from.set(Calendar.HOUR_OF_DAY, 19);
-        from.set(Calendar.MINUTE, 0);
-        from.add(DAY_OF_MONTH, daysToAdd);
-        return from.getTime();
-    }
+	private static DateTime date(int daysToAdd) {
+		return new DateTime().hourOfDay().withMinimumValue().plusHours(19).plusDays(daysToAdd);
+	}
 
-    private static Event createEvent(int dayToAdd, EventType fleaMarket) {
-        Event event = new Event();
-        event.setWhen(date(dayToAdd));
-        event.setEventType(fleaMarket);
-        event.setTitle("bla" + System.currentTimeMillis());
-        event.setUser(USER);
-        EVENTS.add(event);
-        return event;
-    }
+	private static Event createEvent(int dayToAdd, EventType fleaMarket) {
+		Event event = new Event();
+		event.setWhen(date(dayToAdd));
+		event.setEventType(fleaMarket);
+		event.setTitle("bla" + System.currentTimeMillis());
+		event.setUser(USER);
+		EVENTS.add(event);
+		return event;
+	}
 
-    @Singleton
-    @Startup
-    public static class DataPump {
-        @PersistenceContext
-        EntityManager entityManager;
+	@Singleton
+	@Startup
+	public static class DataPump {
+		@PersistenceContext
+		EntityManager entityManager;
 
-        @PostConstruct
-        public void createUser() {
-            entityManager.persist(USER);
-            for (Event event : EVENTS) {
-                entityManager.persist(event);
-            }
-        }
-    }
+		@PostConstruct
+		public void createUser() {
+			entityManager.persist(USER);
+			for (Event event : EVENTS) {
+				entityManager.persist(event);
+			}
+		}
+	}
 }

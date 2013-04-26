@@ -3,6 +3,7 @@ package de.hh.changeRing.advertisement;
 
 import de.hh.changeRing.Context;
 import de.hh.changeRing.user.UserSession;
+import org.joda.time.DateTime;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.component.separator.Separator;
 import org.primefaces.model.DefaultMenuModel;
@@ -163,9 +164,7 @@ public class AdvertisementModel implements Serializable {
         if (newAdvertisement == null) {
             newAdvertisement = new Advertisement();
             newAdvertisement.setOwner(session.getUser());
-            GregorianCalendar gregorianCalendar = new GregorianCalendar();
-            gregorianCalendar.add(YEAR, 1);
-            newAdvertisement.setValidUntil(gregorianCalendar.getTime());
+            newAdvertisement.setValidUntil(new DateTime().plusYears(1));
         }
         return newAdvertisement;
     }

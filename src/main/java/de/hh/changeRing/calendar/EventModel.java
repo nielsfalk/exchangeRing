@@ -1,5 +1,8 @@
 package de.hh.changeRing.calendar;
 
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+
 import javax.enterprise.context.SessionScoped;
 import javax.faces.convert.EnumConverter;
 import javax.faces.convert.FacesConverter;
@@ -92,14 +95,12 @@ public class EventModel implements Serializable {
     public static enum TimeFilter {
         future, past;
 
-        public Date today() {
-            return calendarWithoutTime().getTime();
+        public DateMidnight today() {
+            return new DateMidnight();
         }
 
-        public Date tomorrow() {
-            GregorianCalendar result = calendarWithoutTime();
-            result.add(Calendar.DAY_OF_MONTH, 1);
-            return result.getTime();
+        public DateMidnight tomorrow() {
+            return new DateMidnight().plusDays(1);
         }
 
         private GregorianCalendar calendarWithoutTime() {
@@ -108,8 +109,8 @@ public class EventModel implements Serializable {
             return result;
         }
 
-        public Date relevant() {
-            return this.equals(future) ? today() : tomorrow();
+        public DateTime relevant() {
+            return (this.equals(future) ? today() : tomorrow()).toDateTime();
         }
     }
 

@@ -8,6 +8,7 @@ import de.hh.changeRing.calendar.EventType;
 import de.hh.changeRing.transaction.Transaction;
 import de.hh.changeRing.user.Member;
 import de.hh.changeRing.user.User;
+import org.joda.time.DateTime;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -101,12 +102,9 @@ public class InitTestData {
                             "Peng"
                     };
                     advertisement.setTitle(strings[new Random().nextInt(strings.length)]);
-                    //noinspection NumericOverflow
-                    GregorianCalendar calendar = new GregorianCalendar();
-                    calendar.add(DAY_OF_MONTH, new Random().nextInt(365));
-                    advertisement.setValidUntil(calendar.getTime());
-                    calendar.add(YEAR, -1);
-                    advertisement.setCreationDate(calendar.getTime());
+
+                    advertisement.setValidUntil(new DateTime().plusDays(new Random().nextInt(365)));
+                    advertisement.setCreationDate(advertisement.getValidUntil().minusYears(1));
 
                     Category category;
                     do {
@@ -209,12 +207,7 @@ public class InitTestData {
     private static Event createEvent(int daysToAdd, long userId, EventType eventType) {
         Event result = new Event();
         result.setEventType(eventType);
-        GregorianCalendar from = new GregorianCalendar();
-        from.set(Calendar.HOUR_OF_DAY, 19);
-        from.set(Calendar.MINUTE, 0);
-        from.add(DAY_OF_MONTH, daysToAdd);
-
-        result.setWhen(from.getTime());
+        result.setWhen(new DateTime().hourOfDay().withMinimumValue().plusHours(19).plusDays(daysToAdd));
         User user = findUser(userId);
         result.setUser(user);
         user.getEvents().add(result);

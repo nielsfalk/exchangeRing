@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.Context;
 import de.hh.changeRing.user.User;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -49,9 +50,8 @@ public class Event extends BaseEntity {
     private User user;
 
     @SuppressWarnings("JpaDataSourceORMInspection")
-    @Temporal(TIMESTAMP)
     @Column(name = "event_date")
-    private Date when;
+    private DateTime when;
 
     private Integer duration;
 
@@ -106,11 +106,11 @@ public class Event extends BaseEntity {
         this.location = location;
     }
 
-    public Date getWhen() {
+    public DateTime getWhen() {
         return when;
     }
 
-    public void setWhen(Date from) {
+    public void setWhen(DateTime from) {
         this.when = from;
     }
 
@@ -126,10 +126,7 @@ public class Event extends BaseEntity {
     public String getPeriod() {
         String result = Context.formatGermanTime(getWhen());
         if (duration != null) {
-            GregorianCalendar endTime = new GregorianCalendar();
-            endTime.setTime(getWhen());
-            endTime.add(MINUTE, duration);
-            result += " - " + Context.formatGermanTime(endTime.getTime());
+            result += " - " + Context.formatGermanTime(getWhen().plusMinutes(duration));
         }
         return result;
     }
@@ -164,7 +161,7 @@ public class Event extends BaseEntity {
         return (timeFilter.equals(future)
                 ? entityManager.createNamedQuery("findFilteredAndOrderedFutureEvents", Event.class)
                 : entityManager.createNamedQuery("findFilteredAndOrderedPastEvents", Event.class))
-                .setParameter("relevant", timeFilter.relevant(), TIMESTAMP)
+                .setParameter("relevant", timeFilter.relevant())
                 .setParameter("filter", typeFilter);
     }
 }

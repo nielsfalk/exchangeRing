@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static de.hh.changeRing.Context.ACTIVE_CSS_CLASS;
+import static de.hh.changeRing.Context.context;
 import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType;
 
 /**
@@ -105,7 +106,7 @@ public class AdvertisementModel implements Serializable {
 	public String save() {
 		if (newAdvertisement != null) {
 			entityManager.persist(newAdvertisement);
-			new Context().addMessage("Anzeige erstellt");
+			context().addMessage("Anzeige erstellt");
 			String browseUrl = newAdvertisement.getBrowseUrl();
 			newAdvertisement = null;
 			return browseUrl;

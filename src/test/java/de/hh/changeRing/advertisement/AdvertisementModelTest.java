@@ -112,7 +112,6 @@ public class AdvertisementModelTest extends FunctionalTest {
     }
 
 	@Test
-	@Ignore
 	public void newAdvertisement(){
 		login();
 		Advertisement newAdvertisement = advertisementModel.getNewAdvertisement();

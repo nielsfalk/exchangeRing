@@ -14,13 +14,15 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
 import static de.hh.changeRing.calendar.EventModel.TimeFilter.past;
-import static de.hh.changeRing.calendar.EventType.*;
-import static java.util.Calendar.DAY_OF_MONTH;
+import static de.hh.changeRing.calendar.EventType.fleaMarket;
+import static de.hh.changeRing.calendar.EventType.individual;
+import static de.hh.changeRing.calendar.EventType.info;
 
 /**
  * ----------------GNU General Public License--------------------------------

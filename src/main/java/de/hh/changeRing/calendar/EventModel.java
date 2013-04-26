@@ -11,17 +11,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
-import static java.util.Calendar.DAY_OF_MONTH;
-import static java.util.Calendar.MONTH;
-import static java.util.Calendar.YEAR;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -44,80 +38,74 @@ import static java.util.Calendar.YEAR;
 @Named
 @SessionScoped
 public class EventModel implements Serializable {
-    private TimeFilter timeFilter = future;
-    private final Map<String, EventType> typeFilters;
-    private List<EventType> selectedTypeFilters = new ArrayList<EventType>();
+	private TimeFilter timeFilter = future;
+	private final Map<String, EventType> typeFilters;
+	private List<EventType> selectedTypeFilters = new ArrayList<EventType>();
 
-    @PersistenceContext
-    private EntityManager entityManager;
+	@PersistenceContext
+	private EntityManager entityManager;
 
 
-    public EventModel() {
-        typeFilters = new HashMap<String, EventType>();
-        for (EventType eventType : EventType.values()) {
-            typeFilters.put(eventType.translation, eventType);
-        }
-        selectedTypeFilters = EventType.allButInfo();
-    }
+	public EventModel() {
+		typeFilters = new HashMap<String, EventType>();
+		for (EventType eventType : EventType.values()) {
+			typeFilters.put(eventType.translation, eventType);
+		}
+		selectedTypeFilters = EventType.allButInfo();
+	}
 
-    public List<Event> getEventsToDisplay() {
-        return Event.findEvents(entityManager, timeFilter, selectedTypeFilters);
-    }
+	public List<Event> getEventsToDisplay() {
+		return Event.findEvents(entityManager, timeFilter, selectedTypeFilters);
+	}
 
-    public void refresh() {
-    }
+	public void refresh() {
+	}
 
-    public String selectedStyleClass(TimeFilter timeFilter) {
-        return getTimeFilter().equals(timeFilter) ? "ui-state-active" : "";
-    }
+	public String selectedStyleClass(TimeFilter timeFilter) {
+		return getTimeFilter().equals(timeFilter) ? "ui-state-active" : "";
+	}
 
-    public TimeFilter getTimeFilter() {
-        return timeFilter;
-    }
+	public TimeFilter getTimeFilter() {
+		return timeFilter;
+	}
 
-    public Map<String, EventType> getTypeFilters() {
-        return typeFilters;
-    }
+	public Map<String, EventType> getTypeFilters() {
+		return typeFilters;
+	}
 
-    public void setTimeFilter(TimeFilter timeFilter) {
-        this.timeFilter = timeFilter;
-        refresh();
-    }
+	public void setTimeFilter(TimeFilter timeFilter) {
+		this.timeFilter = timeFilter;
+		refresh();
+	}
 
-    public List<EventType> getSelectedTypeFilters() {
-        return selectedTypeFilters;
-    }
+	public List<EventType> getSelectedTypeFilters() {
+		return selectedTypeFilters;
+	}
 
-    public void setSelectedTypeFilters(List<EventType> selectedTypeFilters) {
-        this.selectedTypeFilters = selectedTypeFilters;
-    }
+	public void setSelectedTypeFilters(List<EventType> selectedTypeFilters) {
+		this.selectedTypeFilters = selectedTypeFilters;
+	}
 
-    public static enum TimeFilter {
-        future, past;
+	public static enum TimeFilter {
+		future, past;
 
-        public DateMidnight today() {
-            return new DateMidnight();
-        }
+		public DateMidnight today() {
+			return new DateMidnight();
+		}
 
-        public DateMidnight tomorrow() {
-            return new DateMidnight().plusDays(1);
-        }
+		public DateMidnight tomorrow() {
+			return new DateMidnight().plusDays(1);
+		}
 
-        private GregorianCalendar calendarWithoutTime() {
-            GregorianCalendar result = new GregorianCalendar();
-            result = new GregorianCalendar(result.get(YEAR), result.get(MONTH), result.get(DAY_OF_MONTH));
-            return result;
-        }
+		public DateTime relevant() {
+			return (this.equals(future) ? today() : tomorrow()).toDateTime();
+		}
+	}
 
-        public DateTime relevant() {
-            return (this.equals(future) ? today() : tomorrow()).toDateTime();
-        }
-    }
-
-    @FacesConverter("eventTypeConverter")
-    public static class EventTypeConverter extends EnumConverter {
-        public EventTypeConverter() {
-            super(EventType.class);
-        }
-    }
+	@FacesConverter("eventTypeConverter")
+	public static class EventTypeConverter extends EnumConverter {
+		public EventTypeConverter() {
+			super(EventType.class);
+		}
+	}
 }

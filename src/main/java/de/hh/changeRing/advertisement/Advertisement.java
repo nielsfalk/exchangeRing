@@ -6,15 +6,21 @@ import org.joda.time.DateTime;
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.model.DefaultMenuModel;
 
-import javax.persistence.*;
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import java.util.List;
 
 import static de.hh.changeRing.Context.formatGermanDate;
 import static de.hh.changeRing.advertisement.AdvertisementModel.ADVERTISEMENTS_BROWSE_URL;
 import static de.hh.changeRing.advertisement.AdvertisementModel.ADVERTISEMENTS_EDIT_URL;
 import static de.hh.changeRing.advertisement.Category.root;
-import static javax.persistence.TemporalType.DATE;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -40,172 +46,172 @@ import static javax.persistence.TemporalType.DATE;
  */
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "advertisementWithCategoryAndType", query = "select advertisement from Advertisement advertisement where advertisement.type = :type and advertisement.category in :categorieAndChildren order by advertisement.id desc"),
-        @NamedQuery(name = "advertisementNewestByType", query = "select advertisement from Advertisement advertisement where advertisement.type = :type order by advertisement.id desc")}
+		@NamedQuery(name = "advertisementWithCategoryAndType", query = "select advertisement from Advertisement advertisement where advertisement.type = :type and advertisement.category in :categorieAndChildren order by advertisement.id desc"),
+		@NamedQuery(name = "advertisementNewestByType", query = "select advertisement from Advertisement advertisement where advertisement.type = :type order by advertisement.id desc")}
 )
 public class Advertisement extends BaseEntity {
 
-    @SuppressWarnings("JpaDataSourceORMInspection")
-    @ManyToOne
-    @JoinColumn(name = "owner_user_id", nullable = false)
-    private User owner;
+	@SuppressWarnings("JpaDataSourceORMInspection")
+	@ManyToOne
+	@JoinColumn(name = "owner_user_id", nullable = false)
+	private User owner;
 
-    @Enumerated(EnumType.STRING)
-    private AdvertisementType type;
+	@Enumerated(EnumType.STRING)
+	private AdvertisementType type;
 
-    @Enumerated(EnumType.STRING)
-    private Category category;
+	@Enumerated(EnumType.STRING)
+	private Category category;
 
-    private DateTime validUntil;
+	private DateTime validUntil;
 
-    private String title;
+	private String title;
 
-    @Column(length = 512)
-    private String content;
-    private String location;
-    private String name;
-    private boolean linkLocation;
+	@Column(length = 512)
+	private String content;
+	private String location;
+	private String name;
+	private boolean linkLocation;
 
-    private DateTime creationDate = new DateTime();
+	private DateTime creationDate = new DateTime();
 
-    public static List<Advertisement> findAdvertisement(AdvertisementType type, Category category, EntityManager entityManager) {
-        return entityManager.createNamedQuery("advertisementWithCategoryAndType", Advertisement.class)
-                .setParameter("type", type)
-                .setParameter("categorieAndChildren", category.getThisWithChildren())
-                .getResultList();
-    }
+	public static List<Advertisement> findAdvertisement(AdvertisementType type, Category category, EntityManager entityManager) {
+		return entityManager.createNamedQuery("advertisementWithCategoryAndType", Advertisement.class)
+				.setParameter("type", type)
+				.setParameter("categorieAndChildren", category.getThisWithChildren())
+				.getResultList();
+	}
 
-    public static List<Advertisement> getNewestAdvertisements(int count, AdvertisementType type, EntityManager entityManager) {
-        return entityManager.createNamedQuery("advertisementNewestByType", Advertisement.class)
-                .setParameter("type", type)
-                .setMaxResults(count)
-                .getResultList();
-    }
+	public static List<Advertisement> getNewestAdvertisements(int count, AdvertisementType type, EntityManager entityManager) {
+		return entityManager.createNamedQuery("advertisementNewestByType", Advertisement.class)
+				.setParameter("type", type)
+				.setMaxResults(count)
+				.getResultList();
+	}
 
-    public DateTime getCreationDate() {
-        return creationDate;
-    }
+	public DateTime getCreationDate() {
+		return creationDate;
+	}
 
-    public DefaultMenuModel getBreadCrumb() {
-        DefaultMenuModel breadCrumb = category.createBreadCrumb(type);
-        MenuItem menuItem = new MenuItem();
-        menuItem.setValue(title);
-        menuItem.setUrl(getBrowseUrl());
-        breadCrumb.addMenuItem(menuItem);
-        return breadCrumb;
-    }
+	public DefaultMenuModel getBreadCrumb() {
+		DefaultMenuModel breadCrumb = category.createBreadCrumb(type);
+		MenuItem menuItem = new MenuItem();
+		menuItem.setValue(title);
+		menuItem.setUrl(getBrowseUrl());
+		breadCrumb.addMenuItem(menuItem);
+		return breadCrumb;
+	}
 
-    public String getFormattedValidUntil() {
-        return formatGermanDate(getValidUntil());
-    }
+	public String getFormattedValidUntil() {
+		return formatGermanDate(getValidUntil());
+	}
 
-    public String getFormattedCreationDate() {
-        return formatGermanDate(getCreationDate());
-    }
+	public String getFormattedCreationDate() {
+		return formatGermanDate(getCreationDate());
+	}
 
-    public String getBrowseUrl() {
-        return ADVERTISEMENTS_BROWSE_URL + "?type=" + getType().name() + "&advertisement=" + getId();
-    }
+	public String getBrowseUrl() {
+		return ADVERTISEMENTS_BROWSE_URL + "?type=" + getType().name() + "&advertisement=" + getId();
+	}
 
-    public String getEditUrl() {
-        return ADVERTISEMENTS_EDIT_URL + "?type=" + getType().name() + "&advertisement=" + getId();
-    }
+	public String getEditUrl() {
+		return ADVERTISEMENTS_EDIT_URL + "?type=" + getType().name() + "&advertisement=" + getId();
+	}
 
-    public String getBrowseCategoryUrl() {
-        return getCategory().getBrowseUrl(getType());
-    }
+	public String getBrowseCategoryUrl() {
+		return getCategory().getBrowseUrl(getType());
+	}
 
-    public String getBrowseTypeUrl() {
-        return root.getBrowseUrl(getType());
-    }
+	public String getBrowseTypeUrl() {
+		return root.getBrowseUrl(getType());
+	}
 
-    public static enum AdvertisementType {
-        offer("Angebot", "Angobote"), request("Gesuch", "Gesuche");
-        private final String translation;
-        public final String plural;
+	public static enum AdvertisementType {
+		offer("Angebot", "Angobote"), request("Gesuch", "Gesuche");
+		private final String translation;
+		public final String plural;
 
-        AdvertisementType(String translation, String plural) {
-            this.translation = translation;
-            this.plural = plural;
-        }
+		AdvertisementType(String translation, String plural) {
+			this.translation = translation;
+			this.plural = plural;
+		}
 
-        public String getTranslation() {
-            return translation;
-        }
-    }
+		public String getTranslation() {
+			return translation;
+		}
+	}
 
-    public Category getCategory() {
-        return category;
-    }
+	public Category getCategory() {
+		return category;
+	}
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
-    public User getOwner() {
-        return owner;
-    }
+	public User getOwner() {
+		return owner;
+	}
 
-    public void setOwner(User owner) {
-        this.owner = owner;
-        if (name == null) {
-            name = owner.getDisplayName();
-        }
-    }
+	public void setOwner(User owner) {
+		this.owner = owner;
+		if (name == null) {
+			name = owner.getDisplayName();
+		}
+	}
 
-    public AdvertisementType getType() {
-        return type;
-    }
+	public AdvertisementType getType() {
+		return type;
+	}
 
-    public void setType(AdvertisementType type) {
-        this.type = type;
-    }
+	public void setType(AdvertisementType type) {
+		this.type = type;
+	}
 
-    public DateTime getValidUntil() {
-        return validUntil;
-    }
+	public DateTime getValidUntil() {
+		return validUntil;
+	}
 
-    public void setValidUntil(DateTime validUntil) {
-        this.validUntil = validUntil;
-    }
+	public void setValidUntil(DateTime validUntil) {
+		this.validUntil = validUntil;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public String getContent() {
+		return content;
+	}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+	public void setContent(String content) {
+		this.content = content;
+	}
 
-    public String getLocation() {
-        return location;
-    }
+	public String getLocation() {
+		return location;
+	}
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setLinkLocation(boolean linkLocation) {
-        this.linkLocation = linkLocation;
-    }
+	public void setLinkLocation(boolean linkLocation) {
+		this.linkLocation = linkLocation;
+	}
 
-    public void setCreationDate(DateTime creationDate) {
-        this.creationDate = creationDate;
-    }
+	public void setCreationDate(DateTime creationDate) {
+		this.creationDate = creationDate;
+	}
 }

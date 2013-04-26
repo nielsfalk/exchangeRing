@@ -71,7 +71,7 @@ public class FeeCreator {
     private void executeTax() {
         FeeCalculationResult tax = calculateTax();
         for (Map.Entry<User, BigDecimal> entry : tax.userAmounts.entrySet()) {
-            Transaction.create(entry.getKey(), getSystem(), entry.getValue(), String.format("Fixe Gebühr von %s Motten für %s", entry.getValue(), Context.formatGermanDate(new DateMidnight().toDate())));
+            Transaction.create(entry.getKey(), getSystem(), entry.getValue(), String.format("Fixe Gebühr von %s Motten für %s", entry.getValue(), Context.formatGermanDate(new DateMidnight())));
         }
         events.fire(new UserUpdateEvent(tax.userAmounts.keySet()));
     }
@@ -80,7 +80,7 @@ public class FeeCreator {
         FeeCalculationResult demurage = calculateDemurage();
         for (Map.Entry<User, BigDecimal> entry : demurage.userAmounts.entrySet()) {
             Transaction.create(entry.getKey(), getSystem(), entry.getValue(), String.format("Umlaufsicherung für %s, %s %% von %s ergibt: %s Motten",
-                    Context.formatGermanDate(new DateMidnight().toDate()),
+                    Context.formatGermanDate(new DateMidnight()),
                     DEMURRAGE_PERCENT.multiply(new BigDecimal("100")).setScale(0, HALF_UP),
                     entry.getKey().getBalance(),
                     entry.getValue()));

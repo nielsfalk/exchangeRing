@@ -2,9 +2,11 @@ package de.hh.changeRing.transaction;
 
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
+import org.hamcrest.Matchers;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
+import org.joda.time.DateMidnight;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +22,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
@@ -75,6 +78,9 @@ public class TransactionCreatorTest extends MoneyTest {
         transactionCreator.setSubject(SUBJECT);
         transactionCreator.submit();
         expectTransactionProcessed();
+	    assertThat(refresh(owner).getLastWork(), is(nullValue()));
+	    assertThat(refresh(receiver).getLastWork(), is(greaterThan(new DateMidnight().toDateTime())));
+
     }
 
     @Test

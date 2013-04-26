@@ -121,6 +121,7 @@ public class Transaction extends BaseEntity {
         to.setBalance(toNewBalance);
         from.getSentTransactions().add(this);
         to.getReceivedTransactions().add(this);
+	    to.setLastWork(date);
     }
 
     public void wire() {

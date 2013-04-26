@@ -394,6 +394,10 @@ public abstract class User extends BaseEntity {
 		lastLogin = new DateTime();
 	}
 
+	public void setLastWork(DateTime lastWork) {
+		this.lastWork = lastWork;
+	}
+
 	@SuppressWarnings("CanBeFinal")
 	public static enum Status {
 		active("aktiv"),
@@ -657,5 +661,9 @@ public abstract class User extends BaseEntity {
 
 	public DateTime getLastLogin() {
 		return lastLogin;
+	}
+
+	public DateTime getLastWork() {
+		return lastWork;
 	}
 }

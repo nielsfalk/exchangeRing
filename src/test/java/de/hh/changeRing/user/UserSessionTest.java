@@ -1,9 +1,11 @@
 package de.hh.changeRing.user;
 
 import de.hh.changeRing.FunctionalTest;
+import org.hamcrest.Matchers;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
+import org.joda.time.DateMidnight;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -15,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;
 
 
@@ -55,6 +58,7 @@ public class UserSessionTest extends FunctionalTest {
         userSession.setPassword(PASSWORD);
         userSession.login();
         assertThat(userSession.isLoggedIn(), is(true));
+	    assertThat(userSession.getUser().getLastLogin(), is(greaterThan(new DateMidnight().toDateTime())));
     }
 
     @Test

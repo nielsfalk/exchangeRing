@@ -63,6 +63,7 @@ public class UserSession implements Serializable {
         if (user != null && user.getPasswordHash().equals(passwordHash)) {
             this.user = user;
             context().leavePublicEvents();
+	        user.applyLastLogin();
         }
         LOGGER.info(isLoggedIn() ? idOrEmail + " logged in" : "tried to login " + idOrEmail);
         idOrEmail = null;

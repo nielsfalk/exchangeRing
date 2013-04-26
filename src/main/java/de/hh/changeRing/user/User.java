@@ -390,6 +390,10 @@ public abstract class User extends BaseEntity {
 		return false;
 	}
 
+	public void applyLastLogin() {
+		lastLogin = new DateTime();
+	}
+
 	@SuppressWarnings("CanBeFinal")
 	public static enum Status {
 		active("aktiv"),
@@ -649,5 +653,9 @@ public abstract class User extends BaseEntity {
 
 	public List<Transaction> getSentTransactions() {
 		return sentTransactions;
+	}
+
+	public DateTime getLastLogin() {
+		return lastLogin;
 	}
 }

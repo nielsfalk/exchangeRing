@@ -188,7 +188,7 @@ public abstract class User extends BaseEntity {
 	private BigDecimal initialBalance = new BigDecimal("0.00"); // startKapital
 
 	@Column(scale = 2, precision = 7)
-	private BigDecimal balance = new BigDecimal("0.00");
+	private BigDecimal balance;
 
 	private String facebook;
 
@@ -265,6 +265,9 @@ public abstract class User extends BaseEntity {
 	}
 
 	public BigDecimal getBalance() {
+		if (balance == null) {
+			balance = initialBalance;
+		}
 		return balance;
 	}
 
@@ -429,7 +432,7 @@ public abstract class User extends BaseEntity {
 				", addressVisible=" + addressVisible +
 				", e=" + e +
 				", depotItems=" + depotItems +
-				", balance=" + balance +
+				", balance=" + getBalance() +
 				'}';
 	}
 

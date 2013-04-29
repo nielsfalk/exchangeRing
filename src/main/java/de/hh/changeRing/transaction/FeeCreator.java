@@ -1,7 +1,6 @@
 package de.hh.changeRing.transaction;
 
 import com.google.common.collect.Maps;
-import com.sun.xml.ws.developer.Stateful;
 import de.hh.changeRing.Context;
 import de.hh.changeRing.user.Member;
 import de.hh.changeRing.user.SystemAccount;
@@ -9,13 +8,14 @@ import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserUpdateEvent;
 import org.joda.time.DateMidnight;
 
+import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
-import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +25,8 @@ import static java.math.RoundingMode.HALF_UP;
 
 @Named
 @SessionScoped
-@javax.ejb.Stateful
-public class FeeCreator {
+@Stateful
+public class FeeCreator implements Serializable{
     public static final BigDecimal TAX_AMOUNT = new BigDecimal("2.00");
     public static final BigDecimal DEMURRAGE_PERCENT = new BigDecimal("0.02");
     @PersistenceContext

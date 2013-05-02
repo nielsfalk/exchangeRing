@@ -45,15 +45,15 @@ import java.util.logging.Logger;
  */
 public class MappingCustomizer implements DescriptorCustomizer {
     private static final Logger LOGGER = Logger.getLogger(Context.class.getName());
-    private static final Map<Class<?>, Converter> converters = initilizeConverters();
+    private static final Map<Class<?>, Converter> converters = initializeConverters();
 
-    private static Map<Class<?>, Converter> initilizeConverters() {
+    private static Map<Class<?>, Converter> initializeConverters() {
         ConcurrentMap<Class<?>, Converter> result = Maps.newConcurrentMap();
-        result.put(DateTime.class, JodaDateTimeConverter.instance());
-        result.put(LocalDate.class, JodaLocalDateConverter.instance());
-        result.put(LocalTime.class, JodaLocalTimeConverter.instance());
-        result.put(LocalDateTime.class, JodaLocalDateTimeConverter.instance());
-	    result.put(DateMidnight.class, JodaDateMidnightConverter.instance());
+	    result.put(DateTime.class, new JodaDateTimeConverter());
+	    result.put(LocalDate.class, new JodaLocalDateConverter());
+	    result.put(LocalTime.class, new JodaLocalTimeConverter());
+	    result.put(LocalDateTime.class, new JodaLocalDateTimeConverter());
+	    result.put(DateMidnight.class, new JodaDateMidnightConverter());
         return result;
     }
 

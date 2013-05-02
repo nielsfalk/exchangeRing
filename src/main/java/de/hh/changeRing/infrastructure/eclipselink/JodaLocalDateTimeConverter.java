@@ -33,7 +33,6 @@ import org.joda.time.LocalDateTime;
  */
 public class JodaLocalDateTimeConverter extends AbstractEclipseLinkConverter<LocalDateTime, java.util.Date> {
     private static final long serialVersionUID = -5357838659653049340L;
-    private static JodaLocalDateTimeConverter instance;
 
     @Override
     public org.joda.time.LocalDateTime toBusinessLayerType(java.util.Date dataValue) {
@@ -44,17 +43,4 @@ public class JodaLocalDateTimeConverter extends AbstractEclipseLinkConverter<Loc
     public java.util.Date toDatabaseLayerType(org.joda.time.LocalDateTime objectValue) {
         return objectValue.toDateTime().toDate();
     }
-
-
-
-    /**
-     * @return the singleton of this converter
-     */
-    public static Converter instance() {
-        if (instance == null) {
-            instance = new JodaLocalDateTimeConverter();
-        }
-        return instance;
-    }
-
 }

@@ -30,8 +30,8 @@ import java.util.Date;
 import static org.fest.assertions.Assertions.assertThat;
 
 public class JodaDateTimeConverterTest {
-    private final Converter testConverter = JodaDateTimeConverter.instance();
-    private DateTime someDateTime;
+    private final Converter testConverter = new JodaDateTimeConverter();
+	private DateTime someDateTime;
     private Date someDate;
 
     @Test

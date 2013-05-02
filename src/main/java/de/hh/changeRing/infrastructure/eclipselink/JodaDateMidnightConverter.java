@@ -26,7 +26,6 @@ import java.util.Date;
 
 public class JodaDateMidnightConverter extends AbstractEclipseLinkConverter<DateMidnight, java.util.Date> {
     private static final long serialVersionUID = -5357838659653049340L;
-    private static JodaDateMidnightConverter instance;
 
 
 	@Override
@@ -37,12 +36,5 @@ public class JodaDateMidnightConverter extends AbstractEclipseLinkConverter<Date
 	@Override
 	protected Date toDatabaseLayerType(DateMidnight dataValue) {
 		return dataValue.toDate();
-	}
-
-	public static Converter instance() {
-		if (instance == null) {
-			instance = new JodaDateMidnightConverter();
-		}
-		return instance;
 	}
 }

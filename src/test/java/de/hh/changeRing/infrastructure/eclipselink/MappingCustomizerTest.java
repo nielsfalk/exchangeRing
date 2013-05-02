@@ -67,7 +67,6 @@ public class MappingCustomizerTest extends FunctionalTest {
 		assertConverter(JodaLocalDateConverter.class, TestEntity.class, "someLocalDateField");
 		assertConverter(JodaLocalTimeConverter.class, TestEntity.class, "someLocalTimeField");
 		assertConverter(JodaLocalDateTimeConverter.class, TestEntity.class, "someLocalDateTimeField");
-
 		assertConverter(JodaDateMidnightConverter.class, TestEntity.class, "someDateMidnightField");
 	}
 

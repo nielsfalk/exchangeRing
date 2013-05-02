@@ -18,14 +18,12 @@ package de.hh.changeRing.infrastructure.eclipselink;
  * <p/>
  */
 
-import org.eclipse.persistence.mappings.converters.Converter;
 import org.joda.time.DateMidnight;
-import org.joda.time.LocalDateTime;
 
 import java.util.Date;
 
 public class JodaDateMidnightConverter extends AbstractEclipseLinkConverter<DateMidnight, java.util.Date> {
-    private static final long serialVersionUID = -5357838659653049340L;
+	private static final long serialVersionUID = -5357838659653049340L;
 
 
 	@Override

@@ -38,6 +38,7 @@ import org.eclipse.persistence.sessions.Session;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -65,7 +66,9 @@ public class MappingCustomizerTest extends FunctionalTest {
 		assertConverter(JodaDateTimeConverter.class, TestEntity.class, "someDateTimeField");
 		assertConverter(JodaLocalDateConverter.class, TestEntity.class, "someLocalDateField");
 		assertConverter(JodaLocalTimeConverter.class, TestEntity.class, "someLocalTimeField");
-		assertConverter(JodaLocalDateTimeConverter.class, TestEntity.class, "someLocalDateTimeField");		
+		assertConverter(JodaLocalDateTimeConverter.class, TestEntity.class, "someLocalDateTimeField");
+
+		assertConverter(JodaDateMidnightConverter.class, TestEntity.class, "someDateMidnightField");
 	}
 
 	@Test
@@ -104,6 +107,7 @@ public class MappingCustomizerTest extends FunctionalTest {
         public LocalDate someLocalDateField;
         public LocalTime someLocalTimeField;
         public LocalDateTime someLocalDateTimeField;
+	    public DateMidnight someDateMidnightField;
 
         public TestEnum someEnumField;
     }

@@ -1,12 +1,15 @@
 package de.hh.changeRing.initialData;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.advertisement.Category;
 import de.hh.changeRing.calendar.Event;
 import de.hh.changeRing.calendar.EventType;
 import de.hh.changeRing.transaction.Transaction;
+import de.hh.changeRing.user.Administrator;
 import de.hh.changeRing.user.Member;
+import de.hh.changeRing.user.SystemAccount;
 import de.hh.changeRing.user.User;
 import org.joda.time.DateTime;
 
@@ -224,6 +227,12 @@ public class InitTestData {
 	public static class InitialData {
 		@XmlElement(name = "user")
 		List<Member> users;
+
+		@XmlElement(name = "administrator")
+		List<Administrator> administrators;
+
+		@XmlElement(name = "administrator")
+		SystemAccount systemAccount;
 
 		@XmlElement(name = "transaction")
 		List<Transaction> transactions;

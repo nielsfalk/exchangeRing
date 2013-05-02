@@ -27,6 +27,7 @@ import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.mappings.DatabaseMapping;
 import org.eclipse.persistence.mappings.DirectToFieldMapping;
 import org.eclipse.persistence.mappings.converters.Converter;
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -52,6 +53,7 @@ public class MappingCustomizer implements DescriptorCustomizer {
         result.put(LocalDate.class, JodaLocalDateConverter.instance());
         result.put(LocalTime.class, JodaLocalTimeConverter.instance());
         result.put(LocalDateTime.class, JodaLocalDateTimeConverter.instance());
+	    result.put(DateMidnight.class, JodaDateMidnightConverter.instance());
         return result;
     }
 

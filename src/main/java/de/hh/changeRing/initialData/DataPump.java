@@ -1,5 +1,6 @@
 package de.hh.changeRing.initialData;
 
+import de.hh.changeRing.user.Administrator;
 import de.hh.changeRing.user.User;
 
 import javax.annotation.PostConstruct;
@@ -45,6 +46,10 @@ public class DataPump {
                 user.initialStuffAfterParsing();
                 entityManager.persist(user);
             }
+	        for (Administrator administrator : InitTestData.getAdministrators()) {
+		        entityManager.persist(administrator);
+	        }
+	        entityManager.persist(InitTestData.getSystemAccount());
         }
     }
 }

@@ -179,7 +179,7 @@ public class InitTestData {
 	}
 
 	private static void summerEvent() {
-		Event event = createEvent(180, 1l, summerFestival);
+		Event event = createEvent(180, 11l, summerFestival);
 		event.setTitle("Riesen Sause");
 		event.setContent("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam" +
 				" nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, " +
@@ -219,6 +219,14 @@ public class InitTestData {
 		result.setUser(user);
 		user.getEvents().add(result);
 		return result;
+	}
+
+	public static List<Administrator> getAdministrators() {
+		return data.administrators;
+	}
+
+	public static SystemAccount getSystemAccount() {
+		return data.systemAccount;
 	}
 
 

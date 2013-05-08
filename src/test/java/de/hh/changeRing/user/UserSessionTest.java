@@ -1,7 +1,7 @@
 package de.hh.changeRing.user;
 
 import de.hh.changeRing.FunctionalTest;
-import org.hamcrest.Matchers;
+import de.hh.changeRing.TestUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -16,6 +16,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import static de.hh.changeRing.TestUtils.PASSWORD;
+import static de.hh.changeRing.TestUtils.createTestMember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertThat;

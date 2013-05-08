@@ -1,6 +1,7 @@
 package de.hh.changeRing.calendar;
 
 import de.hh.changeRing.FunctionalTest;
+import de.hh.changeRing.TestUtils;
 import de.hh.changeRing.user.User;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static de.hh.changeRing.TestUtils.createTestMember;
 import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
 import static de.hh.changeRing.calendar.EventModel.TimeFilter.past;
 import static de.hh.changeRing.calendar.EventType.fleaMarket;

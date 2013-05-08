@@ -1,12 +1,12 @@
 package de.hh.changeRing.advertisement;
 
 import de.hh.changeRing.FunctionalTest;
+import de.hh.changeRing.TestUtils;
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -20,6 +20,8 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static de.hh.changeRing.TestUtils.PASSWORD;
+import static de.hh.changeRing.TestUtils.createTestMember;
 import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType.offer;
 import static de.hh.changeRing.advertisement.Advertisement.AdvertisementType.request;
 import static de.hh.changeRing.advertisement.Category.*;

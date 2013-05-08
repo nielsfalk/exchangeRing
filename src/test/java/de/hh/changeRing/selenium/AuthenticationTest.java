@@ -1,6 +1,6 @@
 package de.hh.changeRing.selenium;
 
-import de.hh.changeRing.FunctionalTest;
+import de.hh.changeRing.TestUtils;
 import de.hh.changeRing.user.User;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -16,7 +16,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import static de.hh.changeRing.Context.WELCOME_PAGE;
-import static de.hh.changeRing.FunctionalTest.PASSWORD;
+import static de.hh.changeRing.TestUtils.PASSWORD;
+import static de.hh.changeRing.TestUtils.createTestMember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.endsWith;
 import static org.junit.Assert.assertThat;
@@ -42,7 +43,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(Arquillian.class)
 @RunAsClient
 public class AuthenticationTest extends SeleniumTest {
-    private static final User USER = FunctionalTest.createTestMember();
+    private static final User USER = createTestMember();
     public static final String MEMBERS_XHTML = "internal/members/members.xhtml";
 
     @Deployment

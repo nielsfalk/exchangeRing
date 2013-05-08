@@ -1,8 +1,8 @@
 package de.hh.changeRing.transaction;
 
+import de.hh.changeRing.TestUtils;
 import de.hh.changeRing.user.User;
 import de.hh.changeRing.user.UserSession;
-import org.hamcrest.Matchers;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -21,6 +21,8 @@ import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static de.hh.changeRing.TestUtils.PASSWORD;
+import static de.hh.changeRing.TestUtils.createTestMember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.core.IsNot.not;

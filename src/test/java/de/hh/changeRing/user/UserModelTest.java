@@ -30,13 +30,13 @@ import static org.junit.Assert.assertThat;
  */
 public class UserModelTest {
 
-    private final UserSession session = new UserSession();
     private final UserModel userModel = new UserModel();
     private final User me = dummyUser(1L);
     private final User other = dummyUser(2L);
 
     @Before
     public void setup() {
+	    UserSession session = new UserSession();
         userModel.setSession(session);
         session.setUser(me);
     }

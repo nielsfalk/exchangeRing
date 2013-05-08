@@ -1,12 +1,11 @@
 package de.hh.changeRing.transaction;
 
-import de.hh.changeRing.Context;
+import de.hh.changeRing.TestUtils;
 import de.hh.changeRing.user.*;
 import org.hamcrest.Matcher;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
-import org.joda.time.DateMidnight;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -18,6 +17,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
 
+import static de.hh.changeRing.TestUtils.createAdministrator;
+import static de.hh.changeRing.TestUtils.createNoFeeTestMember;
+import static de.hh.changeRing.TestUtils.createSystemAccount;
+import static de.hh.changeRing.TestUtils.createTestMember;
 import static de.hh.changeRing.transaction.FeeCreator.FeeCalculationResult;
 import static de.hh.changeRing.user.DepotItemType.out;
 import static org.hamcrest.CoreMatchers.is;

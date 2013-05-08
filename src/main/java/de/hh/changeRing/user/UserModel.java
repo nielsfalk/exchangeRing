@@ -42,20 +42,20 @@ public class UserModel implements Serializable {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public boolean isMe() {
-        return getLoggedInUser().equals(selectedUser);
+    public boolean isMeOrAsAdmin() {
+	    return getLoggedInUser().equals(selectedUser) || getLoggedInUser().isAdmin();
     }
 
-    public boolean isOther() {
-        return !isMe();
+	public boolean isOtherAndNotAsAdmin() {
+        return !isMeOrAsAdmin();
     }
 
-    public boolean meOrFilled(String s) {
-        return isMe() || !isEmpty(s);
+    public boolean meOrAsAdminOrFilled(String s) {
+        return isMeOrAsAdmin() || !isEmpty(s);
     }
 
-    public boolean otherAndFilled(String s) {
-        return isOther() && !isEmpty(s);
+    public boolean otherAndFilledAndNotAsAdmin(String s) {
+        return isOtherAndNotAsAdmin() && !isEmpty(s);
     }
 
     private User getLoggedInUser() {

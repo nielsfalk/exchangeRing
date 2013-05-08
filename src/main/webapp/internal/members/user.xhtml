@@ -33,13 +33,13 @@ Environmental damage caused by the use must be kept as small as possible.
     <f:viewParam name="userId" value="#{userModel.selectedUserId}"/>
     <f:viewParam name="me" value="#{userModel.selectedMe}"/>
 </f:metadata>
-<p:panel header="#{userModel.other?userModel.selectedUser.displayName:'Einstellungen'}">
+<p:panel header="#{userModel.otherAndNotAsAdmin?userModel.selectedUser.displayName:'Einstellungen'}">
     <h:form>
         <h:panelGrid columns="2" columnClasses="column" cellpadding="5">
             <h:outputText value="Avatar:"/>
             <h:panelGroup>
                 <r:gravatar user="#{userModel.selectedUser}" size="250" doLink="false"/>
-                <ui:fragment rendered="#{userModel.me}">
+                <ui:fragment rendered="#{userModel.meOrAsAdmin}">
                     <p>Der Avatar lässt sich auf <a href="http://de.gravatar.com/">gravatar.com</a> ändern.</p>
 
                     <p>Möchtest du kein Foto benutzen? <a href="http://www.faceyourmanga.com/">faceyourmanga</a></p>
@@ -49,42 +49,42 @@ Environmental damage caused by the use must be kept as small as possible.
             <h:outputText value="ID:"/>
             <h:outputText value="#{userModel.selectedUser.id}"/>
 
-            <h:outputText value="#{userModel.me?'Vorname, sichtbar':'Vorname'}:"
-                          rendered="#{userModel.meOrFilled(userModel.selectedUser.visibleFirstName)}"/>
-            <h:panelGroup rendered="#{userModel.meOrFilled(userModel.selectedUser.visibleFirstName)}">
+            <h:outputText value="#{userModel.meOrAsAdmin?'Vorname, sichtbar':'Vorname'}:"
+                          rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.visibleFirstName)}"/>
+            <h:panelGroup rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.visibleFirstName)}">
                 <h:outputText value="#{userModel.selectedUser.visibleFirstName}"/>
-                <p:selectBooleanCheckbox value="#{userModel.selectedUser.firstNameVisible}" rendered="#{userModel.me}"/>
+                <p:selectBooleanCheckbox value="#{userModel.selectedUser.firstNameVisible}" rendered="#{userModel.meOrAsAdmin}"/>
             </h:panelGroup>
 
-            <h:outputText value="#{userModel.me?'Nachname, sichtbar':'Nachname'}:"
-                          rendered="#{userModel.meOrFilled(userModel.selectedUser.visibleLastName)}"/>
-            <h:panelGroup rendered="#{userModel.meOrFilled(userModel.selectedUser.visibleLastName)}">
+            <h:outputText value="#{userModel.meOrAsAdmin?'Nachname, sichtbar':'Nachname'}:"
+                          rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.visibleLastName)}"/>
+            <h:panelGroup rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.visibleLastName)}">
                 <h:outputText value="#{userModel.selectedUser.visibleLastName}"/>
-                <p:selectBooleanCheckbox value="#{userModel.selectedUser.lastNameVisible}" rendered="#{userModel.me}"/>
+                <p:selectBooleanCheckbox value="#{userModel.selectedUser.lastNameVisible}" rendered="#{userModel.meOrAsAdmin}"/>
             </h:panelGroup>
 
-            <h:outputText value="Überweisung:" rendered="#{userModel.other}"/>
-            <h:panelGroup rendered="#{userModel.other}">
+            <h:outputText value="Überweisung:" rendered="#{userModel.otherAndNotAsAdmin}"/>
+            <h:panelGroup rendered="#{userModel.otherAndNotAsAdmin}">
                 <a href="${pageContext.request.servletPath}/internal/transaction.xhtml?receiverId=#{userModel.selectedUser.id}">
                     überweisung an #{userModel.selectedUser.id}
                 </a>
             </h:panelGroup>
 
-            <h:outputText value="#{userModel.me?'Email, sichtbar':'Email'}:"
-                          rendered="#{userModel.meOrFilled(userModel.selectedUser.visibleEmail)}"/>
-            <h:panelGroup rendered="#{userModel.otherAndFilled(userModel.selectedUser.visibleEmail)}">
+            <h:outputText value="#{userModel.meOrAsAdmin?'Email, sichtbar':'Email'}:"
+                          rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.visibleEmail)}"/>
+            <h:panelGroup rendered="#{userModel.otherAndFilledAndNotAsAdmin(userModel.selectedUser.visibleEmail)}">
                 <a href="mailto:#{userModel.selectedUser.visibleEmail}">
                     <h:outputText value="#{userModel.selectedUser.visibleEmail}"/>
                 </a>
             </h:panelGroup>
-            <h:panelGroup rendered="#{userModel.me}">
-                <p:inputText value="#{userModel.selectedUser.email}" rendered="#{userModel.me}"/>
+            <h:panelGroup rendered="#{userModel.meOrAsAdmin}">
+                <p:inputText value="#{userModel.selectedUser.email}" rendered="#{userModel.meOrAsAdmin}"/>
                 <p:selectBooleanCheckbox value="#{userModel.selectedUser.emailVisible}" label="sichtbar"/>
             </h:panelGroup>
 
-            <h:outputText value="facebook" rendered="#{userModel.meOrFilled(userModel.selectedUser.facebook)}"/>
-            <h:panelGroup rendered="#{userModel.meOrFilled(userModel.selectedUser.facebook)}">
-                <p:inputText value="#{userModel.selectedUser.facebook}" rendered="#{userModel.me}"/>
+            <h:outputText value="facebook" rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.facebook)}"/>
+            <h:panelGroup rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.facebook)}">
+                <p:inputText value="#{userModel.selectedUser.facebook}" rendered="#{userModel.meOrAsAdmin}"/>
 
                 <p>
                     <h:panelGroup rendered="#{not empty userModel.selectedUser.facebook}">
@@ -93,10 +93,10 @@ Environmental damage caused by the use must be kept as small as possible.
                 </p>
             </h:panelGroup>
 
-            <h:outputText value="skype" rendered="#{userModel.meOrFilled(userModel.selectedUser.skype)}"/>
-            <h:panelGroup rendered="#{userModel.meOrFilled(userModel.selectedUser.skype)}">
+            <h:outputText value="skype" rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.skype)}"/>
+            <h:panelGroup rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.skype)}">
 
-                <p:inputText value="#{userModel.selectedUser.skype}" rendered="#{userModel.me}"/>
+                <p:inputText value="#{userModel.selectedUser.skype}" rendered="#{userModel.meOrAsAdmin}"/>
 
                 <p>
                     <h:panelGroup rendered="#{not empty userModel.selectedUser.skype}">
@@ -125,8 +125,8 @@ Environmental damage caused by the use must be kept as small as possible.
             <h:outputText value="Gebühr:"/>
             <h:outputText value="#{userModel.selectedUser.euroFee} €"/>
 
-            <h:outputText value="Adresse:" rendered="#{userModel.other and userModel.selectedUser.addressVisible}"/>
-            <h:panelGroup rendered="#{userModel.other and userModel.selectedUser.addressVisible}">
+            <h:outputText value="Adresse:" rendered="#{userModel.otherAndNotAsAdmin and userModel.selectedUser.addressVisible}"/>
+            <h:panelGroup rendered="#{userModel.otherAndNotAsAdmin and userModel.selectedUser.addressVisible}">
                 <p>
                     <h:outputText value="#{userModel.selectedUser.street}"/>
                     <h:outputText value="#{userModel.selectedUser.houseNumber}"/>
@@ -138,38 +138,38 @@ Environmental damage caused by the use must be kept as small as possible.
                 </p>
             </h:panelGroup>
 
-            <h:outputText value="Adresse sichbar:" rendered="#{userModel.me}"/>
-            <p:selectBooleanCheckbox value="#{userModel.selectedUser.addressVisible}" rendered="#{userModel.me}"/>
+            <h:outputText value="Adresse sichbar:" rendered="#{userModel.meOrAsAdmin}"/>
+            <p:selectBooleanCheckbox value="#{userModel.selectedUser.addressVisible}" rendered="#{userModel.meOrAsAdmin}"/>
 
-            <h:outputText value="Straße, Hausnummer:" rendered="#{userModel.me}"/>
-            <h:panelGroup rendered="#{userModel.me}">
+            <h:outputText value="Straße, Hausnummer:" rendered="#{userModel.meOrAsAdmin}"/>
+            <h:panelGroup rendered="#{userModel.meOrAsAdmin}">
                 <p:inputText value="#{userModel.selectedUser.street}"/>
                 <p:inputText value="#{userModel.selectedUser.houseNumber}" size="4"/>
             </h:panelGroup>
 
-            <h:outputText value="Plz, Stadt:" rendered="#{userModel.me}"/>
-            <h:panelGroup rendered="#{userModel.me}">
+            <h:outputText value="Plz, Stadt:" rendered="#{userModel.meOrAsAdmin}"/>
+            <h:panelGroup rendered="#{userModel.meOrAsAdmin}">
                 <p:inputText value="#{userModel.selectedUser.plz}" size="4"/>
                 <p:inputText value="#{userModel.selectedUser.city}"/>
             </h:panelGroup>
 
-            <h:outputText value="Stadtteil:" rendered="#{userModel.meOrFilled(userModel.selectedUser.district)}"/>
+            <h:outputText value="Stadtteil:" rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.district)}"/>
             <h:outputText value="#{userModel.selectedUser.district}"
-                          rendered="#{userModel.otherAndFilled(userModel.selectedUser.district)}"/>
-            <p:inputText value="#{userModel.selectedUser.district}" rendered="#{userModel.me}"/>
+                          rendered="#{userModel.otherAndFilledAndNotAsAdmin(userModel.selectedUser.district)}"/>
+            <p:inputText value="#{userModel.selectedUser.district}" rendered="#{userModel.meOrAsAdmin}"/>
 
-            <h:outputText value="Mobil:" rendered="#{userModel.meOrFilled(userModel.selectedUser.phoneMobile)}"/>
+            <h:outputText value="Mobil:" rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.phoneMobile)}"/>
             <h:outputText value="#{userModel.selectedUser.phoneMobile}"
-                          rendered="#{userModel.otherAndFilled(userModel.selectedUser.phoneMobile)}"/>
-            <p:inputText value="#{userModel.selectedUser.phoneMobile}" rendered="#{userModel.me}"/>
+                          rendered="#{userModel.otherAndFilledAndNotAsAdmin(userModel.selectedUser.phoneMobile)}"/>
+            <p:inputText value="#{userModel.selectedUser.phoneMobile}" rendered="#{userModel.meOrAsAdmin}"/>
 
-            <h:outputText value="Telefon:" rendered="#{userModel.meOrFilled(userModel.selectedUser.phone)}"/>
+            <h:outputText value="Telefon:" rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.phone)}"/>
             <h:outputText value="#{userModel.selectedUser.phone}"
-                          rendered="#{userModel.otherAndFilled(userModel.selectedUser.phone)}"/>
-            <p:inputText value="#{userModel.selectedUser.phone}" rendered="#{userModel.me}"/>
+                          rendered="#{userModel.otherAndFilledAndNotAsAdmin(userModel.selectedUser.phone)}"/>
+            <p:inputText value="#{userModel.selectedUser.phone}" rendered="#{userModel.meOrAsAdmin}"/>
 
-            <h:outputText value="Homepage:" rendered="#{userModel.meOrFilled(userModel.selectedUser.url)}"/>
-            <h:panelGroup rendered="#{userModel.otherAndFilled(userModel.selectedUser.url)}">
+            <h:outputText value="Homepage:" rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.url)}"/>
+            <h:panelGroup rendered="#{userModel.otherAndFilledAndNotAsAdmin(userModel.selectedUser.url)}">
                 <a href="#{userModel.selectedUser.url}">
                     <h:outputText value="#{userModel.selectedUser.url}"/>
                 </a>
@@ -178,27 +178,27 @@ Environmental damage caused by the use must be kept as small as possible.
                     <h:outputText value="#{userModel.selectedUser.urlDescription}"/>
                 </p>
             </h:panelGroup>
-            <p:inputText value="#{userModel.selectedUser.url}" rendered="#{userModel.me}"/>
+            <p:inputText value="#{userModel.selectedUser.url}" rendered="#{userModel.meOrAsAdmin}"/>
 
-            <h:outputText value="Homepage Beschreibung:" rendered="#{userModel.me}"/>
-            <p:inputText value="#{userModel.selectedUser.urlDescription}" rendered="#{userModel.me}"/>
+            <h:outputText value="Homepage Beschreibung:" rendered="#{userModel.meOrAsAdmin}"/>
+            <p:inputText value="#{userModel.selectedUser.urlDescription}" rendered="#{userModel.meOrAsAdmin}"/>
 
-            <h:outputText value="Geburtstag:" rendered="#{userModel.meOrFilled(userModel.selectedUser.birthDay)}"/>
+            <h:outputText value="Geburtstag:" rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.birthDay)}"/>
             <h:outputText value="#{userModel.selectedUser.formattedBirthDay}"
-                          rendered="#{userModel.otherAndFilled(userModel.selectedUser.birthDay)}"/>
+                          rendered="#{userModel.otherAndFilledAndNotAsAdmin(userModel.selectedUser.birthDay)}"/>
             <p:calendar locale="de" pattern="dd.MM.yyyy" navigator="true" value="#{userModel.selectedUser.birthDay}" rendered=
-                    "#{userModel.me}" converter="midnightConverter" yearRange="1900:2010"/>
+                    "#{userModel.meOrAsAdmin}" converter="midnightConverter" yearRange="1900:2010"/>
 
-            <h:outputText value="Profil:" rendered="#{userModel.meOrFilled(userModel.selectedUser.profile)}"/>
+            <h:outputText value="Profil:" rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.profile)}"/>
             <h:outputText value="#{userModel.selectedUser.profile}"
-                          rendered="#{userModel.otherAndFilled(userModel.selectedUser.profile)}"/>
-            <p:inputText value="#{userModel.selectedUser.profile}" rendered="#{userModel.me}"/>
+                          rendered="#{userModel.otherAndFilledAndNotAsAdmin(userModel.selectedUser.profile)}"/>
+            <p:inputText value="#{userModel.selectedUser.profile}" rendered="#{userModel.meOrAsAdmin}"/>
 
             <h:outputText value="Erreichbarkeit:"
-                          rendered="#{userModel.meOrFilled(userModel.selectedUser.accessibility)}"/>
+                          rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.accessibility)}"/>
             <h:outputText value="#{userModel.selectedUser.accessibility}"
-                          rendered="#{userModel.otherAndFilled(userModel.selectedUser.accessibility)}"/>
-            <p:inputText value="#{userModel.selectedUser.accessibility}" rendered="#{userModel.me}"/>
+                          rendered="#{userModel.otherAndFilledAndNotAsAdmin(userModel.selectedUser.accessibility)}"/>
+            <p:inputText value="#{userModel.selectedUser.accessibility}" rendered="#{userModel.meOrAsAdmin}"/>
 
             <h:outputText value="Status:"/>
             <h:outputText value="#{userModel.selectedUser.status.translation}"/>
@@ -213,12 +213,12 @@ Environmental damage caused by the use must be kept as small as possible.
 
 
             <p:commandButton value="Speichern" ajax="false" actionListener="#{userSession.updateUser}"
-                             rendered="#{userModel.me}"/>
+                             rendered="#{userModel.meOrAsAdmin}"/>
         </h:panelGrid>
     </h:form>
 </p:panel>
 
-<p:panel header="Anzeigen" rendered="#{userModel.other and not empty userModel.selectedUser.advertisements}">
+<p:panel header="Anzeigen" rendered="#{userModel.otherAndNotAsAdmin and not empty userModel.selectedUser.advertisements}">
     <p:dataTable id="advertisementTable" var="advertisement" value="#{userModel.selectedUser.advertisements}"
                  styleClass="ui-corner-all">
         <p:column id="title" sortBy="#{advertisement.title}">

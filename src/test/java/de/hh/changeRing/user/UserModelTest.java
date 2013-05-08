@@ -1,12 +1,10 @@
 package de.hh.changeRing.user;
 
-import de.hh.changeRing.user.User;
-import de.hh.changeRing.user.UserModel;
-import de.hh.changeRing.user.UserSession;
 import org.junit.Before;
 import org.junit.Test;
 
-import static de.hh.changeRing.user.User.dummyUser;
+import static de.hh.changeRing.TestUtils.createAdministrator;
+import static de.hh.changeRing.TestUtils.createTestMember;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -31,49 +29,64 @@ import static org.junit.Assert.assertThat;
 public class UserModelTest {
 
     private final UserModel userModel = new UserModel();
-    private final User me = dummyUser(1L);
-    private final User other = dummyUser(2L);
+    private final User me = createTestMember();
+    private final User other = createTestMember();
+	private final Administrator administrator = createAdministrator();
+	private UserModel adminUserModel = new UserModel();
 
-    @Before
+	@Before
     public void setup() {
 	    UserSession session = new UserSession();
         userModel.setSession(session);
         session.setUser(me);
+
+	    UserSession adminSession = new UserSession();
+	    adminUserModel.setSession(adminSession);
+		adminSession.setUser(administrator);
     }
 
     @Test
-    public void isMe() {
-        userModel.setSelectedUser(me);
-        assertThat(userModel.isMe(), is(true));
-        userModel.setSelectedUser(other);
-        assertThat(userModel.isMe(), is(false));
+    public void isMeOrAsAdmin() {
+	    selectUser(me);
+	    assertThat(userModel.isMeOrAsAdmin(), is(true));
+	    assertThat(adminUserModel.isMeOrAsAdmin(), is(true));
+	    selectUser(other);
+	    assertThat(userModel.isMeOrAsAdmin(), is(false));
+    }
+
+	@Test
+    public void isOtherAndNotAsAdmin() {
+		selectUser(me);
+		assertThat(userModel.isOtherAndNotAsAdmin(), is(false));
+		assertThat(adminUserModel.isOtherAndNotAsAdmin(), is(false));
+		selectUser(other);
+		assertThat(userModel.isOtherAndNotAsAdmin(), is(true));
     }
 
     @Test
-    public void isOther() {
-        userModel.setSelectedUser(me);
-        assertThat(userModel.isOther(), is(false));
-        userModel.setSelectedUser(other);
-        assertThat(userModel.isOther(), is(true));
+    public void meOrAsAdminOrFilled() {
+	    selectUser(other);
+	    assertThat(userModel.meOrAsAdminOrFilled("ö"), is(true));
+        assertThat(userModel.meOrAsAdminOrFilled(""), is(false));
+	    selectUser(me);
+	    assertThat(userModel.meOrAsAdminOrFilled(null), is(true));
+	    assertThat(adminUserModel.meOrAsAdminOrFilled(null), is(true));
     }
 
     @Test
-    public void meOrFilled() {
-        userModel.setSelectedUser(other);
-        assertThat(userModel.meOrFilled("ö"), is(true));
-        assertThat(userModel.meOrFilled(""), is(false));
-        userModel.setSelectedUser(me);
-        assertThat(userModel.meOrFilled(null), is(true));
+    public void otherAndFilledAndNotAsAdmin() {
+	    selectUser(other);
+	    assertThat(userModel.otherAndFilledAndNotAsAdmin("ö"), is(true));
+        assertThat(userModel.otherAndFilledAndNotAsAdmin(""), is(false));
+        assertThat(userModel.otherAndFilledAndNotAsAdmin(null), is(false));
+	    selectUser(me);
+	    assertThat(userModel.otherAndFilledAndNotAsAdmin("fd"), is(false));
+	    assertThat(adminUserModel.otherAndFilledAndNotAsAdmin("fd"), is(false));
     }
 
 
-    @Test
-    public void otherAndFilled() {
-        userModel.setSelectedUser(other);
-        assertThat(userModel.otherAndFilled("ö"), is(true));
-        assertThat(userModel.otherAndFilled(""), is(false));
-        assertThat(userModel.otherAndFilled(null), is(false));
-        userModel.setSelectedUser(me);
-        assertThat(userModel.otherAndFilled("fd"), is(false));
-    }
+	private void selectUser(User user) {
+		userModel.setSelectedUser(user);
+		adminUserModel.setSelectedUser(user);
+	}
 }

@@ -400,6 +400,10 @@ public abstract class User extends BaseEntity {
 		this.lastWork = lastWork;
 	}
 
+	public boolean isAdmin() {
+		return false;
+	}
+
 	@SuppressWarnings("CanBeFinal")
 	public static enum Status {
 		active("aktiv"),

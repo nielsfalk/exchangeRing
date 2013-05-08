@@ -3,7 +3,9 @@ package de.hh.changeRing.calendar;
 import com.google.common.collect.Lists;
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.Context;
+import de.hh.changeRing.infrastructure.eclipselink.MappingCustomizer;
 import de.hh.changeRing.user.User;
+import org.eclipse.persistence.annotations.Customizer;
 import org.joda.time.DateTime;
 
 import javax.persistence.Column;
@@ -47,6 +49,7 @@ import static javax.persistence.EnumType.STRING;
 		@NamedQuery(name = "findFilteredAndOrderedPastEvents",
 				query = "select event from Event event where event.when <= :relevant and event.eventType in :filter order by event.when desc")
 })
+
 public class Event extends BaseEntity {
 	@SuppressWarnings("JpaDataSourceORMInspection")
 	@ManyToOne

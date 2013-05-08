@@ -65,7 +65,6 @@ import static javax.persistence.EnumType.STRING;
  */
 
 @Entity(name = "tr_user")
-@Customizer(MappingCustomizer.class)
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @DiscriminatorColumn(name = "type") //art
 @NamedQueries({

@@ -1,5 +1,8 @@
 package de.hh.changeRing;
 
+import de.hh.changeRing.infrastructure.eclipselink.MappingCustomizer;
+import org.eclipse.persistence.annotations.Customizer;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -30,6 +33,7 @@ import java.util.logging.Logger;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 @MappedSuperclass
+@Customizer(MappingCustomizer.class)
 public abstract class BaseEntity {
     private static final Logger log = Logger.getLogger(BaseEntity.class.getName());
     @Id

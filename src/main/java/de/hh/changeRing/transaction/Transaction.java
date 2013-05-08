@@ -43,7 +43,6 @@ import static de.hh.changeRing.user.DepotItemType.out;
  */
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @Entity
-@Customizer(MappingCustomizer.class)
 public class Transaction extends BaseEntity {
     @XmlElement
     @XmlJavaTypeAdapter(DateTimeAdapter.class)

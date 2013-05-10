@@ -72,6 +72,9 @@ public class GravatarTag extends UIComponentBase {
         }
 
         writer.startElement("img", this);
+	    if (user.getEmail()== null) {
+		    throw new RuntimeException("email is null " + user);
+	    }
         writer.writeAttribute("src", user.getGravatarUrl(getIntegerAttribute("size", 80)), null);
         if (!noName) {
             writer.writeAttribute("alt", "avatar: " + user.getDisplayName(), null);

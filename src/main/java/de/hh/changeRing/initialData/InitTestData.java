@@ -222,10 +222,14 @@ public class InitTestData {
 	}
 
 	public static List<Administrator> getAdministrators() {
+		for (Administrator administrator : data.administrators) {
+			administrator.initialStuffAfterParsing();
+		}
 		return data.administrators;
 	}
 
 	public static SystemAccount getSystemAccount() {
+		data.systemAccount.initialStuffAfterParsing();
 		return data.systemAccount;
 	}
 

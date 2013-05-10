@@ -16,9 +16,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import static de.hh.changeRing.TestUtils.PASSWORD;
+import static de.hh.changeRing.TestUtils.createAdministrator;
+import static de.hh.changeRing.TestUtils.createSystemAccount;
 import static de.hh.changeRing.TestUtils.createTestMember;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertThat;
 
 
@@ -44,6 +47,8 @@ import static org.junit.Assert.assertThat;
 @RunWith(Arquillian.class)
 public class UserSessionTest extends FunctionalTest {
     private static final User USER = createTestMember();
+	private static final Administrator ADMINISTRATOR = createAdministrator();
+	private static final SystemAccount SYSTEM_ACCOUNT= createSystemAccount();
 
     @Deployment
     public static Archive<?> createDeployment() {
@@ -55,30 +60,46 @@ public class UserSessionTest extends FunctionalTest {
 
     @Test
     public void loginWithId() {
-        userSession.setIdOrEmail(USER.getId().toString());
-        userSession.setPassword(PASSWORD);
-        userSession.login();
-        assertThat(userSession.isLoggedIn(), is(true));
-	    assertThat(userSession.getUser().getLastLogin(), is(greaterThan(new DateMidnight().toDateTime())));
+	    testSuccessfulLogin(USER.getId().toString(), PASSWORD);
     }
 
-    @Test
-    public void loginWithIdWrong() {
-        userSession.setIdOrEmail(USER.getId().toString());
-        userSession.setPassword("wrong");
-        userSession.login();
-        assertThat(userSession.isNotLoggedIn(), is(true));
+	@Test
+    public void loginWithIdWrongPassword() {
+		testUnsuccessfulLogin(USER, "wrong");
     }
 
-    @Test
+	@Test
     public void loginWithEmail() {
-        userSession.setIdOrEmail(USER.getEmail());
-        userSession.setPassword(PASSWORD);
-        userSession.login();
-        assertThat(userSession.isLoggedIn(), is(true));
+		testSuccessfulLogin(USER.getEmail(), PASSWORD);
     }
 
-    @Singleton
+	@Test
+	public void loginAdmin() {
+		testSuccessfulLogin(ADMINISTRATOR.getId().toString(), PASSWORD);
+	}
+
+	@Test
+	public void loginSystemShouldFail() {
+		testUnsuccessfulLogin(SYSTEM_ACCOUNT, PASSWORD);
+	}
+
+	private void testUnsuccessfulLogin(User user, String password) {
+		userSession.setIdOrEmail(user.getId().toString());
+		userSession.setPassword(password);
+		userSession.login();
+		assertThat(userSession.isNotLoggedIn(), is(true));
+	}
+
+	private void testSuccessfulLogin(String idOrEmail, String password) {
+		userSession.setIdOrEmail(idOrEmail);
+		userSession.setPassword(password);
+		userSession.login();
+		assertThat(userSession.isLoggedIn(), is(true));
+		assertThat(userSession.getUser().getLastLogin(), is(greaterThan(new DateMidnight().toDateTime())));
+		assertThat(userSession.getUser().getLastLogin(), is(lessThan(new DateMidnight().plusDays(1).toDateTime())));
+	}
+
+	@Singleton
     @Startup
     public static class DataPump {
         @PersistenceContext
@@ -86,7 +107,9 @@ public class UserSessionTest extends FunctionalTest {
 
         @PostConstruct
         public void createUser() {
-            entityManager.persist(USER);
+	        entityManager.persist(USER);
+	        entityManager.persist(ADMINISTRATOR);
+	        entityManager.persist(SYSTEM_ACCOUNT);
         }
     }
 

@@ -20,4 +20,9 @@ public class SystemAccount extends User{
         }
         return resultList.get(0);
     }
+
+	@Override
+	public boolean isNotSystem() {
+		return false;
+	}
 }

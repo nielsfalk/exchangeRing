@@ -404,6 +404,10 @@ public abstract class User extends BaseEntity {
 		return false;
 	}
 
+	public boolean isNotSystem() {
+		return true;
+	}
+
 	@SuppressWarnings("CanBeFinal")
 	public static enum Status {
 		active("aktiv"),

@@ -54,8 +54,9 @@ public class AuthenticationTest extends SeleniumTest {
     @Test
     public void authentication() {
         internalAreaNotAccessible();
-        login("hans@meiser.de", PASSWORD);
+        login(USER.getEmail(), PASSWORD);
         internalAreaIsAccessible();
+	    //todo adminAreaIsSecured
         logout();
         internalAreaNotAccessible();
     }

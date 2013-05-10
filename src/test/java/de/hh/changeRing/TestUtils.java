@@ -35,8 +35,7 @@ public class TestUtils {
 	}
 
 	private static User init(User user) {
-	    user.getId();
-	    user.setEmail("hans@meiser.de");
+	    user.setEmail(user.getId()+"hans@meiser.de");
 	    user.setPassword(PASSWORD);
 	    return user;
 	}

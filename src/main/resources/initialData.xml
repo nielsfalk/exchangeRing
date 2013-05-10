@@ -129,12 +129,16 @@ Environmental damage caused by the use must be kept as small as possible.
         <firstName>Administrator</firstName>
         <lastName>Niels</lastName>
         <password>123</password>
+        <e>admi</e>
+        <e>n@tr.hh.de</e>
     </administrator>
     <systemAccount>
         <id>1</id>
         <firstName>System</firstName>
         <lastName>Tauschring</lastName>
         <password>123</password>
+        <e>sys</e>
+        <e>@tr.hh.de</e>
     </systemAccount>
     <transaction>
         <fromId>577</fromId>

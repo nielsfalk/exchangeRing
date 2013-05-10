@@ -239,7 +239,7 @@ public class InitTestData {
 		@XmlElement(name = "administrator")
 		List<Administrator> administrators;
 
-		@XmlElement(name = "administrator")
+		@XmlElement(name = "systemAccount")
 		SystemAccount systemAccount;
 
 		@XmlElement(name = "transaction")

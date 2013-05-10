@@ -47,6 +47,8 @@ public class Context {
 
 	public static final String WELCOME_PAGE = "/dashboard.xhtml";
 	private static final String INTERNAL_PREFIX = "/internal";
+
+	private static final String ADMIN_PREFIX = "/internal/admin";
 	private static final String LOGOUT_PREFIX = "/logout";
 	public static final String GERMAN_DATE = "dd.MM.yyyy";
 	private static final String GERMAN_TIME = "HH:mm";
@@ -91,10 +93,14 @@ public class Context {
 
 	public void secureInternalArea() {
 		if (internalRequest()) {
-			if (notLoggedIn()) {
+			if (notLoggedIn() || unauthorizedAdminRequest()) {
 				redirect(WELCOME_PAGE);
 			}
 		}
+	}
+
+	private boolean unauthorizedAdminRequest() {
+		return adminRequest() && adminNotLoggedIn() ;
 	}
 
 	@SuppressWarnings("UnusedDeclaration")
@@ -133,6 +139,11 @@ public class Context {
 		return userSession == null || userSession.isNotLoggedIn();
 	}
 
+	private boolean adminNotLoggedIn() {
+		UserSession userSession = getNamedBean(UserSession.class);
+		return userSession == null || userSession.isNoAdmin();
+	}
+
 	public <T> T getNamedBean(Class<T> type) {
 		String typeSimpleName = type.getSimpleName();
 		String beanName = Character.toLowerCase(typeSimpleName.charAt(0)) + typeSimpleName.substring(1);
@@ -142,6 +153,10 @@ public class Context {
 
 	private boolean internalRequest() {
 		return getRequestedURI().startsWith(INTERNAL_PREFIX);
+	}
+
+	private boolean adminRequest() {
+		return getRequestedURI().startsWith(ADMIN_PREFIX);
 	}
 
 	@SuppressWarnings("UnusedDeclaration")

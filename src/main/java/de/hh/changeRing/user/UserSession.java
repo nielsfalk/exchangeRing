@@ -130,4 +130,8 @@ public class UserSession implements Serializable {
         }
         return members;
     }
+
+	public boolean isNoAdmin() {
+		return isNotLoggedIn() || !user.isAdmin();
+	}
 }

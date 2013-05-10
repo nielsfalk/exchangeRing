@@ -9,6 +9,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -126,7 +127,8 @@ public class UserSession implements Serializable {
 
     public List<User> getMembers() {
         if (members == null) {
-            members = Lists.newArrayList(entityManager.createNamedQuery("allUsers", User.class).getResultList());
+	        TypedQuery<User> allUsers = isNoAdmin()?entityManager.createNamedQuery("allMembers", User.class):entityManager.createNamedQuery("allUsers", User.class);
+	        members = Lists.newArrayList(allUsers.getResultList());
         }
         return members;
     }

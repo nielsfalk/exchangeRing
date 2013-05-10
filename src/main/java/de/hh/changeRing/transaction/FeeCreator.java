@@ -41,8 +41,7 @@ public class FeeCreator implements Serializable{
 
     private FeeCalculationResult calculateTax() {
         FeeCalculationResult calculationResult = new FeeCalculationResult();
-        List<Member> relevantMembers = entityManager.createNamedQuery("allMembers", Member.class).getResultList();
-        for (Member member : relevantMembers) {
+	    for (Member member : getAllFeeMembers()) {
             calculationResult.userAmounts.put(member, TAX_AMOUNT);
         }
         return calculationResult;
@@ -54,8 +53,7 @@ public class FeeCreator implements Serializable{
 
     private FeeCalculationResult calculateDemurage() {
         FeeCalculationResult calculationResult = new FeeCalculationResult();
-        List<Member> relevantMembers = entityManager.createNamedQuery("allMembers", Member.class).getResultList();
-        for (Member member : relevantMembers) {
+	    for (Member member : getAllFeeMembers()) {
             if (member.getBalance().compareTo(ZERO) > 0) {
                 BigDecimal amount = member.getBalance().multiply(DEMURRAGE_PERCENT).setScale(2, HALF_UP);
                 calculationResult.userAmounts.put(member, amount);
@@ -64,7 +62,11 @@ public class FeeCreator implements Serializable{
         return calculationResult;
     }
 
-    private SystemAccount getSystem() {
+	private List<Member> getAllFeeMembers() {
+		return entityManager.createNamedQuery("allFeeMembers", Member.class).getResultList();
+	}
+
+	private SystemAccount getSystem() {
         return SystemAccount.getSystem(entityManager);
     }
 

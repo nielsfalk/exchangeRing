@@ -69,9 +69,7 @@ import static javax.persistence.EnumType.STRING;
 @DiscriminatorColumn(name = "type") //art
 @NamedQueries({
 		@NamedQuery(name = "loginWithEmail", query = "select user from tr_user user where user.email =:email"),
-		@NamedQuery(name = "findOthers", query = "select user from tr_user user where user <> :me order by user.id"),
-		@NamedQuery(name = "allUsers", query = "select user from tr_user user order by user.id"),
-		@NamedQuery(name = "newestUser", query = "select user from tr_user user order by user.activated desc")
+		@NamedQuery(name = "allUsers", query = "select user from tr_user user order by user.id")
 })
 public abstract class User extends BaseEntity {
 	private String nickName;

@@ -60,7 +60,7 @@ public class GlobalData {
     @Named
     @Produces
     public List<User> getNewestMembers8() {
-        return entityManager.createNamedQuery("newestUser", User.class).setMaxResults(8).getResultList();
+        return entityManager.createNamedQuery("newestMembers", User.class).setMaxResults(8).getResultList();
     }
 
     @Named

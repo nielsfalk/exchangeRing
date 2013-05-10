@@ -133,6 +133,12 @@ public class UserSession implements Serializable {
         return members;
     }
 
+	@Named
+	@Produces
+	public boolean isAdmin() {
+		return isLoggedIn() && user.isAdmin();
+	}
+
 	public boolean isNoAdmin() {
 		return isNotLoggedIn() || !user.isAdmin();
 	}

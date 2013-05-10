@@ -30,7 +30,30 @@ Environmental damage caused by the use must be kept as small as possible.
     <ui:define name="content">
         <div class="container">
             <div class="menuContainer">
+
                 <p:menu id="mainMenu">
+
+                    <p:menuitem styleClass="#{r:activeMenu('internal/admin/adminTransaction')}" value="Überweisung"
+                                url="/internal/admin/adminTransaction.xhtml" icon="ui-icon-person" rendered="#{admin}"/>
+
+                    <p:menuitem styleClass="#{r:activeMenu('internal/admin/systemAccount')}" value="Kontoauszüge"
+                                url="/internal/admin/systemAccount.xhtml" icon="ui-icon-person" rendered="#{admin}"/>
+
+
+                    <p:menuitem styleClass="#{r:activeMenu('internal/admin/fees')}" value="Gebühren"
+                                url="/internal/admin/fees.xhtml" icon="ui-icon-person" rendered="#{admin}"/>
+
+                    <p:menuitem styleClass="#{r:activeMenu('internal/admin/configuration')}" value="Einstellungen"
+                                url="/internal/admin/configuration.xhtml" icon="ui-icon-person" rendered="#{admin}"/>
+
+                    <p:menuitem styleClass="#{r:activeMenu('internal/admin/debtMoneyTransaction')}" value="€Buchung"
+                                url="/internal/admin/debtMoneyTransaction.xhtml" icon="ui-icon-person" rendered="#{admin}"/>
+
+                    <p:menuitem styleClass="#{r:activeMenu('internal/admin/logs')}" value="Logs"
+                                url="/internal/admin/logs.xhtml" icon="ui-icon-person" rendered="#{admin}"/>
+
+                    <p:separator rendered="#{admin}"/>
+
 
                     <p:menuitem styleClass="#{r:activeMenu('dashboard')}" value="Dashboard"
                                 url="/dashboard.xhtml" icon="ui-icon-home"/>

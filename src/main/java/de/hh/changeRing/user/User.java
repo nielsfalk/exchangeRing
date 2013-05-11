@@ -338,6 +338,9 @@ public abstract class User extends BaseEntity {
 	}
 
 	public String getGravatarUrl(int size) {
+        if (getEmail()== null) {
+            throw new RuntimeException("email is null " + this);
+        }
 		return new Gravatar().setSize(size).setHttps(true).setRating(Rating.PARENTAL_GUIDANCE_SUGGESTED)
 				.setStandardDefaultImage(DefaultImage.MONSTER).getUrl(getEmail());
 	}

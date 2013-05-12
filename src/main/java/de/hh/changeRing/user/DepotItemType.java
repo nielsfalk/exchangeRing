@@ -34,4 +34,8 @@ public enum DepotItemType {
     public String toString() {
         return string;
     }
+
+    public String getColor() {
+        return this.equals(in) ? "brown" : "blue";
+    }
 }

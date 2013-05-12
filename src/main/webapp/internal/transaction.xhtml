@@ -35,10 +35,10 @@ Environmental damage caused by the use must be kept as small as possible.
             <f:viewParam name="adId" value="#{transactionCreator.adId}"/>
         </f:metadata>
         <p:panel header="Überweisung">
-            <h:form>
+            <h:form id="transactionForm">
                 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
                     <h:outputText value="Empfänger:"/>
-                    <p:selectOneMenu value="#{transactionCreator.receiver}" converter="userConverter"
+                    <p:selectOneMenu value="#{transactionCreator.receiver}" id="userSelector" converter="userConverter"
                                      panelStyle="width:150px"
                                      effect="fade" var="p" style="width:260px" filter="true"
                                      filterMatchMode="startsWith">

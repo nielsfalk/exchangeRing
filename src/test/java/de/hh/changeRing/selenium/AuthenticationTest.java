@@ -16,10 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import static de.hh.changeRing.Context.WELCOME_PAGE;
-import static de.hh.changeRing.TestUtils.PASSWORD;
-import static de.hh.changeRing.TestUtils.createAdministrator;
-import static de.hh.changeRing.TestUtils.createTestMember;
-import static org.hamcrest.CoreMatchers.is;
+import static de.hh.changeRing.TestUtils.*;
 import static org.hamcrest.Matchers.endsWith;
 import static org.junit.Assert.assertThat;
 
@@ -45,9 +42,9 @@ import static org.junit.Assert.assertThat;
 @RunAsClient
 public class AuthenticationTest extends SeleniumTest {
     private static final User USER = createTestMember();
-	private static final Administrator ADMINISTRATOR = createAdministrator();
+    private static final Administrator ADMINISTRATOR = createAdministrator();
     public static final String MEMBERS_XHTML = "internal/members/members.xhtml";
-	public static final String CONFIGURATION_XHTML = "internal/admin/configuration.xhtml";
+    public static final String CONFIGURATION_XHTML = "internal/admin/configuration.xhtml";
 
     @Deployment
     public static WebArchive createDeployment() {
@@ -57,34 +54,31 @@ public class AuthenticationTest extends SeleniumTest {
     @Test
     public void userAuthentication() {
         internalAreaNotAccessible();
-        login(USER.getEmail(), PASSWORD);
+        super.login(USER.getEmail(), PASSWORD);
         internalAreaIsAccessible();
-	    adminAreaNotAccessible();
+        adminAreaNotAccessible();
         logout();
         internalAreaNotAccessible();
     }
 
-	@Test
-	public void adminAuthentication() {
-		adminAreaNotAccessible();
-		login(ADMINISTRATOR.getEmail(), PASSWORD);
-		adminAreaIsAccessible();
+    @Test
+    public void adminAuthentication() {
+        adminAreaNotAccessible();
+        super.login(ADMINISTRATOR.getEmail(), PASSWORD);
+        adminAreaIsAccessible();
 
-		logout();
-		adminAreaNotAccessible();
-	}
-
-	private void adminAreaIsAccessible() {
-		adminAreaAccessible(true);
-	}
-
-	private void adminAreaNotAccessible() {
-		adminAreaAccessible(false);
-	}
-
-	private void logout() {
-        browser.open(deploymentUrl.toString() + "logout/logout.xhtml");
+        logout();
+        adminAreaNotAccessible();
     }
+
+    private void adminAreaIsAccessible() {
+        adminAreaAccessible(true);
+    }
+
+    private void adminAreaNotAccessible() {
+        adminAreaAccessible(false);
+    }
+
 
     private void internalAreaNotAccessible() {
         internalAreaAccessible(false);
@@ -99,19 +93,9 @@ public class AuthenticationTest extends SeleniumTest {
         assertThat(browser.getLocation(), endsWith(accessible ? MEMBERS_XHTML : WELCOME_PAGE));
     }
 
-	private void adminAreaAccessible(boolean accessible) {
-		browser.open(deploymentUrl.toString() + CONFIGURATION_XHTML);
-		assertThat(browser.getLocation(), endsWith(accessible ? CONFIGURATION_XHTML : WELCOME_PAGE));
-	}
-
-    public void login(String idOrEmail, String password) {
-        browser.open(deploymentUrl.toString());
-        assertThat(browser.isElementPresent("id=loggedInHeaderForm"), is(false));
-        browser.type("id=loginForm-idOrEmail", idOrEmail);
-        browser.type("id=loginForm-password", password);
-        browser.click("id=loginForm-loginButton_button");
-        browser.waitForPageToLoad("15000");
-        assertThat(browser.isElementPresent("id=loggedInHeaderForm"), is(true));
+    private void adminAreaAccessible(boolean accessible) {
+        browser.open(deploymentUrl.toString() + CONFIGURATION_XHTML);
+        assertThat(browser.getLocation(), endsWith(accessible ? CONFIGURATION_XHTML : WELCOME_PAGE));
     }
 
     @Singleton
@@ -122,8 +106,8 @@ public class AuthenticationTest extends SeleniumTest {
 
         @PostConstruct
         public void createUser() {
-	        entityManager.persist(USER);
-	        entityManager.persist(ADMINISTRATOR);
+            entityManager.persist(USER);
+            entityManager.persist(ADMINISTRATOR);
         }
     }
 }

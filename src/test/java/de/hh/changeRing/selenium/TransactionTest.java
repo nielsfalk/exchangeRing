@@ -1,7 +1,6 @@
 package de.hh.changeRing.selenium;
 
 import de.hh.changeRing.transaction.TransactionCreator;
-import de.hh.changeRing.user.Administrator;
 import de.hh.changeRing.user.User;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -16,11 +15,8 @@ import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static de.hh.changeRing.Context.WELCOME_PAGE;
-import static de.hh.changeRing.TestUtils.*;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.endsWith;
-import static org.junit.Assert.assertThat;
+import static de.hh.changeRing.TestUtils.PASSWORD;
+import static de.hh.changeRing.TestUtils.createTestMember;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -66,20 +62,6 @@ public class TransactionTest extends SeleniumTest {
         browser.click("id=transactionForm-showDialogButton");
         browser.click("id=transactionForm-confirm");
         browser.waitForPageToLoad("15000");
-    }
-
-    private void logout() {
-        browser.open(deploymentUrl.toString() + "logout/logout.xhtml");
-    }
-
-    public void login(String idOrEmail, String password) {
-        browser.open(deploymentUrl.toString());
-        assertThat(browser.isElementPresent("id=loggedInHeaderForm"), is(false));
-        browser.type("id=loginForm-idOrEmail", idOrEmail);
-        browser.type("id=loginForm-password", password);
-        browser.click("id=loginForm-loginButton_button");
-        browser.waitForPageToLoad("15000");
-        assertThat(browser.isElementPresent("id=loggedInHeaderForm"), is(true));
     }
 
     @Singleton

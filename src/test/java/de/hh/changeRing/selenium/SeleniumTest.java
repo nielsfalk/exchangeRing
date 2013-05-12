@@ -17,6 +17,9 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 import java.net.URL;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
 /**
  * ----------------GNU General Public License--------------------------------
  * <p/>
@@ -52,5 +55,19 @@ public abstract class SeleniumTest {
                 .importDirectory("src/main/webapp").as(GenericArchive.class),
                 "/", Filters.includeAll());
         return webArchive;
+    }
+
+    protected void logout() {
+        browser.open(deploymentUrl.toString() + "logout/logout.xhtml");
+    }
+
+    public void login(String idOrEmail, String password) {
+        browser.open(deploymentUrl.toString());
+        assertThat(browser.isElementPresent("id=loggedInHeaderForm"), is(false));
+        browser.type("id=loginForm-idOrEmail", idOrEmail);
+        browser.type("id=loginForm-password", password);
+        browser.click("id=loginForm-loginButton_button");
+        browser.waitForPageToLoad("15000");
+        assertThat(browser.isElementPresent("id=loggedInHeaderForm"), is(true));
     }
 }

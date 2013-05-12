@@ -76,7 +76,7 @@
                 <h:form rendered="#{loggedIn}" styleClass="loggedInHeader" id="loggedInHeaderForm"
                         style="background-image: url('#{userSession.user.gravatarHeaderUrl51}')">
                     <p:splitButton value="Kontostand: #{userSession.user.balance}" url="/internal/account.xhtml"
-                                   onclick="location='/internal/account.xhtml'">
+                                   onclick="location='/internal/account.xhtml'" id="personalMenu">
                         <p:menuitem value="Mein Konto" url="/internal/account.xhtml" icon="ui-icon-transferthick-e-w"/>
                         <p:menuitem value="Einstellungen"
                                     url="/internal/members/user.xhtml?userId=#{userSession.user.id}"

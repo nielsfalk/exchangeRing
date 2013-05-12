@@ -49,6 +49,8 @@ public class TransactionTest extends SeleniumTest {
     private static final User USER = createTestMember(INITIAL_BALANCE);
     private static final User RECEIVER = createTestMember(INITIAL_BALANCE);
     private static final BigDecimal TRANSACTION_AMOUNT = new BigDecimal("15.00");
+    public static final BigDecimal RECEIVERS_NEW_BALANCE = INITIAL_BALANCE.add(TRANSACTION_AMOUNT);
+    public static final BigDecimal USERS_NEW_BALANCE = INITIAL_BALANCE.subtract(TRANSACTION_AMOUNT);
     private static final String SUBJECT = "Vielen Dank für die gute Arbeit";
 
 
@@ -61,13 +63,13 @@ public class TransactionTest extends SeleniumTest {
     public void transaction() {
         login(USER.getEmail(), PASSWORD);
         doTransaction();
-        headerContainsNewAmount(INITIAL_BALANCE.subtract(TRANSACTION_AMOUNT));
-        expectTransactionLog(out, TRANSACTION_AMOUNT.negate(), INITIAL_BALANCE.subtract(TRANSACTION_AMOUNT));
+        headerContainsNewAmount(USERS_NEW_BALANCE);
+        expectTransactionLog(out, TRANSACTION_AMOUNT.negate(), USERS_NEW_BALANCE);
 
         logout();
         login(RECEIVER.getEmail(), PASSWORD);
-        headerContainsNewAmount(INITIAL_BALANCE.add(TRANSACTION_AMOUNT));
-        expectTransactionLog(in, TRANSACTION_AMOUNT, INITIAL_BALANCE.add(TRANSACTION_AMOUNT));
+        headerContainsNewAmount(RECEIVERS_NEW_BALANCE);
+        expectTransactionLog(in, TRANSACTION_AMOUNT, RECEIVERS_NEW_BALANCE);
     }
 
     private void expectTransactionLog(DepotItemType depotItemType, BigDecimal amount, BigDecimal balance) {

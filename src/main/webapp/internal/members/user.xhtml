@@ -31,7 +31,6 @@ Environmental damage caused by the use must be kept as small as possible.
 <ui:define name="contentWithMenu">
 <f:metadata>
     <f:viewParam name="userId" value="#{userModel.selectedUserId}"/>
-    <f:viewParam name="me" value="#{userModel.selectedMe}"/>
 </f:metadata>
 <p:panel header="#{userModel.otherAndNotAsAdmin?userModel.selectedUser.displayName:'Einstellungen'}">
     <h:form>
@@ -53,14 +52,16 @@ Environmental damage caused by the use must be kept as small as possible.
                           rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.visibleFirstName)}"/>
             <h:panelGroup rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.visibleFirstName)}">
                 <h:outputText value="#{userModel.selectedUser.visibleFirstName}"/>
-                <p:selectBooleanCheckbox value="#{userModel.selectedUser.firstNameVisible}" rendered="#{userModel.meOrAsAdmin}"/>
+                <p:selectBooleanCheckbox value="#{userModel.selectedUser.firstNameVisible}"
+                                         rendered="#{userModel.meOrAsAdmin}"/>
             </h:panelGroup>
 
             <h:outputText value="#{userModel.meOrAsAdmin?'Nachname, sichtbar':'Nachname'}:"
                           rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.visibleLastName)}"/>
             <h:panelGroup rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.visibleLastName)}">
                 <h:outputText value="#{userModel.selectedUser.visibleLastName}"/>
-                <p:selectBooleanCheckbox value="#{userModel.selectedUser.lastNameVisible}" rendered="#{userModel.meOrAsAdmin}"/>
+                <p:selectBooleanCheckbox value="#{userModel.selectedUser.lastNameVisible}"
+                                         rendered="#{userModel.meOrAsAdmin}"/>
             </h:panelGroup>
 
             <h:outputText value="Überweisung:" rendered="#{userModel.otherAndNotAsAdmin}"/>
@@ -82,7 +83,8 @@ Environmental damage caused by the use must be kept as small as possible.
                 <p:selectBooleanCheckbox value="#{userModel.selectedUser.emailVisible}" label="sichtbar"/>
             </h:panelGroup>
 
-            <h:outputText value="facebook" rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.facebook)}"/>
+            <h:outputText value="facebook"
+                          rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.facebook)}"/>
             <h:panelGroup rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.facebook)}">
                 <p:inputText value="#{userModel.selectedUser.facebook}" rendered="#{userModel.meOrAsAdmin}"/>
 
@@ -125,7 +127,8 @@ Environmental damage caused by the use must be kept as small as possible.
             <h:outputText value="Gebühr:"/>
             <h:outputText value="#{userModel.selectedUser.euroFee} €"/>
 
-            <h:outputText value="Adresse:" rendered="#{userModel.otherAndNotAsAdmin and userModel.selectedUser.addressVisible}"/>
+            <h:outputText value="Adresse:"
+                          rendered="#{userModel.otherAndNotAsAdmin and userModel.selectedUser.addressVisible}"/>
             <h:panelGroup rendered="#{userModel.otherAndNotAsAdmin and userModel.selectedUser.addressVisible}">
                 <p>
                     <h:outputText value="#{userModel.selectedUser.street}"/>
@@ -139,7 +142,8 @@ Environmental damage caused by the use must be kept as small as possible.
             </h:panelGroup>
 
             <h:outputText value="Adresse sichbar:" rendered="#{userModel.meOrAsAdmin}"/>
-            <p:selectBooleanCheckbox value="#{userModel.selectedUser.addressVisible}" rendered="#{userModel.meOrAsAdmin}"/>
+            <p:selectBooleanCheckbox value="#{userModel.selectedUser.addressVisible}"
+                                     rendered="#{userModel.meOrAsAdmin}"/>
 
             <h:outputText value="Straße, Hausnummer:" rendered="#{userModel.meOrAsAdmin}"/>
             <h:panelGroup rendered="#{userModel.meOrAsAdmin}">
@@ -153,12 +157,14 @@ Environmental damage caused by the use must be kept as small as possible.
                 <p:inputText value="#{userModel.selectedUser.city}"/>
             </h:panelGroup>
 
-            <h:outputText value="Stadtteil:" rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.district)}"/>
+            <h:outputText value="Stadtteil:"
+                          rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.district)}"/>
             <h:outputText value="#{userModel.selectedUser.district}"
                           rendered="#{userModel.otherAndFilledAndNotAsAdmin(userModel.selectedUser.district)}"/>
             <p:inputText value="#{userModel.selectedUser.district}" rendered="#{userModel.meOrAsAdmin}"/>
 
-            <h:outputText value="Mobil:" rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.phoneMobile)}"/>
+            <h:outputText value="Mobil:"
+                          rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.phoneMobile)}"/>
             <h:outputText value="#{userModel.selectedUser.phoneMobile}"
                           rendered="#{userModel.otherAndFilledAndNotAsAdmin(userModel.selectedUser.phoneMobile)}"/>
             <p:inputText value="#{userModel.selectedUser.phoneMobile}" rendered="#{userModel.meOrAsAdmin}"/>
@@ -183,11 +189,13 @@ Environmental damage caused by the use must be kept as small as possible.
             <h:outputText value="Homepage Beschreibung:" rendered="#{userModel.meOrAsAdmin}"/>
             <p:inputText value="#{userModel.selectedUser.urlDescription}" rendered="#{userModel.meOrAsAdmin}"/>
 
-            <h:outputText value="Geburtstag:" rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.birthDay)}"/>
+            <h:outputText value="Geburtstag:"
+                          rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.birthDay)}"/>
             <h:outputText value="#{userModel.selectedUser.formattedBirthDay}"
                           rendered="#{userModel.otherAndFilledAndNotAsAdmin(userModel.selectedUser.birthDay)}"/>
-            <p:calendar locale="de" pattern="dd.MM.yyyy" navigator="true" value="#{userModel.selectedUser.birthDay}" rendered=
-                    "#{userModel.meOrAsAdmin}" converter="midnightConverter" yearRange="1900:2010"/>
+            <p:calendar locale="de" pattern="dd.MM.yyyy" navigator="true" value="#{userModel.selectedUser.birthDay}"
+                        rendered=
+                                "#{userModel.meOrAsAdmin}" converter="midnightConverter" yearRange="1900:2010"/>
 
             <h:outputText value="Profil:" rendered="#{userModel.meOrAsAdminOrFilled(userModel.selectedUser.profile)}"/>
             <h:outputText value="#{userModel.selectedUser.profile}"
@@ -212,13 +220,14 @@ Environmental damage caused by the use must be kept as small as possible.
                           rendered="#{not empty userModel.selectedUser.formattedDeActivated}"/>
 
 
-            <p:commandButton value="Speichern" ajax="false" actionListener="#{userSession.updateUser}"
+            <p:commandButton value="Speichern" ajax="false" actionListener="#{userModel.updateUser}"
                              rendered="#{userModel.meOrAsAdmin}"/>
         </h:panelGrid>
     </h:form>
 </p:panel>
 
-<p:panel header="Anzeigen" rendered="#{userModel.otherAndNotAsAdmin and not empty userModel.selectedUser.advertisements}">
+<p:panel header="Anzeigen"
+         rendered="#{userModel.otherAndNotAsAdmin and not empty userModel.selectedUser.advertisements}">
     <p:dataTable id="advertisementTable" var="advertisement" value="#{userModel.selectedUser.advertisements}"
                  styleClass="ui-corner-all">
         <p:column id="title" sortBy="#{advertisement.title}">

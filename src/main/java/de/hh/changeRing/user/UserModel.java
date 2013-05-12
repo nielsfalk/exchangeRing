@@ -1,5 +1,6 @@
 package de.hh.changeRing.user;
 
+import javax.ejb.Stateful;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -34,6 +35,7 @@ import static de.hh.changeRing.user.User.isEmpty;
  */
 @Named
 @SessionScoped
+@Stateful
 public class UserModel implements Serializable {
     @Inject
     private UserSession session;
@@ -43,10 +45,10 @@ public class UserModel implements Serializable {
     private EntityManager entityManager;
 
     public boolean isMeOrAsAdmin() {
-	    return getLoggedInUser().equals(selectedUser) || getLoggedInUser().isAdmin();
+        return getLoggedInUser().equals(selectedUser) || getLoggedInUser().isAdmin();
     }
 
-	public boolean isOtherAndNotAsAdmin() {
+    public boolean isOtherAndNotAsAdmin() {
         return !isMeOrAsAdmin();
     }
 
@@ -86,13 +88,8 @@ public class UserModel implements Serializable {
         this.session = session;
     }
 
-    public void setSelectedMe(@SuppressWarnings("UnusedParameters") String selectedMe) {
-	    setSelectedUserId(session.getUser().getId());
-    }
-
-    @SuppressWarnings("SameReturnValue")
-    public String getSelectedMe() {
-        return "";
+    public void updateUser() {
+        entityManager.merge(selectedUser);
     }
 
 

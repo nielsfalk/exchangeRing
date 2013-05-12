@@ -60,11 +60,11 @@ public class UserSession implements Serializable {
         }
 
         //don't inline to prevent timing attacs
-        String passwordHash = hashPassword(user==null?14:user.getId(), password);
+        String passwordHash = hashPassword(user == null ? 14 : user.getId(), password);
         if (user != null && user.getPasswordHash().equals(passwordHash) && user.isNotSystem()) {
             this.user = user;
             context().leavePublicEvents();
-	        user.applyLastLogin();
+            user.applyLastLogin();
         }
         LOGGER.info(isLoggedIn() ? idOrEmail + " logged in" : "tried to login " + idOrEmail);
         idOrEmail = null;
@@ -76,10 +76,6 @@ public class UserSession implements Serializable {
 
     private void message(String message) {
         context().addMessage(message);
-    }
-
-    public void updateUser() {
-	    entityManager.merge(user);
     }
 
     @Named
@@ -127,19 +123,19 @@ public class UserSession implements Serializable {
 
     public List<User> getMembers() {
         if (members == null) {
-	        TypedQuery<User> allUsers = isNoAdmin()?entityManager.createNamedQuery("allMembers", User.class):entityManager.createNamedQuery("allUsers", User.class);
-	        members = Lists.newArrayList(allUsers.getResultList());
+            TypedQuery<User> allUsers = isNoAdmin() ? entityManager.createNamedQuery("allMembers", User.class) : entityManager.createNamedQuery("allUsers", User.class);
+            members = Lists.newArrayList(allUsers.getResultList());
         }
         return members;
     }
 
-	@Named
-	@Produces
-	public boolean isAdmin() {
-		return isLoggedIn() && user.isAdmin();
-	}
+    @Named
+    @Produces
+    public boolean isAdmin() {
+        return isLoggedIn() && user.isAdmin();
+    }
 
-	public boolean isNoAdmin() {
-		return isNotLoggedIn() || !user.isAdmin();
-	}
+    public boolean isNoAdmin() {
+        return isNotLoggedIn() || !user.isAdmin();
+    }
 }

@@ -78,7 +78,8 @@
                     <p:splitButton value="Kontostand: #{userSession.user.balance}" url="/internal/account.xhtml"
                                    onclick="location='/internal/account.xhtml'">
                         <p:menuitem value="Mein Konto" url="/internal/account.xhtml" icon="ui-icon-transferthick-e-w"/>
-                        <p:menuitem value="Einstellungen" url="/internal/members/user.xhtml?me=me"
+                        <p:menuitem value="Einstellungen"
+                                    url="/internal/members/user.xhtml?userId=#{userSession.user.id}"
                                     icon="ui-icon-wrench"/>
                         <p:menuitem value="Meine Anzeigen" url="/internal/advertisements/myAdvertisements.xhtml"
                                     icon="ui-icon-star"/>

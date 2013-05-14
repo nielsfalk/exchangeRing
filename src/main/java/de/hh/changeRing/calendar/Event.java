@@ -6,15 +6,7 @@ import de.hh.changeRing.Context;
 import de.hh.changeRing.user.User;
 import org.joda.time.DateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.TypedQuery;
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.List;
 
 import static de.hh.changeRing.calendar.EventModel.TimeFilter;
@@ -41,141 +33,145 @@ import static de.hh.changeRing.calendar.EventType.individual;
  */
 @Entity
 @NamedQueries({
-		@NamedQuery(name = "findFilteredAndOrderedFutureEvents",
-				query = "select event from Event event where event.when >= :relevant and event.eventType in :filter order by event.when"),
-		@NamedQuery(name = "findFilteredAndOrderedPastEvents",
-				query = "select event from Event event where event.when <= :relevant and event.eventType in :filter order by event.when desc"),
-		@NamedQuery(name = "findEvents",
-				query = "select event from Event event where event.eventType in :filter")
+        @NamedQuery(name = "findFilteredAndOrderedFutureEvents",
+                query = "select event from Event event where event.when >= :relevant and event.eventType in :filter order by event.when"),
+        @NamedQuery(name = "findFilteredAndOrderedPastEvents",
+                query = "select event from Event event where event.when <= :relevant and event.eventType in :filter order by event.when desc"),
+        @NamedQuery(name = "findEvents",
+                query = "select event from Event event where event.eventType in :filter")
 })
 
 public class Event extends BaseEntity {
-	@SuppressWarnings("JpaDataSourceORMInspection")
-	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-	@SuppressWarnings("JpaDataSourceORMInspection")
-	@Column(name = "event_date")
-	private DateTime when;
+    @SuppressWarnings("JpaDataSourceORMInspection")
+    @Column(name = "event_date")
+    private DateTime when;
 
-	private Integer duration;
+    private Integer duration;
 
-	private String title;
+    private String title;
 
-	@Column(length = 512)
-	private String content;
+    @Column(length = 512)
+    private String content;
 
-	private String location;
+    private String location;
 
-	private EventType eventType;
-
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public EventType getEventType() {
-		return eventType;
-	}
-
-	public void setEventType(EventType eventType) {
-		this.eventType = eventType;
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public DateTime getWhen() {
-		return when;
-	}
-
-	public void setWhen(DateTime from) {
-		this.when = from;
-	}
-
-	public String getFormattedWhen() {
-		return Context.longFormatGermanDate(getWhen());
-	}
-
-	public String getHeadLine() {
-		return getFormattedWhen() + ' '
-				+ getDisplayTitle();
-	}
-
-	public String getPeriod() {
-		String result = Context.formatGermanTime(getWhen());
-		if (duration != null) {
-			result += " - " + Context.formatGermanTime(getEnd());
-		}
-		return result;
-	}
-
-	public DateTime getEnd() {
-		return getWhen().plusMinutes(duration);
-	}
-
-	public void setDuration(int duration) {
-		this.duration = duration;
-	}
-
-	public String getDisplayTitle() {
-		return (eventType.equals(individual) ? getTitle() : (getEventType().translation + ' ' + getTitle()));
-	}
-
-	public String getDashboardDate() {
-		return getFormattedWhen();
-	}
-
-	public static List<Event> findEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> typeFilter, int count) {
-		if (typeFilter.isEmpty()) {
-			return Lists.newArrayList();
-		}
-		return queryEvents(entityManager, timeFilter, typeFilter).setMaxResults(count).getResultList();
-	}
-
-	public static List<Event> findEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> typeFilter) {
-		if (typeFilter.isEmpty()) {
-			return Lists.newArrayList();
-		}
-		return queryEvents(entityManager, timeFilter, typeFilter).getResultList();
-	}
-
-	public static List<Event> findEvents(EntityManager entityManager, List<EventType> filter) {
-		return entityManager.createNamedQuery("findEvents", Event.class).setParameter("filter", filter).getResultList();
-	}
+    private EventType eventType;
 
 
-	private static TypedQuery<Event> queryEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> typeFilter) {
-		return (timeFilter.equals(future)
-				? entityManager.createNamedQuery("findFilteredAndOrderedFutureEvents", Event.class)
-				: entityManager.createNamedQuery("findFilteredAndOrderedPastEvents", Event.class))
-				.setParameter("relevant", timeFilter.relevant())
-				.setParameter("filter", typeFilter);
-	}
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public EventType getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public DateTime getWhen() {
+        return when;
+    }
+
+    public void setWhen(DateTime from) {
+        this.when = from;
+    }
+
+    public String getFormattedWhen() {
+        return Context.longFormatGermanDate(getWhen());
+    }
+
+    public String getHeadLine() {
+        return getFormattedWhen() + ' '
+                + getDisplayTitle();
+    }
+
+    public String getPeriod() {
+        String result = Context.formatGermanTime(getWhen());
+        if (duration != null) {
+            result += " - " + Context.formatGermanTime(getEnd());
+        }
+        return result;
+    }
+
+    public DateTime getEnd() {
+        return getWhen().plusMinutes(duration);
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getDisplayTitle() {
+        return (eventType.equals(individual) ? getTitle() : (getEventType().translation + ' ' + getTitle()));
+    }
+
+    public String getDashboardDate() {
+        return getFormattedWhen();
+    }
+
+    public static List<Event> findEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> typeFilter, int count) {
+        if (typeFilter.isEmpty()) {
+            return Lists.newArrayList();
+        }
+        return queryEvents(entityManager, timeFilter, typeFilter).setMaxResults(count).getResultList();
+    }
+
+    public static List<Event> findEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> typeFilter) {
+        if (typeFilter.isEmpty()) {
+            return Lists.newArrayList();
+        }
+        return queryEvents(entityManager, timeFilter, typeFilter).getResultList();
+    }
+
+    public static List<Event> findEvents(EntityManager entityManager, List<EventType> filter) {
+        return entityManager.createNamedQuery("findEvents", Event.class).setParameter("filter", filter).getResultList();
+    }
+
+
+    private static TypedQuery<Event> queryEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> typeFilter) {
+        return (timeFilter.equals(future)
+                ? entityManager.createNamedQuery("findFilteredAndOrderedFutureEvents", Event.class)
+                : entityManager.createNamedQuery("findFilteredAndOrderedPastEvents", Event.class))
+                .setParameter("relevant", timeFilter.relevant())
+                .setParameter("filter", typeFilter);
+    }
+
+    public String getUri() {
+        return "/internal/events/browse.xhtml?event=" + getId();
+    }
 }

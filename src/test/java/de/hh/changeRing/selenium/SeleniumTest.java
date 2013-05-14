@@ -3,7 +3,9 @@ package de.hh.changeRing.selenium;
 import com.thoughtworks.selenium.DefaultSelenium;
 import de.hh.changeRing.Context;
 import de.hh.changeRing.FunctionalTest;
+import de.hh.changeRing.RestConfig;
 import de.hh.changeRing.ThemeSwitcher;
+import de.hh.changeRing.calendar.CalendarResource;
 import de.hh.changeRing.infrastructure.jsfExtension.SecurityFilter;
 import de.hh.changeRing.user.UserSession;
 import org.jboss.arquillian.drone.api.annotation.Drone;
@@ -44,12 +46,12 @@ public abstract class SeleniumTest {
     @ArquillianResource
     protected URL deploymentUrl;
 
-    protected static WebArchive warWithBasics() {
+    public static WebArchive warWithBasics() {
         WebArchive webArchive = ShrinkWrap.create(WebArchive.class, "test.war")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsResource("META-INF/persistence.xml", "META-INF/persistence.xml")
                 .addClasses(FunctionalTest.ENTITY_CLASSES)
-                .addClasses(Context.class, UserSession.class, ThemeSwitcher.class)
+                .addClasses(Context.class, UserSession.class, ThemeSwitcher.class, CalendarResource.class, RestConfig.class)
                 .addPackage(SecurityFilter.class.getPackage());
         webArchive.merge(ShrinkWrap.create(GenericArchive.class).as(ExplodedImporter.class)
                 .importDirectory("src/main/webapp").as(GenericArchive.class),

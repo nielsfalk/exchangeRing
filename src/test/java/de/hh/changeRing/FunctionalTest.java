@@ -2,15 +2,16 @@ package de.hh.changeRing;
 
 import de.hh.changeRing.advertisement.Advertisement;
 import de.hh.changeRing.calendar.Event;
+import de.hh.changeRing.calendar.EventType;
 import de.hh.changeRing.transaction.Transaction;
 import de.hh.changeRing.user.*;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -35,14 +36,28 @@ import static org.junit.Assert.assertThat;
  * use must be kept as small as possible.
  */
 public abstract class FunctionalTest {
-	public static final Class<?>[] ENTITY_CLASSES = new Class<?>[]{Member.class, Administrator.class, SystemAccount.class, User.class, Advertisement.class, BaseEntity.class, DepotItem.class, Event.class, Transaction.class};
+    public static final Class<?>[] ENTITY_CLASSES = new Class<?>[]{Member.class, Administrator.class, SystemAccount.class, User.class, Advertisement.class, BaseEntity.class, DepotItem.class, Event.class, Transaction.class};
 
 
-	protected static JavaArchive functionalJarWithEntities() {
+    protected static JavaArchive functionalJarWithEntities() {
         return ShrinkWrap.create(JavaArchive.class, "test.jar")
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addClasses(ENTITY_CLASSES);
+    }
+
+    private static DateTime date(int daysToAdd) {
+        return new DateTime().hourOfDay().withMinimumValue().plusHours(19).plusDays(daysToAdd);
+    }
+
+    protected static Event createEvent(int dayToAdd, EventType eventType, User user) {
+        Event event = new Event();
+        event.setWhen(date(dayToAdd));
+        event.setEventType(eventType);
+        event.setDuration(90);
+        event.setTitle(eventType.name() + "bla" + System.currentTimeMillis());
+        event.setUser(user);
+        return event;
     }
 
     @Before

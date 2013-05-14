@@ -1,7 +1,13 @@
 package de.hh.changeRing.calendar;
 
+import com.google.common.collect.Lists;
+import de.hh.changeRing.DatabaseMappableEnum;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static java.util.Arrays.asList;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -26,7 +32,7 @@ import java.util.List;
  * Environmental damage caused by the use must be kept as small as possible.
  */
 
-public enum EventType {
+public enum EventType implements DatabaseMappableEnum<String> {
     summerFestival("Sommerfest"),
     fleaMarket("Flohmarkt"),
     regularsTable("Stammtisch"),
@@ -35,9 +41,11 @@ public enum EventType {
     info("Infostand");
     public final String translation;
 
-    EventType(String translation) {
+	EventType(String translation) {
         this.translation = translation;
-    }
+	}
+
+
 
     public static List<EventType> allButInfo() {
         List<EventType> result = new ArrayList<EventType>();
@@ -49,6 +57,8 @@ public enum EventType {
         return result;
     }
 
+
+
     public static List<EventType> publicTypes() {
         List<EventType> result = new ArrayList<EventType>();
         for (EventType eventType : EventType.values()) {
@@ -58,4 +68,27 @@ public enum EventType {
         }
         return result;
     }
+
+	@Override
+	public String getDatabaseValue() {
+		return this.name();
+	}
+
+	public static List<EventType> withoutType(List<String> databaseValues) {
+		ArrayList<EventType> result = Lists.newArrayList();
+		result.addAll(asList(values()));
+		for (String databaseValue : databaseValues) {
+			result.remove(forDatabaseValue(databaseValue));
+		}
+		return result;
+	}
+
+	private static EventType forDatabaseValue(String databaseValue ) {
+		for (EventType eventType : values()) {
+			if(eventType.getDatabaseValue().equals(databaseValue)){
+				return eventType;
+			}
+		}
+		throw new RuntimeException(databaseValue+ " is unknown");
+	}
 }

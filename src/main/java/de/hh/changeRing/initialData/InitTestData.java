@@ -200,7 +200,6 @@ public class InitTestData {
 		result.setTitle("Brotaufstrich Basteln");
 		result.setContent("Bei mir werden vegetarische und vegane Brotaufstriche gekocht. Bitte vorher anmelden");
 		result.setLocation("Bei mir in Winterhude");
-		result.setDuration(90);
 	}
 
 
@@ -217,6 +216,7 @@ public class InitTestData {
 		result.setWhen(new DateTime().hourOfDay().withMinimumValue().plusHours(19).plusDays(daysToAdd));
 		User user = findUser(userId);
 		result.setUser(user);
+		result.setDuration(90);
 		user.getEvents().add(result);
 		return result;
 	}

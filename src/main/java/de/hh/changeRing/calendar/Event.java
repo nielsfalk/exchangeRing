@@ -3,26 +3,23 @@ package de.hh.changeRing.calendar;
 import com.google.common.collect.Lists;
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.Context;
-import de.hh.changeRing.infrastructure.eclipselink.MappingCustomizer;
 import de.hh.changeRing.user.User;
-import org.eclipse.persistence.annotations.Customizer;
 import org.joda.time.DateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 
 import static de.hh.changeRing.calendar.EventModel.TimeFilter;
 import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
 import static de.hh.changeRing.calendar.EventType.individual;
-import static javax.persistence.EnumType.STRING;
 
 /**
  * ----------------GNU General Public License--------------------------------
@@ -47,7 +44,9 @@ import static javax.persistence.EnumType.STRING;
 		@NamedQuery(name = "findFilteredAndOrderedFutureEvents",
 				query = "select event from Event event where event.when >= :relevant and event.eventType in :filter order by event.when"),
 		@NamedQuery(name = "findFilteredAndOrderedPastEvents",
-				query = "select event from Event event where event.when <= :relevant and event.eventType in :filter order by event.when desc")
+				query = "select event from Event event where event.when <= :relevant and event.eventType in :filter order by event.when desc"),
+		@NamedQuery(name = "findEvents",
+				query = "select event from Event event where event.eventType in :filter")
 })
 
 public class Event extends BaseEntity {
@@ -69,7 +68,6 @@ public class Event extends BaseEntity {
 
 	private String location;
 
-	@Enumerated(STRING)
 	private EventType eventType;
 
 
@@ -133,9 +131,13 @@ public class Event extends BaseEntity {
 	public String getPeriod() {
 		String result = Context.formatGermanTime(getWhen());
 		if (duration != null) {
-			result += " - " + Context.formatGermanTime(getWhen().plusMinutes(duration));
+			result += " - " + Context.formatGermanTime(getEnd());
 		}
 		return result;
+	}
+
+	public DateTime getEnd() {
+		return getWhen().plusMinutes(duration);
 	}
 
 	public void setDuration(int duration) {
@@ -163,6 +165,11 @@ public class Event extends BaseEntity {
 		}
 		return queryEvents(entityManager, timeFilter, typeFilter).getResultList();
 	}
+
+	public static List<Event> findEvents(EntityManager entityManager, List<EventType> filter) {
+		return entityManager.createNamedQuery("findEvents", Event.class).setParameter("filter", filter).getResultList();
+	}
+
 
 	private static TypedQuery<Event> queryEvents(EntityManager entityManager, TimeFilter timeFilter, List<EventType> typeFilter) {
 		return (timeFilter.equals(future)

@@ -57,10 +57,9 @@ public class CalendarResource {
     @GET
     @Path("tauschring.ics")
     @Produces("text/Calendar")
-    public String exportICal(@QueryParam("exclude") List<String> exclude) {
-
+    public String exportICal(@QueryParam("exclude") List<String> exclude, @QueryParam("alarm") Integer alarm) {
         try {
-            Calendar calendar = createCalendar(EventType.withoutType(exclude));
+            Calendar calendar = createCalendar(EventType.withoutType(exclude), alarm);
             calendar.validate();
             return calendar.toString();
         } catch (ValidationException e) {
@@ -68,26 +67,26 @@ public class CalendarResource {
         }
     }
 
-    private Calendar createCalendar(List<EventType> filter) {
+    private Calendar createCalendar(List<EventType> filter, Integer alarm) {
         Calendar result = new Calendar();
         result.getProperties().add(new ProdId("-//Ben Fortuna//iCal4j 1.0//EN"));
         result.getProperties().add(VERSION_2_0);
         result.getProperties().add(GREGORIAN);
 
         //noinspection unchecked
-        result.getComponents().addAll(createEvents(filter));
+        result.getComponents().addAll(createEvents(filter, alarm));
         return result;
     }
 
-    private List<VEvent> createEvents(List<EventType> filter) {
+    private List<VEvent> createEvents(List<EventType> filter, Integer alarm) {
         List<VEvent> result = Lists.newArrayList();
         for (Event event : Event.findEvents(entityManager, filter)) {
-            result.add(toVEvent(event));
+            result.add(toVEvent(event, alarm));
         }
         return result;
     }
 
-    private VEvent toVEvent(Event event) {
+    private VEvent toVEvent(Event event, Integer alarm) {
         VEvent result = new VEvent(
                 new DateTime(event.getWhen().toDate()),
                 new DateTime(event.getEnd().toDate()),
@@ -97,10 +96,12 @@ public class CalendarResource {
         result.getProperties().add(new Location(event.getLocation()));
         result.getProperties().add(new Description(event.getContent()));
         result.getProperties().add(new Url(URI.create(baseUrl() + event.getUri())));
-        VAlarm alarm = new VAlarm(new DateTime(event.getWhen().minusHours(1).toDate()));
-        alarm.getProperties().add(Action.DISPLAY);
-        alarm.getProperties().add(new Description(event.getDisplayTitle()));
-        result.getAlarms().add(alarm);
+        if (alarm != null) {
+            VAlarm vAlarm = new VAlarm(new DateTime(event.getWhen().minusMinutes(alarm).toDate()));
+            vAlarm.getProperties().add(Action.DISPLAY);
+            vAlarm.getProperties().add(new Description(event.getDisplayTitle()));
+            result.getAlarms().add(vAlarm);
+        }
         return result;
     }
 

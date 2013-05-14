@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import de.hh.changeRing.DatabaseMappableEnum;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -41,10 +41,9 @@ public enum EventType implements DatabaseMappableEnum<String> {
     info("Infostand");
     public final String translation;
 
-	EventType(String translation) {
+    EventType(String translation) {
         this.translation = translation;
-	}
-
+    }
 
 
     public static List<EventType> allButInfo() {
@@ -58,7 +57,6 @@ public enum EventType implements DatabaseMappableEnum<String> {
     }
 
 
-
     public static List<EventType> publicTypes() {
         List<EventType> result = new ArrayList<EventType>();
         for (EventType eventType : EventType.values()) {
@@ -69,26 +67,34 @@ public enum EventType implements DatabaseMappableEnum<String> {
         return result;
     }
 
-	@Override
-	public String getDatabaseValue() {
-		return this.name();
-	}
+    @Override
+    public String getDatabaseValue() {
+        return this.name();
+    }
 
-	public static List<EventType> withoutType(List<String> databaseValues) {
-		ArrayList<EventType> result = Lists.newArrayList();
-		result.addAll(asList(values()));
-		for (String databaseValue : databaseValues) {
-			result.remove(forDatabaseValue(databaseValue));
-		}
-		return result;
-	}
+    public static List<EventType> withoutType(List<String> databaseValues) {
+        ArrayList<EventType> result = Lists.newArrayList();
+        result.addAll(asList(values()));
+        for (String databaseValue : databaseValues) {
+            result.remove(forDatabaseValue(databaseValue));
+        }
+        return result;
+    }
 
-	private static EventType forDatabaseValue(String databaseValue ) {
-		for (EventType eventType : values()) {
-			if(eventType.getDatabaseValue().equals(databaseValue)){
-				return eventType;
-			}
-		}
-		throw new RuntimeException(databaseValue+ " is unknown");
-	}
+    private static EventType forDatabaseValue(String databaseValue) {
+        for (EventType eventType : values()) {
+            if (eventType.getDatabaseValue().equals(databaseValue)) {
+                return eventType;
+            }
+        }
+        throw new RuntimeException(databaseValue + " is unknown");
+    }
+
+    public static List<EventType> reverse(Collection<EventType> values) {
+        ArrayList<EventType> eventTypes = Lists.newArrayList(values());
+        for (EventType value : values) {
+            eventTypes.remove(value);
+        }
+        return eventTypes;
+    }
 }

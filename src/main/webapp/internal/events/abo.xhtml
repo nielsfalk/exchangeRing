@@ -24,9 +24,48 @@ Environmental damage caused by the use must be kept as small as possible.
 <ui:composition template="/decorators/eventDecorator.xhtml"
                 xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
         >
-    <ui:define name="eventContent">
 
-        Abboniere den Kalender in Outlook, Google, Android, IPhone ...
+    <ui:define name="eventContent">
+        <h:form id="eventFilterForm">
+
+            <p:panel header="Kalender Abbonieren">
+                <p>Abboniere den Kalender in Outlook, Thundebird, Google, Android, IPhone ...</p>
+
+                <p>Wähle die gewünschten Veranstaltungstypen und den Benachrichtigungs-Zeitpunkt</p>
+
+                <h:panelGroup layout="block" class="horizontalFloatContainer">
+                    <p:selectManyCheckbox style="width:182px;float: left;" layout="pageDirection"
+                                          value="#{eventModel.selectedTypeFilters}"
+                                          onchange="$('#eventFilterForm-refresh').click()"
+                                          converter="eventTypeConverter">
+                        <f:selectItems value="#{eventModel.typeFilters}"/>
+                    </p:selectManyCheckbox>
+                    <p:selectOneRadio style="float: left;" value="#{eventModel.notification}"
+                                      onchange="$('#eventFilterForm-refresh').click()"
+                                      layout="pageDirection">
+                        <f:selectItem itemLabel="keine Benachrichtigung" itemValue="-1"/>
+                        <f:selectItem itemLabel="30 Minuten" itemValue="30"/>
+                        <f:selectItem itemLabel="1 Stunde" itemValue="60"/>
+                        <f:selectItem itemLabel="90 Minuten" itemValue="90"/>
+                        <f:selectItem itemLabel="2 Stunden" itemValue="120"/>
+                        <f:selectItem itemLabel="1 Tag" itemValue="1440"/>
+                        <f:selectItem itemLabel="2 Tage" itemValue="2880"/>
+                    </p:selectOneRadio>
+                </h:panelGroup>
+            </p:panel>
+            <p:panel>
+                <div><h:outputText value="#{eventModel.iCalUrl}"/></div>
+                <p:button href="#{eventModel.iCalUrl}" value="Abbonieren"/>
+            </p:panel>
+
+            <h:commandLink style="display: none" id="refresh" action="#{eventModel.refresh}">
+                #
+            </h:commandLink>
+        </h:form>
+
     </ui:define>
 </ui:composition>

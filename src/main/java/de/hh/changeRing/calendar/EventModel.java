@@ -1,5 +1,8 @@
 package de.hh.changeRing.calendar;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
+import de.hh.changeRing.Context;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 
@@ -38,74 +41,94 @@ import static de.hh.changeRing.calendar.EventModel.TimeFilter.future;
 @Named
 @SessionScoped
 public class EventModel implements Serializable {
-	private TimeFilter timeFilter = future;
-	private final Map<String, EventType> typeFilters;
-	private List<EventType> selectedTypeFilters = new ArrayList<EventType>();
+    private TimeFilter timeFilter = future;
+    private final Map<String, EventType> typeFilters;
+    private List<EventType> selectedTypeFilters = new ArrayList<EventType>();
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
+    private Integer notification = 90;
 
 
-	public EventModel() {
-		typeFilters = new HashMap<String, EventType>();
-		for (EventType eventType : EventType.values()) {
-			typeFilters.put(eventType.translation, eventType);
-		}
-		selectedTypeFilters = EventType.allButInfo();
-	}
+    public EventModel() {
+        typeFilters = new HashMap<String, EventType>();
+        for (EventType eventType : EventType.values()) {
+            typeFilters.put(eventType.translation, eventType);
+        }
+        selectedTypeFilters = EventType.allButInfo();
+    }
 
-	public List<Event> getEventsToDisplay() {
-		return Event.findEvents(entityManager, timeFilter, selectedTypeFilters);
-	}
+    public List<Event> getEventsToDisplay() {
+        return Event.findEvents(entityManager, timeFilter, selectedTypeFilters);
+    }
 
-	public void refresh() {
-	}
+    public void refresh() {
+    }
 
-	public String selectedStyleClass(TimeFilter timeFilter) {
-		return getTimeFilter().equals(timeFilter) ? "ui-state-active" : "";
-	}
+    public String selectedStyleClass(TimeFilter timeFilter) {
+        return getTimeFilter().equals(timeFilter) ? "ui-state-active" : "";
+    }
 
-	public TimeFilter getTimeFilter() {
-		return timeFilter;
-	}
+    public TimeFilter getTimeFilter() {
+        return timeFilter;
+    }
 
-	public Map<String, EventType> getTypeFilters() {
-		return typeFilters;
-	}
+    public Map<String, EventType> getTypeFilters() {
+        return typeFilters;
+    }
 
-	public void setTimeFilter(TimeFilter timeFilter) {
-		this.timeFilter = timeFilter;
-		refresh();
-	}
+    public void setTimeFilter(TimeFilter timeFilter) {
+        this.timeFilter = timeFilter;
+        refresh();
+    }
 
-	public List<EventType> getSelectedTypeFilters() {
-		return selectedTypeFilters;
-	}
+    public List<EventType> getSelectedTypeFilters() {
+        return selectedTypeFilters;
+    }
 
-	public void setSelectedTypeFilters(List<EventType> selectedTypeFilters) {
-		this.selectedTypeFilters = selectedTypeFilters;
-	}
+    public void setSelectedTypeFilters(List<EventType> selectedTypeFilters) {
+        this.selectedTypeFilters = selectedTypeFilters;
+    }
 
-	public static enum TimeFilter {
-		future, past;
+    public int getNotification() {
+        return notification;
+    }
 
-		public DateMidnight today() {
-			return new DateMidnight();
-		}
+    public void setNotification(int notification) {
+        this.notification = notification;
+    }
 
-		public DateMidnight tomorrow() {
-			return new DateMidnight().plusDays(1);
-		}
+    public String getiCalUrl() {
+        List<String> parameter = Lists.newArrayList();
+        if (notification > 0) {
+            parameter.add("alarm=" + notification);
+        }
+        for (EventType eventType : EventType.reverse(selectedTypeFilters)) {
+            parameter.add("exclude=" + eventType.getDatabaseValue());
+        }
+        return Context.context().webCalUrl() + '?' + Joiner.on('&').join(parameter);
+    }
 
-		public DateTime relevant() {
-			return (this.equals(future) ? today() : tomorrow()).toDateTime();
-		}
-	}
+    public static enum TimeFilter {
+        future, past;
 
-	@FacesConverter("eventTypeConverter")
-	public static class EventTypeConverter extends EnumConverter {
-		public EventTypeConverter() {
-			super(EventType.class);
-		}
-	}
+        public DateMidnight today() {
+            return new DateMidnight();
+        }
+
+        public DateMidnight tomorrow() {
+            return new DateMidnight().plusDays(1);
+        }
+
+        public DateTime relevant() {
+            return (this.equals(future) ? today() : tomorrow()).toDateTime();
+        }
+    }
+
+    @FacesConverter("eventTypeConverter")
+    public static class EventTypeConverter extends EnumConverter {
+        public EventTypeConverter() {
+            super(EventType.class);
+        }
+    }
 }

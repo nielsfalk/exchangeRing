@@ -1,7 +1,7 @@
 package de.hh.changeRing.calendar;
 
+import de.hh.changeRing.Context;
 import de.hh.changeRing.FunctionalTest;
-import de.hh.changeRing.RestConfig;
 import de.hh.changeRing.selenium.SeleniumTest;
 import de.hh.changeRing.user.User;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -20,7 +20,6 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.ws.rs.ApplicationPath;
 import java.net.URL;
 
 import static de.hh.changeRing.TestUtils.createTestMember;
@@ -53,7 +52,6 @@ import static org.hamcrest.Matchers.containsString;
 @RunAsClient
 @RunWith(Arquillian.class)
 public class CalendarResourceTest extends FunctionalTest {
-    private static final String RESOURCE_PREFIX = RestConfig.class.getAnnotation(ApplicationPath.class).value().substring(1);
     private static final User USER = createTestMember();
     private static final Event EVENT1 = createEvent(1, fleaMarket, USER);
     private static final Event EVENT2 = createEvent(2, individual, USER);
@@ -87,7 +85,7 @@ public class CalendarResourceTest extends FunctionalTest {
     }
 
     private <T> ClientResponse<T> request(String path, Class<T> returnType, String mediaType) {
-        ClientRequest request = new ClientRequest(deploymentUrl.toString() + RESOURCE_PREFIX + path);
+        ClientRequest request = new ClientRequest(deploymentUrl.toString() + Context.RESOURCE_PREFIX + path);
         request.header("Accept", mediaType);
         try {
             ClientResponse<T> response = request.get(returnType);

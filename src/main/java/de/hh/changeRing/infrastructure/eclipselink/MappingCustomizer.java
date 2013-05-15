@@ -30,7 +30,6 @@ import org.eclipse.persistence.mappings.converters.Converter;
 import org.joda.time.*;
 
 import java.lang.reflect.Field;
-import java.sql.Timestamp;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Logger;
@@ -76,7 +75,7 @@ public class MappingCustomizer implements DescriptorCustomizer {
             Field field = Reflection.forClass(clazz).findField(attribName);
             if (converters.containsKey(field.getType())) {
                 dtfMapping.setConverter(converters.get(field.getType()));
-                dtfMapping.setFieldClassification(Timestamp.class);
+                dtfMapping.setFieldClassification(java.sql.Date.class);
                 dtfMapping.getField().setColumnDefinition("TIMESTAMP");
             }
         }

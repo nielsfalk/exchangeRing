@@ -77,6 +77,7 @@ public class MappingCustomizer implements DescriptorCustomizer {
             if (converters.containsKey(field.getType())) {
                 dtfMapping.setConverter(converters.get(field.getType()));
                 dtfMapping.setFieldClassification(Timestamp.class);
+                dtfMapping.getField().setColumnDefinition("TIMESTAMP");
             }
         }
     }

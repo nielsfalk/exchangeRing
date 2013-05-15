@@ -27,13 +27,10 @@ import org.eclipse.persistence.descriptors.ClassDescriptor;
 import org.eclipse.persistence.mappings.DatabaseMapping;
 import org.eclipse.persistence.mappings.DirectToFieldMapping;
 import org.eclipse.persistence.mappings.converters.Converter;
-import org.joda.time.DateMidnight;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
+import org.joda.time.*;
 
 import java.lang.reflect.Field;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Logger;
@@ -49,11 +46,11 @@ public class MappingCustomizer implements DescriptorCustomizer {
 
     private static Map<Class<?>, Converter> initializeConverters() {
         ConcurrentMap<Class<?>, Converter> result = Maps.newConcurrentMap();
-	    result.put(DateTime.class, new JodaDateTimeConverter());
-	    result.put(LocalDate.class, new JodaLocalDateConverter());
-	    result.put(LocalTime.class, new JodaLocalTimeConverter());
-	    result.put(LocalDateTime.class, new JodaLocalDateTimeConverter());
-	    result.put(DateMidnight.class, new JodaDateMidnightConverter());
+        result.put(DateTime.class, new JodaDateTimeConverter());
+        result.put(LocalDate.class, new JodaLocalDateConverter());
+        result.put(LocalTime.class, new JodaLocalTimeConverter());
+        result.put(LocalDateTime.class, new JodaLocalDateTimeConverter());
+        result.put(DateMidnight.class, new JodaDateMidnightConverter());
         return result;
     }
 
@@ -79,11 +76,11 @@ public class MappingCustomizer implements DescriptorCustomizer {
             Field field = Reflection.forClass(clazz).findField(attribName);
             if (converters.containsKey(field.getType())) {
                 dtfMapping.setConverter(converters.get(field.getType()));
-                dtfMapping.getField().setColumnDefinition("TIMESTAMP");
+                dtfMapping.setFieldClassification(Date.class);
             }
         }
     }
-    
+
     private final void customizeEnumMappings(ClassDescriptor descriptor, DatabaseMapping mapping) {
         Class<?> clazz = descriptor.getJavaClass();
         String attribName = mapping.getAttributeName();
@@ -91,10 +88,10 @@ public class MappingCustomizer implements DescriptorCustomizer {
         if (mapping instanceof DirectToFieldMapping) {
             DirectToFieldMapping dtfMapping = (DirectToFieldMapping) mapping;
             Field field = Reflection.forClass(clazz).findField(attribName);
-            if ( DatabaseMappableEnum.class.isAssignableFrom(field.getType())) {
-                @SuppressWarnings({ "unchecked", "rawtypes" })
-				Converter enumConverter = new EnumConverter(field.getType());
-				dtfMapping.setConverter(enumConverter);
+            if (DatabaseMappableEnum.class.isAssignableFrom(field.getType())) {
+                @SuppressWarnings({"unchecked", "rawtypes"})
+                Converter enumConverter = new EnumConverter(field.getType());
+                dtfMapping.setConverter(enumConverter);
             }
         }
     }

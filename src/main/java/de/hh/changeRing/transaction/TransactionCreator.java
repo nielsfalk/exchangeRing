@@ -72,7 +72,7 @@ public class TransactionCreator implements Serializable {
         LOGGER.info(session.getUser().getId() + " created transaction");
         User owner = entityManager.find(User.class, session.getUser().getId());
         User receiver = entityManager.find(User.class, this.receiver.getId());
-        Transaction transaction = Transaction.create(owner, receiver, new BigDecimal(amount).setScale(2), subject);
+        Transaction.create(owner, receiver, new BigDecimal(amount).setScale(2), subject);
         events.fire(new UserUpdateEvent(owner, receiver));
 
         setClear("clear");

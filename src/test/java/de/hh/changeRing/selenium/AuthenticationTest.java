@@ -3,11 +3,9 @@ package de.hh.changeRing.selenium;
 import de.hh.changeRing.user.Administrator;
 import de.hh.changeRing.user.User;
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.warp.WarpTest;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -38,8 +36,7 @@ import static org.junit.Assert.assertThat;
  * In addition, each military use, and the use for interest profit will be excluded. Environmental damage caused by the
  * use must be kept as small as possible.
  */
-@RunWith(Arquillian.class)
-@RunAsClient
+@WarpTest
 public class AuthenticationTest extends SeleniumTest {
     private static final User USER = createTestMember();
     private static final Administrator ADMINISTRATOR = createAdministrator();
@@ -54,7 +51,7 @@ public class AuthenticationTest extends SeleniumTest {
     @Test
     public void userAuthentication() {
         internalAreaNotAccessible();
-        super.login(USER.getEmail(), PASSWORD);
+        login(USER.getEmail(), PASSWORD);
         internalAreaIsAccessible();
         adminAreaNotAccessible();
         logout();
@@ -64,7 +61,7 @@ public class AuthenticationTest extends SeleniumTest {
     @Test
     public void adminAuthentication() {
         adminAreaNotAccessible();
-        super.login(ADMINISTRATOR.getEmail(), PASSWORD);
+        login(ADMINISTRATOR.getEmail(), PASSWORD);
         adminAreaIsAccessible();
 
         logout();

@@ -8,15 +8,24 @@ import de.hh.changeRing.ThemeSwitcher;
 import de.hh.changeRing.calendar.CalendarResource;
 import de.hh.changeRing.infrastructure.jsfExtension.SecurityFilter;
 import de.hh.changeRing.user.UserSession;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
+import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.arquillian.warp.Activity;
+import org.jboss.arquillian.warp.Inspection;
+import org.jboss.arquillian.warp.Warp;
+import org.jboss.arquillian.warp.jsf.AfterPhase;
+import org.jboss.arquillian.warp.jsf.Phase;
 import org.jboss.shrinkwrap.api.Filters;
 import org.jboss.shrinkwrap.api.GenericArchive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.importer.ExplodedImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.runner.RunWith;
 
+import javax.inject.Inject;
 import java.net.URL;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -40,6 +49,8 @@ import static org.junit.Assert.assertThat;
  * In addition, each military use, and the use for interest profit will be excluded. Environmental damage caused by the
  * use must be kept as small as possible.
  */
+@RunWith(Arquillian.class)
+@RunAsClient
 public abstract class SeleniumTest {
     @Drone
     protected DefaultSelenium browser;
@@ -68,8 +79,34 @@ public abstract class SeleniumTest {
         assertThat(browser.isElementPresent("id=loggedInHeaderForm"), is(false));
         browser.type("id=loginForm-idOrEmail", idOrEmail);
         browser.type("id=loginForm-password", password);
-        browser.click("id=loginForm-loginButton_button");
+        waitForAllResourceThreads();
+        Warp.initiate(new Activity() {
+            @Override
+            public void perform() {
+                browser.click("id=loginForm-loginButton_button");
+            }
+        }).inspect(new UserSessionLoggedIn());
         browser.waitForPageToLoad("15000");
         assertThat(browser.isElementPresent("id=loggedInHeaderForm"), is(true));
+    }
+
+    protected void waitForAllResourceThreads() {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static class UserSessionLoggedIn extends Inspection {
+        private static final long serialVersionUID = 1L;
+
+        @Inject
+        private UserSession userSession;
+
+        @AfterPhase(Phase.INVOKE_APPLICATION)
+        public void verifySessionLoggedIn() {
+            assertThat(userSession.isLoggedIn(), is(true));
+        }
     }
 }

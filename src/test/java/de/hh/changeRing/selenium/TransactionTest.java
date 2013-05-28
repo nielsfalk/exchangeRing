@@ -6,8 +6,6 @@ import de.hh.changeRing.user.DepotItemType;
 import de.hh.changeRing.user.Member;
 import de.hh.changeRing.user.User;
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.warp.Activity;
 import org.jboss.arquillian.warp.Inspection;
 import org.jboss.arquillian.warp.Warp;
@@ -16,7 +14,6 @@ import org.jboss.arquillian.warp.servlet.AfterServlet;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.joda.time.DateMidnight;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -53,8 +50,6 @@ import static org.junit.Assert.assertThat;
  * In addition, each military use, and the use for interest profit will be excluded. Environmental damage caused by the
  * use must be kept as small as possible.
  */
-@RunWith(Arquillian.class)
-@RunAsClient
 @WarpTest
 public class TransactionTest extends SeleniumTest {
     private static final BigDecimal INITIAL_BALANCE = new BigDecimal("1000.00");
@@ -74,15 +69,15 @@ public class TransactionTest extends SeleniumTest {
     @Test
     public void transaction() {
         login(USER.getEmail(), PASSWORD);
-	    fillTransactionForm();
-	    Warp.initiate(new Activity() {
-		    @Override
-		    public void perform() {
-			    browser.click("id=transactionForm-confirm");
-		    }
-	    }).inspect(new VerifyTransaction());
+        fillTransactionForm();
+        Warp.initiate(new Activity() {
+            @Override
+            public void perform() {
+                browser.click("id=transactionForm-confirm");
+            }
+        }).inspect(new VerifyTransaction());
 
-	    browser.waitForPageToLoad("15000");
+        browser.waitForPageToLoad("15000");
         headerContainsNewAmount(USERS_NEW_BALANCE);
         expectTransactionLog(out, TRANSACTION_AMOUNT.negate(), USERS_NEW_BALANCE);
 
@@ -106,7 +101,7 @@ public class TransactionTest extends SeleniumTest {
         browser.type("id=transactionForm-amount", String.valueOf(TRANSACTION_AMOUNT.intValue()));
         browser.type("id=transactionForm-subject", SUBJECT);
         browser.click("id=transactionForm-showDialogButton");
-
+        waitForAllResourceThreads();
     }
 
     private void headerContainsNewAmount(BigDecimal expectedAmount) {
@@ -126,36 +121,36 @@ public class TransactionTest extends SeleniumTest {
         }
     }
 
-	@Stateless
-	public static class TransactionVerifier{
-		@PersistenceContext
-		EntityManager entityManager;
+    @Stateless
+    public static class TransactionVerifier {
+        @PersistenceContext
+        EntityManager entityManager;
 
-		public Transaction verifyTransaction() {
-			List<Transaction> sentTransactions = entityManager.find(Member.class, USER.getId()).getSentTransactions();
-			assertThat(sentTransactions.size(), is(1));
-			Transaction transaction = sentTransactions.get(0);
-			assertThat(transaction.getAmount(), is(TRANSACTION_AMOUNT));
-			assertThat(transaction.getDate().toDateMidnight(), is(new DateMidnight()));
-			assertThat(transaction.getAmount(), is(TRANSACTION_AMOUNT));
-			assertThat(transaction.getFrom().getId(), is(USER.getId()));
-			assertThat(transaction.getTo().getId(), is(RECEIVER.getId()));
-			assertThat(transaction.getFromNewBalance(), is(USERS_NEW_BALANCE));
-			assertThat(transaction.getToNewBalance(), is(RECEIVERS_NEW_BALANCE));
-			assertThat(transaction.getSubject(), is(SUBJECT));
-			return transaction;
-		}
-	}
+        public Transaction verifyTransaction() {
+            List<Transaction> sentTransactions = entityManager.find(Member.class, USER.getId()).getSentTransactions();
+            assertThat(sentTransactions.size(), is(1));
+            Transaction transaction = sentTransactions.get(0);
+            assertThat(transaction.getAmount(), is(TRANSACTION_AMOUNT));
+            assertThat(transaction.getDate().toDateMidnight(), is(new DateMidnight()));
+            assertThat(transaction.getAmount(), is(TRANSACTION_AMOUNT));
+            assertThat(transaction.getFrom().getId(), is(USER.getId()));
+            assertThat(transaction.getTo().getId(), is(RECEIVER.getId()));
+            assertThat(transaction.getFromNewBalance(), is(USERS_NEW_BALANCE));
+            assertThat(transaction.getToNewBalance(), is(RECEIVERS_NEW_BALANCE));
+            assertThat(transaction.getSubject(), is(SUBJECT));
+            return transaction;
+        }
+    }
 
-	public static class VerifyTransaction extends Inspection{
-		private static final long serialVersionUID = 1L;
+    public static class VerifyTransaction extends Inspection {
+        private static final long serialVersionUID = 1L;
 
-		@EJB
-		private TransactionVerifier transactionVerifier;
+        @EJB
+        private TransactionVerifier transactionVerifier;
 
-		@AfterServlet
-		public void verifyTransaction(){
-			transactionVerifier.verifyTransaction();
-		}
-	}
+        @AfterServlet
+        public void verifyTransaction() {
+            transactionVerifier.verifyTransaction();
+        }
+    }
 }

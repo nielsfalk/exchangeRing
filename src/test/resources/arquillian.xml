@@ -8,4 +8,8 @@
             <property name="resourcesXml">src/test/resources-glassfish-embedded/glassfish-resources.xml</property>
         </configuration>
     </container>
+    <extension qualifier="webdriver">
+        <property name="browserCapabilities">chrome</property>
+        <property name="chromeDriverBinary">/opt/google/chrome/chromedriver</property>
+    </extension>
 </arquillian>

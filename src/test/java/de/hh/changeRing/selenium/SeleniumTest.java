@@ -1,6 +1,5 @@
 package de.hh.changeRing.selenium;
 
-import com.thoughtworks.selenium.DefaultSelenium;
 import de.hh.changeRing.Context;
 import de.hh.changeRing.FunctionalTest;
 import de.hh.changeRing.RestConfig;
@@ -8,6 +7,7 @@ import de.hh.changeRing.ThemeSwitcher;
 import de.hh.changeRing.calendar.CalendarResource;
 import de.hh.changeRing.infrastructure.jsfExtension.SecurityFilter;
 import de.hh.changeRing.user.UserSession;
+import org.hamcrest.Matchers;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
@@ -24,6 +24,8 @@ import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.importer.ExplodedImporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
 import javax.inject.Inject;
 import java.net.URL;
@@ -53,7 +55,7 @@ import static org.junit.Assert.assertThat;
 @RunAsClient
 public abstract class SeleniumTest {
     @Drone
-    protected DefaultSelenium browser;
+    protected WebDriver browser;
     @ArquillianResource
     protected URL deploymentUrl;
 
@@ -71,23 +73,25 @@ public abstract class SeleniumTest {
     }
 
     protected void logout() {
-        browser.open(deploymentUrl.toString() + "logout/logout.xhtml");
+        browser.navigate().to(deploymentUrl + "logout/logout.xhtml");
     }
 
     public void login(String idOrEmail, String password) {
-        browser.open(deploymentUrl.toString());
-        assertThat(browser.isElementPresent("id=loggedInHeaderForm"), is(false));
-        browser.type("id=loginForm-idOrEmail", idOrEmail);
-        browser.type("id=loginForm-password", password);
-        waitForAllResourceThreads();
+        browser.navigate().to(deploymentUrl);
+        assertThat(browser.findElements(By.id("loggedInHeaderForm")).size(), Matchers.is(0));
+
+        browser.findElement(By.id("loginForm-idOrEmail")).sendKeys(idOrEmail);
+        browser.findElement(By.id("loginForm-password")).sendKeys(password);
+        browser.findElement(By.id("loginForm-loginButton_button")).click();
+
         Warp.initiate(new Activity() {
             @Override
             public void perform() {
-                browser.click("id=loginForm-loginButton_button");
+                browser.navigate().to(deploymentUrl);
             }
         }).inspect(new UserSessionLoggedIn());
-        browser.waitForPageToLoad("15000");
-        assertThat(browser.isElementPresent("id=loggedInHeaderForm"), is(true));
+        //browser.waitForPageToLoad("15000");
+        browser.findElement(By.id("loggedInHeaderForm"));
     }
 
     protected void waitForAllResourceThreads() {
@@ -104,7 +108,7 @@ public abstract class SeleniumTest {
         @Inject
         private UserSession userSession;
 
-        @AfterPhase(Phase.INVOKE_APPLICATION)
+        @AfterPhase(Phase.RENDER_RESPONSE)
         public void verifySessionLoggedIn() {
             assertThat(userSession.isLoggedIn(), is(true));
         }

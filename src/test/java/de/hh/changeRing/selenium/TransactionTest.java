@@ -14,6 +14,7 @@ import org.jboss.arquillian.warp.servlet.AfterServlet;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.joda.time.DateMidnight;
 import org.junit.Test;
+import org.openqa.selenium.By;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -56,8 +57,8 @@ public class TransactionTest extends SeleniumTest {
     private static final User USER = createTestMember(INITIAL_BALANCE);
     private static final User RECEIVER = createTestMember(INITIAL_BALANCE);
     private static final BigDecimal TRANSACTION_AMOUNT = new BigDecimal("15.00");
-    public static final BigDecimal RECEIVERS_NEW_BALANCE = INITIAL_BALANCE.add(TRANSACTION_AMOUNT);
-    public static final BigDecimal USERS_NEW_BALANCE = INITIAL_BALANCE.subtract(TRANSACTION_AMOUNT);
+    private static final BigDecimal RECEIVERS_NEW_BALANCE = INITIAL_BALANCE.add(TRANSACTION_AMOUNT);
+    private static final BigDecimal USERS_NEW_BALANCE = INITIAL_BALANCE.subtract(TRANSACTION_AMOUNT);
     private static final String SUBJECT = "Vielen Dank für die gute Arbeit";
 
 
@@ -73,11 +74,10 @@ public class TransactionTest extends SeleniumTest {
         Warp.initiate(new Activity() {
             @Override
             public void perform() {
-                browser.click("id=transactionForm-confirm");
+                browser.findElement(By.id("transactionForm-confirm")).click();
             }
         }).inspect(new VerifyTransaction());
 
-        browser.waitForPageToLoad("15000");
         headerContainsNewAmount(USERS_NEW_BALANCE);
         expectTransactionLog(out, TRANSACTION_AMOUNT.negate(), USERS_NEW_BALANCE);
 
@@ -88,24 +88,30 @@ public class TransactionTest extends SeleniumTest {
     }
 
     private void expectTransactionLog(DepotItemType depotItemType, BigDecimal amount, BigDecimal balance) {
-        browser.open(deploymentUrl.toString() + "/internal/account.xhtml");
-        assertThat(browser.getText("xpath=//*[@id=\"transactionTable_data\"]/tr[1]/td[4]/div"), is(depotItemType.toString()));
-        assertThat(browser.getText("xpath=//*[@id=\"transactionTable_data\"]/tr[1]/td[5]/div"), is(SUBJECT));
-        assertThat(browser.getText("xpath=//*[@id=\"transactionTable_data\"]/tr[1]/td[6]/div"), is(amount.toString()));
-        assertThat(browser.getText("xpath=//*[@id=\"transactionTable_data\"]/tr[1]/td[7]/div"), is(balance.toString()));
+        browser.navigate().to(deploymentUrl + "/internal/account.xhtml");
+
+        assertThat(textFirstRowCell(4), is(depotItemType.toString()));
+        assertThat(textFirstRowCell(5), is(SUBJECT));
+        assertThat(textFirstRowCell(6), is(amount.toString()));
+        assertThat(textFirstRowCell(7), is(balance.toString()));
 
     }
 
+    private String textFirstRowCell(int ddd) {
+        return browser.findElement(By.xpath("//*[@id=\"transactionTable_data\"]/tr[1]/td[" + ddd + "]/div")).getText();
+    }
+
     private void fillTransactionForm() {
-        browser.open(deploymentUrl.toString() + "/internal/transaction.xhtml?clear=clear&receiverId=" + RECEIVER.getId());
-        browser.type("id=transactionForm-amount", String.valueOf(TRANSACTION_AMOUNT.intValue()));
-        browser.type("id=transactionForm-subject", SUBJECT);
-        browser.click("id=transactionForm-showDialogButton");
+        browser.navigate().to(deploymentUrl + "/internal/transaction.xhtml?clear=clear&receiverId=" + RECEIVER.getId());
+        browser.findElement(By.id("transactionForm-amount")).sendKeys(String.valueOf(TRANSACTION_AMOUNT.intValue()));
+        browser.findElement(By.id("transactionForm-subject")).sendKeys(SUBJECT);
+        browser.findElement(By.id("transactionForm-showDialogButton")).click();
         waitForAllResourceThreads();
     }
 
     private void headerContainsNewAmount(BigDecimal expectedAmount) {
-        assertThat(browser.getText("xpath=//*[@id=\"loggedInHeaderForm-personalMenu_button\"]/span"), is("Kontostand: " + expectedAmount));
+        String text = browser.findElement(By.xpath("//*[@id=\"loggedInHeaderForm-personalMenu_button\"]/span")).getText();
+        assertThat(text, is("Kontostand: " + expectedAmount));
     }
 
     @Singleton
@@ -126,7 +132,7 @@ public class TransactionTest extends SeleniumTest {
         @PersistenceContext
         EntityManager entityManager;
 
-        public Transaction verifyTransaction() {
+        public void verifyTransaction() {
             List<Transaction> sentTransactions = entityManager.find(Member.class, USER.getId()).getSentTransactions();
             assertThat(sentTransactions.size(), is(1));
             Transaction transaction = sentTransactions.get(0);
@@ -138,7 +144,6 @@ public class TransactionTest extends SeleniumTest {
             assertThat(transaction.getFromNewBalance(), is(USERS_NEW_BALANCE));
             assertThat(transaction.getToNewBalance(), is(RECEIVERS_NEW_BALANCE));
             assertThat(transaction.getSubject(), is(SUBJECT));
-            return transaction;
         }
     }
 

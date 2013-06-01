@@ -40,8 +40,8 @@ import static org.junit.Assert.assertThat;
 public class AuthenticationTest extends SeleniumTest {
     private static final User USER = createTestMember();
     private static final Administrator ADMINISTRATOR = createAdministrator();
-    public static final String MEMBERS_XHTML = "internal/members/members.xhtml";
-    public static final String CONFIGURATION_XHTML = "internal/admin/configuration.xhtml";
+    private static final String MEMBERS_XHTML = "internal/members/members.xhtml";
+    private static final String CONFIGURATION_XHTML = "internal/admin/configuration.xhtml";
 
     @Deployment
     public static WebArchive createDeployment() {
@@ -86,13 +86,13 @@ public class AuthenticationTest extends SeleniumTest {
     }
 
     private void internalAreaAccessible(boolean accessible) {
-        browser.open(deploymentUrl.toString() + MEMBERS_XHTML);
-        assertThat(browser.getLocation(), endsWith(accessible ? MEMBERS_XHTML : WELCOME_PAGE));
+        browser.navigate().to(deploymentUrl.toString() + MEMBERS_XHTML);
+        assertThat(browser.getCurrentUrl(), endsWith(accessible ? MEMBERS_XHTML : WELCOME_PAGE));
     }
 
     private void adminAreaAccessible(boolean accessible) {
-        browser.open(deploymentUrl.toString() + CONFIGURATION_XHTML);
-        assertThat(browser.getLocation(), endsWith(accessible ? CONFIGURATION_XHTML : WELCOME_PAGE));
+        browser.navigate().to(deploymentUrl.toString() + CONFIGURATION_XHTML);
+        assertThat(browser.getCurrentUrl(), endsWith(accessible ? CONFIGURATION_XHTML : WELCOME_PAGE));
     }
 
     @Singleton

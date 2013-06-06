@@ -3,6 +3,7 @@ package de.hh.changeRing.infrastructure.jsfExtension;
 import de.hh.changeRing.BaseEntity;
 import de.hh.changeRing.Context;
 import de.hh.changeRing.advertisement.Advertisement;
+import de.hh.changeRing.calendar.Event;
 import de.hh.changeRing.user.User;
 
 import javax.enterprise.inject.Model;
@@ -50,6 +51,13 @@ public abstract class EntityConverter<TYPE extends BaseEntity> implements Conver
     public static class AdvertisementConverter extends EntityConverter<Advertisement> {
         public AdvertisementConverter() {
             super(Advertisement.class);
+        }
+    }
+
+    @FacesConverter("eventConverter")
+    public static class EventConverter extends EntityConverter<Event> {
+        public EventConverter() {
+            super(Event.class);
         }
     }
 

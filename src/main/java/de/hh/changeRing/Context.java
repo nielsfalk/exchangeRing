@@ -247,7 +247,7 @@ public class Context {
 
     public void leavePublicEvents() {
         if (getViewId().startsWith("/publicEvents")) {
-            getViewRoot().setViewId("/internal/events/browse.xhtml");
+            getViewRoot().setViewId("/internal/events/browse.xhtml?event");
         }
     }
 

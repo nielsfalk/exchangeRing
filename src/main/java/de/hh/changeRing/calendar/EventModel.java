@@ -48,6 +48,7 @@ public class EventModel implements Serializable {
     @PersistenceContext
     private EntityManager entityManager;
     private Integer notification = 90;
+    private Event selectedEvent;
 
 
     public EventModel() {
@@ -59,6 +60,9 @@ public class EventModel implements Serializable {
     }
 
     public List<Event> getEventsToDisplay() {
+        if (selectedEvent!=null) {
+            return Lists.newArrayList(selectedEvent);
+        }
         return Event.findEvents(entityManager, timeFilter, selectedTypeFilters);
     }
 
@@ -107,6 +111,18 @@ public class EventModel implements Serializable {
             parameter.add("exclude=" + eventType.getDatabaseValue());
         }
         return Context.context().webCalUrl() + '?' + Joiner.on('&').join(parameter);
+    }
+
+    public Event getSelectedEvent() {
+        return selectedEvent;
+    }
+
+    public void setSelectedEvent(Event selectedEvent) {
+        this.selectedEvent = selectedEvent;
+    }
+
+    public boolean isEventSelected() {
+        return selectedEvent!=null;
     }
 
     public static enum TimeFilter {

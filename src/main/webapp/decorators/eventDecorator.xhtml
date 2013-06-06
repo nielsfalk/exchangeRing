@@ -28,14 +28,20 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:r="http://www.tauschring-hamburg.org/public/ring">
     <ui:define name="contentWithoutMenu">
         <div class="menuContainer">
-            <p:menu style="width:180px;" id="topAdMenu">
+            <p:menu style="width:180px;" id="topEventMenu">
                 <p:menuitem value="Zurück" url="/dashboard.xhtml" icon="ui-icon-home"/>
                 <p:separator/>
 
+                <p:menuitem value="Weitere Termine"
+                            url="/internal/events/browse.xhtml?event"
+                            icon="ui-icon-calendar"
+                            rendered="#{eventModel.eventSelected}"/>
+
 
                 <p:menuitem styleClass="#{r:activeMenu('internal/events/browse')}" value="Anzeigen"
-                            url="/internal/events/browse.xhtml"
-                            icon="ui-icon-calendar"/>
+                            url="/internal/events/browse.xhtml?event"
+                            icon="ui-icon-calendar"
+                            rendered="#{!eventModel.eventSelected}"/>
 
                 <p:menuitem styleClass="#{r:activeMenu('internal/events/create')}" value="Erstellen"
                             url="/internal/events/create.xhtml"

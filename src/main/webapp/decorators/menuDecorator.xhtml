@@ -62,7 +62,7 @@ Environmental damage caused by the use must be kept as small as possible.
 
                     <p:menuitem styleClass="#{r:activeMenu('internal/events/')}"
                                 value="Termine"
-                                url="/internal/events/browse.xhtml"
+                                url="/internal/events/browse.xhtml?event"
                                 icon="ui-icon-calendar" rendered="#{loggedIn}"/>
 
                     <p:menuitem styleClass="#{r:activeMenu('publicEvents')}" value="Termine"
@@ -73,7 +73,7 @@ Environmental damage caused by the use must be kept as small as possible.
                                 url="/signUp.xhtml"
                                 icon="ui-icon-person" rendered="#{notLoggedIn}"/>
 
-                    <p:menuitem styleClass="#{r:activeMenu('internal/advertisements/')}" value="Anzeigen"
+                    <p:menuitem styleClass="#{r:activeMenu('internal/advertisements/')}" value="Inserate"
                                 url="/internal/advertisements/browse.xhtml?type=offer&amp;category=root"
                                 icon="ui-icon-star" rendered="#{loggedIn}"/>
 

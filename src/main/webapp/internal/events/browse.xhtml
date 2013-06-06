@@ -30,10 +30,11 @@ Environmental damage caused by the use must be kept as small as possible.
                 xmlns:r="http://www.tauschring-hamburg.org/public/ring">
     <f:metadata>
         <f:viewParam name="timeFilter" value="#{eventModel.timeFilter}"/>
+        <f:viewParam name="event" value="#{eventModel.selectedEvent}" converter="eventConverter"/>
     </f:metadata>
     <ui:define name="eventFilter">
 
-        <h:form id="eventFilterForm">
+        <h:form id="eventFilterForm" rendered="#{!eventModel.eventSelected}">
             <p:menu style="width:180px;" id="timeFilterNavigation">
                 <p:menuitem styleClass="#{eventModel.selectedStyleClass('future')}" value="Kommende"
                             url="?timeFilter=future"
